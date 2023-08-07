@@ -26,6 +26,7 @@ class Ui {
   std::unique_ptr<ifont, FontDeleter> bold_font;
   std::unique_ptr<ifont, FontDeleter> big_font;
   std::unique_ptr<ifont, FontDeleter> small_font;
+  std::unique_ptr<ifont, FontDeleter> small_bold_font;
   std::unique_ptr<ifont, FontDeleter> tiny_font;
 
   std::shared_ptr<Model> model;
@@ -44,11 +45,12 @@ public:
   ~Ui() {}
 
   void setup() {
-    this->font.reset(OpenFont("DejaVu Sans", FONT_SIZE, false));
-    this->bold_font.reset(OpenFont("DejaVu Sans-Bold", FONT_SIZE, false));
-    this->big_font.reset(OpenFont("DejaVu Sans-Bold", BIG_FONT_SIZE, false));
-    this->small_font.reset(OpenFont("DejaVu Sans", SMALL_FONT_SIZE, false));
-    this->tiny_font.reset(OpenFont("DejaVu Sans", TINY_FONT_SIZE, false));
+    this->font.reset(OpenFont("LiberationSans", FONT_SIZE, false));
+    this->bold_font.reset(OpenFont("LiberationSans-Bold", FONT_SIZE, false));
+    this->big_font.reset(OpenFont("LiberationSans-Bold", BIG_FONT_SIZE, false));
+    this->small_font.reset(OpenFont("LiberationSans", SMALL_FONT_SIZE, false));
+    this->small_bold_font.reset(OpenFont("LiberationSans-Bold", SMALL_FONT_SIZE, false));
+    this->tiny_font.reset(OpenFont("LiberationSans", TINY_FONT_SIZE, false));
 
     SetPanelType(0);
     SetOrientation(0);
@@ -226,7 +228,7 @@ private:
                    StringWidth(humidity_text.str().c_str()) / 2.0,
                    humidity_y, humidity_text.str().c_str());
 
-        SetFont(this->small_font.get(), BLACK);
+        SetFont(this->small_bold_font.get(), BLACK);
 
         std::stringstream temperature_text;
         temperature_text << static_cast<int>(forecast.temperature) << "°";
