@@ -76,19 +76,10 @@ public:
   void show() {
     ClearScreen();
 
-    const auto connected = NetMgrStatus();
-    if (not connected) {
-      std::string message{"Vérifier la connexion au réseau."};
-      DialogSynchro(ICON_WIFI, "Réseau", message.c_str(), "Quitter", nullptr,
-                    nullptr);
+    this->draw_top_box();
+    this->draw_middle_box();
+    this->draw_status_bar();
 
-      const auto event_handler = GetEventHandler();
-      SendEvent(event_handler, EVT_EXIT, 0, 0);
-    } else {
-      this->draw_top_box();
-      this->draw_middle_box();
-      this->draw_status_bar();
-    }
     FullUpdate();
   }
 
