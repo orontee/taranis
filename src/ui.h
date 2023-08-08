@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <ctime>
+#include <gsl/gsl_interp.h>
 #include <inkview.h>
 #include <iomanip>
 #include <map>
@@ -9,6 +10,8 @@
 #include <sstream>
 
 #include "model.h"
+
+using namespace std::string_literals;
 
 constexpr int FONT_SIZE = 50;
 constexpr int BIG_FONT_SIZE = 150;
@@ -49,7 +52,8 @@ public:
     this->bold_font.reset(OpenFont("LiberationSans-Bold", FONT_SIZE, false));
     this->big_font.reset(OpenFont("LiberationSans-Bold", BIG_FONT_SIZE, false));
     this->small_font.reset(OpenFont("LiberationSans", SMALL_FONT_SIZE, false));
-    this->small_bold_font.reset(OpenFont("LiberationSans-Bold", SMALL_FONT_SIZE, false));
+    this->small_bold_font.reset(
+        OpenFont("LiberationSans-Bold", SMALL_FONT_SIZE, false));
     this->tiny_font.reset(OpenFont("LiberationSans", TINY_FONT_SIZE, false));
 
     SetPanelType(0);
@@ -132,8 +136,7 @@ private:
     const auto second_row_y = first_row_y + GetFont()->height;
 
     std::stringstream temperature_text;
-    temperature_text << static_cast<int>(current_forecast->temperature)
-                     << "°";
+    temperature_text << static_cast<int>(current_forecast->temperature) << "°";
     SetFont(this->big_font.get(), BLACK);
     DrawString(second_row_x, second_row_y, temperature_text.str().c_str());
 
@@ -145,7 +148,8 @@ private:
 
     std::stringstream felt_temperature_text;
     felt_temperature_text << "Ressenti "
-                          << static_cast<int>(current_forecast->felt_temperature)
+                          << static_cast<int>(
+                                 current_forecast->felt_temperature)
                           << "°";
     SetFont(this->small_font.get(), BLACK);
     DrawString(third_row_x, third_row_y, felt_temperature_text.str().c_str());
@@ -170,22 +174,16 @@ private:
     DrawLine(0, start_y + bar_height, screen_width, start_y + bar_height,
              LGRAY);
 
-    const auto time_y = start_y + PADDING /2;
-    const auto temperature_y =
-      start_y + bar_height - PADDING / 2 - small_font->height
-      - 2 * tiny_font->height;
+    const auto time_y = start_y + PADDING / 2;
+    const auto temperature_y = start_y + bar_height - PADDING / 2 -
+                               small_font->height - 2 * tiny_font->height;
     const auto wind_speed_y =
-      start_y + bar_height - PADDING / 2 - 2 * tiny_font->height;
+        start_y + bar_height - PADDING / 2 - 2 * tiny_font->height;
     const auto humidity_y =
-      start_y + bar_height - PADDING / 2 - tiny_font->height;
+        start_y + bar_height - PADDING / 2 - tiny_font->height;
 
     const auto separator_start_y = start_y;
     const auto separator_stop_y = start_y + bar_height;
-
-    const auto normalized_temperatures =
-        this->model->normalized_hourly_temperatures(
-            temperature_y - time_y - this->font->height - 2 * PADDING);
-    const auto temperature_line_base_y = temperature_y - this->font->height;
 
     std::map<int, int> sample;
     for (size_t bar_index = 0; bar_index < this->visible_bars; ++bar_index) {
@@ -210,13 +208,13 @@ private:
         std::stringstream wind_speed_text;
         wind_speed_text << static_cast<int>(forecast.wind_speed) << "m/s";
         DrawString(bar_center_x -
-                   StringWidth(wind_speed_text.str().c_str()) / 2.0,
+                       StringWidth(wind_speed_text.str().c_str()) / 2.0,
                    wind_speed_y, wind_speed_text.str().c_str());
 
         std::stringstream humidity_text;
         humidity_text << static_cast<int>(forecast.humidity) << "%";
         DrawString(bar_center_x -
-                   StringWidth(humidity_text.str().c_str()) / 2.0,
+                       StringWidth(humidity_text.str().c_str()) / 2.0,
                    humidity_y, humidity_text.str().c_str());
 
         SetFont(this->small_bold_font.get(), BLACK);
@@ -226,20 +224,6 @@ private:
         DrawString(bar_center_x -
                        StringWidth(temperature_text.str().c_str()) / 2.0,
                    temperature_y, temperature_text.str().c_str());
-
-        if (0 < bar_index) {
-          const auto previous_bar_center_x =
-              (bar_index - 1.0 / 2) * this->adjusted_bar_width;
-          DrawLine(
-              previous_bar_center_x,
-              temperature_line_base_y -
-                  normalized_temperatures[this->forecast_offset + bar_index -
-                                          1],
-              bar_center_x,
-              temperature_line_base_y -
-                  normalized_temperatures[this->forecast_offset + bar_index],
-              BLACK);
-        }
       }
 
       if (bar_index < this->visible_bars - 1) {
@@ -247,6 +231,64 @@ private:
         DrawLine(separator_x, separator_start_y, separator_x, separator_stop_y,
                  LGRAY);
       }
+    }
+
+    const auto curve_y_offset = temperature_y - this->font->height;
+    const auto curve_height =
+        temperature_y - time_y - this->font->height - 2 * PADDING;
+    this->draw_curve(curve_y_offset, curve_height);
+  }
+
+  void draw_curve(const int y_offset, const int height) {
+    const auto ya = this->model->normalized_hourly_temperatures(height);
+    if (ya.size() < gsl_interp_type_min_size(gsl_interp_cspline)) {
+      return;
+    }
+
+    const auto step = this->adjusted_bar_width;
+    std::vector<double> xa;
+    xa.reserve(ya.size());
+    for (size_t index = 0; index < ya.size(); ++index) {
+      xa.push_back(index * step + step / 2.0);
+    }
+
+    std::unique_ptr<gsl_interp_accel, void (*)(gsl_interp_accel *)> accelerator{
+        gsl_interp_accel_alloc(), &gsl_interp_accel_free};
+    std::unique_ptr<gsl_interp, void (*)(gsl_interp *)> state{
+        gsl_interp_alloc(gsl_interp_cspline, xa.size()), &gsl_interp_free};
+
+    const auto error =
+        gsl_interp_init(state.get(), xa.data(), ya.data(), xa.size());
+    if (error) {
+      Message(
+          ICON_WARNING, "Interpolation error",
+          ("Error during initialisation: "s + std::to_string(error)).c_str(),
+          2400);
+      return;
+    }
+
+    const auto width = ScreenWidth();
+    for (int x_screen = 0; x_screen < width; ++x_screen) {
+      const double x = this->forecast_offset * step + x_screen;
+      if (x < xa.front() || x > xa.back()) {
+        continue;
+      }
+      double y;
+      const auto error = gsl_interp_eval_e(state.get(), xa.data(), ya.data(), x,
+                                           accelerator.get(), &y);
+      if (error) {
+        Message(
+            ICON_WARNING, "Interpolation error",
+            ("Error during interpolation: "s + std::to_string(error)).c_str(),
+            2400);
+        break;
+      }
+
+      const auto y_screen = y_offset - y;
+      DrawPixel(x_screen, y_screen, BLACK);
+      DrawPixel(x_screen, y_screen + 1, BLACK);
+      DrawPixel(x_screen, y_screen + 2, DGRAY);
+      DrawPixel(x_screen, y_screen + 3, DGRAY);
     }
   }
 

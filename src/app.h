@@ -90,8 +90,8 @@ private:
     this->model->location.country =
         this->config->read_string("location_country"s, "France"s);
 
-    this->service->set_api_key(
-      this->config->read_string("openweather_api_key"s, "4620ad6f20069b66bc36b1e88ceb4541"s));
+    this->service->set_api_key(this->config->read_string(
+        "openweather_api_key"s, "4620ad6f20069b66bc36b1e88ceb4541"s));
 
     this->model->source = "OpenWeather";
   }
@@ -145,7 +145,7 @@ private:
                                                this->model->location.country);
     this->model->current_forecast = forecasts.front();
     auto it = std::begin(forecasts);
-    ++it;                       // skip current
+    ++it; // skip current
     while (it != std::end(forecasts)) {
       this->model->hourly_forecast.push_back(*it);
       ++it;

@@ -56,9 +56,8 @@ public:
       const auto wind_speed = value.get("wind_speed", NAN).asDouble();
       // TODO wind direction
 
-      forecasts.push_back(Forecast{date, temperature,
-                                   felt_temperature, Weather::unknown, humidity,
-                                   wind_speed});
+      forecasts.push_back(Forecast{date, temperature, felt_temperature,
+                                   Weather::unknown, humidity, wind_speed});
     };
 
     auto returned_value = this->client.get(url.str());

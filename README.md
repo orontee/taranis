@@ -12,17 +12,50 @@ Consult the [NEWS file](NEWS.md) for notable changes between versions.
 
 ## Build
 
-Clone the source repository, populate Git submodules, **edit
-[crossfile_arm.ini](./crossfile_arm.ini) file to update absolute
-paths**, then build with [Meson](https://mesonbuild.com).
+1. First, clone the source repository and populate Git submodules:
+   ```sh
+   git submodule init
+   git submodule update
+   ```
+   
+   This will populate the `SDK_6.3.0` directory with the PocketBook
+   SDK.
 
-```
-git submodule init
-git submodule update
+2. Generate the cross compilation `crossfile_arm.ini` file using the provided template
+   [crossfile_arm.ini.in](./crossfile_arm.ini.in):
+   ```sh
+   export PWDESC=$(echo $PWD | sed 's_/_\\/_g')
+   sed "s/@pwd@/$PWDESC/g" crossfile_arm.ini.in > crossfile_arm.ini
+   ```
 
-meson setup builddir . --cross-file crossfile_arm.ini
-pushd builddir && meson compile; popd
-```
+3. Download, build and install source code of the [GNU Scientific
+   Library dependency](https://www.gnu.org/software/gsl/):
+   ```sh
+   pushd 3rd-parties
+   wget https://ftp.gnu.org/gnu/gsl/gsl-2.7.1.tar.gz
+   tar -xzf gsl-2.7.1.tar.gz
+   CROSS=arm-obreey-linux-gnueabi
+   ./configure --prefix=$PWD/../../SDK_6.3.0/SDK-B288/usr/$CROSS/sysroot \
+               --host=$CROSS \
+               --build=x86_64-pc-linux-gnu \
+               --target=$CROSS \
+      CC=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang \
+      CXX=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang++ \
+      AR=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ar \
+      STRIP=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-strip \
+      RANLIB=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ranlib \
+      PKGCONFIG=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/pkg-config \
+      CFLAGS="-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp"
+   make -j4
+   make install
+   popd
+   ```
+
+4. Finally build the application:
+   ```sh
+   meson setup builddir . --cross-file crossfile_arm.ini
+   pushd builddir && meson compile; popd
+   ```
 
 ## Install
 
@@ -42,7 +75,7 @@ openweather_api_key=YOUR_API_KEY
 
 ## Roadmap
 
-- Add weather icons 
+- Add weather icons
 - Configuration dialog
 - Translations
 - Add units to configuration

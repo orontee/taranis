@@ -39,7 +39,7 @@ struct Model {
   std::optional<Forecast> current_forecast;
   std::vector<Forecast> hourly_forecast;
 
-  std::vector<int> normalized_hourly_temperatures(int amplitude) const {
+  std::vector<double> normalized_hourly_temperatures(int amplitude) const {
     if (this->hourly_forecast.size() < 2) {
       return {};
     }
@@ -53,10 +53,10 @@ struct Model {
     const auto max_temperature = max->temperature;
 
     if (min_temperature == max_temperature) {
-      return std::vector<int>(hourly_forecast.size(), amplitude / 2);
+      return std::vector<double>(hourly_forecast.size(), amplitude / 2.0);
     }
 
-    std::vector<int> normalized;
+    std::vector<double> normalized;
     normalized.reserve(hourly_forecast.size());
 
     const auto scale_factor = amplitude / (max_temperature - min_temperature);
