@@ -23,42 +23,21 @@ namespace taranis {
   constexpr int PADDING = 50;
   constexpr int BAR_WIDTH = 125;
 
-  struct FontDeleter {
-    void operator()(ifont *p) { CloseFont(p); }
-  };
-
   class Ui {
-    std::unique_ptr<ifont, FontDeleter> font;
-    std::unique_ptr<ifont, FontDeleter> bold_font;
-    std::unique_ptr<ifont, FontDeleter> big_font;
-    std::unique_ptr<ifont, FontDeleter> small_font;
-    std::unique_ptr<ifont, FontDeleter> small_bold_font;
-    std::unique_ptr<ifont, FontDeleter> tiny_font;
-
-    std::shared_ptr<Model> model;
-
-    size_t forecast_offset;
-
-    int top_box_height;
-    int status_bar_height;
-
-    size_t visible_bars;
-    int adjusted_bar_width;
-
   public:
-    Ui(std::shared_ptr<Model> model) : model{model}, forecast_offset{0} {}
 
-    ~Ui() {}
+    // ⚠️ Must be instantiated after application received the EVT_INIT
+    // event otherwise opening fonts, etc. fails
 
-    void setup() {
-      this->font.reset(OpenFont("LiberationSans", FONT_SIZE, false));
-      this->bold_font.reset(OpenFont("LiberationSans-Bold", FONT_SIZE, false));
-      this->big_font.reset(OpenFont("LiberationSans-Bold", BIG_FONT_SIZE, false));
-      this->small_font.reset(OpenFont("LiberationSans", SMALL_FONT_SIZE, false));
-      this->small_bold_font.reset(
-        OpenFont("LiberationSans-Bold", SMALL_FONT_SIZE, false));
-      this->tiny_font.reset(OpenFont("LiberationSans", TINY_FONT_SIZE, false));
-
+    Ui(std::shared_ptr<Model> model) :
+      font{OpenFont("LiberationSans", FONT_SIZE, false), &CloseFont},
+      bold_font{OpenFont("LiberationSans-Bold", FONT_SIZE, false), &CloseFont},
+      big_font{OpenFont("LiberationSans-Bold", BIG_FONT_SIZE, false), &CloseFont},
+      small_font{OpenFont("LiberationSans", SMALL_FONT_SIZE, false), &CloseFont},
+      small_bold_font{OpenFont("LiberationSans-Bold", SMALL_FONT_SIZE, false), &CloseFont},
+      tiny_font{OpenFont("LiberationSans", TINY_FONT_SIZE, false), &CloseFont},
+      model{model}, forecast_offset{0}
+    {
       SetPanelType(0);
       SetOrientation(0);
 
@@ -116,6 +95,23 @@ namespace taranis {
     }
 
   private:
+    std::unique_ptr<ifont, void(*)(ifont*)> font;
+    std::unique_ptr<ifont, void(*)(ifont*)> bold_font;
+    std::unique_ptr<ifont, void(*)(ifont*)> big_font;
+    std::unique_ptr<ifont, void(*)(ifont*)> small_font;
+    std::unique_ptr<ifont, void(*)(ifont*)> small_bold_font;
+    std::unique_ptr<ifont, void(*)(ifont*)> tiny_font;
+
+    std::shared_ptr<Model> model;
+
+    size_t forecast_offset;
+
+    int top_box_height;
+    int status_bar_height;
+
+    size_t visible_bars;
+    int adjusted_bar_width;
+
     void draw_top_box() {
       const auto screen_width = ScreenWidth();
       FillArea(0, 0, screen_width, this->top_box_height, 0x00FFFFFF);

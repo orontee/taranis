@@ -29,7 +29,6 @@ namespace taranis {
       this->config = std::make_unique<Config>();
       this->model = std::make_shared<Model>();
       this->service = std::make_unique<Service>();
-      this->ui = std::make_unique<Ui>(this->model);
     }
 
     int process_loop_event(int event_type, int param_one, int param_two) {
@@ -55,7 +54,9 @@ namespace taranis {
 
         if (event_type == EVT_CUSTOM) {
           if (param_one == APP_EVT_MODEL_UPDATED) {
-            this->ui->show();
+            if (this->ui) {
+              this->ui->show();
+            }
           }
         }
       } catch (const std::exception &e) {
@@ -66,16 +67,20 @@ namespace taranis {
     }
 
   private:
-    void setup() { this->ui->setup(); }
+    void setup() {
+      this->ui = std::make_unique<Ui>(this->model);
+    }
 
     void show() {
+      if (not this->ui) return;
+ 
       this->load_config();
       this->ui->show();
       this->refresh_model();
     }
 
     void exit() {
-      this->write_config();
+      //this->write_config();
 
       this->ui.reset();
       this->service.reset();
@@ -126,13 +131,17 @@ namespace taranis {
       }
 
       if (key == IV_KEY_PREV) {
-        this->ui->decrease_forecast_offset();
-        return 1;
+        if (this->ui) {
+          this->ui->decrease_forecast_offset();
+          return 1;
+        }
       }
 
       if (key == IV_KEY_NEXT) {
-        this->ui->increase_forecast_offset();
-        return 1;
+        if (this->ui) {
+          this->ui->increase_forecast_offset();
+          return 1;
+        }
       }
 
       return 0;
