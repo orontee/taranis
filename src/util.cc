@@ -2,7 +2,9 @@
 
 #include <algorithm>
 
-std::vector<double> normalize_temperatures(std::vector<Condition> conditions, int amplitude) {
+std::vector<double> taranis::normalize_temperatures(
+  std::vector<Condition> conditions, int amplitude)
+{
   if (conditions.size() < 2) {
     return {};
   }

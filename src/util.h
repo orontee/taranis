@@ -4,4 +4,6 @@
 
 #include "model.h"
 
-std::vector<double> normalize_temperatures(std::vector<Condition> conditions, int amplitude);
+namespace taranis {
+  std::vector<double> normalize_temperatures(std::vector<Condition> conditions, int amplitude);
+}
