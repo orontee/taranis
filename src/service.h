@@ -27,9 +27,9 @@ public:
 
   void set_api_key(const std::string &api_key) { this->api_key = api_key; }
 
-  std::vector<Forecast> fetch_data(const std::string &town,
-                                   const std::string &country) {
-    std::vector<Forecast> forecasts;
+  std::vector<Condition> fetch_data(const std::string &town,
+                                    const std::string &country) {
+    std::vector<Condition> conditions;
 
     const auto lonlat = this->identify_lonlat(town, country);
     if (not lonlat) {
@@ -48,7 +48,7 @@ public:
         << "&"
         << "appid=" << this->api_key;
 
-    auto collect_value = [&forecasts](const Json::Value &value) {
+    auto collect_value = [&conditions](const Json::Value &value) {
       const auto date = static_cast<time_t>(value.get("dt", 0).asInt());
       const auto temperature = value.get("temp", NAN).asDouble();
       const auto felt_temperature = value.get("feels_like", NAN).asDouble();
@@ -56,8 +56,8 @@ public:
       const auto wind_speed = value.get("wind_speed", NAN).asDouble();
       // TODO wind direction
 
-      forecasts.push_back(Forecast{date, temperature, felt_temperature,
-                                   Weather::unknown, humidity, wind_speed});
+      conditions.push_back(Condition{date, temperature, felt_temperature,
+                                   CLEAR_SKY, humidity, wind_speed});
     };
 
     auto returned_value = this->client.get(url.str());
@@ -71,13 +71,13 @@ public:
       for (auto value : returned_value["hourly"]) {
         collect_value(value);
 
-        if (forecasts.size() == 25) {
-          // current forecast plus hourly forecast
+        if (conditions.size() == 25) {
+          // current condition plus hourly forecast
           break;
         }
       }
     }
-    return forecasts;
+    return conditions;
   }
 
 private:

@@ -141,12 +141,12 @@ private:
 
     this->model->refresh_date = std::time(nullptr);
 
-    auto forecasts = this->service->fetch_data(this->model->location.town,
-                                               this->model->location.country);
-    this->model->current_forecast = forecasts.front();
-    auto it = std::begin(forecasts);
+    auto conditions = this->service->fetch_data(this->model->location.town,
+                                                this->model->location.country);
+    this->model->current_condition = conditions.front();
+    auto it = std::begin(conditions);
     ++it; // skip current
-    while (it != std::end(forecasts)) {
+    while (it != std::end(conditions)) {
       this->model->hourly_forecast.push_back(*it);
       ++it;
     }

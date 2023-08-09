@@ -23,5 +23,5 @@ taranis_deps = [
   compiler.find_library('gslcblas', required: true, static: true),
   compiler.find_library('m', required: true, static: true),
 ]
-executable('taranis.app', ['src/main.cc', 'src/http.cc'],
+executable('taranis.app', ['src/main.cc', 'src/http.cc', 'src/util.cc'],
            dependencies : taranis_deps)

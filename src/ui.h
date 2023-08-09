@@ -10,6 +10,7 @@
 #include <sstream>
 
 #include "model.h"
+#include "util.h"
 
 using namespace std::string_literals;
 
@@ -127,8 +128,8 @@ private:
     SetFont(this->bold_font.get(), BLACK);
     DrawString(first_row_x, first_row_y, location_text.str().c_str());
 
-    const auto current_forecast = this->model->current_forecast;
-    if (not current_forecast) {
+    const auto current_condition = this->model->current_condition;
+    if (not current_condition) {
       return;
     }
 
@@ -136,7 +137,7 @@ private:
     const auto second_row_y = first_row_y + GetFont()->height;
 
     std::stringstream temperature_text;
-    temperature_text << static_cast<int>(current_forecast->temperature) << "°";
+    temperature_text << static_cast<int>(current_condition->temperature) << "°";
     SetFont(this->big_font.get(), BLACK);
     DrawString(second_row_x, second_row_y, temperature_text.str().c_str());
 
@@ -149,7 +150,7 @@ private:
     std::stringstream felt_temperature_text;
     felt_temperature_text << "Ressenti "
                           << static_cast<int>(
-                                 current_forecast->felt_temperature)
+                                 current_condition->felt_temperature)
                           << "°";
     SetFont(this->small_font.get(), BLACK);
     DrawString(third_row_x, third_row_y, felt_temperature_text.str().c_str());
@@ -240,7 +241,7 @@ private:
   }
 
   void draw_curve(const int y_offset, const int height) {
-    const auto ya = this->model->normalized_hourly_temperatures(height);
+    const auto ya = normalize_temperatures(this->model->hourly_forecast, height);
     if (ya.size() < gsl_interp_type_min_size(gsl_interp_cspline)) {
       return;
     }
