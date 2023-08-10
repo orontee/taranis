@@ -9,6 +9,8 @@ e-book reader.
 ![Screenshot](./docs/screenshot-hourly-forecast.jpg)
 ![Application running on Vivlio reader](./docs/application-running-vivlio-reader.jpg)
 
+Weather data is provided by [OpenWeather](https://openweathermap.org).
+
 Consult the [NEWS file](NEWS.md) for notable changes between versions.
 
 ## Install
