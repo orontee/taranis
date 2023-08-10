@@ -32,17 +32,13 @@ public:
 
   Ui(std::shared_ptr<Model> model)
       : // fonts
-        font{OpenFont("LiberationSans", FONT_SIZE, false), &CloseFont},
-        bold_font{OpenFont("LiberationSans-Bold", FONT_SIZE, false),
-                  &CloseFont},
-        big_font{OpenFont("LiberationSans-Bold", BIG_FONT_SIZE, false),
-                 &CloseFont},
-        small_font{OpenFont("LiberationSans", SMALL_FONT_SIZE, false),
-                   &CloseFont},
-        small_bold_font{OpenFont("LiberationSans-Bold", SMALL_FONT_SIZE, false),
+        font{OpenFont(DEFAULTFONT, FONT_SIZE, false), &CloseFont},
+        bold_font{OpenFont(DEFAULTFONTB, FONT_SIZE, false), &CloseFont},
+        big_font{OpenFont(DEFAULTFONTB, BIG_FONT_SIZE, false), &CloseFont},
+        small_font{OpenFont(DEFAULTFONT, SMALL_FONT_SIZE, false), &CloseFont},
+        small_bold_font{OpenFont(DEFAULTFONTB, SMALL_FONT_SIZE, false),
                         &CloseFont},
-        tiny_font{OpenFont("LiberationSans", TINY_FONT_SIZE, false),
-                  &CloseFont},
+        tiny_font{OpenFont(DEFAULTFONT, TINY_FONT_SIZE, false), &CloseFont},
         model{model}, forecast_offset{0} {
     SetPanelType(0);
     SetOrientation(0);

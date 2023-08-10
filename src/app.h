@@ -96,9 +96,8 @@ private:
     this->model->location.country =
         this->config->read_string("location_country"s, "France"s);
 
-    this->service->set_api_key(
-        this->config->read_string("openweather_api_key"s,
-                                  "4620ad6f20069b66bc36b1e88ceb4541"s));
+    this->service->set_api_key(this->config->read_string(
+        "openweather_api_key"s, "4620ad6f20069b66bc36b1e88ceb4541"s));
     // API key associated to open-source plan
 
     this->model->source = "OpenWeather";
