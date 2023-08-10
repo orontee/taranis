@@ -65,8 +65,17 @@ and installed manually, see instructions below.
 
 ## Sources format
 
-```
+```sh
 ninja -C builddir clang-format
+```
+
+## Screenshots
+
+Screenshots can be performed by adding the following code to the
+`handle_key_pressed` function:
+```c++
+auto bitmap = BitmapFromScreen(0, 0, ScreenWidth(), ScreenHeight());
+SaveBitmap("/mnt/ext1/system/tmp/screenshot.bmp", bitmap);
 ```
 
 ## References
