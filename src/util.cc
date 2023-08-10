@@ -2,17 +2,17 @@
 
 #include <algorithm>
 
-std::vector<double> taranis::normalize_temperatures(
-  std::vector<Condition> conditions, int amplitude)
-{
+std::vector<double>
+taranis::normalize_temperatures(std::vector<Condition> conditions,
+                                int amplitude) {
   if (conditions.size() < 2) {
     return {};
   }
-  const auto [min, max] = std::minmax_element(
-    conditions.begin(), conditions.end(),
-    [](const Condition lhs, const Condition rhs) {
-      return lhs.temperature < rhs.temperature;
-    });
+  const auto [min, max] =
+      std::minmax_element(conditions.begin(), conditions.end(),
+                          [](const Condition lhs, const Condition rhs) {
+                            return lhs.temperature < rhs.temperature;
+                          });
 
   const auto min_temperature = min->temperature;
   const auto max_temperature = max->temperature;

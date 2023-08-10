@@ -1,10 +1,12 @@
-project('taranis', 'cpp',
-        version: '0.1.0',
-        meson_version: '>= 1.0.1',
-        default_options : [
-          'cpp_std=c++17',
-        ])
-
+project(
+  'taranis',
+  'cpp',
+  version: '0.1.0',
+  meson_version: '>= 1.0.1',
+  default_options : [
+    'cpp_std=c++17',
+  ]
+)
 
 configure_file(
   input: 'crossfile_arm.ini.in',
@@ -12,6 +14,28 @@ configure_file(
   configuration: {'pwd': meson.global_build_root()}
 )
 
+pbres_command = find_program(
+  './SDK_6.3.0/SDK-B288/usr/bin/pbres',
+  required: true
+)
+
+sed_command = find_program('sed')
+
+subdir('icons')
+
+icons_c = custom_target(
+  'generate-icons-resources-c',
+  output: 'icons.c',
+  input: icons,
+  command: [pbres_command, '-c', '@OUTPUT@', '-8', '@INPUT@']
+)
+
+icons_cc = custom_target(
+  'convert-resources-cc',
+  output: 'icons.cc',
+  input: icons_c,
+  command: ['./scripts/convert_ressources.sh', '@INPUT@', '@OUTPUT@']
+)
 
 compiler = meson.get_compiler('cpp')
 
@@ -23,5 +47,10 @@ taranis_deps = [
   compiler.find_library('gslcblas', required: true, static: true),
   compiler.find_library('m', required: true, static: true),
 ]
-executable('taranis.app', ['src/main.cc', 'src/http.cc', 'src/util.cc'],
-           dependencies : taranis_deps)
+
+sources = ['src/main.cc', 'src/http.cc', 'src/util.cc', icons_cc]
+executable(
+  'taranis.app',
+  sources,
+  dependencies: taranis_deps
+)
