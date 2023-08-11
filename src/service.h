@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <cmath>
 #include <ctime>
 #include <experimental/optional>
@@ -93,15 +94,30 @@ private:
   std::string api_key;
   HttpClient client;
 
+  std::string town;
+  std::string country;
+  std::optional<std::pair<long double, long double>> lonlat;
+
   std::pair<long double, long double>
   identify_lonlat(const std::string &town, const std::string &country) {
+    if (this->town != town or this->country != country) {
+      this->town = town;
+      this->country = country;
+      this->lonlat = {};
+    }
+    if (not this->lonlat) {
+      this->request_lonlat();
+    }
+    return this->lonlat.value();
+  }
+
+  void request_lonlat() {
     std::stringstream url;
     url << "https://api.openweathermap.org/geo/1.0/direct"
         << "?"
-           "q="
-        << town;
-    if (not country.empty()) {
-      url << "," << country;
+        << "q=" << this->town;
+    if (not this->country.empty()) {
+      url << "," << this->country;
     }
     url << "&"
         << "appid=" << this->api_key;
@@ -117,7 +133,7 @@ private:
     if (std::isnan(lon) or std::isnan(lat)) {
       throw ServiceError::get_unexpected_error();
     }
-    return std::make_pair(lon, lat);
+    this->lonlat = std::make_pair(lon, lat);
   }
 
   Json::Value get_url_safely(const std::string &url) {
