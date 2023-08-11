@@ -30,7 +30,6 @@ Consult the [NEWS file](NEWS.md) for notable changes between versions.
 
 ## Roadmap
 
-- Localization
 - Configuration dialog
 - Units choice
 

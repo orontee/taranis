@@ -13,6 +13,8 @@
 #include "model.h"
 #include "util.h"
 
+#define T(x) GetLangText(x)
+
 using namespace std::string_literals;
 
 namespace taranis {
@@ -150,7 +152,7 @@ private:
         (second_row_y + (GetFont()->height - 2 * this->small_font->size));
 
     std::stringstream felt_temperature_text;
-    felt_temperature_text << "Ressenti "
+    felt_temperature_text << T("Felt") << " "
                           << static_cast<int>(
                                  current_condition->felt_temperature)
                           << "°";
@@ -318,13 +320,13 @@ private:
 
     std::stringstream first_row_text;
     if (this->model->refresh_date == 0) {
-      first_row_text << "Mise à jour en cours...";
+      first_row_text << T("Ongoing update…");
     } else {
       std::string time_text{"?????"};
       const char *const time_format = "%H:%M";
       std::strftime(const_cast<char *>(time_text.c_str()), 6, time_format,
                     std::localtime(&this->model->refresh_date));
-      first_row_text << "Mis à jour à " << time_text << ".";
+      first_row_text << T("Updated at") << " " << time_text << ".";
     }
 
     SetFont(this->tiny_font.get(), BLACK);
@@ -333,7 +335,7 @@ private:
     DrawString(first_row_x, first_row_y, first_row_text.str().c_str());
 
     std::stringstream second_row_text;
-    second_row_text << "Données météorologiques de " << this->model->source;
+    second_row_text << T("Weather data from") << " " << this->model->source;
 
     SetFont(this->tiny_font.get(), DGRAY);
     const auto second_row_x = PADDING;

@@ -3,7 +3,6 @@
 #include <cmath>
 #include <ctime>
 #include <experimental/optional>
-#include <inkview.h>
 #include <json/json.h>
 #include <memory>
 #include <sstream>

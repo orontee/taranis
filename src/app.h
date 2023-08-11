@@ -7,6 +7,7 @@
 #include <string>
 
 #include "config.h"
+#include "l10n.h"
 #include "model.h"
 #include "service.h"
 #include "ui.h"
@@ -52,10 +53,19 @@ public:
         return 1;
       }
 
+      if (event_type == EVT_CONFIGCHANGED) {
+        this->load_config();
+        if (this->ui) {
+          this->ui->show();
+        }
+        return 1;
+      }
+
       if (event_type == EVT_CUSTOM) {
         if (param_one == APP_EVT_MODEL_UPDATED) {
           if (this->ui) {
             this->ui->show();
+            return 1;
           }
         }
       }
@@ -67,7 +77,9 @@ public:
   }
 
 private:
-  void setup() { this->ui = std::make_unique<Ui>(this->model); }
+  void setup() {
+    this->ui = std::make_unique<Ui>(this->model);
+  }
 
   void show() {
     if (not this->ui)
@@ -101,6 +113,8 @@ private:
     // API key associated to open-source plan
 
     this->model->source = "OpenWeather";
+
+    initialize_translations();
   }
 
   void write_config() {

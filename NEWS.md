@@ -10,6 +10,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Support for translations
+  [#3](https://github.com/orontee/argos/issues/3)
+  
+- Weather icons [#1](https://github.com/orontee/argos/issues/1)
+
 ### Changed
 
 ### Removed
