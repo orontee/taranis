@@ -8,6 +8,8 @@
 
 #include <inkview.h>
 
+#include "errors.h"
+
 namespace taranis {
 
 size_t write_callback(void *contents, size_t size, size_t nmemb, void *userp);
@@ -17,8 +19,36 @@ public:
   Json::Value get(const std::string &url) {
     this->ensure_network();
 
+    auto curl = this->preprare_curl();
+    curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
+
+    std::string response_data;
+    curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_data);
+
+    const CURLcode code = curl_easy_perform(curl.get());
+    if (code != CURLE_OK) {
+      throw RequestError{code};
+    }
+    long response_code;
+    curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &response_code);
+
+    if (response_code != 200) {
+      throw HttpError{response_code};
+    }
+
+    Json::Value root;
+    Json::Reader reader;
+    if (not reader.parse(response_data, root)) {
+      throw JsonParseError{};
+    }
+    return root;
+  }
+
+private:
+  std::unique_ptr<CURL, void (*)(CURL *)> preprare_curl() {
     std::unique_ptr<CURL, void (*)(CURL *)> curl{curl_easy_init(),
                                                  &curl_easy_cleanup};
+
     curl_slist *headers = nullptr;
     headers = curl_slist_append(
         headers, "Content-Type: application/json; charset=UTF-8");
@@ -36,74 +66,23 @@ public:
     curl_easy_setopt(curl.get(), CURLOPT_TCP_KEEPALIVE, 1L);
 
     curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, write_callback);
-
-    curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
-
-    std::string response_data;
-    curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_data);
-
-    const CURLcode code = curl_easy_perform(curl.get());
-    if (code == CURLE_OK) {
-      long response_code;
-      curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &response_code);
-
-      switch (response_code) {
-      case 200: {
-        Json::Value root;
-        Json::Reader reader;
-        if (reader.parse(response_data, root)) {
-          return root;
-        }
-      }
-      case 400:
-        throw std::runtime_error("Bad request");
-      case 401:
-        throw std::runtime_error("Unauthenticated");
-      case 402:
-        throw std::runtime_error("Payment required");
-      case 403:
-        throw std::runtime_error("Forbidden.");
-      case 404:
-        throw std::runtime_error("Not found.");
-      case 500:
-        throw std::runtime_error("Internal server error");
-      case 501:
-        throw std::runtime_error("Not implemented");
-      case 502:
-        throw std::runtime_error("Bad gateway");
-      case 503:
-        throw std::runtime_error("Service unavailable");
-      default:
-        throw std::runtime_error("HTML Error Code" +
-                                 std::to_string(response_code));
-      }
-    } else {
-      throw std::runtime_error("Curl Error Code " + std::to_string(code) + " " +
-                               url);
-    }
+    return curl;
   }
 
-private:
   void ensure_network() {
     iv_netinfo *netinfo = NetInfo();
-    if (netinfo->connected) {
-      ShowHourglassForce();
-      return;
-    }
+    if (not netinfo->connected) {
+      const char *network_name = nullptr;
+      int result = NetConnect2(network_name, 1);
+      if (result != 0) {
+        throw ConnectionError{};
+      }
 
-    const char *network_name = nullptr;
-    int result = NetConnect2(network_name, 1);
-    if (result != 0) {
-      throw std::runtime_error("Could not connect to the internet.");
+      netinfo = NetInfo();
+      if (not netinfo->connected) {
+        throw ConnectionError{};
+      }
     }
-
-    netinfo = NetInfo();
-    if (netinfo->connected) {
-      ShowHourglassForce();
-      return;
-    }
-
-    throw std::runtime_error("Could not connect to the internet.");
   }
 };
 } // namespace taranis

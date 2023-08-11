@@ -271,10 +271,7 @@ private:
     const auto error =
         gsl_interp_init(state.get(), xa.data(), ya.data(), xa.size());
     if (error) {
-      Message(
-          ICON_WARNING, "Interpolation error",
-          ("Error during initialisation: "s + std::to_string(error)).c_str(),
-          2400);
+      // TODO log
       return;
     }
 
@@ -288,10 +285,7 @@ private:
       const auto error = gsl_interp_eval_e(state.get(), xa.data(), ya.data(), x,
                                            accelerator.get(), &y);
       if (error) {
-        Message(
-            ICON_WARNING, "Interpolation error",
-            ("Error during interpolation: "s + std::to_string(error)).c_str(),
-            2400);
+        // TODO log
         break;
       }
 

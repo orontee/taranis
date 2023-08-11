@@ -5,7 +5,7 @@
 taranis::App app;
 
 int event_handler(int event_type, int param_one, int param_two) {
-  return app.process_loop_event(event_type, param_one, param_two);
+  return app.process_event(event_type, param_one, param_two);
 }
 
 int main() {

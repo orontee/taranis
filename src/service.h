@@ -9,6 +9,7 @@
 #include <string>
 #include <utility>
 
+#include "errors.h"
 #include "http.h"
 #include "model.h"
 
@@ -32,15 +33,12 @@ public:
     std::vector<Condition> conditions;
 
     const auto lonlat = this->identify_lonlat(town, country);
-    if (not lonlat) {
-      throw std::runtime_error("Unknown location");
-    }
 
     std::stringstream url;
     url << "https://api.openweathermap.org/data/3.0/onecall"
         << "?"
-        << "lon=" << lonlat->first << "&"
-        << "lat=" << lonlat->second << "&"
+        << "lon=" << lonlat.first << "&"
+        << "lat=" << lonlat.second << "&"
         << "units="
         << "metric"
         << "&"
@@ -71,7 +69,7 @@ public:
       conditions.push_back(condition);
     };
 
-    auto returned_value = this->client.get(url.str());
+    auto returned_value = this->get_url_safely(url.str());
 
     if (returned_value.isMember("current")) {
       const auto current_value = returned_value["current"];
@@ -95,7 +93,7 @@ private:
   std::string api_key;
   HttpClient client;
 
-  std::optional<std::pair<long double, long double>>
+  std::pair<long double, long double>
   identify_lonlat(const std::string &town, const std::string &country) {
     std::stringstream url;
     url << "https://api.openweathermap.org/geo/1.0/direct"
@@ -108,15 +106,28 @@ private:
     url << "&"
         << "appid=" << this->api_key;
 
-    std::optional<std::pair<long double, long double>> result;
-    auto returned_value = this->client.get(url.str());
-    if (returned_value.isArray() && returned_value.size() > 0) {
-      Json::Value first_result = returned_value[0];
-      result = std::make_pair(first_result.get("lon", NAN).asDouble(),
-                              first_result.get("lat", NAN).asDouble());
+    auto returned_value = this->get_url_safely(url.str());
+    if (not returned_value.isArray() or returned_value.size() == 0) {
+      throw ServiceError::get_unknown_location_error();
     }
-    return result;
+
+    Json::Value first_result = returned_value[0];
+    const auto lon = first_result.get("lon", NAN).asDouble();
+    const auto lat = first_result.get("lat", NAN).asDouble();
+    if (std::isnan(lon) or std::isnan(lat)) {
+      throw ServiceError::get_unexpected_error();
+    }
+    return std::make_pair(lon, lat);
+  }
+
+  Json::Value get_url_safely(const std::string &url) {
+    try {
+      return this->client.get(url);
+    } catch (const HttpError &error) {
+      throw ServiceError::from_http_error(error);
+    } catch (const JsonParseError &error) {
+      throw ServiceError::get_unexpected_error();
+    }
   }
 };
-
 } // namespace taranis
