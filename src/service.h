@@ -1,5 +1,6 @@
 #pragma once
 
+#include "json/value.h"
 #include <algorithm>
 #include <cmath>
 #include <ctime>
@@ -21,6 +22,13 @@ template <class T> using optional = std::experimental::optional<T>;
 }
 
 namespace taranis {
+
+namespace openweather {
+const std::string url{"https://api.openweathermap.org"};
+const std::string geo_path{"/geo/1.0/direct"};
+const std::string onecall_path{"/data/3.0/onecall"};
+} // namespace openweather
+
 class Service {
 public:
   Service() {}
@@ -29,15 +37,12 @@ public:
 
   void set_api_key(const std::string &api_key) { this->api_key = api_key; }
 
-  std::vector<Condition> fetch_data(const std::string &town,
-                                    const std::string &country) {
-    std::vector<Condition> conditions;
-
+  std::vector<Condition> fetch_conditions(const std::string &town,
+                                          const std::string &country) {
     const auto lonlat = this->identify_lonlat(town, country);
 
     std::stringstream url;
-    url << "https://api.openweathermap.org/data/3.0/onecall"
-        << "?"
+    url << openweather::url << openweather::onecall_path << "?"
         << "lon=" << lonlat.first << "&"
         << "lat=" << lonlat.second << "&"
         << "units="
@@ -47,50 +52,39 @@ public:
         << "&"
         << "appid=" << this->api_key;
 
-    auto collect_value = [&conditions](const Json::Value &value) {
-      const auto date = static_cast<time_t>(value.get("dt", 0).asInt());
-      const auto temperature = value.get("temp", NAN).asDouble();
-      const auto felt_temperature = value.get("feels_like", NAN).asDouble();
-      const auto humidity = value.get("humidity", NAN).asInt();
-      const auto wind_speed = value.get("wind_speed", NAN).asDouble();
+    const auto returned_value = this->send_get_request(url.str());
 
-      Condition condition{date, temperature, felt_temperature, humidity,
-                          wind_speed};
-
-      if (value.isMember("weather") and value["weather"].isArray() and
-          value["weather"].isValidIndex(0)) {
-        const auto weather_value = value["weather"][0];
-        condition.weather =
-            static_cast<Weather>(weather_value.get("id", CLEAR_SKY).asInt());
-        condition.weather_description =
-            weather_value.get("description", "").asString();
-        condition.weather_icon_name = weather_value.get("icon", "").asString();
-      }
-
-      conditions.push_back(condition);
-    };
-
-    auto returned_value = this->get_url_safely(url.str());
-
-    if (returned_value.isMember("current")) {
-      const auto current_value = returned_value["current"];
-      collect_value(current_value);
+    if (not returned_value.isMember("current") or
+        not returned_value["current"].isObject()) {
+      throw ServiceError::get_unexpected_error();
     }
 
-    if (returned_value.isMember("hourly")) {
-      for (auto value : returned_value["hourly"]) {
-        collect_value(value);
+    std::vector<Condition> conditions;
+    conditions.reserve(1 + Service::max_forecasts);
+    // current condition and hourly forecasts
 
-        if (conditions.size() == 25) {
-          // current condition plus hourly forecast
-          break;
-        }
+    conditions.push_back(
+        Service::extract_condition(returned_value["current"]));
+
+    if (not returned_value.isMember("hourly") or
+        not returned_value["hourly"].isArray()) {
+      throw ServiceError::get_unexpected_error();
+    }
+
+    for (auto value : returned_value["hourly"]) {
+      conditions.push_back(Service::extract_condition(value));
+
+      if (conditions.size() == 1 + Service::max_forecasts) {
+        break;
       }
     }
+
     return conditions;
   }
 
 private:
+  static const int max_forecasts = 24;
+
   std::string api_key;
   HttpClient client;
 
@@ -113,8 +107,7 @@ private:
 
   void request_lonlat() {
     std::stringstream url;
-    url << "https://api.openweathermap.org/geo/1.0/direct"
-        << "?"
+    url << openweather::url << openweather::geo_path << "?"
         << "q=" << this->town;
     if (not this->country.empty()) {
       url << "," << this->country;
@@ -122,7 +115,7 @@ private:
     url << "&"
         << "appid=" << this->api_key;
 
-    auto returned_value = this->get_url_safely(url.str());
+    auto returned_value = this->send_get_request(url.str());
     if (not returned_value.isArray() or returned_value.size() == 0) {
       throw ServiceError::get_unknown_location_error();
     }
@@ -136,7 +129,7 @@ private:
     this->lonlat = std::make_pair(lon, lat);
   }
 
-  Json::Value get_url_safely(const std::string &url) {
+  Json::Value send_get_request(const std::string &url) {
     try {
       return this->client.get(url);
     } catch (const HttpError &error) {
@@ -144,6 +137,28 @@ private:
     } catch (const JsonParseError &error) {
       throw ServiceError::get_unexpected_error();
     }
+  }
+
+  static Condition extract_condition(const Json::Value &value) {
+    const auto date = static_cast<time_t>(value.get("dt", 0).asInt());
+    const auto temperature = value.get("temp", NAN).asDouble();
+    const auto felt_temperature = value.get("feels_like", NAN).asDouble();
+    const auto humidity = value.get("humidity", NAN).asInt();
+    const auto wind_speed = value.get("wind_speed", NAN).asDouble();
+
+    Condition condition{date, temperature, felt_temperature, humidity,
+                        wind_speed};
+
+    if (value.isMember("weather") and value["weather"].isArray() and
+        value["weather"].isValidIndex(0)) {
+      const auto weather_value = value["weather"][0];
+      condition.weather =
+          static_cast<Weather>(weather_value.get("id", CLEAR_SKY).asInt());
+      condition.weather_description =
+          weather_value.get("description", "").asString();
+      condition.weather_icon_name = weather_value.get("icon", "").asString();
+    }
+    return condition;
   }
 };
 } // namespace taranis

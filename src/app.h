@@ -3,6 +3,7 @@
 #include <cstring>
 #include <ctime>
 #include <inkview.h>
+#include <iterator>
 #include <memory>
 #include <string>
 
@@ -158,10 +159,11 @@ private:
     this->model->refresh_date = std::time(nullptr);
 
     try {
-      std::vector<Condition> conditions = this->service->fetch_data(
+      std::vector<Condition> conditions = this->service->fetch_conditions(
           this->model->location.town, this->model->location.country);
 
       this->model->current_condition = conditions.front();
+
       auto it = std::begin(conditions);
       ++it; // skip current
       while (it != std::end(conditions)) {
