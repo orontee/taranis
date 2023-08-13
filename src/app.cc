@@ -1,14 +1,21 @@
 #include "app.h"
 
-void taranis::handle_menu_item_selected(int index) {
+void taranis::handle_menu_item_selected(int item_index) {
   const auto event_handler = GetEventHandler();
-  switch (index) {
+  switch (item_index) {
   case MENU_ITEM_REFRESH:
-    SendEvent(event_handler, EVT_CUSTOM, APP_EVT_REFRESH_REQUESTED, 0);
+    SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_requested, 0);
     break;
   case MENU_ITEM_ABOUT:
+    SendEvent(event_handler, EVT_CUSTOM, CustomEvent::about_dialog_requested,
+              0);
     break;
   case MENU_ITEM_QUIT:
     SendEvent(event_handler, EVT_EXIT, 0, 0);
+    break;
   }
+}
+
+void taranis::handle_about_dialog_button_clicked(int button_index) {
+  CloseDialog();
 }

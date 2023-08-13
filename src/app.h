@@ -18,16 +18,18 @@
 
 #define T(x) GetLangText(x)
 
-#define APP_EVT_MODEL_UPDATED 1
-#define APP_EVT_REFRESH_REQUESTED 2
-#define APP_EVT_ABOUT_DIALOG_REQUESTED 3
-
 using namespace std::placeholders;
 using namespace std::string_literals;
 
 namespace taranis {
 
-void handle_menu_item_selected(int index);
+void handle_menu_item_selected(int item_index);
+
+void handle_about_dialog_button_clicked(int button_index);
+
+std::string get_about_content();
+
+enum CustomEvent { model_updated, refresh_requested, about_dialog_requested };
 
 class App {
 public:
@@ -166,13 +168,16 @@ private:
   }
 
   int handle_custom_event(int param_one, int param_two) {
-    if (param_one == APP_EVT_MODEL_UPDATED) {
+    if (param_one == CustomEvent::model_updated) {
       if (this->ui) {
         this->ui->show();
         return 1;
       }
-    } else if (param_one == APP_EVT_REFRESH_REQUESTED) {
+    } else if (param_one == CustomEvent::refresh_requested) {
       this->refresh_model();
+      return 1;
+    } else if (param_one == CustomEvent::about_dialog_requested) {
+      this->open_about_dialog();
       return 1;
     }
     return 0;
@@ -231,7 +236,7 @@ private:
       }
 
       const auto event_handler = GetEventHandler();
-      SendEvent(event_handler, EVT_CUSTOM, APP_EVT_MODEL_UPDATED, 0);
+      SendEvent(event_handler, EVT_CUSTOM, CustomEvent::model_updated, 0);
     } catch (const ConnectionError &error) {
       Message(ICON_WARNING, T("Network error"),
               T("Failure while fetching weather data. Check your network "
@@ -256,6 +261,12 @@ private:
     }
 
     menu_button->open_menu(handle_menu_item_selected);
+  }
+
+  void open_about_dialog() {
+    const auto about_content = get_about_content();
+    Dialog(ICON_INFORMATION, T("About"), about_content.c_str(), T("Ok"),
+           nullptr, &handle_about_dialog_button_clicked);
   }
 };
 

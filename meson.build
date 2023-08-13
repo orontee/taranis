@@ -48,13 +48,10 @@ taranis_deps = [
   compiler.find_library('m', required: true, static: true),
 ]
 
-sources = [
-  'src/app.cc',
-  'src/http.cc',
-  'src/main.cc',
-  'src/util.cc',
-  icons_cc
-]
+subdir('src')
+
+sources += [icons_cc]
+
 executable(
   'taranis.app',
   sources,

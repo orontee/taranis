@@ -10,6 +10,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- About dialog [#7](https://github.com/orontee/argos/issues/7)
+
 - Application menu [#6](https://github.com/orontee/argos/issues/6)
 
 - Support for translations

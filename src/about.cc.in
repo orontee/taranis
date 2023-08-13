@@ -1,0 +1,24 @@
+// This file is used by Meson to generate the about dialog content
+
+#include <inkview.h>
+#include <iomanip>
+#include <string>
+#include <sstream>
+
+#define T(x) GetLangText(x)
+
+namespace taranis {
+  std::string get_about_content() {
+    std::stringstream content;
+    content << "Taranis — @package_version@" << std::endl << std::endl
+            << "© Matthias Meulien 2023" << std::endl << std::endl
+            << T("This program is provided without any warranty. "
+                 "For more details, read GNU General Public License,"
+                 " version 3 or later");
+    return content.str();
+  }
+}
+
+// Local Variables:
+// mode: c++;
+// End:
