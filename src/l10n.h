@@ -38,6 +38,11 @@ inline void initialize_translations() {
                    "expected. Retry later.",
                    "Le fournisseur de données météorologiques est "
                    "hors-service. Réessayer plus tard.");
+
+    AddTranslation("Refresh", "Mettre à jour");
+    AddTranslation("About…", "À propos…");
+    AddTranslation("Quit", "Quitter");
+
   } else if (std::strcmp(currentLang(), "de") == 0) {
     AddTranslation("Felt", "Gefühlt");
     AddTranslation("Ongoing update…", "Laufendes Update…");

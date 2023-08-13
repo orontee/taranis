@@ -63,19 +63,26 @@ and installed manually, see instructions below.
    ```
 
 
-## Sources format
+## Tooling
 
+Format sources:
 ```sh
 ninja -C builddir clang-format
 ```
 
+Static analysis:
+```sh
+SCANBUILD=./SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/bin/scan-build ninja -C builddir
+```
+
 ## Screenshots
 
-Screenshots can be performed by adding the following code to the
-`handle_key_pressed` function:
-```c++
-auto bitmap = BitmapFromScreen(0, 0, ScreenWidth(), ScreenHeight());
-SaveBitmap("/mnt/ext1/system/tmp/screenshot.bmp", bitmap);
+Screenshots can be performed through the task menu of an e-reader, and conversion can be done
+using [ImageMagick convert script](https://www.imagemagick.org/script/convert.php); For example:
+```
+$ convert /media/matthias/Vivlio/screens/scr0002.bmp \
+          -scale 40% -bordercolor pink -border 5 \
+		  docs/screenshot-hourly-forecast.jpg
 ```
 
 ## References

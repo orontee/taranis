@@ -1,11 +1,13 @@
 #pragma once
 
+#include <array>
 #include <cstring>
 #include <ctime>
 #include <inkview.h>
 #include <iterator>
 #include <memory>
 #include <string>
+#include <type_traits>
 
 #include "config.h"
 #include "errors.h"
@@ -17,18 +19,21 @@
 #define T(x) GetLangText(x)
 
 #define APP_EVT_MODEL_UPDATED 1
+#define APP_EVT_REFRESH_REQUESTED 2
+#define APP_EVT_ABOUT_DIALOG_REQUESTED 3
 
+using namespace std::placeholders;
 using namespace std::string_literals;
 
 namespace taranis {
 
+void handle_menu_item_selected(int index);
+
 class App {
 public:
-  App() {
-    this->config = std::make_unique<Config>();
-    this->model = std::make_shared<Model>();
-    this->service = std::make_unique<Service>();
-  }
+  App()
+      : config{std::make_unique<Config>()}, model{std::make_shared<Model>()},
+        service{std::make_unique<Service>()} {}
 
   int process_event(int event_type, int param_one, int param_two) {
     if (event_type == EVT_INIT) {
@@ -59,12 +64,19 @@ public:
     }
 
     if (event_type == EVT_CUSTOM) {
-      if (param_one == APP_EVT_MODEL_UPDATED) {
-        if (this->ui) {
-          this->ui->show();
-          return 1;
-        }
-      }
+      return this->handle_custom_event(param_one, param_two);
+    }
+
+    if (event_type == EVT_POINTERDOWN) {
+      return this->handle_pointer_down_event(param_one, param_two);
+    }
+
+    if (event_type == EVT_POINTERDRAG) {
+      return this->handle_pointer_drag_event(param_one, param_two);
+    }
+
+    if (event_type == EVT_POINTERUP) {
+      return this->handle_pointer_up_event(param_one, param_two);
     }
     return 0;
   }
@@ -132,7 +144,7 @@ private:
     }
 
     if (key == IV_KEY_MENU) {
-      this->refresh_model();
+      this->open_menu();
       return 1;
     }
 
@@ -150,6 +162,53 @@ private:
       }
     }
 
+    return 0;
+  }
+
+  int handle_custom_event(int param_one, int param_two) {
+    if (param_one == APP_EVT_MODEL_UPDATED) {
+      if (this->ui) {
+        this->ui->show();
+        return 1;
+      }
+    } else if (param_one == APP_EVT_REFRESH_REQUESTED) {
+      this->refresh_model();
+      return 1;
+    }
+    return 0;
+  }
+
+  int handle_pointer_down_event(int pointer_pos_x, int pointer_pos_y) {
+    if (this->ui) {
+      const auto menu_button_bounding_box =
+          this->ui->get_menu_button()->get_bounding_box();
+
+      if (IsInRect(pointer_pos_x, pointer_pos_y, &menu_button_bounding_box)) {
+        this->ui->get_menu_button()->activate();
+        return 1;
+      }
+    }
+    return 0;
+  }
+
+  int handle_pointer_drag_event(int pointer_pos_x, int pointer_pos_y) {
+    if (this->ui) {
+      this->ui->get_menu_button()->desactivate();
+    }
+    return 0;
+  }
+
+  int handle_pointer_up_event(int pointer_pos_x, int pointer_pos_y) {
+    if (this->ui) {
+      const auto menu_button_bounding_box =
+          this->ui->get_menu_button()->get_bounding_box();
+
+      if (IsInRect(pointer_pos_x, pointer_pos_y, &menu_button_bounding_box)) {
+        this->ui->get_menu_button()->desactivate();
+        this->open_menu();
+        return 1;
+      }
+    }
     return 0;
   }
 
@@ -188,6 +247,15 @@ private:
               App::error_dialog_delay);
     }
     HideHourglass();
+  }
+
+  void open_menu() {
+    auto menu_button = this->ui ? this->ui->get_menu_button() : nullptr;
+    if (not menu_button) {
+      return;
+    }
+
+    menu_button->open_menu(handle_menu_item_selected);
   }
 };
 

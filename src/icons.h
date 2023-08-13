@@ -12,14 +12,17 @@ extern const ibitmap icon_10n_2x;
 extern const ibitmap icon_11n_2x;
 extern const ibitmap icon_13n_2x;
 extern const ibitmap icon_50n_2x;
+extern const ibitmap icon_menu;
 
+namespace taranis {
 class Icons {
 public:
   Icons()
-      : icon_01n{&icon_01n_2x}, icon_02n{&icon_02n_2x}, icon_03n{&icon_03n_2x},
-        icon_04n{&icon_04n_2x}, icon_09n{&icon_09n_2x}, icon_10n{&icon_10n_2x},
-        icon_11n{&icon_11n_2x}, icon_13n{&icon_13n_2x}, icon_50n{&icon_50n_2x} {
-  }
+      : icon_01n{&::icon_01n_2x}, icon_02n{&::icon_02n_2x},
+        icon_03n{&::icon_03n_2x}, icon_04n{&::icon_04n_2x},
+        icon_09n{&::icon_09n_2x}, icon_10n{&::icon_10n_2x},
+        icon_11n{&::icon_11n_2x}, icon_13n{&::icon_13n_2x},
+        icon_50n{&::icon_50n_2x}, icon_menu{&::icon_menu} {}
 
   ibitmap *get(const std::string &name) {
     if (name == "01d" or name == "01n") {
@@ -49,6 +52,9 @@ public:
     if (name == "50d" or name == "50n") {
       return const_cast<ibitmap *>(this->icon_50n);
     }
+    if (name == "menu") {
+      return const_cast<ibitmap *>(this->icon_menu);
+    }
     return nullptr;
   }
 
@@ -62,4 +68,6 @@ private:
   const ibitmap *const icon_11n;
   const ibitmap *const icon_13n;
   const ibitmap *const icon_50n;
+  const ibitmap *const icon_menu;
 };
+} // namespace taranis

@@ -63,8 +63,7 @@ public:
     conditions.reserve(1 + Service::max_forecasts);
     // current condition and hourly forecasts
 
-    conditions.push_back(
-        Service::extract_condition(returned_value["current"]));
+    conditions.push_back(Service::extract_condition(returned_value["current"]));
 
     if (not returned_value.isMember("hourly") or
         not returned_value["hourly"].isArray()) {

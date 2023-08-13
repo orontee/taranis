@@ -10,6 +10,7 @@
 #include <sstream>
 
 #include "icons.h"
+#include "menu.h"
 #include "model.h"
 #include "util.h"
 
@@ -33,15 +34,15 @@ public:
   // event otherwise opening fonts, etc. fails
 
   Ui(std::shared_ptr<Model> model)
-      : // fonts
+      : model{model}, icons{std::make_shared<Icons>()}, forecast_offset{0},
+        // fonts
         font{OpenFont(DEFAULTFONT, FONT_SIZE, false), &CloseFont},
         bold_font{OpenFont(DEFAULTFONTB, FONT_SIZE, false), &CloseFont},
         big_font{OpenFont(DEFAULTFONTB, BIG_FONT_SIZE, false), &CloseFont},
         small_font{OpenFont(DEFAULTFONT, SMALL_FONT_SIZE, false), &CloseFont},
         small_bold_font{OpenFont(DEFAULTFONTB, SMALL_FONT_SIZE, false),
                         &CloseFont},
-        tiny_font{OpenFont(DEFAULTFONT, TINY_FONT_SIZE, false), &CloseFont},
-        model{model}, forecast_offset{0} {
+        tiny_font{OpenFont(DEFAULTFONT, TINY_FONT_SIZE, false), &CloseFont} {
     SetPanelType(0);
     SetOrientation(0);
 
@@ -61,6 +62,15 @@ public:
 
     this->adjusted_bar_width =
         static_cast<int>(std::ceil(screen_width / this->visible_bars));
+
+    const int menu_button_pos_x = screen_width - MenuButton::width - PADDING;
+    const int menu_button_pos_y = PADDING;
+    this->menu_button = std::make_shared<MenuButton>(
+        menu_button_pos_x, menu_button_pos_y, this->icons);
+  }
+
+  std::shared_ptr<MenuButton> get_menu_button() const {
+    return this->menu_button;
   }
 
   void show() {
@@ -69,6 +79,8 @@ public:
     this->draw_top_box();
     this->draw_middle_box();
     this->draw_status_bar();
+
+    this->menu_button->show();
 
     FullUpdate();
   }
@@ -99,6 +111,11 @@ public:
   }
 
 private:
+  std::shared_ptr<Model> model;
+  std::shared_ptr<Icons> icons;
+
+  size_t forecast_offset;
+
   std::unique_ptr<ifont, void (*)(ifont *)> font;
   std::unique_ptr<ifont, void (*)(ifont *)> bold_font;
   std::unique_ptr<ifont, void (*)(ifont *)> big_font;
@@ -106,11 +123,7 @@ private:
   std::unique_ptr<ifont, void (*)(ifont *)> small_bold_font;
   std::unique_ptr<ifont, void (*)(ifont *)> tiny_font;
 
-  std::shared_ptr<Model> model;
-
-  Icons icons;
-
-  size_t forecast_offset;
+  std::shared_ptr<MenuButton> menu_button;
 
   int top_box_height;
   int status_bar_height;
@@ -120,7 +133,8 @@ private:
 
   void draw_top_box() {
     const auto screen_width = ScreenWidth();
-    FillArea(0, 0, screen_width, this->top_box_height, 0x00FFFFFF);
+    FillArea(0, 0, screen_width - this->menu_button->width - PADDING,
+             this->top_box_height, WHITE);
 
     const auto first_row_x = PADDING;
     const auto first_row_y = PADDING;
@@ -165,7 +179,7 @@ private:
     const auto screen_width = ScreenWidth();
     FillArea(0, this->top_box_height + 1, screen_width,
              screen_height - this->top_box_height - this->status_bar_height,
-             0x00FFFFFF);
+             WHITE);
 
     SetFont(this->font.get(), BLACK);
 
@@ -211,7 +225,7 @@ private:
                    time_text.c_str());
 
         DrawBitmap(bar_center_x - ICON_SIZE / 2.0, icon_y,
-                   this->icons.get(forecast.weather_icon_name));
+                   this->icons->get(forecast.weather_icon_name));
 
         SetFont(this->tiny_font.get(), DGRAY);
 
@@ -309,8 +323,8 @@ private:
   void draw_status_bar() {
     const auto screen_height = ScreenHeight();
     const auto screen_width = ScreenWidth();
-    const auto start_y = screen_height - this->status_bar_height;
-    FillArea(0, start_y, screen_width, this->status_bar_height, 0x00FFFFFF);
+    const auto start_y = screen_height - this->status_bar_height + 1;
+    FillArea(0, start_y, screen_width, this->status_bar_height, WHITE);
 
     std::stringstream first_row_text;
     if (this->model->refresh_date == 0) {
