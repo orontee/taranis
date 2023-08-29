@@ -136,34 +136,50 @@ private:
     FillArea(0, 0, screen_width - this->menu_button->width - PADDING,
              this->top_box_height, WHITE);
 
-    const auto first_row_x = PADDING;
-    const auto first_row_y = PADDING;
+    const auto location_row_x = PADDING;
+    const auto location_row_y = PADDING;
 
     std::stringstream location_text;
     location_text << this->model->location.town << ", "
                   << this->model->location.country;
 
     SetFont(this->bold_font.get(), BLACK);
-    DrawString(first_row_x, first_row_y, location_text.str().c_str());
+    DrawString(location_row_x, location_row_y, location_text.str().c_str());
 
     const auto current_condition = this->model->current_condition;
     if (not current_condition) {
       return;
     }
 
-    const auto second_row_x = first_row_x;
-    const auto second_row_y = first_row_y + GetFont()->height;
+    const auto temperature_row_x = location_row_x;
+    const auto temperature_row_y = location_row_y + GetFont()->height;
 
     std::stringstream temperature_text;
     temperature_text << static_cast<int>(current_condition->temperature) << "°";
     SetFont(this->big_font.get(), BLACK);
-    DrawString(second_row_x, second_row_y, temperature_text.str().c_str());
+    DrawString(temperature_row_x, temperature_row_y,
+               temperature_text.str().c_str());
 
-    const auto third_row_x =
-        (second_row_x + StringWidth(temperature_text.str().c_str()) + PADDING);
+    const auto description_row_x =
+        (temperature_row_x + StringWidth(temperature_text.str().c_str()) +
+         PADDING);
 
-    const auto third_row_y =
-        (second_row_y + (GetFont()->height - 2 * this->small_font->size));
+    const auto description_row_y =
+        (temperature_row_y + (GetFont()->height - 3 * this->small_font->size));
+
+    std::stringstream description_text;
+    description_text << current_condition->weather_description;
+    auto description = description_text.str();
+    if (not description.empty()) {
+      description[0] = std::toupper(description[0]);
+    }
+    SetFont(this->small_font.get(), BLACK);
+    DrawString(description_row_x, description_row_y, description.c_str());
+
+    const auto felt_temperature_row_x = description_row_x;
+
+    const auto felt_temperature_row_y =
+        description_row_y + this->small_font->size;
 
     std::stringstream felt_temperature_text;
     felt_temperature_text << T("Felt") << " "
@@ -171,7 +187,8 @@ private:
                                  current_condition->felt_temperature)
                           << "°";
     SetFont(this->small_font.get(), BLACK);
-    DrawString(third_row_x, third_row_y, felt_temperature_text.str().c_str());
+    DrawString(felt_temperature_row_x, felt_temperature_row_y,
+               felt_temperature_text.str().c_str());
   }
 
   void draw_middle_box() {
@@ -215,7 +232,7 @@ private:
           this->model->hourly_forecast.size()) {
         const auto forecast =
             this->model->hourly_forecast[this->forecast_offset + bar_index];
-        SetFont(this->small_font.get(), BLACK);
+        SetFont(this->tiny_font.get(), BLACK);
 
         std::string time_text{"?????"};
         const char *const time_format = "%H:%M";

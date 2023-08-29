@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Display current weather description
+  [#14](https://github.com/orontee/argos/issues/14)
+
 - About dialog [#7](https://github.com/orontee/argos/issues/7)
 
 - Application menu [#6](https://github.com/orontee/argos/issues/6)
