@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Take profile into account when reading configuration
+  [#13](https://github.com/orontee/argos/issues/13)
+
 - Display current weather description
   [#14](https://github.com/orontee/argos/issues/14)
 

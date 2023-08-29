@@ -22,7 +22,10 @@ Consult the [NEWS file](NEWS.md) for notable changes between versions.
    to the `applications` directory of the e-book reader using a USB
    cable.
 
-2. Create a file named `system/config/taranis.cfg` with content like the following:
+2. Create a file named `system/config/taranis.cfg` (or 
+   `system/profiles/PROFILENAME/config/taranis.cfg` if profiles are used
+   and current profile is named ` PROFILENAME`) with content like the
+   following:
    ```
    location_town=Toulouse
    location_country=France
