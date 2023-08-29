@@ -38,7 +38,8 @@ public:
   void set_api_key(const std::string &api_key) { this->api_key = api_key; }
 
   std::vector<Condition> fetch_conditions(const std::string &town,
-                                          const std::string &country) {
+                                          const std::string &country,
+                                          const std::string &language) {
     const auto lonlat = this->identify_lonlat(town, country);
 
     std::stringstream url;
@@ -50,6 +51,7 @@ public:
         << "&"
         << "exclude=minutely"
         << "&"
+        << "lang=" << language << "&"
         << "appid=" << this->api_key;
 
     const auto returned_value = this->send_get_request(url.str());

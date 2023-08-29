@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Specify language when calling OpenWeather API
+  [#15](https://github.com/orontee/argos/issues/15)
+
 - Take profile into account when reading configuration
   [#13](https://github.com/orontee/argos/issues/13)
 

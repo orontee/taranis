@@ -224,7 +224,8 @@ private:
 
     try {
       std::vector<Condition> conditions = this->service->fetch_conditions(
-          this->model->location.town, this->model->location.country);
+          this->model->location.town, this->model->location.country,
+          currentLang());
 
       this->model->current_condition = conditions.front();
 
