@@ -11,6 +11,7 @@
 
 #include "config.h"
 #include "errors.h"
+#include "events.h"
 #include "l10n.h"
 #include "model.h"
 #include "service.h"
@@ -23,13 +24,9 @@ using namespace std::string_literals;
 
 namespace taranis {
 
-void handle_menu_item_selected(int item_index);
-
 void handle_about_dialog_button_clicked(int button_index);
 
 std::string get_about_content();
-
-enum CustomEvent { model_updated, refresh_requested, about_dialog_requested };
 
 class App {
 public:
@@ -46,10 +43,6 @@ public:
     if (event_type == EVT_SHOW) {
       this->show();
       return 1;
-    }
-
-    if (event_type == EVT_KEYPRESS) {
-      return this->handle_key_pressed(param_one);
     }
 
     if ((event_type == EVT_EXIT) || (event_type == EVT_HIDE)) {
@@ -69,17 +62,16 @@ public:
       return this->handle_custom_event(param_one, param_two);
     }
 
-    if (event_type == EVT_POINTERDOWN) {
-      return this->handle_pointer_down_event(param_one, param_two);
+    if (this->ui) {
+      if (event_type == EVT_POINTERDOWN || event_type == EVT_POINTERDRAG ||
+          event_type == EVT_POINTERUP) {
+        return this->ui->handle_pointer_event(event_type, param_one, param_two);
+      }
+      if (event_type == EVT_KEYPRESS) {
+        return this->ui->handle_key_pressed(param_one);
+      }
     }
 
-    if (event_type == EVT_POINTERDRAG) {
-      return this->handle_pointer_drag_event(param_one, param_two);
-    }
-
-    if (event_type == EVT_POINTERUP) {
-      return this->handle_pointer_up_event(param_one, param_two);
-    }
     return 0;
   }
 
@@ -139,34 +131,6 @@ private:
     this->config->save();
   }
 
-  int handle_key_pressed(int key) {
-    if (key == IV_KEY_HOME) {
-      this->exit();
-      return 1;
-    }
-
-    if (key == IV_KEY_MENU) {
-      this->open_menu();
-      return 1;
-    }
-
-    if (key == IV_KEY_PREV) {
-      if (this->ui) {
-        this->ui->decrease_forecast_offset();
-        return 1;
-      }
-    }
-
-    if (key == IV_KEY_NEXT) {
-      if (this->ui) {
-        this->ui->increase_forecast_offset();
-        return 1;
-      }
-    }
-
-    return 0;
-  }
-
   int handle_custom_event(int param_one, int param_two) {
     if (param_one == CustomEvent::model_updated) {
       if (this->ui) {
@@ -183,40 +147,6 @@ private:
     return 0;
   }
 
-  int handle_pointer_down_event(int pointer_pos_x, int pointer_pos_y) {
-    if (this->ui) {
-      const auto menu_button_bounding_box =
-          this->ui->get_menu_button()->get_bounding_box();
-
-      if (IsInRect(pointer_pos_x, pointer_pos_y, &menu_button_bounding_box)) {
-        this->ui->get_menu_button()->activate();
-        return 1;
-      }
-    }
-    return 0;
-  }
-
-  int handle_pointer_drag_event(int pointer_pos_x, int pointer_pos_y) {
-    if (this->ui) {
-      this->ui->get_menu_button()->desactivate();
-    }
-    return 0;
-  }
-
-  int handle_pointer_up_event(int pointer_pos_x, int pointer_pos_y) {
-    if (this->ui) {
-      const auto menu_button_bounding_box =
-          this->ui->get_menu_button()->get_bounding_box();
-
-      if (IsInRect(pointer_pos_x, pointer_pos_y, &menu_button_bounding_box)) {
-        this->ui->get_menu_button()->desactivate();
-        this->open_menu();
-        return 1;
-      }
-    }
-    return 0;
-  }
-
   void refresh_model() {
     ShowHourglassForce();
 
@@ -228,6 +158,8 @@ private:
           currentLang());
 
       this->model->current_condition = conditions.front();
+
+      this->model->hourly_forecast.clear();
 
       auto it = std::begin(conditions);
       ++it; // skip current
@@ -253,15 +185,6 @@ private:
               App::error_dialog_delay);
     }
     HideHourglass();
-  }
-
-  void open_menu() {
-    auto menu_button = this->ui ? this->ui->get_menu_button() : nullptr;
-    if (not menu_button) {
-      return;
-    }
-
-    menu_button->open_menu(handle_menu_item_selected);
   }
 
   void open_about_dialog() {

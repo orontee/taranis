@@ -22,6 +22,7 @@ sources = [about_cc] + files(
   'app.cc',
   'http.cc',
   'main.cc',
+  'ui.cc',
   'util.cc'
 )
 

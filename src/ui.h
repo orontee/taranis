@@ -1,29 +1,20 @@
 #pragma once
 
-#include <cmath>
-#include <ctime>
-#include <gsl/gsl_interp.h>
 #include <inkview.h>
-#include <iomanip>
-#include <map>
 #include <memory>
-#include <sstream>
 
+#include "currentconditionbox.h"
 #include "fonts.h"
+#include "hourlyforecastbox.h"
 #include "icons.h"
+#include "locationbox.h"
 #include "menu.h"
 #include "model.h"
-#include "util.h"
-
-#define T(x) GetLangText(x)
-
-using namespace std::string_literals;
+#include "statusbar.h"
 
 namespace taranis {
 
-constexpr int PADDING = 50;
-constexpr int ICON_SIZE = 100;
-constexpr int BAR_WIDTH = 125;
+void handle_menu_item_selected(int item_index);
 
 class Ui {
 public:
@@ -31,76 +22,88 @@ public:
   // event otherwise opening fonts, etc. fails
 
   Ui(std::shared_ptr<Model> model)
-      : model{model}, icons{new Icons{}}, fonts{new Fonts{}}, forecast_offset{
-                                                                  0} {
+      : model{model}, icons{new Icons{}}, fonts{new Fonts{}} {
     SetPanelType(0);
     SetOrientation(0);
 
-    const auto screen_width = ScreenWidth();
+    this->location_box =
+        std::make_shared<LocationBox>(0, 0, this->model, this->fonts);
 
-    auto big_font = this->fonts->get_big_font();
-    auto bold_font = this->fonts->get_bold_font();
-    auto tiny_font = this->fonts->get_tiny_font();
+    this->current_condition_box = std::make_shared<CurrentConditionBox>(
+        0, this->location_box->get_height(), this->model, this->fonts);
 
-    // top box is made of one line of text using bold font, one line
-    // of text using big font, with padding at top and bottom
-    this->top_box_height = (bold_font->height + big_font->height + 2 * PADDING);
+    this->status_bar = std::make_shared<StatusBar>(this->model, this->fonts);
 
-    // status bar is made of two lines of text using tiny font,
-    // with padding at top and bottom
-    this->status_bar_height = 2 * tiny_font->height + 2 * PADDING;
+    const auto remaining_height = ScreenHeight() -
+                                  this->location_box->get_height() -
+                                  this->current_condition_box->get_height() -
+                                  this->status_bar->get_height();
 
-    this->visible_bars =
-        static_cast<size_t>(std::ceil(screen_width / BAR_WIDTH));
+    this->hourly_forecast_box = std::make_shared<HourlyForecastBox>(
+        0,
+        this->current_condition_box->get_pos_y() +
+            this->current_condition_box->get_height(),
+        ScreenWidth(), remaining_height, this->model, this->icons, this->fonts);
 
-    this->adjusted_bar_width =
-        static_cast<int>(std::ceil(screen_width / this->visible_bars));
-
-    const int menu_button_pos_x = screen_width - MenuButton::width - PADDING;
-    const int menu_button_pos_y = PADDING;
-    this->menu_button = std::make_shared<MenuButton>(
-        menu_button_pos_x, menu_button_pos_y, this->icons, this->fonts);
-  }
-
-  std::shared_ptr<MenuButton> get_menu_button() const {
-    return this->menu_button;
+    this->menu_button = std::make_shared<MenuButton>(this->icons, this->fonts);
   }
 
   void show() {
     ClearScreen();
 
-    this->draw_top_box();
-    this->draw_middle_box();
-    this->draw_status_bar();
-
+    this->location_box->show();
     this->menu_button->show();
+    this->current_condition_box->show();
+    this->hourly_forecast_box->show();
+    this->status_bar->show();
 
     FullUpdate();
   }
 
-  void increase_forecast_offset() {
-    const size_t max_forecast_offset{24 - this->visible_bars};
-    const auto updated_forecast_offset = std::min(
-        this->forecast_offset + this->visible_bars, max_forecast_offset);
-    if (updated_forecast_offset != this->forecast_offset) {
-      this->forecast_offset = updated_forecast_offset;
-      this->draw_middle_box_and_update();
+  int handle_pointer_event(int event_type, int pointer_pos_x,
+                           int pointer_pos_y) {
+    if (event_type == EVT_POINTERDOWN) {
+      if (this->activate_menu_button_maybe(pointer_pos_x, pointer_pos_y)) {
+        return 1;
+      }
     }
+
+    if (event_type == EVT_POINTERDRAG) {
+      this->desactivate_menu_button();
+      return 0;
+    }
+
+    if (event_type == EVT_POINTERUP) {
+      if (this->open_menu_maybe(pointer_pos_x, pointer_pos_y)) {
+        return 1;
+      }
+    }
+    return 0;
   }
 
-  void decrease_forecast_offset() {
-    const size_t min_forecast_offset{0};
-    const auto updated_forecast_offset =
-        (this->forecast_offset > this->visible_bars)
-            ? this->forecast_offset - this->visible_bars
-            : min_forecast_offset;
-
-    // don't use std::max since we're working with unsigned integers!
-
-    if (updated_forecast_offset != this->forecast_offset) {
-      this->forecast_offset = updated_forecast_offset;
-      this->draw_middle_box_and_update();
+  int handle_key_pressed(int key) {
+    if (key == IV_KEY_HOME) {
+      const auto event_handler = GetEventHandler();
+      SendEvent(event_handler, EVT_EXIT, 0, 0);
+      return 1;
     }
+
+    if (key == IV_KEY_MENU) {
+      this->open_menu();
+      return 1;
+    }
+
+    if (key == IV_KEY_PREV) {
+      this->hourly_forecast_box->decrease_forecast_offset();
+      return 1;
+    }
+
+    if (key == IV_KEY_NEXT) {
+      this->hourly_forecast_box->increase_forecast_offset();
+      return 1;
+    }
+
+    return 0;
   }
 
 private:
@@ -108,260 +111,36 @@ private:
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
 
-  size_t forecast_offset;
-
+  std::shared_ptr<LocationBox> location_box;
+  std::shared_ptr<CurrentConditionBox> current_condition_box;
+  std::shared_ptr<HourlyForecastBox> hourly_forecast_box;
+  std::shared_ptr<StatusBar> status_bar;
   std::shared_ptr<MenuButton> menu_button;
 
-  int top_box_height;
-  int status_bar_height;
+  bool activate_menu_button_maybe(int pointer_pos_x, int pointer_pos_y) {
+    const auto menu_button_bounding_box = this->menu_button->get_bounding_box();
 
-  size_t visible_bars;
-  int adjusted_bar_width;
-
-  void draw_top_box() {
-    const auto screen_width = ScreenWidth();
-    FillArea(0, 0, screen_width - this->menu_button->width - PADDING,
-             this->top_box_height, WHITE);
-
-    const auto location_row_x = PADDING;
-    const auto location_row_y = PADDING;
-
-    std::stringstream location_text;
-    location_text << this->model->location.town << ", "
-                  << this->model->location.country;
-
-    auto big_font = this->fonts->get_big_font();
-    auto bold_font = this->fonts->get_bold_font();
-    auto small_font = this->fonts->get_small_font();
-
-    SetFont(bold_font.get(), BLACK);
-    DrawString(location_row_x, location_row_y, location_text.str().c_str());
-
-    const auto current_condition = this->model->current_condition;
-    if (not current_condition) {
-      return;
+    if (IsInRect(pointer_pos_x, pointer_pos_y, &menu_button_bounding_box)) {
+      this->menu_button->activate();
+      return true;
     }
-
-    const auto temperature_row_x = location_row_x;
-    const auto temperature_row_y = location_row_y + GetFont()->height;
-
-    std::stringstream temperature_text;
-    temperature_text << static_cast<int>(current_condition->temperature) << "°";
-    SetFont(big_font.get(), BLACK);
-    DrawString(temperature_row_x, temperature_row_y,
-               temperature_text.str().c_str());
-
-    const auto description_row_x =
-        (temperature_row_x + StringWidth(temperature_text.str().c_str()) +
-         PADDING);
-
-    const auto description_row_y =
-        (temperature_row_y + (GetFont()->height - 3 * small_font->size));
-
-    std::stringstream description_text;
-    description_text << current_condition->weather_description;
-    auto description = description_text.str();
-    if (not description.empty()) {
-      description[0] = std::toupper(description[0]);
-    }
-    SetFont(small_font.get(), BLACK);
-    DrawString(description_row_x, description_row_y, description.c_str());
-
-    const auto felt_temperature_row_x = description_row_x;
-
-    const auto felt_temperature_row_y = description_row_y + small_font->size;
-
-    std::stringstream felt_temperature_text;
-    felt_temperature_text << T("Felt") << " "
-                          << static_cast<int>(
-                                 current_condition->felt_temperature)
-                          << "°";
-    SetFont(small_font.get(), BLACK);
-    DrawString(felt_temperature_row_x, felt_temperature_row_y,
-               felt_temperature_text.str().c_str());
+    return false;
   }
 
-  void draw_middle_box() {
-    const auto screen_height = ScreenHeight();
-    const auto screen_width = ScreenWidth();
-    FillArea(0, this->top_box_height + 1, screen_width,
-             screen_height - this->top_box_height - this->status_bar_height,
-             WHITE);
+  void desactivate_menu_button() { this->menu_button->desactivate(); }
 
-    auto normal_font = this->fonts->get_normal_font();
-    auto small_bold_font = this->fonts->get_small_bold_font();
-    auto tiny_font = this->fonts->get_tiny_font();
+  bool open_menu_maybe(int pointer_pos_x, int pointer_pos_y) {
+    const auto menu_button_bounding_box = this->menu_button->get_bounding_box();
 
-    SetFont(normal_font.get(), BLACK);
-
-    const auto bar_height = screen_height -
-                            (this->top_box_height + this->status_bar_height) -
-                            PADDING;
-
-    const auto start_y = this->top_box_height + PADDING;
-
-    DrawLine(0, start_y, screen_width, start_y, LGRAY);
-    DrawLine(0, start_y + bar_height, screen_width, start_y + bar_height,
-             LGRAY);
-
-    const auto time_y = start_y + PADDING / 2;
-    const auto icon_y = time_y + tiny_font->height;
-    const auto temperature_y = start_y + bar_height - PADDING / 2 -
-                               small_bold_font->height - 2 * tiny_font->height;
-    const auto wind_speed_y =
-        start_y + bar_height - PADDING / 2 - 2 * tiny_font->height;
-    const auto humidity_y =
-        start_y + bar_height - PADDING / 2 - tiny_font->height;
-
-    const auto separator_start_y = start_y;
-    const auto separator_stop_y = start_y + bar_height;
-
-    std::map<int, int> sample;
-    for (size_t bar_index = 0; bar_index < this->visible_bars; ++bar_index) {
-      const auto bar_center_x =
-          (bar_index + 1.0 / 2) * this->adjusted_bar_width;
-
-      if (this->forecast_offset + bar_index <
-          this->model->hourly_forecast.size()) {
-        const auto forecast =
-            this->model->hourly_forecast[this->forecast_offset + bar_index];
-        SetFont(tiny_font.get(), BLACK);
-
-        std::string time_text{"?????"};
-        const char *const time_format = "%H:%M";
-        std::strftime(const_cast<char *>(time_text.c_str()), 6, time_format,
-                      std::localtime(&forecast.date));
-        DrawString(bar_center_x - StringWidth(time_text.c_str()) / 2.0, time_y,
-                   time_text.c_str());
-
-        DrawBitmap(bar_center_x - ICON_SIZE / 2.0, icon_y,
-                   this->icons->get(forecast.weather_icon_name));
-
-        SetFont(tiny_font.get(), DGRAY);
-
-        std::stringstream wind_speed_text;
-        wind_speed_text << static_cast<int>(forecast.wind_speed) << "m/s";
-        DrawString(bar_center_x -
-                       StringWidth(wind_speed_text.str().c_str()) / 2.0,
-                   wind_speed_y, wind_speed_text.str().c_str());
-
-        std::stringstream humidity_text;
-        humidity_text << static_cast<int>(forecast.humidity) << "%";
-        DrawString(bar_center_x -
-                       StringWidth(humidity_text.str().c_str()) / 2.0,
-                   humidity_y, humidity_text.str().c_str());
-
-        SetFont(small_bold_font.get(), BLACK);
-
-        std::stringstream temperature_text;
-        temperature_text << static_cast<int>(forecast.temperature) << "°";
-        DrawString(bar_center_x -
-                       StringWidth(temperature_text.str().c_str()) / 2.0,
-                   temperature_y, temperature_text.str().c_str());
-      }
-
-      if (bar_index < this->visible_bars - 1) {
-        const auto separator_x = (bar_index + 1) * this->adjusted_bar_width;
-        DrawLine(separator_x, separator_start_y, separator_x, separator_stop_y,
-                 LGRAY);
-      }
+    if (IsInRect(pointer_pos_x, pointer_pos_y, &menu_button_bounding_box)) {
+      this->menu_button->desactivate();
+      this->open_menu();
+      return true;
     }
-
-    const auto curve_y_offset = temperature_y - normal_font->height;
-    const auto curve_height =
-        temperature_y - icon_y - normal_font->height - 2 * PADDING;
-    this->draw_curve(curve_y_offset, curve_height);
+    return false;
   }
 
-  void draw_curve(const int y_offset, const int height) {
-    const auto ya =
-        normalize_temperatures(this->model->hourly_forecast, height);
-    if (ya.size() < gsl_interp_type_min_size(gsl_interp_cspline)) {
-      return;
-    }
-
-    const auto step = this->adjusted_bar_width;
-    std::vector<double> xa;
-    xa.reserve(ya.size());
-    for (size_t index = 0; index < ya.size(); ++index) {
-      xa.push_back(index * step + step / 2.0);
-    }
-
-    std::unique_ptr<gsl_interp_accel, void (*)(gsl_interp_accel *)> accelerator{
-        gsl_interp_accel_alloc(), &gsl_interp_accel_free};
-    std::unique_ptr<gsl_interp, void (*)(gsl_interp *)> state{
-        gsl_interp_alloc(gsl_interp_cspline, xa.size()), &gsl_interp_free};
-
-    const auto error =
-        gsl_interp_init(state.get(), xa.data(), ya.data(), xa.size());
-    if (error) {
-      // TODO log
-      return;
-    }
-
-    const auto width = ScreenWidth();
-    for (int x_screen = 0; x_screen < width; ++x_screen) {
-      const double x = this->forecast_offset * step + x_screen;
-      if (x < xa.front() || x > xa.back()) {
-        continue;
-      }
-      double y;
-      const auto error = gsl_interp_eval_e(state.get(), xa.data(), ya.data(), x,
-                                           accelerator.get(), &y);
-      if (error) {
-        // TODO log
-        break;
-      }
-
-      const auto y_screen = y_offset - y;
-      DrawPixel(x_screen, y_screen, BLACK);
-      DrawPixel(x_screen, y_screen + 1, BLACK);
-      DrawPixel(x_screen, y_screen + 2, DGRAY);
-      DrawPixel(x_screen, y_screen + 3, DGRAY);
-    }
-  }
-
-  void draw_middle_box_and_update() {
-    this->draw_middle_box();
-
-    const auto screen_height = ScreenHeight();
-    const auto screen_width = ScreenWidth();
-    PartialUpdate(0, this->top_box_height + 1, screen_width,
-                  screen_height - this->status_bar_height);
-  }
-
-  void draw_status_bar() {
-    const auto screen_height = ScreenHeight();
-    const auto screen_width = ScreenWidth();
-    const auto start_y = screen_height - this->status_bar_height + 1;
-    FillArea(0, start_y, screen_width, this->status_bar_height, WHITE);
-
-    auto tiny_font = this->fonts->get_tiny_font();
-
-    std::stringstream first_row_text;
-    if (this->model->refresh_date == 0) {
-      first_row_text << T("Ongoing update…");
-    } else {
-      std::string time_text{"?????"};
-      const char *const time_format = "%H:%M";
-      std::strftime(const_cast<char *>(time_text.c_str()), 6, time_format,
-                    std::localtime(&this->model->refresh_date));
-      first_row_text << T("Updated at") << " " << time_text << ".";
-    }
-
-    SetFont(tiny_font.get(), BLACK);
-    const auto first_row_x = PADDING;
-    const auto first_row_y = start_y + PADDING;
-    DrawString(first_row_x, first_row_y, first_row_text.str().c_str());
-
-    std::stringstream second_row_text;
-    second_row_text << T("Weather data from") << " " << this->model->source;
-
-    SetFont(tiny_font.get(), DGRAY);
-    const auto second_row_x = PADDING;
-    const auto second_row_y = first_row_y + GetFont()->height;
-    DrawString(second_row_x, second_row_y, second_row_text.str().c_str());
-  }
+  void open_menu() { this->menu_button->open_menu(handle_menu_item_selected); }
 };
 
 } // namespace taranis

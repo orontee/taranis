@@ -51,20 +51,23 @@ inline void initialize_translations() {
     AddTranslation("About…", "À propos…");
     AddTranslation("Quit", "Quitter");
 
-    // ui.h
-    AddTranslation("Felt", "Ressenti");
+    // statusbar.h
     AddTranslation("Ongoing update…", "Mise à jour en cours…");
     AddTranslation("Updated at", "Mis à jour à ");
     AddTranslation("Weather data from", "Données météorologiques de");
 
+    // currentconditionbox.h
+    AddTranslation("Felt", "Ressenti");
   } else if (std::strcmp(currentLang(), "de") == 0) {
     // German translations
 
-    // ui.h
-    AddTranslation("Felt", "Gefühlt");
+    // statusbar.h
     AddTranslation("Ongoing update…", "Laufendes Update…");
     AddTranslation("Updated at", "Aktualisiert am");
     AddTranslation("Weather data from", "Wetterdaten von");
+
+    // currentconditionbox.h
+    AddTranslation("Felt", "Gefühlt");
   }
 }
 } // namespace taranis
