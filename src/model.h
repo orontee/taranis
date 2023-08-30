@@ -90,9 +90,13 @@ enum Weather {
 
 struct Condition {
   std::time_t date{0};
+  std::time_t sunrise{0};
+  std::time_t sunset{0};
   long double temperature;
   long double felt_temperature;
+  int pressure;
   int humidity;
+  long double uv_index;
   long double wind_speed;
   Weather weather{CLEAR_SKY};
   std::string weather_description;

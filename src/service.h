@@ -142,13 +142,17 @@ private:
 
   static Condition extract_condition(const Json::Value &value) {
     const auto date = static_cast<time_t>(value.get("dt", 0).asInt());
+    const auto sunrise = static_cast<time_t>(value.get("sunrise", 0).asInt());
+    const auto sunset = static_cast<time_t>(value.get("sunset", 0).asInt());
     const auto temperature = value.get("temp", NAN).asDouble();
     const auto felt_temperature = value.get("feels_like", NAN).asDouble();
+    const auto pressure = value.get("pressure", NAN).asInt();
     const auto humidity = value.get("humidity", NAN).asInt();
+    const auto uv_index = value.get("uv_index", NAN).asDouble();
     const auto wind_speed = value.get("wind_speed", NAN).asDouble();
 
-    Condition condition{date, temperature, felt_temperature, humidity,
-                        wind_speed};
+    Condition condition{date, sunrise, sunset, temperature, felt_temperature,
+                        pressure, humidity, uv_index, wind_speed};
 
     if (value.isMember("weather") and value["weather"].isArray() and
         value["weather"].isValidIndex(0)) {
