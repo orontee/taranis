@@ -9,6 +9,7 @@
 #include <memory>
 #include <sstream>
 
+#include "fonts.h"
 #include "icons.h"
 #include "menu.h"
 #include "model.h"
@@ -20,10 +21,6 @@ using namespace std::string_literals;
 
 namespace taranis {
 
-constexpr int FONT_SIZE = 50;
-constexpr int BIG_FONT_SIZE = 150;
-constexpr int SMALL_FONT_SIZE = 40;
-constexpr int TINY_FONT_SIZE = 30;
 constexpr int PADDING = 50;
 constexpr int ICON_SIZE = 100;
 constexpr int BAR_WIDTH = 125;
@@ -34,28 +31,24 @@ public:
   // event otherwise opening fonts, etc. fails
 
   Ui(std::shared_ptr<Model> model)
-      : model{model}, icons{std::make_shared<Icons>()}, forecast_offset{0},
-        // fonts
-        font{OpenFont(DEFAULTFONT, FONT_SIZE, false), &CloseFont},
-        bold_font{OpenFont(DEFAULTFONTB, FONT_SIZE, false), &CloseFont},
-        big_font{OpenFont(DEFAULTFONTB, BIG_FONT_SIZE, false), &CloseFont},
-        small_font{OpenFont(DEFAULTFONT, SMALL_FONT_SIZE, false), &CloseFont},
-        small_bold_font{OpenFont(DEFAULTFONTB, SMALL_FONT_SIZE, false),
-                        &CloseFont},
-        tiny_font{OpenFont(DEFAULTFONT, TINY_FONT_SIZE, false), &CloseFont} {
+      : model{model}, icons{new Icons{}}, fonts{new Fonts{}}, forecast_offset{
+                                                                  0} {
     SetPanelType(0);
     SetOrientation(0);
 
     const auto screen_width = ScreenWidth();
 
+    auto big_font = this->fonts->get_big_font();
+    auto bold_font = this->fonts->get_bold_font();
+    auto tiny_font = this->fonts->get_tiny_font();
+
     // top box is made of one line of text using bold font, one line
     // of text using big font, with padding at top and bottom
-    this->top_box_height =
-        (this->bold_font->height + this->big_font->height + 2 * PADDING);
+    this->top_box_height = (bold_font->height + big_font->height + 2 * PADDING);
 
-    // status bar is made of two lines of text using small font,
+    // status bar is made of two lines of text using tiny font,
     // with padding at top and bottom
-    this->status_bar_height = 2 * this->tiny_font->height + 2 * PADDING;
+    this->status_bar_height = 2 * tiny_font->height + 2 * PADDING;
 
     this->visible_bars =
         static_cast<size_t>(std::ceil(screen_width / BAR_WIDTH));
@@ -66,7 +59,7 @@ public:
     const int menu_button_pos_x = screen_width - MenuButton::width - PADDING;
     const int menu_button_pos_y = PADDING;
     this->menu_button = std::make_shared<MenuButton>(
-        menu_button_pos_x, menu_button_pos_y, this->icons);
+        menu_button_pos_x, menu_button_pos_y, this->icons, this->fonts);
   }
 
   std::shared_ptr<MenuButton> get_menu_button() const {
@@ -113,15 +106,9 @@ public:
 private:
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
+  std::shared_ptr<Fonts> fonts;
 
   size_t forecast_offset;
-
-  std::unique_ptr<ifont, void (*)(ifont *)> font;
-  std::unique_ptr<ifont, void (*)(ifont *)> bold_font;
-  std::unique_ptr<ifont, void (*)(ifont *)> big_font;
-  std::unique_ptr<ifont, void (*)(ifont *)> small_font;
-  std::unique_ptr<ifont, void (*)(ifont *)> small_bold_font;
-  std::unique_ptr<ifont, void (*)(ifont *)> tiny_font;
 
   std::shared_ptr<MenuButton> menu_button;
 
@@ -143,7 +130,11 @@ private:
     location_text << this->model->location.town << ", "
                   << this->model->location.country;
 
-    SetFont(this->bold_font.get(), BLACK);
+    auto big_font = this->fonts->get_big_font();
+    auto bold_font = this->fonts->get_bold_font();
+    auto small_font = this->fonts->get_small_font();
+
+    SetFont(bold_font.get(), BLACK);
     DrawString(location_row_x, location_row_y, location_text.str().c_str());
 
     const auto current_condition = this->model->current_condition;
@@ -156,7 +147,7 @@ private:
 
     std::stringstream temperature_text;
     temperature_text << static_cast<int>(current_condition->temperature) << "°";
-    SetFont(this->big_font.get(), BLACK);
+    SetFont(big_font.get(), BLACK);
     DrawString(temperature_row_x, temperature_row_y,
                temperature_text.str().c_str());
 
@@ -165,7 +156,7 @@ private:
          PADDING);
 
     const auto description_row_y =
-        (temperature_row_y + (GetFont()->height - 3 * this->small_font->size));
+        (temperature_row_y + (GetFont()->height - 3 * small_font->size));
 
     std::stringstream description_text;
     description_text << current_condition->weather_description;
@@ -173,20 +164,19 @@ private:
     if (not description.empty()) {
       description[0] = std::toupper(description[0]);
     }
-    SetFont(this->small_font.get(), BLACK);
+    SetFont(small_font.get(), BLACK);
     DrawString(description_row_x, description_row_y, description.c_str());
 
     const auto felt_temperature_row_x = description_row_x;
 
-    const auto felt_temperature_row_y =
-        description_row_y + this->small_font->size;
+    const auto felt_temperature_row_y = description_row_y + small_font->size;
 
     std::stringstream felt_temperature_text;
     felt_temperature_text << T("Felt") << " "
                           << static_cast<int>(
                                  current_condition->felt_temperature)
                           << "°";
-    SetFont(this->small_font.get(), BLACK);
+    SetFont(small_font.get(), BLACK);
     DrawString(felt_temperature_row_x, felt_temperature_row_y,
                felt_temperature_text.str().c_str());
   }
@@ -198,7 +188,11 @@ private:
              screen_height - this->top_box_height - this->status_bar_height,
              WHITE);
 
-    SetFont(this->font.get(), BLACK);
+    auto normal_font = this->fonts->get_normal_font();
+    auto small_bold_font = this->fonts->get_small_bold_font();
+    auto tiny_font = this->fonts->get_tiny_font();
+
+    SetFont(normal_font.get(), BLACK);
 
     const auto bar_height = screen_height -
                             (this->top_box_height + this->status_bar_height) -
@@ -211,14 +205,13 @@ private:
              LGRAY);
 
     const auto time_y = start_y + PADDING / 2;
-    const auto icon_y = time_y + this->small_font->height;
-    const auto temperature_y =
-        (start_y + bar_height - PADDING / 2 - this->small_font->height -
-         2 * this->tiny_font->height);
+    const auto icon_y = time_y + tiny_font->height;
+    const auto temperature_y = start_y + bar_height - PADDING / 2 -
+                               small_bold_font->height - 2 * tiny_font->height;
     const auto wind_speed_y =
-        start_y + bar_height - PADDING / 2 - 2 * this->tiny_font->height;
+        start_y + bar_height - PADDING / 2 - 2 * tiny_font->height;
     const auto humidity_y =
-        start_y + bar_height - PADDING / 2 - this->tiny_font->height;
+        start_y + bar_height - PADDING / 2 - tiny_font->height;
 
     const auto separator_start_y = start_y;
     const auto separator_stop_y = start_y + bar_height;
@@ -232,7 +225,7 @@ private:
           this->model->hourly_forecast.size()) {
         const auto forecast =
             this->model->hourly_forecast[this->forecast_offset + bar_index];
-        SetFont(this->tiny_font.get(), BLACK);
+        SetFont(tiny_font.get(), BLACK);
 
         std::string time_text{"?????"};
         const char *const time_format = "%H:%M";
@@ -244,7 +237,7 @@ private:
         DrawBitmap(bar_center_x - ICON_SIZE / 2.0, icon_y,
                    this->icons->get(forecast.weather_icon_name));
 
-        SetFont(this->tiny_font.get(), DGRAY);
+        SetFont(tiny_font.get(), DGRAY);
 
         std::stringstream wind_speed_text;
         wind_speed_text << static_cast<int>(forecast.wind_speed) << "m/s";
@@ -258,7 +251,7 @@ private:
                        StringWidth(humidity_text.str().c_str()) / 2.0,
                    humidity_y, humidity_text.str().c_str());
 
-        SetFont(this->small_bold_font.get(), BLACK);
+        SetFont(small_bold_font.get(), BLACK);
 
         std::stringstream temperature_text;
         temperature_text << static_cast<int>(forecast.temperature) << "°";
@@ -274,9 +267,9 @@ private:
       }
     }
 
-    const auto curve_y_offset = temperature_y - this->font->height;
+    const auto curve_y_offset = temperature_y - normal_font->height;
     const auto curve_height =
-        temperature_y - icon_y - this->font->height - 2 * PADDING;
+        temperature_y - icon_y - normal_font->height - 2 * PADDING;
     this->draw_curve(curve_y_offset, curve_height);
   }
 
@@ -343,6 +336,8 @@ private:
     const auto start_y = screen_height - this->status_bar_height + 1;
     FillArea(0, start_y, screen_width, this->status_bar_height, WHITE);
 
+    auto tiny_font = this->fonts->get_tiny_font();
+
     std::stringstream first_row_text;
     if (this->model->refresh_date == 0) {
       first_row_text << T("Ongoing update…");
@@ -354,7 +349,7 @@ private:
       first_row_text << T("Updated at") << " " << time_text << ".";
     }
 
-    SetFont(this->tiny_font.get(), BLACK);
+    SetFont(tiny_font.get(), BLACK);
     const auto first_row_x = PADDING;
     const auto first_row_y = start_y + PADDING;
     DrawString(first_row_x, first_row_y, first_row_text.str().c_str());
@@ -362,7 +357,7 @@ private:
     std::stringstream second_row_text;
     second_row_text << T("Weather data from") << " " << this->model->source;
 
-    SetFont(this->tiny_font.get(), DGRAY);
+    SetFont(tiny_font.get(), DGRAY);
     const auto second_row_x = PADDING;
     const auto second_row_y = first_row_y + GetFont()->height;
     DrawString(second_row_x, second_row_y, second_row_text.str().c_str());

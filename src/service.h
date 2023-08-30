@@ -151,8 +151,9 @@ private:
     const auto uv_index = value.get("uv_index", NAN).asDouble();
     const auto wind_speed = value.get("wind_speed", NAN).asDouble();
 
-    Condition condition{date, sunrise, sunset, temperature, felt_temperature,
-                        pressure, humidity, uv_index, wind_speed};
+    Condition condition{date,        sunrise,          sunset,
+                        temperature, felt_temperature, pressure,
+                        humidity,    uv_index,         wind_speed};
 
     if (value.isMember("weather") and value["weather"].isArray() and
         value["weather"].isValidIndex(0)) {

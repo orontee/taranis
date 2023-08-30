@@ -7,6 +7,7 @@
 #include <memory>
 #include <vector>
 
+#include "fonts.h"
 #include "icons.h"
 
 #define T(x) GetLangText(x)
@@ -28,7 +29,8 @@ public:
   static const int border_radius{5};
   static const int border_style{ROUND_DEFAULT};
 
-  MenuButton(int pos_x, int pos_y, std::shared_ptr<Icons> icons)
+  MenuButton(int pos_x, int pos_y, std::shared_ptr<Icons> icons,
+             std::shared_ptr<Fonts> fonts)
       : activated{false}, items{imenu{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH,
                                       const_cast<char *>(T("Refresh")),
                                       nullptr},
@@ -40,7 +42,7 @@ public:
         bounding_box{pos_x, pos_y, MenuButton::width, MenuButton::height},
         icon{BitmapStretchProportionally(
             icons->get("menu"), MenuButton::icon_size, MenuButton::icon_size)},
-        font{OpenFont(DEFAULTFONT, MenuButton::font_size, false), &CloseFont} {
+        font{fonts->get_normal_font()} {
     this->initialize_menu_position();
   }
 
@@ -100,7 +102,7 @@ private:
   const std::array<imenu, 4> items;
   const irect bounding_box;
   const ibitmap *const icon;
-  std::unique_ptr<ifont, void (*)(ifont *)> font;
+  std::shared_ptr<ifont> font;
 
   int menu_pos_x;
   int menu_pos_y;
