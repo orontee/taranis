@@ -97,7 +97,10 @@ struct Condition {
   int pressure;
   int humidity;
   long double uv_index;
+  int visibility;
   long double wind_speed;
+  int wind_degree;
+  long double wind_gust;
   Weather weather{CLEAR_SKY};
   std::string weather_description;
   std::string weather_icon_name;

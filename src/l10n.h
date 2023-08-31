@@ -25,6 +25,9 @@ inline void initialize_translations() {
         "connexion réseau.");
     AddTranslation("Service unavailable", "Service indisponible");
 
+    // currentconditionbox.h
+    AddTranslation("Felt", "Ressenti");
+
     // errors.h
     AddTranslation("Location unknown to the service providing weather data. "
                    "Check configuration.",
@@ -56,18 +59,25 @@ inline void initialize_translations() {
     AddTranslation("Updated at", "Mis à jour à ");
     AddTranslation("Weather data from", "Données météorologiques de");
 
-    // currentconditionbox.h
-    AddTranslation("Felt", "Ressenti");
+    // ui.h
+    AddTranslation("Sunrise", "Lever");
+    AddTranslation("Sunset", "Coucher");
+    AddTranslation("Pressure", "Pression");
+    AddTranslation("Humidity", "Humidité");
+    AddTranslation("UV index", "Index UV");
+    AddTranslation("Visibility", "Visibilité");
+    AddTranslation("Wind", "Vent");
+    AddTranslation("Gust", "Rafale");
   } else if (std::strcmp(currentLang(), "de") == 0) {
     // German translations
+
+    // currentconditionbox.h
+    AddTranslation("Felt", "Gefühlt");
 
     // statusbar.h
     AddTranslation("Ongoing update…", "Laufendes Update…");
     AddTranslation("Updated at", "Aktualisiert am");
     AddTranslation("Weather data from", "Wetterdaten von");
-
-    // currentconditionbox.h
-    AddTranslation("Felt", "Gefühlt");
   }
 }
 } // namespace taranis

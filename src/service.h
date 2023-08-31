@@ -148,12 +148,16 @@ private:
     const auto felt_temperature = value.get("feels_like", NAN).asDouble();
     const auto pressure = value.get("pressure", NAN).asInt();
     const auto humidity = value.get("humidity", NAN).asInt();
-    const auto uv_index = value.get("uv_index", NAN).asDouble();
+    const auto uv_index = value.get("uvi", NAN).asDouble();
+    const auto visibility = value.get("visibility", NAN).asInt();
     const auto wind_speed = value.get("wind_speed", NAN).asDouble();
+    const auto wind_degree = value.get("wind_deg", NAN).asInt();
+    const auto wind_gust = value.get("wind_gust", NAN).asDouble();
 
     Condition condition{date,        sunrise,          sunset,
                         temperature, felt_temperature, pressure,
-                        humidity,    uv_index,         wind_speed};
+                        humidity,    uv_index,         visibility,
+                        wind_speed,  wind_degree,      wind_gust};
 
     if (value.isMember("weather") and value["weather"].isArray() and
         value["weather"].isValidIndex(0)) {

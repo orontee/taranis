@@ -1,7 +1,9 @@
 #pragma once
 
 #include <inkview.h>
+#include <iomanip>
 #include <memory>
+#include <sstream>
 
 #include "currentconditionbox.h"
 #include "fonts.h"
@@ -15,6 +17,8 @@
 namespace taranis {
 
 void handle_menu_item_selected(int item_index);
+
+void handle_current_condition_dialog_button_clicked(int button_index);
 
 class Ui {
 public:
@@ -74,7 +78,14 @@ public:
     }
 
     if (event_type == EVT_POINTERUP) {
-      if (this->open_menu_maybe(pointer_pos_x, pointer_pos_y)) {
+      if (this->is_pointer_on_menu_button(pointer_pos_x, pointer_pos_y)) {
+        this->open_menu();
+        return 1;
+      }
+
+      if (this->is_pointer_on_current_condition_box(pointer_pos_x,
+                                                    pointer_pos_y)) {
+        this->open_current_condition_dialog();
         return 1;
       }
     }
@@ -129,18 +140,63 @@ private:
 
   void desactivate_menu_button() { this->menu_button->desactivate(); }
 
-  bool open_menu_maybe(int pointer_pos_x, int pointer_pos_y) {
+  bool is_pointer_on_menu_button(int pointer_pos_x, int pointer_pos_y) {
     const auto menu_button_bounding_box = this->menu_button->get_bounding_box();
 
-    if (IsInRect(pointer_pos_x, pointer_pos_y, &menu_button_bounding_box)) {
-      this->menu_button->desactivate();
-      this->open_menu();
-      return true;
-    }
-    return false;
+    return IsInRect(pointer_pos_x, pointer_pos_y, &menu_button_bounding_box);
   }
 
-  void open_menu() { this->menu_button->open_menu(handle_menu_item_selected); }
+  void open_menu() {
+    if (this->menu_button->is_activated()) {
+      this->menu_button->desactivate();
+    }
+    this->menu_button->open_menu(handle_menu_item_selected);
+  }
+
+  bool is_pointer_on_current_condition_box(int pointer_pos_x,
+                                           int pointer_pos_y) {
+    const auto bounding_box = this->current_condition_box->get_bounding_box();
+    return IsInRect(pointer_pos_x, pointer_pos_y, &bounding_box);
+  }
+
+  void open_current_condition_dialog() {
+    if (not this->model->current_condition) {
+      return;
+    }
+    const auto condition = *(this->model->current_condition);
+
+    const char *const time_format = "%H:%M";
+    std::string sunrise_text{"?????"};
+    std::strftime(const_cast<char *>(sunrise_text.c_str()), 6, time_format,
+                  std::localtime(&condition.sunrise));
+    std::string sunset_text{"?????"};
+    std::strftime(const_cast<char *>(sunset_text.c_str()), 6, time_format,
+                  std::localtime(&condition.sunset));
+
+    std::stringstream content;
+    content << T("Sunrise") << std::right << std::setw(10) << sunrise_text
+            << std::endl
+            << T("Sunset") << std::right << std::setw(10) << sunset_text
+            << std::endl
+            << T("Pressure") << std::right << std::setw(10)
+            << std::to_string(condition.pressure) + "hPa" << std::endl
+            << T("Humidity") << std::right << std::setw(10)
+            << std::to_string(condition.humidity) + "%" << std::endl
+            << T("UV index") << std::right << std::setw(10) << std::fixed
+            << std::setprecision(1) << condition.uv_index << std::endl
+            << T("Visibility") << std::right << std::setw(10)
+            << std::to_string(condition.visibility) + "m" << std::endl
+            << T("Wind") << std::right << std::setw(10)
+            << std::to_string(static_cast<int>(condition.wind_speed)) + "m/s"
+            << std::endl
+            << T("Gust") << std::right << std::setw(10)
+            << std::to_string(static_cast<int>(condition.wind_gust)) + "m/s"
+            << std::endl;
+
+    Dialog(ICON_INFORMATION, T("Current Weather Conditions"),
+           content.str().c_str(), T("Ok"), nullptr,
+           &handle_current_condition_dialog_button_clicked);
+  }
 };
 
 } // namespace taranis

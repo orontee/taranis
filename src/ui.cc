@@ -17,3 +17,7 @@ void taranis::handle_menu_item_selected(int item_index) {
     break;
   }
 }
+
+void taranis::handle_current_condition_dialog_button_clicked(int button_index) {
+  CloseDialog();
+}
