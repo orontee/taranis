@@ -20,6 +20,7 @@ about_cc = configure_file(
 
 sources = [about_cc] + files(
   'app.cc',
+  'currentconditionbox.cc',
   'http.cc',
   'main.cc',
   'ui.cc',

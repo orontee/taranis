@@ -33,6 +33,19 @@ struct Widget {
 
   virtual void show() = 0;
 
+  bool is_in_bouding_box(int pos_x, int pos_y) {
+    return IsInRect(pos_x, pos_y, &this->bounding_box);
+  }
+
+  virtual int handle_pointer_event(int event_type, int pointer_pos_x,
+                                   int pointer_pos_y) {
+    // expect is_in_bouding_box(pointer_pos_x, pointer_pos_y) to be
+    // true
+    return 0;
+  }
+
+  virtual int handle_key_pressed(int key) { return 0; }
+
 protected:
   irect bounding_box;
 

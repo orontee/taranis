@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <array>
 #include <cstring>
+#include <experimental/optional>
+#include <functional>
 #include <inkview.h>
 #include <memory>
 #include <vector>
@@ -13,6 +15,9 @@
 
 #define T(x) GetLangText(x)
 
+namespace std {
+template <class T> using optional = std::experimental::optional<T>;
+}
 namespace taranis {
 
 enum menu_item_index {
@@ -40,7 +45,11 @@ public:
     this->set_bounding_box(ScreenWidth() - width, 0, width, height);
   }
 
-  void show() {
+  void set_menu_handler(iv_menuhandler handler) {
+    this->menu_handler = handler;
+  }
+
+  void show() override {
     this->fill_bounding_box();
 
     const int icon_pos_x = this->bounding_box.x +
@@ -82,10 +91,42 @@ public:
                   this->bounding_box.w, this->bounding_box.h);
   }
 
-  void open_menu(iv_menuhandler handler) {
+  void open_menu() {
+    if (not this->menu_handler)
+      return;
+
     const auto &[pos_x, pos_y] = this->get_menu_position();
     SetMenuFont(this->font.get());
-    OpenMenu(const_cast<imenu *>(this->items.data()), 0, pos_x, pos_y, handler);
+    OpenMenu(const_cast<imenu *>(this->items.data()), 0, pos_x, pos_y,
+             *this->menu_handler);
+  }
+
+  int handle_pointer_event(int event_type, int pointer_pos_x,
+                           int pointer_pos_y) override {
+    if (event_type == EVT_POINTERDOWN) {
+      this->activate();
+      return 1;
+    }
+
+    if (event_type == EVT_POINTERDRAG) {
+      this->desactivate();
+      return 0;
+    }
+
+    if (event_type == EVT_POINTERUP) {
+      this->desactivate();
+      this->open_menu();
+      return 1;
+    }
+    return 0;
+  }
+
+  int handle_key_pressed(int key) override {
+    if (key == IV_KEY_MENU) {
+      this->open_menu();
+      return 1;
+    }
+    return 0;
   }
 
 private:
@@ -100,6 +141,8 @@ private:
 
   const ibitmap *const icon;
   std::shared_ptr<ifont> font;
+
+  std::optional<iv_menuhandler> menu_handler;
 
   std::pair<int, int> get_menu_position() const {
     std::vector<int> text_widths;

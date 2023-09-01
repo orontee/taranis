@@ -25,7 +25,7 @@ public:
     this->set_bounding_box(pos_x, pos_y, width, height);
   }
 
-  void show() {
+  void show() override {
     this->fill_bounding_box();
 
     std::stringstream first_row_text;

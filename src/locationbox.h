@@ -20,7 +20,7 @@ public:
                      this->bottom_padding);
   }
 
-  virtual void show() {
+  void show() override {
     this->fill_bounding_box();
 
     std::stringstream text;

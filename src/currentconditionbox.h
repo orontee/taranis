@@ -1,6 +1,7 @@
 #pragma once
 
 #include <inkview.h>
+#include <iomanip>
 #include <memory>
 #include <sstream>
 
@@ -12,6 +13,8 @@
 
 namespace taranis {
 
+void handle_current_condition_dialog_button_clicked(int button_index);
+
 class CurrentConditionBox : public Widget {
 public:
   CurrentConditionBox(int pos_x, int pos_y, std::shared_ptr<Model> model,
@@ -21,7 +24,7 @@ public:
     this->set_height(this->fonts->get_big_font()->height);
   }
 
-  void show() {
+  void show() override {
     this->fill_bounding_box();
 
     const auto condition = this->model->current_condition;
@@ -59,6 +62,15 @@ public:
                felt_temperature_text.c_str());
   }
 
+  int handle_pointer_event(int event_type, int pointer_pos_x,
+                           int pointer_pos_y) override {
+    if (event_type == EVT_POINTERUP) {
+      this->open_current_condition_dialog();
+      return 1;
+    }
+    return 0;
+  }
+
 private:
   std::shared_ptr<Model> model;
   std::shared_ptr<Fonts> fonts;
@@ -79,6 +91,45 @@ private:
          << "°";
 
     return text.str();
+  }
+
+  void open_current_condition_dialog() {
+    if (not this->model->current_condition) {
+      return;
+    }
+    const auto condition = *(this->model->current_condition);
+
+    const char *const time_format = "%H:%M";
+    std::string sunrise_text{"?????"};
+    std::strftime(const_cast<char *>(sunrise_text.c_str()), 6, time_format,
+                  std::localtime(&condition.sunrise));
+    std::string sunset_text{"?????"};
+    std::strftime(const_cast<char *>(sunset_text.c_str()), 6, time_format,
+                  std::localtime(&condition.sunset));
+
+    std::stringstream content;
+    content << T("Sunrise") << std::right << std::setw(10) << sunrise_text
+            << std::endl
+            << T("Sunset") << std::right << std::setw(10) << sunset_text
+            << std::endl
+            << T("Pressure") << std::right << std::setw(10)
+            << std::to_string(condition.pressure) + "hPa" << std::endl
+            << T("Humidity") << std::right << std::setw(10)
+            << std::to_string(condition.humidity) + "%" << std::endl
+            << T("UV index") << std::right << std::setw(10) << std::fixed
+            << std::setprecision(1) << condition.uv_index << std::endl
+            << T("Visibility") << std::right << std::setw(10)
+            << std::to_string(condition.visibility) + "m" << std::endl
+            << T("Wind") << std::right << std::setw(10)
+            << std::to_string(static_cast<int>(condition.wind_speed)) + "m/s"
+            << std::endl
+            << T("Gust") << std::right << std::setw(10)
+            << std::to_string(static_cast<int>(condition.wind_gust)) + "m/s"
+            << std::endl;
+
+    Dialog(ICON_INFORMATION, T("Current Weather Conditions"),
+           content.str().c_str(), T("Ok"), nullptr,
+           &handle_current_condition_dialog_button_clicked);
   }
 };
 

@@ -33,35 +33,23 @@ public:
         static_cast<int>(std::ceil(width / this->visible_bars));
   }
 
-  void show() {
+  void show() override {
     this->fill_bounding_box();
 
     this->draw_frame_and_values();
   }
 
-  void increase_forecast_offset() {
-    const size_t max_forecast_offset{24 - this->visible_bars};
-    const auto updated_forecast_offset = std::min(
-        this->forecast_offset + this->visible_bars, max_forecast_offset);
-    if (updated_forecast_offset != this->forecast_offset) {
-      this->forecast_offset = updated_forecast_offset;
-      this->draw_and_update();
+  int handle_key_pressed(int key) override {
+    if (key == IV_KEY_PREV) {
+      this->decrease_forecast_offset();
+      return 1;
     }
-  }
 
-  void decrease_forecast_offset() {
-    const size_t min_forecast_offset{0};
-    const auto updated_forecast_offset =
-        (this->forecast_offset > this->visible_bars)
-            ? this->forecast_offset - this->visible_bars
-            : min_forecast_offset;
-
-    // don't use std::max since we're working with unsigned integers!
-
-    if (updated_forecast_offset != this->forecast_offset) {
-      this->forecast_offset = updated_forecast_offset;
-      this->draw_and_update();
+    if (key == IV_KEY_NEXT) {
+      this->increase_forecast_offset();
+      return 1;
     }
+    return 0;
   }
 
 private:
@@ -216,6 +204,31 @@ private:
       DrawPixel(x_screen, y_screen + 1, BLACK);
       DrawPixel(x_screen, y_screen + 2, DGRAY);
       DrawPixel(x_screen, y_screen + 3, DGRAY);
+    }
+  }
+
+  void increase_forecast_offset() {
+    const size_t max_forecast_offset{24 - this->visible_bars};
+    const auto updated_forecast_offset = std::min(
+        this->forecast_offset + this->visible_bars, max_forecast_offset);
+    if (updated_forecast_offset != this->forecast_offset) {
+      this->forecast_offset = updated_forecast_offset;
+      this->draw_and_update();
+    }
+  }
+
+  void decrease_forecast_offset() {
+    const size_t min_forecast_offset{0};
+    const auto updated_forecast_offset =
+        (this->forecast_offset > this->visible_bars)
+            ? this->forecast_offset - this->visible_bars
+            : min_forecast_offset;
+
+    // don't use std::max since we're working with unsigned integers!
+
+    if (updated_forecast_offset != this->forecast_offset) {
+      this->forecast_offset = updated_forecast_offset;
+      this->draw_and_update();
     }
   }
 };
