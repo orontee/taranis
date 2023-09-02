@@ -10,33 +10,19 @@ using namespace std::string_literals;
 namespace taranis {
 
 struct Config {
-  Config() : internal{nullptr}, config{nullptr, &CloseConfig} {}
+  Config();
 
   std::string read_string(const std::string &name,
-                          const std::string &default_value) {
-    this->ensure_config_initialized();
-    return ReadString(this->config.get(), name.c_str(), default_value.c_str());
-  }
+                          const std::string &default_value);
 
-  void write_string(const std::string &name, const std::string &value) {
-    this->ensure_config_initialized();
-    WriteString(this->config.get(), name.c_str(), value.c_str());
-  }
+  void write_string(const std::string &name, const std::string &value);
 
   std::string read_secret(const std::string &name,
-                          const std::string &default_value) {
-    this->ensure_config_initialized();
-    return ReadSecret(this->config.get(), name.c_str(), default_value.c_str());
-  }
+                          const std::string &default_value);
 
-  void write_secret(const std::string &name, const std::string &value) {
-    this->ensure_config_initialized();
-    return WriteSecret(this->config.get(), name.c_str(), value.c_str());
-  }
+  void write_secret(const std::string &name, const std::string &value);
 
-  bool save() { return SaveConfig(this->config.get()); }
-
-  void reset() { this->internal = nullptr; }
+  void open_editor();
 
   static std::string get_config_path() {
     std::stringstream config_path;
@@ -52,16 +38,8 @@ struct Config {
   }
 
 private:
-  iconfigedit *internal;
-  std::unique_ptr<iconfig, void (*)(iconfig *)> config;
-
-  void ensure_config_initialized() {
-    const auto config_path = Config::get_config_path();
-
-    if (not this->internal) {
-      this->config.reset(OpenConfig(config_path.c_str(), this->internal));
-    }
-  }
+  static void config_changed();
+  static void config_item_edited(char *item);
 };
 
 } // namespace taranis

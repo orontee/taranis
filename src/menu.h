@@ -22,8 +22,9 @@ namespace taranis {
 
 enum menu_item_index {
   MENU_ITEM_REFRESH = 100,
-  MENU_ITEM_ABOUT = 200,
-  MENU_ITEM_QUIT = 201,
+  MENU_ITEM_CONFIGURE = 200,
+  MENU_ITEM_ABOUT = 201,
+  MENU_ITEM_QUIT = 300,
 };
 
 class MenuButton : public Widget {
@@ -32,6 +33,10 @@ public:
       : activated{false}, items{imenu{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH,
                                       const_cast<char *>(T("Refresh")),
                                       nullptr},
+                                imenu{ITEM_HIDDEN, taranis::MENU_ITEM_CONFIGURE,
+                                      const_cast<char *>(T("Configure…")),
+                                      nullptr},
+				// opening configuration editor is currently buggy
                                 imenu{ITEM_ACTIVE, taranis::MENU_ITEM_ABOUT,
                                       const_cast<char *>(T("About…")), nullptr},
                                 imenu{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT,
@@ -137,7 +142,7 @@ private:
   static const int border_style{ROUND_DEFAULT};
 
   bool activated;
-  const std::array<imenu, 4> items;
+  const std::array<imenu, 5> items;
 
   const ibitmap *const icon;
   std::shared_ptr<ifont> font;
@@ -145,16 +150,16 @@ private:
   std::optional<iv_menuhandler> menu_handler;
 
   std::pair<int, int> get_menu_position() const {
+    SetFont(this->font.get(), BLACK);
+
     std::vector<int> text_widths;
     for (auto item : this->items) {
       if (item.text != nullptr) {
-        text_widths.push_back(std::strlen(item.text));
+        text_widths.push_back(StringWidth(item.text));
       }
     }
-    const int pos_x =
-        this->bounding_box.x + this->bounding_box.w -
-        *std::max_element(text_widths.begin(), text_widths.end()) *
-            this->font->size;
+    const int pos_x = this->bounding_box.x + this->bounding_box.w -
+                      *std::max_element(text_widths.begin(), text_widths.end());
     const int pos_y = this->bounding_box.y + this->bounding_box.h;
     return {pos_x, pos_y};
   }

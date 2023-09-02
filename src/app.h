@@ -31,8 +31,8 @@ std::string get_about_content();
 class App {
 public:
   App()
-      : config{std::make_unique<Config>()}, model{std::make_shared<Model>()},
-        service{std::make_unique<Service>()} {}
+      : model{std::make_shared<Model>()}, service{std::make_unique<Service>()} {
+  }
 
   int process_event(int event_type, int param_one, int param_two) {
     if (event_type == EVT_INIT) {
@@ -78,7 +78,6 @@ public:
 private:
   static const int error_dialog_delay{3600};
 
-  std::unique_ptr<Config> config;
   std::shared_ptr<Model> model;
   std::unique_ptr<Service> service;
   std::unique_ptr<Ui> ui;
@@ -98,37 +97,25 @@ private:
     this->ui.reset();
     this->service.reset();
     this->model.reset();
-    this->config.reset();
 
     CloseApp();
   }
 
   void load_config() {
-    this->model->location.town =
-        this->config->read_string("location_town"s, "Paris"s);
+    Config config;
+
+    this->model->location.town = config.read_string("location_town"s, "Paris"s);
 
     this->model->location.country =
-        this->config->read_string("location_country"s, "France"s);
+        config.read_string("location_country"s, "France"s);
 
-    this->service->set_api_key(this->config->read_string(
+    this->service->set_api_key(config.read_string(
         "openweather_api_key"s, "4620ad6f20069b66bc36b1e88ceb4541"s));
     // API key associated to open-source plan
 
     this->model->source = "OpenWeather";
 
     initialize_translations();
-  }
-
-  void write_config() {
-    this->config->write_string("location_town"s, this->model->location.town);
-
-    this->config->write_string("location_country"s,
-                               this->model->location.country);
-
-    this->config->write_string("openweather_api_key"s,
-                               this->service->get_api_key());
-
-    this->config->save();
   }
 
   int handle_custom_event(int param_one, int param_two) {
@@ -140,6 +127,9 @@ private:
     } else if (param_one == CustomEvent::refresh_requested) {
       this->refresh_model();
       return 1;
+
+    } else if (param_one == CustomEvent::config_editor_requested) {
+      this->open_config_editor();
     } else if (param_one == CustomEvent::about_dialog_requested) {
       this->open_about_dialog();
       return 1;
@@ -185,6 +175,11 @@ private:
               App::error_dialog_delay);
     }
     HideHourglass();
+  }
+
+  void open_config_editor() {
+    Config config;
+    config.open_editor();
   }
 
   void open_about_dialog() {
