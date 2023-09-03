@@ -76,7 +76,7 @@ public:
         this->bounding_box.x + this->bounding_box.w / 2;
     const int icon_center_pos_y =
         this->bounding_box.y + this->bounding_box.h / 2;
-    const int radius = (this->bounding_box.w - padding) / 2;
+    const int radius = (MenuButton::icon_size + MenuButton::padding) / 2;
     auto canvas = GetCanvas();
     invertCircle(icon_center_pos_x, icon_center_pos_y, radius, canvas);
 
@@ -160,7 +160,7 @@ private:
     }
     const int pos_x = this->bounding_box.x + this->bounding_box.w -
                       *std::max_element(text_widths.begin(), text_widths.end());
-    const int pos_y = this->bounding_box.y + this->bounding_box.h;
+    const int pos_y = this->bounding_box.y + this->bounding_box.h - MenuButton::padding;
     return {pos_x, pos_y};
   }
 };
