@@ -35,8 +35,8 @@ void taranis::Config::write_secret(const std::string &name,
 }
 
 void taranis::Config::config_changed() {
-  const auto failed = SaveConfig(config.get());
-  if (not failed) {
+  const auto saved = SaveConfig(config.get());
+  if (saved) {
     NotifyConfigChanged();
   }
   config.reset(nullptr);

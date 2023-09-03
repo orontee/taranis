@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Location selection through text input
+  [#12](https://github.com/orontee/argos/issues/12)
+
 - Display dialog with condition details 
   [#16](https://github.com/orontee/argos/issues/16)
 

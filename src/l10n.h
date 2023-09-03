@@ -24,6 +24,11 @@ inline void initialize_translations() {
         "Échec lors du rapatriement des données météorologiques. Vérifier la "
         "connexion réseau.");
     AddTranslation("Service unavailable", "Service indisponible");
+    AddTranslation("Invalid input", "Saisie invalide");
+    AddTranslation(
+        "Make sure you enter a town then a country separated by a comma.",
+        "Assurez-vous d'avoir saisi des noms de ville et de pays séparés par "
+        "une virgule.");
 
     // currentconditionbox.h
     AddTranslation("Felt", "Ressenti");

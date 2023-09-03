@@ -30,18 +30,17 @@ enum menu_item_index {
 class MenuButton : public Widget {
 public:
   MenuButton(std::shared_ptr<Icons> icons, std::shared_ptr<Fonts> fonts)
-      : activated{false}, items{imenu{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH,
-                                      const_cast<char *>(T("Refresh")),
-                                      nullptr},
-                                imenu{ITEM_HIDDEN, taranis::MENU_ITEM_CONFIGURE,
-                                      const_cast<char *>(T("Configure…")),
-                                      nullptr},
-				// opening configuration editor is currently buggy
-                                imenu{ITEM_ACTIVE, taranis::MENU_ITEM_ABOUT,
-                                      const_cast<char *>(T("About…")), nullptr},
-                                imenu{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT,
-                                      const_cast<char *>(T("Quit")), nullptr},
-                                imenu{0, 0, nullptr, nullptr}},
+      : activated{false},
+        items{imenu{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH,
+                    const_cast<char *>(T("Refresh")), nullptr},
+              imenu{ITEM_HIDDEN, taranis::MENU_ITEM_CONFIGURE,
+                    const_cast<char *>(T("Configure…")), nullptr},
+              // opening configuration editor is currently buggy
+              imenu{ITEM_ACTIVE, taranis::MENU_ITEM_ABOUT,
+                    const_cast<char *>(T("About…")), nullptr},
+              imenu{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT,
+                    const_cast<char *>(T("Quit")), nullptr},
+              imenu{0, 0, nullptr, nullptr}},
         icon{BitmapStretchProportionally(
             icons->get("menu"), MenuButton::icon_size, MenuButton::icon_size)},
         font{fonts->get_normal_font()} {
@@ -160,7 +159,8 @@ private:
     }
     const int pos_x = this->bounding_box.x + this->bounding_box.w -
                       *std::max_element(text_widths.begin(), text_widths.end());
-    const int pos_y = this->bounding_box.y + this->bounding_box.h - MenuButton::padding;
+    const int pos_y =
+        this->bounding_box.y + this->bounding_box.h - MenuButton::padding;
     return {pos_x, pos_y};
   }
 };

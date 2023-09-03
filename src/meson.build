@@ -23,6 +23,7 @@ sources = [about_cc] + files(
   'config.cc',
   'currentconditionbox.cc',
   'http.cc',
+  'locationbox.cc',
   'main.cc',
   'ui.cc',
   'util.cc'

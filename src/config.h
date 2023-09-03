@@ -37,8 +37,9 @@ struct Config {
     return config_path.str();
   }
 
-private:
   static void config_changed();
+
+private:
   static void config_item_edited(char *item);
 };
 

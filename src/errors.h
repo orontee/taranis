@@ -71,4 +71,8 @@ struct ServiceError : std::runtime_error {
   }
 };
 
+struct InvalidLocation : std::runtime_error {
+  InvalidLocation() : std::runtime_error{""} {}
+};
+
 } // namespace taranis

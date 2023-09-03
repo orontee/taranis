@@ -1,14 +1,21 @@
 #pragma once
 
+#include <array>
+#include <cstring>
 #include <inkview.h>
 #include <memory>
 #include <sstream>
+#include <string>
 
 #include "fonts.h"
 #include "model.h"
 #include "widget.h"
 
+#define T(x) GetLangText(x)
+
 namespace taranis {
+
+void keyboard_handler(char *text);
 
 class LocationBox : public Widget {
 public:
@@ -35,6 +42,15 @@ public:
     DrawString(label_pos_x, label_pos_y, text.str().c_str());
   }
 
+  int handle_pointer_event(int event_type, int pointer_pos_x,
+                           int pointer_pos_y) override {
+    if (event_type == EVT_POINTERUP) {
+      this->edit_location();
+      return 1;
+    }
+    return 0;
+  }
+
 private:
   std::shared_ptr<Model> model;
   std::shared_ptr<ifont> font;
@@ -42,6 +58,8 @@ private:
   const int left_padding{50};
   const int top_padding{50};
   const int bottom_padding{25};
+
+  void edit_location();
 };
 
 } // namespace taranis
