@@ -113,9 +113,9 @@ private:
 
     this->service->set_api_key(config.read_string(
         "openweather_api_key"s, "4620ad6f20069b66bc36b1e88ceb4541"s));
-    // API key associated to open-source plan
+    // API key associated to rate limited plan
 
-    this->model->source = "OpenWeather";
+    this->model->source = "OpenWeather"s;
 
     initialize_translations();
   }
@@ -244,8 +244,8 @@ private:
       auto [town, country] = App::extract_town_and_country(location);
 
       Config config;
-      config.write_string("location_town", town);
-      config.write_string("location_country", country);
+      config.write_string("location_town"s, town);
+      config.write_string("location_country"s, country);
 
       Config::config_changed();
     } catch (const InvalidLocation &error) {

@@ -65,8 +65,11 @@ public:
   int handle_pointer_event(int event_type, int pointer_pos_x,
                            int pointer_pos_y) override {
     if (event_type == EVT_POINTERUP) {
-      this->open_current_condition_dialog();
-      return 1;
+      // this->open_current_condition_dialog();
+      // return 1;
+
+      // Currently disabled since rendering is ugly.
+      // See https://github.com/orontee/taranis/issues/16
     }
     return 0;
   }
