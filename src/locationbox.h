@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <cmath>
 #include <cstring>
 #include <inkview.h>
 #include <memory>
@@ -12,6 +13,8 @@
 #include "widget.h"
 
 #define T(x) GetLangText(x)
+
+using namespace std::string_literals;
 
 namespace taranis {
 
@@ -30,16 +33,18 @@ public:
   void show() override {
     this->fill_bounding_box();
 
-    std::stringstream text;
-    text << this->model->location.town << ", " << this->model->location.country;
-
-    // TODO elide to box width
+    std::string location = this->model->location.town;
+    if (not this->model->location.country.empty()) {
+      location += ", "s + this->model->location.country;
+    }
+    location = elide_maybe(location);
 
     const auto label_pos_x = this->bounding_box.x + this->left_padding;
     const auto label_pos_y = this->bounding_box.y + this->top_padding;
 
     SetFont(this->font.get(), BLACK);
-    DrawString(label_pos_x, label_pos_y, text.str().c_str());
+
+    DrawString(label_pos_x, label_pos_y, location.c_str());
   }
 
   int handle_pointer_event(int event_type, int pointer_pos_x,
@@ -60,6 +65,23 @@ private:
   const int bottom_padding{25};
 
   void edit_location();
+
+  std::string elide_maybe(const std::string &text) const {
+    SetFont(this->font.get(), BLACK);
+    const auto text_width = StringWidth(text.c_str());
+    if (text_width <= this->bounding_box.w || text.size() <= 2) {
+      // the second case should not happen unless the default font is
+      // huge...
+      return text;
+    }
+    size_t keep = text.size() - 2;
+    std::string elided_text = text.substr(0, keep) + "…";
+    while (StringWidth(elided_text.c_str()) > this->bounding_box.w) {
+      --keep;
+      elided_text = text.substr(0, keep) + "…";
+    }
+    return elided_text;
+  }
 };
 
 } // namespace taranis

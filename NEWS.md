@@ -33,5 +33,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Elide location text when too long
+  [#12](https://github.com/orontee/argos/issues/12)
+
+
 ### Removed
 
