@@ -39,6 +39,7 @@ and installed manually, see instructions below.
    pushd 3rd-parties
    wget https://ftp.gnu.org/gnu/gsl/gsl-2.7.1.tar.gz
    tar -xzf gsl-2.7.1.tar.gz
+   pushd gsl-2.7.1
    CROSS=arm-obreey-linux-gnueabi
    ./configure --prefix=$PWD/../../SDK_6.3.0/SDK-B288/usr/$CROSS/sysroot \
                --host=$CROSS \
@@ -53,6 +54,7 @@ and installed manually, see instructions below.
       CFLAGS="-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp"
    make -j4
    make install
+   popd
    popd
    ```
 
