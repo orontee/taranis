@@ -12,11 +12,7 @@ template <class T> using optional = std::experimental::optional<T>;
 
 namespace taranis {
 
-enum UnitSystem {
-  standard = 0,
-  metric = 1,
-  imperial = 2
-};
+enum UnitSystem { standard = 0, metric = 1, imperial = 2 };
 
 struct Location {
   std::string town;

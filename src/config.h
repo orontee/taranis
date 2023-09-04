@@ -12,8 +12,7 @@ namespace taranis {
 struct Config {
   Config();
 
-  int read_int(const std::string &name,
-                       int default_value);
+  int read_int(const std::string &name, int default_value);
 
   void write_int(const std::string &name, int value);
 

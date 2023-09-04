@@ -12,9 +12,9 @@
 #include "fonts.h"
 #include "icons.h"
 #include "model.h"
+#include "units.h"
 #include "util.h"
 #include "widget.h"
-#include "units.h"
 
 #define T(x) GetLangText(x)
 
@@ -128,8 +128,7 @@ private:
         SetFont(tiny_font.get(), DGRAY);
 
         const auto wind_speed_text = units.format_speed(forecast.wind_speed);
-        DrawString(bar_center_x -
-                       StringWidth(wind_speed_text.c_str()) / 2.0,
+        DrawString(bar_center_x - StringWidth(wind_speed_text.c_str()) / 2.0,
                    wind_speed_y, wind_speed_text.c_str());
 
         std::stringstream humidity_text;
@@ -140,7 +139,8 @@ private:
 
         SetFont(small_bold_font.get(), BLACK);
 
-        const auto temperature_text = units.format_temperature(forecast.temperature);
+        const auto temperature_text =
+            units.format_temperature(forecast.temperature);
         DrawString(bar_center_x - StringWidth(temperature_text.c_str()) / 2.0,
                    temperature_y, temperature_text.c_str());
       }

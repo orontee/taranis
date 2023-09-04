@@ -47,9 +47,7 @@ public:
     url << openweather::url << openweather::onecall_path << "?"
         << "lon=" << lonlat.first << "&"
         << "lat=" << lonlat.second << "&"
-        << "units="
-        << units
-        << "&"
+        << "units=" << units << "&"
         << "exclude=minutely"
         << "&"
         << "lang=" << language << "&"

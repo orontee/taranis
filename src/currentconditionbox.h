@@ -56,7 +56,8 @@ public:
     const auto felt_temperature_pos_x = description_pos_x;
     const auto felt_temperature_pos_y =
         description_pos_y + this->fonts->get_small_font()->height;
-    const auto felt_temperature_text = this->get_felt_temperature_text(*condition);
+    const auto felt_temperature_text =
+        this->get_felt_temperature_text(*condition);
 
     SetFont(this->fonts->get_small_font().get(), BLACK);
     DrawString(description_pos_x, description_pos_y, description_text.c_str());
@@ -93,7 +94,9 @@ private:
   std::string get_felt_temperature_text(const Condition &condition) const {
     const Units units{this->model};
     std::stringstream text;
-    text << T("Felt") << " " << units.format_temperature(static_cast<int>(condition.felt_temperature));
+    text << T("Felt") << " "
+         << units.format_temperature(
+                static_cast<int>(condition.felt_temperature));
 
     return text.str();
   }
@@ -127,11 +130,9 @@ private:
             << T("Visibility") << std::right << std::setw(10)
             << units.format_distance(condition.visibility) << std::endl
             << T("Wind") << std::right << std::setw(10)
-            << units.format_speed(condition.wind_speed)
-            << std::endl
+            << units.format_speed(condition.wind_speed) << std::endl
             << T("Gust") << std::right << std::setw(10)
-            << units.format_speed(condition.wind_gust)
-            << std::endl;
+            << units.format_speed(condition.wind_gust) << std::endl;
 
     Dialog(ICON_INFORMATION, T("Current Weather Conditions"),
            content.str().c_str(), T("Ok"), nullptr,

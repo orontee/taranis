@@ -11,6 +11,7 @@
 
 #include "fonts.h"
 #include "icons.h"
+#include "model.h"
 #include "widget.h"
 
 #define T(x) GetLangText(x)
@@ -22,21 +23,37 @@ namespace taranis {
 
 enum menu_item_index {
   MENU_ITEM_REFRESH = 100,
+  MENU_ITEM_UNIT_SYSTEM = 200,
   MENU_ITEM_ABOUT = 201,
   MENU_ITEM_QUIT = 300,
+  MENU_ITEM_UNIT_SYSTEM_STANDARD = 600,
+  MENU_ITEM_UNIT_SYSTEM_METRIC = 601,
+  MENU_ITEM_UNIT_SYSTEM_IMPERIAL = 602,
 };
 
 class MenuButton : public Widget {
 public:
-  MenuButton(std::shared_ptr<Icons> icons, std::shared_ptr<Fonts> fonts)
+  MenuButton(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
+             std::shared_ptr<Fonts> fonts)
       : activated{false},
+        unit_system_items{imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD,
+                                const_cast<char *>(T("Standard")), nullptr},
+                          imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_METRIC,
+                                const_cast<char *>(T("Metric")), nullptr},
+                          imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_IMPERIAL,
+                                const_cast<char *>(T("Imperial")), nullptr},
+                          imenu{0, 0, nullptr, nullptr}},
         items{imenu{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH,
                     const_cast<char *>(T("Refresh")), nullptr},
+              imenu{ITEM_SUBMENU, taranis::MENU_ITEM_UNIT_SYSTEM,
+                    const_cast<char *>(T("Units")),
+                    const_cast<imenu *>(unit_system_items.data())},
               imenu{ITEM_ACTIVE, taranis::MENU_ITEM_ABOUT,
                     const_cast<char *>(T("About…")), nullptr},
               imenu{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT,
                     const_cast<char *>(T("Quit")), nullptr},
               imenu{0, 0, nullptr, nullptr}},
+        model{model},
         icon{BitmapStretchProportionally(
             icons->get("menu"), MenuButton::icon_size, MenuButton::icon_size)},
         font{fonts->get_normal_font()} {
@@ -95,6 +112,8 @@ public:
     if (not this->menu_handler)
       return;
 
+    this->update_unit_system_bullet();
+
     const auto &[pos_x, pos_y] = this->get_menu_position();
     SetMenuFont(this->font.get());
     OpenMenu(const_cast<imenu *>(this->items.data()), 0, pos_x, pos_y,
@@ -137,7 +156,10 @@ private:
   static const int border_style{ROUND_DEFAULT};
 
   bool activated;
+  std::array<imenu, 4> unit_system_items;
   const std::array<imenu, 5> items;
+
+  std::shared_ptr<Model> model;
 
   const ibitmap *const icon;
   std::shared_ptr<ifont> font;
@@ -158,6 +180,22 @@ private:
     const int pos_y =
         this->bounding_box.y + this->bounding_box.h - MenuButton::padding;
     return {pos_x, pos_y};
+  }
+
+  void update_unit_system_bullet() const {
+    if (this->model->unit_system == UnitSystem::standard) {
+      const_cast<imenu*>(&this->unit_system_items[0])->type = ITEM_BULLET;
+      const_cast<imenu*>(&this->unit_system_items[1])->type = ITEM_ACTIVE;
+      const_cast<imenu*>(&this->unit_system_items[2])->type = ITEM_ACTIVE;
+    } else if (this->model->unit_system == UnitSystem::metric) {
+      const_cast<imenu*>(&this->unit_system_items[0])->type = ITEM_ACTIVE;
+      const_cast<imenu*>(&this->unit_system_items[1])->type = ITEM_BULLET;
+      const_cast<imenu*>(&this->unit_system_items[2])->type = ITEM_ACTIVE;
+    } else if (this->model->unit_system == UnitSystem::imperial) {
+      const_cast<imenu*>(&this->unit_system_items[0])->type = ITEM_ACTIVE;
+      const_cast<imenu*>(&this->unit_system_items[1])->type = ITEM_ACTIVE;
+      const_cast<imenu*>(&this->unit_system_items[2])->type = ITEM_BULLET;
+    }
   }
 };
 } // namespace taranis

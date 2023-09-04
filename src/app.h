@@ -107,7 +107,8 @@ private:
   void load_config() {
     Config config;
 
-    this->model->unit_system = static_cast<UnitSystem>(config.read_int("unit_system"s, UnitSystem::standard));
+    this->model->unit_system = static_cast<UnitSystem>(
+        config.read_int("unit_system"s, UnitSystem::metric));
 
     this->model->location.town = config.read_string("location_town"s, "Paris"s);
 
@@ -127,6 +128,8 @@ private:
     if (param_one == CustomEvent::about_dialog_requested) {
       this->open_about_dialog();
       return 1;
+    } else if (param_one == CustomEvent::change_unit_system) {
+      this->change_unit_system(static_cast<UnitSystem>(param_two));
     } else if (param_one == CustomEvent::model_updated) {
       if (this->ui) {
         this->ui->show();
@@ -136,7 +139,7 @@ private:
       auto *const raw_location =
           reinterpret_cast<std::array<char, 256> *>(GetCurrentEventExData());
       const std::string location{raw_location->data()};
-      update_config_location(location);
+      this->update_config_location(location);
       return 1;
     } else if (param_one == CustomEvent::refresh_requested) {
       this->refresh_model_weather_conditions();
@@ -168,7 +171,8 @@ private:
     const auto units = Units{this->model}.to_string();
     try {
       std::vector<Condition> conditions = this->service->fetch_conditions(
-          this->model->location.town, this->model->location.country, currentLang(), units);
+          this->model->location.town, this->model->location.country,
+          currentLang(), units);
 
       this->model->current_condition = conditions.front();
 
@@ -248,6 +252,17 @@ private:
       SendEvent(event_handler, EVT_CUSTOM, CustomEvent::warning_emitted,
                 CustomEventParam::invalid_location);
     }
+  }
+
+  void change_unit_system(UnitSystem unit_system) {
+    if (unit_system == this->model->unit_system) {
+      return;
+    }
+
+    Config config;
+    config.write_int("unit_system", unit_system);
+
+    Config::config_changed();
   }
 };
 

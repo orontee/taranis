@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Sub-menu to select unit system
+  [#4](https://github.com/orontee/argos/issues/4)
+
 - Location selection through text input
   [#12](https://github.com/orontee/argos/issues/12)
 

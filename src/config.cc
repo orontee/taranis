@@ -15,8 +15,7 @@ taranis::Config::Config() {
   }
 }
 
-int taranis::Config::read_int(const std::string &name,
-                              int default_value) {
+int taranis::Config::read_int(const std::string &name, int default_value) {
   return ReadInt(config.get(), name.c_str(), default_value);
 }
 

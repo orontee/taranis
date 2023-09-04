@@ -55,7 +55,11 @@ inline void initialize_translations() {
                    "hors-service. Réessayer plus tard.");
 
     // menu.h
+    AddTranslation("Standard", "Standard");
+    AddTranslation("Metric", "Système métrique");
+    AddTranslation("Imperial", "Unités impériales");
     AddTranslation("Refresh", "Mettre à jour");
+    AddTranslation("Units", "Unités");
     AddTranslation("About…", "À propos…");
     AddTranslation("Quit", "Quitter");
 
