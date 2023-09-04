@@ -22,7 +22,6 @@ namespace taranis {
 
 enum menu_item_index {
   MENU_ITEM_REFRESH = 100,
-  MENU_ITEM_CONFIGURE = 200,
   MENU_ITEM_ABOUT = 201,
   MENU_ITEM_QUIT = 300,
 };
@@ -33,9 +32,6 @@ public:
       : activated{false},
         items{imenu{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH,
                     const_cast<char *>(T("Refresh")), nullptr},
-              imenu{ITEM_HIDDEN, taranis::MENU_ITEM_CONFIGURE,
-                    const_cast<char *>(T("Configure…")), nullptr},
-              // opening configuration editor is currently buggy
               imenu{ITEM_ACTIVE, taranis::MENU_ITEM_ABOUT,
                     const_cast<char *>(T("About…")), nullptr},
               imenu{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT,

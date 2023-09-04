@@ -22,8 +22,6 @@ struct Config {
 
   void write_secret(const std::string &name, const std::string &value);
 
-  void open_editor();
-
   static std::string get_config_path() {
     std::stringstream config_path;
 
@@ -38,9 +36,6 @@ struct Config {
   }
 
   static void config_changed();
-
-private:
-  static void config_item_edited(char *item);
 };
 
 } // namespace taranis

@@ -41,10 +41,3 @@ void taranis::Config::config_changed() {
   }
   config.reset(nullptr);
 }
-
-void taranis::Config::config_item_edited(char *item) {}
-
-void taranis::Config::open_editor() {
-  OpenConfigEditor(editor_title, config.get(), config_template,
-                   Config::config_changed, Config::config_item_edited);
-}

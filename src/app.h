@@ -121,10 +121,7 @@ private:
   }
 
   int handle_custom_event(int param_one, int param_two) {
-    if (param_one == CustomEvent::config_editor_requested) {
-      this->open_config_editor();
-      return 1;
-    } else if (param_one == CustomEvent::about_dialog_requested) {
+    if (param_one == CustomEvent::about_dialog_requested) {
       this->open_about_dialog();
       return 1;
     } else if (param_one == CustomEvent::model_updated) {
@@ -198,11 +195,6 @@ private:
               App::error_dialog_delay);
     }
     HideHourglass();
-  }
-
-  void open_config_editor() {
-    Config config;
-    config.open_editor();
   }
 
   void open_about_dialog() {
