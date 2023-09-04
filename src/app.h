@@ -18,6 +18,7 @@
 #include "model.h"
 #include "service.h"
 #include "ui.h"
+#include "units.h"
 #include "util.h"
 
 #define T(x) GetLangText(x)
@@ -106,6 +107,8 @@ private:
   void load_config() {
     Config config;
 
+    this->model->unit_system = static_cast<UnitSystem>(config.read_int("unit_system"s, UnitSystem::standard));
+
     this->model->location.town = config.read_string("location_town"s, "Paris"s);
 
     this->model->location.country =
@@ -162,10 +165,10 @@ private:
 
     this->model->refresh_date = std::time(nullptr);
 
+    const auto units = Units{this->model}.to_string();
     try {
       std::vector<Condition> conditions = this->service->fetch_conditions(
-          this->model->location.town, this->model->location.country,
-          currentLang());
+          this->model->location.town, this->model->location.country, currentLang(), units);
 
       this->model->current_condition = conditions.front();
 

@@ -23,15 +23,15 @@ public:
   // event otherwise opening fonts, etc. fails
 
   Ui(std::shared_ptr<Model> model)
-      : model{model}, icons{new Icons{}}, fonts{new Fonts{}} {
+  : model{model}, icons{new Icons{}}, fonts{new Fonts{}} {
     SetPanelType(0);
     SetOrientation(0);
 
     auto location_box =
-        std::make_shared<LocationBox>(0, 0, this->model, this->fonts);
+      std::make_shared<LocationBox>(0, 0, this->model, this->fonts);
 
     auto current_condition_box = std::make_shared<CurrentConditionBox>(
-        0, location_box->get_height(), this->model, this->fonts);
+								       0, location_box->get_height(), this->model, this->fonts);
 
     auto status_bar = std::make_shared<StatusBar>(this->model, this->fonts);
 
@@ -43,7 +43,7 @@ public:
         0,
         current_condition_box->get_pos_y() +
             current_condition_box->get_height(),
-        ScreenWidth(), remaining_height, this->model, this->icons, this->fonts);
+								   ScreenWidth(), remaining_height, this->model, this->icons, this->fonts);
 
     auto menu_button = std::make_shared<MenuButton>(this->icons, this->fonts);
     menu_button->set_menu_handler(handle_menu_item_selected);

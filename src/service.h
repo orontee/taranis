@@ -39,7 +39,8 @@ public:
 
   std::vector<Condition> fetch_conditions(const std::string &town,
                                           const std::string &country,
-                                          const std::string &language) {
+                                          const std::string &language,
+                                          const std::string &units) {
     const auto lonlat = this->identify_lonlat(town, country);
 
     std::stringstream url;
@@ -47,7 +48,7 @@ public:
         << "lon=" << lonlat.first << "&"
         << "lat=" << lonlat.second << "&"
         << "units="
-        << "metric"
+        << units
         << "&"
         << "exclude=minutely"
         << "&"

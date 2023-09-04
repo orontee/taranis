@@ -1,4 +1,5 @@
 #include "config.h"
+#include "inkview.h"
 
 std::unique_ptr<iconfig, void (*)(iconfig *)> config{nullptr, &CloseConfig};
 
@@ -12,6 +13,15 @@ taranis::Config::Config() {
     config.reset(
         OpenConfig(Config::get_config_path().c_str(), config_template));
   }
+}
+
+int taranis::Config::read_int(const std::string &name,
+                              int default_value) {
+  return ReadInt(config.get(), name.c_str(), default_value);
+}
+
+void taranis::Config::write_int(const std::string &name, int value) {
+  WriteInt(config.get(), name.c_str(), value);
 }
 
 std::string taranis::Config::read_string(const std::string &name,

@@ -14,6 +14,7 @@
 #include "model.h"
 #include "util.h"
 #include "widget.h"
+#include "units.h"
 
 #define T(x) GetLangText(x)
 
@@ -101,6 +102,8 @@ private:
     const auto separator_start_y = start_y;
     const auto separator_stop_y = start_y + bar_height;
 
+    const Units units{this->model};
+
     std::map<int, int> sample;
     for (size_t bar_index = 0; bar_index < this->visible_bars; ++bar_index) {
       const auto bar_center_x =
@@ -124,11 +127,10 @@ private:
 
         SetFont(tiny_font.get(), DGRAY);
 
-        std::stringstream wind_speed_text;
-        wind_speed_text << static_cast<int>(forecast.wind_speed) << "m/s";
+        const auto wind_speed_text = units.format_speed(forecast.wind_speed);
         DrawString(bar_center_x -
-                       StringWidth(wind_speed_text.str().c_str()) / 2.0,
-                   wind_speed_y, wind_speed_text.str().c_str());
+                       StringWidth(wind_speed_text.c_str()) / 2.0,
+                   wind_speed_y, wind_speed_text.c_str());
 
         std::stringstream humidity_text;
         humidity_text << static_cast<int>(forecast.humidity) << "%";
@@ -138,11 +140,9 @@ private:
 
         SetFont(small_bold_font.get(), BLACK);
 
-        std::stringstream temperature_text;
-        temperature_text << static_cast<int>(forecast.temperature) << "°";
-        DrawString(bar_center_x -
-                       StringWidth(temperature_text.str().c_str()) / 2.0,
-                   temperature_y, temperature_text.str().c_str());
+        const auto temperature_text = units.format_temperature(forecast.temperature);
+        DrawString(bar_center_x - StringWidth(temperature_text.c_str()) / 2.0,
+                   temperature_y, temperature_text.c_str());
       }
 
       if (bar_index < this->visible_bars - 1) {

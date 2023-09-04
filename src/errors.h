@@ -75,4 +75,7 @@ struct InvalidLocation : std::runtime_error {
   InvalidLocation() : std::runtime_error{""} {}
 };
 
+struct UnsupportedUnitSystem : std::runtime_error {
+  UnsupportedUnitSystem() : std::runtime_error{""} {}
+};
 } // namespace taranis

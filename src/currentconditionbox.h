@@ -7,6 +7,7 @@
 
 #include "fonts.h"
 #include "model.h"
+#include "units.h"
 #include "widget.h"
 
 #define T(x) GetLangText(x)
@@ -32,8 +33,10 @@ public:
       return;
     }
 
+    const Units units{this->model};
+
     const std::string temperature_text =
-        std::to_string(static_cast<int>(condition->temperature)) + "°";
+        units.format_temperature(static_cast<int>(condition->temperature));
 
     const auto temperature_pos_x =
         this->bounding_box.x + this->horizontal_padding;
@@ -53,8 +56,7 @@ public:
     const auto felt_temperature_pos_x = description_pos_x;
     const auto felt_temperature_pos_y =
         description_pos_y + this->fonts->get_small_font()->height;
-    const auto felt_temperature_text =
-        CurrentConditionBox::get_felt_temperature_text(*condition);
+    const auto felt_temperature_text = this->get_felt_temperature_text(*condition);
 
     SetFont(this->fonts->get_small_font().get(), BLACK);
     DrawString(description_pos_x, description_pos_y, description_text.c_str());
@@ -88,10 +90,10 @@ private:
     return description_text;
   }
 
-  static std::string get_felt_temperature_text(const Condition &condition) {
+  std::string get_felt_temperature_text(const Condition &condition) const {
+    const Units units{this->model};
     std::stringstream text;
-    text << T("Felt") << " " << static_cast<int>(condition.felt_temperature)
-         << "°";
+    text << T("Felt") << " " << units.format_temperature(static_cast<int>(condition.felt_temperature));
 
     return text.str();
   }
@@ -101,6 +103,7 @@ private:
       return;
     }
     const auto condition = *(this->model->current_condition);
+    const Units units{this->model};
 
     const char *const time_format = "%H:%M";
     std::string sunrise_text{"?????"};
@@ -116,18 +119,18 @@ private:
             << T("Sunset") << std::right << std::setw(10) << sunset_text
             << std::endl
             << T("Pressure") << std::right << std::setw(10)
-            << std::to_string(condition.pressure) + "hPa" << std::endl
+            << units.format_pressure(condition.pressure) << std::endl
             << T("Humidity") << std::right << std::setw(10)
             << std::to_string(condition.humidity) + "%" << std::endl
             << T("UV index") << std::right << std::setw(10) << std::fixed
             << std::setprecision(1) << condition.uv_index << std::endl
             << T("Visibility") << std::right << std::setw(10)
-            << std::to_string(condition.visibility) + "m" << std::endl
+            << units.format_distance(condition.visibility) << std::endl
             << T("Wind") << std::right << std::setw(10)
-            << std::to_string(static_cast<int>(condition.wind_speed)) + "m/s"
+            << units.format_speed(condition.wind_speed)
             << std::endl
             << T("Gust") << std::right << std::setw(10)
-            << std::to_string(static_cast<int>(condition.wind_gust)) + "m/s"
+            << units.format_speed(condition.wind_gust)
             << std::endl;
 
     Dialog(ICON_INFORMATION, T("Current Weather Conditions"),
