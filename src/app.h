@@ -224,7 +224,7 @@ private:
     if (tokens.size() == 1) {
       auto town = tokens[0];
       town[0] = std::toupper(town[0]);
-      return {tokens[0], ""};
+      return {town, ""};
     } else if (tokens.size() > 1) {
       auto country = tokens[tokens.size() - 1];
       country[0] = std::toupper(country[0]);
