@@ -245,9 +245,10 @@ private:
         const std::string precipitation_text = units.format_precipitation(
             max_number(forecast.rain, forecast.snow), true);
 
-        SetFont(tiny_font.get(), BLACK);
+        SetFont(tiny_font.get(), DGRAY);
         DrawString(bar_center_x - StringWidth(precipitation_text.c_str()) / 2.0,
-                   y_screen, precipitation_text.c_str());
+                   y_screen - tiny_font.get()->height - 2,
+                   precipitation_text.c_str());
 
         const auto probability_of_precipitation =
             forecast.probability_of_precipitation;
@@ -258,12 +259,11 @@ private:
                   static_cast<int>(probability_of_precipitation * 100)) +
               "%";
 
-          SetFont(tiny_font.get(), DGRAY);
+          SetFont(tiny_font.get(), BLACK);
           DrawString(
               bar_center_x -
                   StringWidth(probability_of_precipitation_text.c_str()) / 2.0,
-              y_screen - tiny_font.get()->height - 2,
-              probability_of_precipitation_text.c_str());
+		     y_offset - tiny_font.get()->height - 2, probability_of_precipitation_text.c_str());
         }
       }
     }

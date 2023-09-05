@@ -39,7 +39,7 @@ public:
         return "<1mm";
       }
       std::stringstream text;
-      text << std::setprecision(1) << precipitation << "mm";
+      text << std::fixed << std::setprecision(1) << precipitation << "mm";
       return text.str();
     }
     return std::to_string(precipitation) + "mm/h";
