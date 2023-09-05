@@ -35,9 +35,9 @@ inline void initialize_translations() {
 
     // errors.h
     AddTranslation("Location unknown to the service providing weather data. "
-                   "Check configuration.",
+                   "Check spelling.",
                    "Localité inconnue du fournisseur de données "
-                   "météorologiques. Vérifier la configuration.");
+                   "météorologiques. Vérifier l'orthographe.");
     AddTranslation("Sorry, an unexpected error was encountered. Report this to "
                    "the application author.",
                    "Désolé, une erreur inattendue est survenue. Contacter le "

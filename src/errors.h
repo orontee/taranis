@@ -36,7 +36,7 @@ struct ServiceError : std::runtime_error {
 
   static ServiceError get_unknown_location_error() {
     return {T("Location unknown to the service providing weather data. Check "
-              "configuration.")};
+              "spelling.")};
   }
 
   static ServiceError get_unexpected_error() {
