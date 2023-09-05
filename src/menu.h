@@ -53,9 +53,9 @@ public:
               imenu{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT,
                     const_cast<char *>(T("Quit")), nullptr},
               imenu{0, 0, nullptr, nullptr}},
-        model{model},
-        icon{BitmapStretchProportionally(
-            icons->get("menu"), MenuButton::icon_size, MenuButton::icon_size)},
+        model{model}, icon{BitmapStretchProportionally(icons->get("menu"),
+                                                       MenuButton::icon_size,
+                                                       MenuButton::icon_size)},
         font{fonts->get_normal_font()} {
     const int width = MenuButton::icon_size + 2 * MenuButton::padding;
     const int height = MenuButton::icon_size + 2 * MenuButton::padding;
@@ -184,17 +184,17 @@ private:
 
   void update_unit_system_bullet() const {
     if (this->model->unit_system == UnitSystem::standard) {
-      const_cast<imenu*>(&this->unit_system_items[0])->type = ITEM_BULLET;
-      const_cast<imenu*>(&this->unit_system_items[1])->type = ITEM_ACTIVE;
-      const_cast<imenu*>(&this->unit_system_items[2])->type = ITEM_ACTIVE;
+      const_cast<imenu *>(&this->unit_system_items[0])->type = ITEM_BULLET;
+      const_cast<imenu *>(&this->unit_system_items[1])->type = ITEM_ACTIVE;
+      const_cast<imenu *>(&this->unit_system_items[2])->type = ITEM_ACTIVE;
     } else if (this->model->unit_system == UnitSystem::metric) {
-      const_cast<imenu*>(&this->unit_system_items[0])->type = ITEM_ACTIVE;
-      const_cast<imenu*>(&this->unit_system_items[1])->type = ITEM_BULLET;
-      const_cast<imenu*>(&this->unit_system_items[2])->type = ITEM_ACTIVE;
+      const_cast<imenu *>(&this->unit_system_items[0])->type = ITEM_ACTIVE;
+      const_cast<imenu *>(&this->unit_system_items[1])->type = ITEM_BULLET;
+      const_cast<imenu *>(&this->unit_system_items[2])->type = ITEM_ACTIVE;
     } else if (this->model->unit_system == UnitSystem::imperial) {
-      const_cast<imenu*>(&this->unit_system_items[0])->type = ITEM_ACTIVE;
-      const_cast<imenu*>(&this->unit_system_items[1])->type = ITEM_ACTIVE;
-      const_cast<imenu*>(&this->unit_system_items[2])->type = ITEM_BULLET;
+      const_cast<imenu *>(&this->unit_system_items[0])->type = ITEM_ACTIVE;
+      const_cast<imenu *>(&this->unit_system_items[1])->type = ITEM_ACTIVE;
+      const_cast<imenu *>(&this->unit_system_items[2])->type = ITEM_BULLET;
     }
   }
 };

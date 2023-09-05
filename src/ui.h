@@ -45,7 +45,8 @@ public:
             current_condition_box->get_height(),
         ScreenWidth(), remaining_height, this->model, this->icons, this->fonts);
 
-    auto menu_button = std::make_shared<MenuButton>(this->model, this->icons, this->fonts);
+    auto menu_button =
+        std::make_shared<MenuButton>(this->model, this->icons, this->fonts);
     menu_button->set_menu_handler(handle_menu_item_selected);
 
     this->children.push_back(location_box);

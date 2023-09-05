@@ -1,6 +1,8 @@
 #pragma once
 
+#include <iomanip>
 #include <memory>
+#include <sstream>
 #include <string>
 
 #include "errors.h"
@@ -30,8 +32,17 @@ public:
     return std::to_string(distance) + "m";
   }
 
-  std::string format_precipitation(int precipitation) const {
-    return std::to_string(precipitation) + "mm";
+  std::string format_precipitation(long double precipitation,
+                                   bool one_hour = true) const {
+    if (one_hour) {
+      if (precipitation < 1) {
+        return "<1mm";
+      }
+      std::stringstream text;
+      text << std::setprecision(1) << precipitation << "mm";
+      return text.str();
+    }
+    return std::to_string(precipitation) + "mm/h";
   }
 
   std::string format_pressure(int pressure) const {

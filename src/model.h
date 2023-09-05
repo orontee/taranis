@@ -99,13 +99,17 @@ struct Condition {
   int pressure;
   int humidity;
   long double uv_index;
+  int clouds;
   int visibility;
+  long double probability_of_precipitation;
   long double wind_speed;
   int wind_degree;
   long double wind_gust;
   Weather weather{CLEAR_SKY};
   std::string weather_description;
   std::string weather_icon_name;
+  long double rain;
+  long double snow;
 };
 
 struct Model {

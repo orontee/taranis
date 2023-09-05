@@ -148,15 +148,27 @@ private:
     const auto pressure = value.get("pressure", NAN).asInt();
     const auto humidity = value.get("humidity", NAN).asInt();
     const auto uv_index = value.get("uvi", NAN).asDouble();
+    const auto clouds = value.get("clouds", NAN).asInt();
     const auto visibility = value.get("visibility", NAN).asInt();
+    const auto probability_of_precipitation = value.get("pop", NAN).asDouble();
     const auto wind_speed = value.get("wind_speed", NAN).asDouble();
     const auto wind_degree = value.get("wind_deg", NAN).asInt();
     const auto wind_gust = value.get("wind_gust", NAN).asDouble();
 
-    Condition condition{date,        sunrise,          sunset,
-                        temperature, felt_temperature, pressure,
-                        humidity,    uv_index,         visibility,
-                        wind_speed,  wind_degree,      wind_gust};
+    Condition condition{date,
+                        sunrise,
+                        sunset,
+                        temperature,
+                        felt_temperature,
+                        pressure,
+                        humidity,
+                        uv_index,
+                        clouds,
+                        visibility,
+                        probability_of_precipitation,
+                        wind_speed,
+                        wind_degree,
+                        wind_gust};
 
     if (value.isMember("weather") and value["weather"].isArray() and
         value["weather"].isValidIndex(0)) {
@@ -166,6 +178,20 @@ private:
       condition.weather_description =
           weather_value.get("description", "").asString();
       condition.weather_icon_name = weather_value.get("icon", "").asString();
+    }
+
+    if (value.isMember("rain") and value["rain"].isMember("1h")) {
+      const auto rain_value = value["rain"];
+      condition.rain = rain_value.get("1h", NAN).asDouble();
+    } else {
+      condition.rain = NAN;
+    }
+
+    if (value.isMember("snow") and value["snow"].isMember("1h")) {
+      const auto snow_value = value["snow"];
+      condition.snow = snow_value.get("1h", NAN).asDouble();
+    } else {
+      condition.snow = NAN;
     }
     return condition;
   }
