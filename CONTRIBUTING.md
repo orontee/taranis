@@ -16,20 +16,35 @@ and installed manually, see instructions below.
 
 ## Build
 
+### Using a container
+
+To build the application *for a given version*, one can build a Docker
+image and export the ELF file from that image::
+```sh
+  VERSION=v$(meson version | grep 'Project version: ' | cut -d':' -f 2 | tr -d '[:space:]')
+  buildah bud -t taranis-build:$VERSION --build-arg VERSION=${VERSION} .
+  podman run --rm -v ${PWD}:/opt/taranis \
+             taranis-build:$VERSION bash -c "cp builddir/taranis.app /opt/taranis"
+```
+
+### Cross-compile a Debian host
+
+Read the [Containerfile](./Containerfile) to fix potential missing
+dependencies.
+
 1. First, clone the source repository and populate Git submodules:
    ```sh
    git submodule init
    git submodule update
    ```
-   
+
    This will populate the `SDK_6.3.0` directory with the PocketBook
    SDK.
 
-2. Generate the cross compilation `crossfile_arm.ini` file using the provided template
-   [crossfile_arm.ini.in](./crossfile_arm.ini.in):
+2. Update SDK paths and generate cross compilation configuration (It
+   will generate the file `crossfile_arm.ini` used to build):
    ```sh
-   export PWDESC=$(echo $PWD | sed 's_/_\\/_g')
-   sed "s/@pwd@/$PWDESC/g" crossfile_arm.ini.in > crossfile_arm.ini
+   ./scripts/generate_cross_compilation_conf.sh
    ```
 
 3. Download, build and install source code of the [GNU Scientific
@@ -63,7 +78,6 @@ and installed manually, see instructions below.
    meson setup builddir . --cross-file crossfile_arm.ini
    pushd builddir && meson compile; popd
    ```
-
 
 ## Tooling
 
