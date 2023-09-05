@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Draw precipitation histogram
+  [#20](https://github.com/orontee/argos/issues/20)
+
 - Sub-menu to select unit system
   [#4](https://github.com/orontee/argos/issues/4)
 

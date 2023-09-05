@@ -8,8 +8,13 @@
 #include "model.h"
 
 namespace taranis {
-std::vector<double> normalize_temperatures(std::vector<Condition> conditions,
-                                           int amplitude);
+std::vector<double>
+normalize_temperatures(const std::vector<Condition> &conditions,
+                       const int amplitude);
+
+std::vector<double> normalize_rain(const std::vector<Condition> &conditions,
+                                   const int lower_bound,
+                                   const int upper_bound);
 
 static inline void ltrim(std::string &s) {
   s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](char ch) {

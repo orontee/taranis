@@ -109,10 +109,10 @@ private:
       const auto bar_center_x =
           (bar_index + 1.0 / 2) * this->adjusted_bar_width;
 
-      if (this->forecast_offset + bar_index <
-          this->model->hourly_forecast.size()) {
-        const auto forecast =
-            this->model->hourly_forecast[this->forecast_offset + bar_index];
+      const auto forecast_index = this->forecast_offset + bar_index;
+      if (forecast_index < this->model->hourly_forecast.size()) {
+        const auto forecast = this->model->hourly_forecast[forecast_index];
+
         SetFont(tiny_font.get(), BLACK);
 
         std::string time_text{"?????"};
@@ -131,11 +131,10 @@ private:
         DrawString(bar_center_x - StringWidth(wind_speed_text.c_str()) / 2.0,
                    wind_speed_y, wind_speed_text.c_str());
 
-        std::stringstream humidity_text;
-        humidity_text << static_cast<int>(forecast.humidity) << "%";
-        DrawString(bar_center_x -
-                       StringWidth(humidity_text.str().c_str()) / 2.0,
-                   humidity_y, humidity_text.str().c_str());
+        std::string humidity_text =
+            std::to_string(static_cast<int>(forecast.humidity)) + "%";
+        DrawString(bar_center_x - StringWidth(humidity_text.c_str()) / 2.0,
+                   humidity_y, humidity_text.c_str());
 
         SetFont(small_bold_font.get(), BLACK);
 
@@ -155,6 +154,8 @@ private:
     const auto curve_y_offset = temperature_y - this->vertical_padding;
     const auto curve_height =
         temperature_y - icon_y - this->icon_size - 2 * this->vertical_padding;
+
+    this->draw_precipitation_histogram(curve_y_offset, curve_height);
     this->draw_curve(curve_y_offset, curve_height);
   }
 
@@ -204,6 +205,67 @@ private:
       DrawPixel(x_screen, y_screen + 1, BLACK);
       DrawPixel(x_screen, y_screen + 2, DGRAY);
       DrawPixel(x_screen, y_screen + 3, DGRAY);
+    }
+  }
+
+  void draw_precipitation_histogram(const int y_offset, const int height) {
+    auto tiny_font = this->fonts->get_tiny_font();
+    const auto min_bar_height = tiny_font.get()->height + 10;
+    // 2 pixels of padding in bar
+    const auto max_bar_height = height - tiny_font.get()->height;
+    // 1 pixel of padding between bar top and
+    // probability_of_precipitation text
+
+    if (max_bar_height <= min_bar_height) {
+      return;
+    }
+
+    const auto normalized_rain = normalize_rain(this->model->hourly_forecast,
+                                                min_bar_height, max_bar_height);
+
+    const auto bar_width = this->adjusted_bar_width;
+    const Units units{this->model};
+
+    SetFont(tiny_font.get(), DGRAY);
+
+    for (size_t bar_index = 0; bar_index < this->visible_bars; ++bar_index) {
+      const auto forecast_index = this->forecast_offset + bar_index;
+      if (forecast_index < this->model->hourly_forecast.size()) {
+        const auto forecast = this->model->hourly_forecast[forecast_index];
+        if (std::isnan(forecast.rain)) {
+          continue;
+        }
+        const auto bar_center_x = (bar_index + 1.0 / 2) * bar_width;
+        const auto x_screen = this->bounding_box.x + bar_index * bar_width;
+        const auto bar_height = normalized_rain.at(forecast_index);
+        const auto y_screen = y_offset - bar_height;
+        FillArea(x_screen, y_screen, bar_width, bar_height, LGRAY);
+        DrawRect(x_screen, y_screen, bar_width, bar_height, 0x777777);
+
+        const std::string rain_text =
+            units.format_precipitation(forecast.rain, true);
+
+        SetFont(tiny_font.get(), BLACK);
+        DrawString(bar_center_x - StringWidth(rain_text.c_str()) / 2.0,
+                   y_screen, rain_text.c_str());
+
+        const auto probability_of_precipitation =
+            forecast.probability_of_precipitation;
+        if (not std::isnan(probability_of_precipitation)) {
+
+          const std::string probability_of_precipitation_text =
+              std::to_string(
+                  static_cast<int>(probability_of_precipitation * 100)) +
+              "%";
+
+          SetFont(tiny_font.get(), DGRAY);
+          DrawString(
+              bar_center_x -
+                  StringWidth(probability_of_precipitation_text.c_str()) / 2.0,
+              y_screen - tiny_font.get()->height - 2,
+              probability_of_precipitation_text.c_str());
+        }
+      }
     }
   }
 
