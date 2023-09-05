@@ -9,6 +9,15 @@ e-book reader.
 ![Screenshot](./docs/screenshot-hourly-forecast.jpg)
 ![Application running on Vivlio reader](./docs/application-running-vivlio-reader.jpg)
 
+## Features 🥳
+
+* Current weather
+
+* 24 hourly forecasts temperature, wind speed, humidity, temperature
+  curve, precipitation histogram
+  
+* Configurable system of units
+
 Weather data is provided by [OpenWeather](https://openweathermap.org).
 
 Consult the [NEWS file](NEWS.md) for notable changes between versions.

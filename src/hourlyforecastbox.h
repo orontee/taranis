@@ -220,8 +220,8 @@ private:
       return;
     }
 
-    const auto normalized_rain = normalize_rain(this->model->hourly_forecast,
-                                                min_bar_height, max_bar_height);
+    const auto normalized_precipitations = normalize_precipitations(
+        this->model->hourly_forecast, min_bar_height, max_bar_height);
 
     const auto bar_width = this->adjusted_bar_width;
     const Units units{this->model};
@@ -237,17 +237,17 @@ private:
         }
         const auto bar_center_x = (bar_index + 1.0 / 2) * bar_width;
         const auto x_screen = this->bounding_box.x + bar_index * bar_width;
-        const auto bar_height = normalized_rain.at(forecast_index);
+        const auto bar_height = normalized_precipitations.at(forecast_index);
         const auto y_screen = y_offset - bar_height;
         FillArea(x_screen, y_screen, bar_width, bar_height, LGRAY);
         DrawRect(x_screen, y_screen, bar_width, bar_height, 0x777777);
 
-        const std::string rain_text =
-            units.format_precipitation(forecast.rain, true);
+        const std::string precipitation_text = units.format_precipitation(
+            max_number(forecast.rain, forecast.snow), true);
 
         SetFont(tiny_font.get(), BLACK);
-        DrawString(bar_center_x - StringWidth(rain_text.c_str()) / 2.0,
-                   y_screen, rain_text.c_str());
+        DrawString(bar_center_x - StringWidth(precipitation_text.c_str()) / 2.0,
+                   y_screen, precipitation_text.c_str());
 
         const auto probability_of_precipitation =
             forecast.probability_of_precipitation;

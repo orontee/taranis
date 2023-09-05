@@ -36,45 +36,63 @@ taranis::normalize_temperatures(const std::vector<Condition> &conditions,
 }
 
 std::vector<double>
-taranis::normalize_rain(const std::vector<Condition> &conditions,
-                        const int lower_bound, const int upper_bound) {
+taranis::normalize_precipitations(const std::vector<Condition> &conditions,
+                                  const int lower_bound,
+                                  const int upper_bound) {
   assert(lower_bound < upper_bound);
 
-  const long double rain_threshold = 60;
+  const double precipitations_threshold = 60;
   // The scale is computed to reach upper_bound for precipitations
   // >60mm
   //
   // Note that 305mm is the record of rain precipitation in one hour,
   // Holt, Missouri, United States, 22 June 1947!
 
-  double min = NAN;
-  double max = rain_threshold;
-  ;
+  std::vector<double> precipitations;
+  precipitations.reserve(conditions.size());
   for (const auto &condition : conditions) {
-    if (std::isnan(condition.rain)) {
+    precipitations.push_back(max_number(condition.rain, condition.snow));
+  }
+
+  double min = NAN;
+  double max = precipitations_threshold;
+  ;
+  for (const auto &precipitation : precipitations) {
+    if (std::isnan(precipitation)) {
       continue;
     }
-    const auto value = std::min(condition.rain, rain_threshold);
+    const auto value = std::min(precipitation, precipitations_threshold);
     if (std::isnan(min) or value < min) {
       min = value;
     }
   }
   if (std::isnan(min)) {
-    return std::vector<double>(conditions.size(), NAN);
+    return precipitations;
   } else if (min == max) {
     return std::vector<double>(conditions.size(), upper_bound);
   }
 
   std::vector<double> normalized;
   normalized.reserve(conditions.size());
-  for (const auto &condition : conditions) {
-    if (std::isnan(condition.rain)) {
+  for (const auto &precipitation : precipitations) {
+    if (std::isnan(precipitation)) {
       normalized.push_back(NAN);
       continue;
     }
     normalized.push_back((upper_bound - lower_bound) / (max - min) *
-                             (condition.rain - min) +
+                             (precipitation - min) +
                          lower_bound);
   }
   return normalized;
+}
+
+double taranis::max_number(double value_one, double value_two) {
+  if (not std::isnan(value_one) and not std::isnan(value_two)) {
+    return std::max(value_one, value_two);
+  } else if (std::isnan(value_two)) {
+    return value_one;
+  } else if (std::isnan(value_one)) {
+    return value_two;
+  }
+  return NAN;
 }

@@ -12,9 +12,11 @@ std::vector<double>
 normalize_temperatures(const std::vector<Condition> &conditions,
                        const int amplitude);
 
-std::vector<double> normalize_rain(const std::vector<Condition> &conditions,
-                                   const int lower_bound,
-                                   const int upper_bound);
+std::vector<double>
+normalize_precipitations(const std::vector<Condition> &conditions,
+                         const int lower_bound, const int upper_bound);
+
+double max_number(double value_one, double value_two);
 
 static inline void ltrim(std::string &s) {
   s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](char ch) {
