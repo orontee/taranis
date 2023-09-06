@@ -29,8 +29,7 @@ jobs:
                 git \
                 libtinfo5 \
                 meson \
-                wget \
-                zip
+                wget
 
       - name: Generate cross-compilation configuration
         run: |
@@ -63,10 +62,9 @@ jobs:
           meson setup builddir . --cross-file crossfile_arm.ini
           cd builddir
           meson compile
-          cat taranis.app | zip > taranis.zip
 
       - name: Upload archive
         uses: actions/upload-artifact@v3
         with:
-          path: builddir/taranis.zip
+          path: builddir/taranis.app
           if-no-files-found: error

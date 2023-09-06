@@ -10,8 +10,7 @@ RUN apt-get update -y && apt-get upgrade -y && \
       git \
       libtinfo5 \
       meson \
-      wget \
-      zip && \
+      wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
