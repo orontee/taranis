@@ -263,7 +263,8 @@ private:
           DrawString(
               bar_center_x -
                   StringWidth(probability_of_precipitation_text.c_str()) / 2.0,
-		     y_offset - tiny_font.get()->height - 2, probability_of_precipitation_text.c_str());
+              y_offset - tiny_font.get()->height - 2,
+              probability_of_precipitation_text.c_str());
         }
       }
     }

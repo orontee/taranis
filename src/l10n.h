@@ -43,9 +43,10 @@ inline void initialize_translations() {
                    "Désolé, une erreur inattendue est survenue. Contacter le "
                    "responsable de l'application.");
     AddTranslation(
-        "An API key is required to consume weather data. Check configuration.",
+        "An API key is required to consume weather data. Contact the "
+        "application maintainer.",
         "Une clé d'API est requise pour consommer les données météorologiques. "
-        "Vérifier la configuration.");
+        "Contacter le responsable de l'application.");
     AddTranslation(
         "Weather data can't be accessed with the provided API key.",
         "La clé d'API ne permet pas de consulter les données météorologiques.");

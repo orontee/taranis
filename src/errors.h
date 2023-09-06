@@ -50,8 +50,8 @@ struct ServiceError : std::runtime_error {
       return ServiceError::get_unexpected_error();
       break;
     case 401:
-      return {T("An API key is required to consume weather data. Check "
-                "configuration.")};
+      return {T("An API key is required to consume weather data. Contact the "
+                "application maintainer.")};
       break;
     case 402: // payment required
     case 403:
