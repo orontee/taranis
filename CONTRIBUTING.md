@@ -27,7 +27,7 @@ image and export the ELF file from that image::
              taranis-build:$VERSION bash -c "cp builddir/taranis.app /opt/taranis"
 ```
 
-### Cross-compile a Debian host
+### Cross-compile on a Debian host
 
 Read the [Containerfile](./Containerfile) to fix potential missing
 dependencies.
@@ -96,9 +96,9 @@ SCANBUILD=./SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/bin/scan-build ninja
 Screenshots can be performed through the task menu of an e-reader, and conversion can be done
 using [ImageMagick convert script](https://www.imagemagick.org/script/convert.php); For example:
 ```
-$ convert /media/matthias/Vivlio/screens/scr0002.bmp \
-          -scale 40% -bordercolor pink -border 5 \
-		  docs/screenshot-hourly-forecast.jpg
+convert /media/matthias/Vivlio/screens/scr0002.bmp \
+        -scale 40% -bordercolor pink -border 5 \
+        docs/screenshot-hourly-forecast.jpg
 ```
 
 ## References
