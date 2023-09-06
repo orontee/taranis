@@ -1,0 +1,72 @@
+name: build-application
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Git tag of version to build'
+        required: true
+        type: string
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -
+          sudo apt-get install --no-install-recommends -y \
+                build-essential \
+                ca-certificates \
+                clang \
+                git \
+                libtinfo5 \
+                meson \
+                wget \
+                zip
+
+      - name: Generate cross-compilation configuration
+        run: |
+          ./scripts/generate_cross_compilation_conf.sh
+
+      - name: Build dependencies
+        run: |
+          mkdir 3rd-parties
+          cd 3rd-parties
+          wget https://ftp.gnu.org/gnu/gsl/gsl-2.7.1.tar.gz
+          tar -xzf gsl-2.7.1.tar.gz
+          cd gsl-2.7.1
+          CROSS=arm-obreey-linux-gnueabi
+          ./configure --prefix=$PWD/../../SDK_6.3.0/SDK-B288/usr/$CROSS/sysroot \
+               --host=$CROSS \
+               --build=x86_64-pc-linux-gnu \
+               --target=$CROSS \
+               CC=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang \
+               CXX=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang++ \
+               AR=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ar \
+               STRIP=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-strip \
+               RANLIB=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ranlib \
+               PKGCONFIG=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/pkg-config \
+               CFLAGS="-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp"
+          make -j2
+          make install
+
+      - name: Build application
+        run: |
+          meson setup builddir . --cross-file crossfile_arm.ini
+          cd builddir
+          meson compile
+          cat taranis.app | zip > taranis.zip
+
+      - name: Upload archive
+        uses: actions/upload-artifact@v3
+        with:
+          path: builddir/taranis.zip
+          if-no-files-found: error
