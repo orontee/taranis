@@ -20,6 +20,9 @@ e-book reader.
 
 Weather data is provided by [OpenWeather](https://openweathermap.org).
 
+**The application is compatible with hardware running software version
+≥6.**
+
 Consult the [NEWS file](NEWS.md) for notable changes between versions.
 
 ## Install

@@ -78,4 +78,8 @@ struct InvalidLocation : std::runtime_error {
 struct UnsupportedUnitSystem : std::runtime_error {
   UnsupportedUnitSystem() : std::runtime_error{""} {}
 };
+
+struct UnsupportedSoftwareVersion : std::runtime_error {
+  UnsupportedSoftwareVersion() : std::runtime_error{""} {}
+};
 } // namespace taranis

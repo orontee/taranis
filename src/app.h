@@ -79,13 +79,26 @@ public:
   }
 
 private:
-  static const int error_dialog_delay{3600};
+  static const int error_dialog_delay{5000};
 
   std::shared_ptr<Model> model;
   std::unique_ptr<Service> service;
   std::unique_ptr<Ui> ui;
 
-  void setup() { this->ui = std::make_unique<Ui>(this->model); }
+  void setup() {
+    const auto version = GetSoftwareVersion();
+    try {
+      check_software_version(version);
+    } catch (const UnsupportedSoftwareVersion &error) {
+      Message(ICON_WARNING, T("Unsupported software version"),
+              T("The application isn't compatible with the software "
+                "version of this reader."),
+              error_dialog_delay);
+      this->exit();
+      return;
+    }
+    this->ui = std::make_unique<Ui>(this->model);
+  }
 
   void show() {
     if (not this->ui)

@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Check software version at startup
+  [#30](https://github.com/orontee/argos/issues/30)
+
 ### Changed
 
 ### Removed

@@ -18,6 +18,11 @@ inline void initialize_translations() {
         "lisez la License publique générale GNU, version 3 ou ultérieure.");
 
     // app.h
+    AddTranslation("Unsupported software version", "Logiciel incompatible");
+    AddTranslation("The application isn't compatible with the software version "
+                   "of this reader.",
+                   "L'application n'est pas compatible avec la version "
+                   "logicielle de ce matériel.");
     AddTranslation("Network error", "Erreur réseau");
     AddTranslation(
         "Failure while fetching weather data. Check your network connection.",
