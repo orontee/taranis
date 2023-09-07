@@ -6,16 +6,12 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.1] - 2023-09-07
 
 ### Added
 
 - Check software version at startup
   [#30](https://github.com/orontee/argos/issues/30)
-
-### Changed
-
-### Removed
 
 ## [1.0.0] - 2023-09-06
 
@@ -50,4 +46,3 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   [#3](https://github.com/orontee/argos/issues/3)
   
 - Weather icons [#1](https://github.com/orontee/argos/issues/1)
-
