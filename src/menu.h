@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 
+#include "activatable.h"
 #include "fonts.h"
 #include "icons.h"
 #include "model.h"
@@ -31,11 +32,11 @@ enum menu_item_index {
   MENU_ITEM_UNIT_SYSTEM_IMPERIAL = 602,
 };
 
-class MenuButton : public Widget {
+class MenuButton : public Widget, Activatable {
 public:
   MenuButton(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
              std::shared_ptr<Fonts> fonts)
-      : activated{false},
+      : Activatable{},
         unit_system_items{imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD,
                                 const_cast<char *>(T("Standard")), nullptr},
                           imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_METRIC,
@@ -74,38 +75,6 @@ public:
     const int icon_pos_y = this->bounding_box.y +
                            (this->bounding_box.h - MenuButton::icon_size) / 2;
     DrawBitmap(icon_pos_x, icon_pos_y, this->icon);
-  }
-
-  bool is_activated() const { return this->activated; }
-
-  void activate() {
-    if (this->activated) {
-      return;
-    }
-    this->activated = true;
-
-    const int icon_center_pos_x =
-        this->bounding_box.x + this->bounding_box.w / 2;
-    const int icon_center_pos_y =
-        this->bounding_box.y + this->bounding_box.h / 2;
-    const int radius = (MenuButton::icon_size + MenuButton::padding) / 2;
-    auto canvas = GetCanvas();
-    invertCircle(icon_center_pos_x, icon_center_pos_y, radius, canvas);
-
-    PartialUpdate(this->bounding_box.x, this->bounding_box.y,
-                  this->bounding_box.w, this->bounding_box.h);
-  }
-
-  void desactivate() {
-    if (not this->activated) {
-      return;
-    }
-    this->activated = false;
-
-    this->show();
-
-    PartialUpdate(this->bounding_box.x, this->bounding_box.y,
-                  this->bounding_box.w, this->bounding_box.h);
   }
 
   void open_menu() {
@@ -155,7 +124,6 @@ private:
   static const int border_radius{5};
   static const int border_style{ROUND_DEFAULT};
 
-  bool activated;
   std::array<imenu, 4> unit_system_items;
   const std::array<imenu, 5> items;
 
@@ -165,6 +133,24 @@ private:
   std::shared_ptr<ifont> font;
 
   std::optional<iv_menuhandler> menu_handler;
+
+  void on_activated_changed(bool activated) override {
+    if (activated) {
+      this->draw_inverted_icon();
+    } else {
+      this->show();
+    }
+    PartialUpdate(this->bounding_box.x, this->bounding_box.y,
+                  this->bounding_box.w, this->bounding_box.h);
+  }
+
+  std::pair<int, int> get_icon_center_position() const {
+    const int pos_x =
+      this->bounding_box.x + this->bounding_box.w / 2;
+    const int pos_y =
+      this->bounding_box.y + this->bounding_box.h / 2;
+    return {pos_x, pos_y};
+  }
 
   std::pair<int, int> get_menu_position() const {
     SetFont(this->font.get(), BLACK);
@@ -180,6 +166,13 @@ private:
     const int pos_y =
         this->bounding_box.y + this->bounding_box.h - MenuButton::padding;
     return {pos_x, pos_y};
+  }
+
+  void draw_inverted_icon() const {
+    const auto [pos_x, pos_y] = this->get_icon_center_position();
+    const int radius = (MenuButton::icon_size + MenuButton::padding) / 2;
+    auto canvas = GetCanvas();
+    invertCircle(pos_x, pos_y, radius, canvas);
   }
 
   void update_unit_system_bullet() const {
