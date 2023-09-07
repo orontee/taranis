@@ -9,11 +9,10 @@
 #include <memory>
 #include <vector>
 
-#include "activatable.h"
+#include "button.h"
 #include "fonts.h"
 #include "icons.h"
 #include "model.h"
-#include "widget.h"
 
 #define T(x) GetLangText(x)
 
@@ -32,12 +31,17 @@ enum menu_item_index {
   MENU_ITEM_UNIT_SYSTEM_IMPERIAL = 602,
 };
 
-class MenuButton : public Widget, Activatable {
+class MenuButton : public Button {
 public:
   MenuButton(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
              std::shared_ptr<Fonts> fonts)
-      : Activatable{},
-        unit_system_items{imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD,
+      : Button {
+	MenuButton::icon_size + 2 * MenuButton::padding,
+	MenuButton::icon_size + 2 * MenuButton::padding,
+	BitmapStretchProportionally(icons->get("menu"),
+                                    MenuButton::icon_size,
+                                    MenuButton::icon_size)
+      }, unit_system_items{imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD,
                                 const_cast<char *>(T("Standard")), nullptr},
                           imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_METRIC,
                                 const_cast<char *>(T("Metric")), nullptr},
@@ -54,59 +58,14 @@ public:
               imenu{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT,
                     const_cast<char *>(T("Quit")), nullptr},
               imenu{0, 0, nullptr, nullptr}},
-        model{model}, icon{BitmapStretchProportionally(icons->get("menu"),
-                                                       MenuButton::icon_size,
-                                                       MenuButton::icon_size)},
+        model{model},
         font{fonts->get_normal_font()} {
-    const int width = MenuButton::icon_size + 2 * MenuButton::padding;
-    const int height = MenuButton::icon_size + 2 * MenuButton::padding;
-    this->set_bounding_box(ScreenWidth() - width, 0, width, height);
+    this->set_pos_x(ScreenWidth() - this->get_width());
+    this->set_pos_y(0);
   }
 
   void set_menu_handler(iv_menuhandler handler) {
     this->menu_handler = handler;
-  }
-
-  void show() override {
-    this->fill_bounding_box();
-
-    const int icon_pos_x = this->bounding_box.x +
-                           (this->bounding_box.w - MenuButton::icon_size) / 2;
-    const int icon_pos_y = this->bounding_box.y +
-                           (this->bounding_box.h - MenuButton::icon_size) / 2;
-    DrawBitmap(icon_pos_x, icon_pos_y, this->icon);
-  }
-
-  void open_menu() {
-    if (not this->menu_handler)
-      return;
-
-    this->update_unit_system_bullet();
-
-    const auto &[pos_x, pos_y] = this->get_menu_position();
-    SetMenuFont(this->font.get());
-    OpenMenu(const_cast<imenu *>(this->items.data()), 0, pos_x, pos_y,
-             *this->menu_handler);
-  }
-
-  int handle_pointer_event(int event_type, int pointer_pos_x,
-                           int pointer_pos_y) override {
-    if (event_type == EVT_POINTERDOWN) {
-      this->activate();
-      return 1;
-    }
-
-    if (event_type == EVT_POINTERDRAG) {
-      this->desactivate();
-      return 0;
-    }
-
-    if (event_type == EVT_POINTERUP) {
-      this->desactivate();
-      this->open_menu();
-      return 1;
-    }
-    return 0;
   }
 
   int handle_key_pressed(int key) override {
@@ -117,40 +76,23 @@ public:
     return 0;
   }
 
+protected:
+  void on_clicked() override {
+    this->open_menu();
+  }
+
 private:
   static const int padding{50};
   static const int icon_size{70};
-  static const int border_size{2};
-  static const int border_radius{5};
-  static const int border_style{ROUND_DEFAULT};
 
   std::array<imenu, 4> unit_system_items;
   const std::array<imenu, 5> items;
 
   std::shared_ptr<Model> model;
 
-  const ibitmap *const icon;
   std::shared_ptr<ifont> font;
 
   std::optional<iv_menuhandler> menu_handler;
-
-  void on_activated_changed(bool activated) override {
-    if (activated) {
-      this->draw_inverted_icon();
-    } else {
-      this->show();
-    }
-    PartialUpdate(this->bounding_box.x, this->bounding_box.y,
-                  this->bounding_box.w, this->bounding_box.h);
-  }
-
-  std::pair<int, int> get_icon_center_position() const {
-    const int pos_x =
-      this->bounding_box.x + this->bounding_box.w / 2;
-    const int pos_y =
-      this->bounding_box.y + this->bounding_box.h / 2;
-    return {pos_x, pos_y};
-  }
 
   std::pair<int, int> get_menu_position() const {
     SetFont(this->font.get(), BLACK);
@@ -168,13 +110,6 @@ private:
     return {pos_x, pos_y};
   }
 
-  void draw_inverted_icon() const {
-    const auto [pos_x, pos_y] = this->get_icon_center_position();
-    const int radius = (MenuButton::icon_size + MenuButton::padding) / 2;
-    auto canvas = GetCanvas();
-    invertCircle(pos_x, pos_y, radius, canvas);
-  }
-
   void update_unit_system_bullet() const {
     if (this->model->unit_system == UnitSystem::standard) {
       const_cast<imenu *>(&this->unit_system_items[0])->type = ITEM_BULLET;
@@ -190,5 +125,18 @@ private:
       const_cast<imenu *>(&this->unit_system_items[2])->type = ITEM_BULLET;
     }
   }
+
+  void open_menu() {
+    if (not this->menu_handler)
+      return;
+
+    this->update_unit_system_bullet();
+
+    const auto &[pos_x, pos_y] = this->get_menu_position();
+    SetMenuFont(this->font.get());
+    OpenMenu(const_cast<imenu *>(this->items.data()), 0, pos_x, pos_y,
+             *this->menu_handler);
+  }
+
 };
 } // namespace taranis
