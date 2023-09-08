@@ -10,6 +10,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Polish translations [#22](https://github.com/orontee/argos/issues/22)
+
 ### Changed
 
 ### Removed

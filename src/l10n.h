@@ -83,6 +83,84 @@ inline void initialize_translations() {
     AddTranslation("Visibility", "Visibilité");
     AddTranslation("Wind", "Vent");
     AddTranslation("Gust", "Rafale");
+
+  } else if (std::strcmp(currentLang(), "pl") == 0) {
+    // Polish translations
+
+    // about.cc.in
+    AddTranslation(
+        "This program is provided without any warranty. For more details, "
+        "read GNU General Public License, version 3 or later",
+        "Ta aplikacja jest dostarczona bez żadnej gwarancji. Aby poznać więcej, "
+        "zapoznaj się z warunkami GNU General Public License w wersji 3 lub nowszej.");
+
+    // app.h
+    AddTranslation("Unsupported software version", "Nieobsługiwana wersja oprogramowania");
+    AddTranslation("The application isn't compatible with the software version "
+                   "of this reader.",
+                   "Aplikacja nie jest zgodna z oprogramowaniem "
+                   "tego czytnika.");
+    AddTranslation("Network error", "Błąd połączenia");
+    AddTranslation(
+        "Failure while fetching weather data. Check your network connection.",
+        "Wystąpił błąd podczas pobierania danych pogodowych. Sprawdź "
+        "połączenie sieciowe.");
+    AddTranslation("Service unavailable", "Usługa niedostępna");
+    AddTranslation("Invalid input", "Wprowadzono błędne dane");
+    AddTranslation(
+        "Make sure you enter a town then a country separated by a comma.",
+        "Upewnij się, że podano poprawnie nazwę miasta i państwa "
+        "rozdzielone przecinkiem.");
+
+    // currentconditionbox.h
+    AddTranslation("Felt", "Temp. odczuwalna");
+
+    // errors.h
+    AddTranslation("Location unknown to the service providing weather data. "
+                   "Check spelling.",
+                   "Lokalizacja nieznana w serwisie pogodowym. "
+                   "Sprawdź pisownię.");
+    AddTranslation("Sorry, an unexpected error was encountered. Report this to "
+                   "the application author.",
+                   "Wystąpił błąd aplikacji. Poinformuj "
+                   "autora.");
+    AddTranslation(
+        "An API key is required to consume weather data. Contact the "
+        "application maintainer.",
+        "Do pobierania danych pogodowych wymagany jest klucz API. "
+        "Skontaktuj się z autorem aplikacji.");
+    AddTranslation(
+        "Weather data can't be accessed with the provided API key.",
+        "Dane pogodowe nie są dostępne przy użyciu tego klucza API.");
+    AddTranslation("The service providing weather data isn't working as "
+                   "expected. Retry later.",
+                   "Serwis udostępniający dane pogodowe nie działa zgodnie"
+                   "z oczekiwaniami. Spróbuj później.");
+
+    // menu.h
+    AddTranslation("Standard", "SI");
+    AddTranslation("Metric", "Metryczne");
+    AddTranslation("Imperial", "Imperialne");
+    AddTranslation("Refresh", "Odśwież");
+    AddTranslation("Units", "Jednostki");
+    AddTranslation("About…", "O aplikacji");
+    AddTranslation("Quit", "Wyjście");
+
+    // statusbar.h
+    AddTranslation("Ongoing update…", "Trwa aktualizacja…");
+    AddTranslation("Updated at", "Zaktualizowano");
+    AddTranslation("Weather data from", "Dane pogodowe z");
+
+    // ui.h
+    AddTranslation("Sunrise", "Wschód słońca");
+    AddTranslation("Sunset", "Zachód słońca");
+    AddTranslation("Pressure", "Ciśnienie");
+    AddTranslation("Humidity", "Wilgotność");
+    AddTranslation("UV index", "Indeks UV");
+    AddTranslation("Visibility", "Widoczność");
+    AddTranslation("Wind", "Wiatr");
+    AddTranslation("Gust", "Porywisty wiatr");
+
   } else if (std::strcmp(currentLang(), "de") == 0) {
     // German translations
 
