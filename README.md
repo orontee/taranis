@@ -18,6 +18,8 @@ e-book reader.
   
 * Configurable system of units
 
+* Translations (English, French, Polish)
+
 Weather data is provided by [OpenWeather](https://openweathermap.org).
 
 **The application is compatible with hardware running software version
