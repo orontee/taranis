@@ -30,4 +30,4 @@ protected:
 private:
   bool activated;
 };
-}
+} // namespace taranis

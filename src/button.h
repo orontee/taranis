@@ -13,7 +13,7 @@ namespace taranis {
 class Button : public Widget, Activatable {
 public:
   Button(const int width, const int height, const ibitmap *const icon)
-  : Widget{}, Activatable{}, icon{icon} {
+      : Widget{}, Activatable{}, icon{icon} {
     this->set_width(width);
     this->set_height(height);
   }
@@ -46,23 +46,21 @@ public:
   }
 
   std::pair<int, int> get_icon_center_position() const {
-    const int pos_x =
-      this->bounding_box.x + this->bounding_box.w / 2;
-    const int pos_y =
-      this->bounding_box.y + this->bounding_box.h / 2;
+    const int pos_x = this->bounding_box.x + this->bounding_box.w / 2;
+    const int pos_y = this->bounding_box.y + this->bounding_box.h / 2;
     return {pos_x, pos_y};
   }
 
   std::pair<int, int> get_icon_top_left_position() const {
-    const int pos_x = this->bounding_box.x +
-                      (this->bounding_box.w - this->icon->width) / 2;
-    const int pos_y = this->bounding_box.y +
-                      (this->bounding_box.h - this->icon->height) / 2;
+    const int pos_x =
+        this->bounding_box.x + (this->bounding_box.w - this->icon->width) / 2;
+    const int pos_y =
+        this->bounding_box.y + (this->bounding_box.h - this->icon->height) / 2;
     return {pos_x, pos_y};
   }
 
-protected :
-  virtual void on_clicked() {};
+protected:
+  virtual void on_clicked(){};
 
 private:
   const ibitmap *const icon;
@@ -79,10 +77,11 @@ private:
 
   void draw_inverted_icon() const {
     const auto [pos_x, pos_y] = this->get_icon_center_position();
-    const int radius = std::max((this->bounding_box.w + this->icon->width) / 4,
-				(this->bounding_box.h + this->icon->height) / 4);
+    const int radius =
+        std::max((this->bounding_box.w + this->icon->width) / 4,
+                 (this->bounding_box.h + this->icon->height) / 4);
     auto canvas = GetCanvas();
     invertCircle(pos_x, pos_y, radius, canvas);
   }
 };
-}
+} // namespace taranis

@@ -91,11 +91,14 @@ inline void initialize_translations() {
     AddTranslation(
         "This program is provided without any warranty. For more details, "
         "read GNU General Public License, version 3 or later",
-        "Ta aplikacja jest dostarczona bez żadnej gwarancji. Aby poznać więcej, "
-        "zapoznaj się z warunkami GNU General Public License w wersji 3 lub nowszej.");
+        "Ta aplikacja jest dostarczona bez żadnej gwarancji. Aby poznać "
+        "więcej, "
+        "zapoznaj się z warunkami GNU General Public License w wersji 3 lub "
+        "nowszej.");
 
     // app.h
-    AddTranslation("Unsupported software version", "Nieobsługiwana wersja oprogramowania");
+    AddTranslation("Unsupported software version",
+                   "Nieobsługiwana wersja oprogramowania");
     AddTranslation("The application isn't compatible with the software version "
                    "of this reader.",
                    "Aplikacja nie jest zgodna z oprogramowaniem "

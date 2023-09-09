@@ -35,13 +35,12 @@ class MenuButton : public Button {
 public:
   MenuButton(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
              std::shared_ptr<Fonts> fonts)
-      : Button {
-	MenuButton::icon_size + 2 * MenuButton::padding,
-	MenuButton::icon_size + 2 * MenuButton::padding,
-	BitmapStretchProportionally(icons->get("menu"),
-                                    MenuButton::icon_size,
-                                    MenuButton::icon_size)
-      }, unit_system_items{imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD,
+      : Button{MenuButton::icon_size + 2 * MenuButton::padding,
+               MenuButton::icon_size + 2 * MenuButton::padding,
+               BitmapStretchProportionally(icons->get("menu"),
+                                           MenuButton::icon_size,
+                                           MenuButton::icon_size)},
+        unit_system_items{imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD,
                                 const_cast<char *>(T("Standard")), nullptr},
                           imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_METRIC,
                                 const_cast<char *>(T("Metric")), nullptr},
@@ -58,8 +57,7 @@ public:
               imenu{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT,
                     const_cast<char *>(T("Quit")), nullptr},
               imenu{0, 0, nullptr, nullptr}},
-        model{model},
-        font{fonts->get_normal_font()} {
+        model{model}, font{fonts->get_normal_font()} {
     this->set_pos_x(ScreenWidth() - this->get_width());
     this->set_pos_y(0);
   }
@@ -77,9 +75,7 @@ public:
   }
 
 protected:
-  void on_clicked() override {
-    this->open_menu();
-  }
+  void on_clicked() override { this->open_menu(); }
 
 private:
   static const int padding{50};
@@ -137,6 +133,5 @@ private:
     OpenMenu(const_cast<imenu *>(this->items.data()), 0, pos_x, pos_y,
              *this->menu_handler);
   }
-
 };
 } // namespace taranis
