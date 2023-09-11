@@ -31,7 +31,7 @@ public:
         static_cast<size_t>(std::ceil(width / this->bar_width));
 
     this->adjusted_bar_width =
-      static_cast<int>(std::ceil(width / this->visible_bars));
+        static_cast<int>(std::ceil(width / this->visible_bars));
 
     this->bars_height = this->bounding_box.h - 2 * this->vertical_padding;
 
@@ -46,12 +46,13 @@ public:
     this->icon_y = this->time_y + tiny_font->height;
     this->temperature_y = this->frame_start_y + this->bars_height -
                           this->vertical_padding / 2 - normal_font->height -
-			  2 * tiny_font->height;
+                          2 * tiny_font->height;
     this->wind_speed_y = this->temperature_y + normal_font->height;
     this->humidity_y = this->wind_speed_y + tiny_font->height;
 
     this->curve_y_offset = this->temperature_y - this->vertical_padding;
-    this->curve_height = this->temperature_y - this->icon_y - this->icon_size - 2 * this->vertical_padding;
+    this->curve_height = this->temperature_y - this->icon_y - this->icon_size -
+                         2 * this->vertical_padding;
   }
 
   void show() override {
@@ -110,9 +111,11 @@ private:
   }
 
   void draw_frame_and_values() {
-    DrawLine(this->frame_start_x, this->frame_start_y, this->bounding_box.w, this->frame_start_y, LGRAY);
-    DrawLine(this->frame_start_x, this->frame_start_y + this->bars_height, this->bounding_box.w,
-             this->frame_start_y + this->bars_height, LGRAY);
+    DrawLine(this->frame_start_x, this->frame_start_y, this->bounding_box.w,
+             this->frame_start_y, LGRAY);
+    DrawLine(this->frame_start_x, this->frame_start_y + this->bars_height,
+             this->bounding_box.w, this->frame_start_y + this->bars_height,
+             LGRAY);
 
     auto normal_font = this->fonts->get_normal_font();
     auto small_bold_font = this->fonts->get_small_bold_font();
@@ -138,8 +141,7 @@ private:
         std::strftime(const_cast<char *>(time_text.c_str()), 6, time_format,
                       std::localtime(&forecast.date));
         DrawString(bar_center_x - StringWidth(time_text.c_str()) / 2.0,
-                   this->time_y,
-                   time_text.c_str());
+                   this->time_y, time_text.c_str());
 
         DrawBitmap(bar_center_x - this->icon_size / 2.0, this->icon_y,
                    this->icons->get(forecast.weather_icon_name));
@@ -172,8 +174,8 @@ private:
   }
 
   void draw_temperature_curve() {
-    const auto ya =
-      normalize_temperatures(this->model->hourly_forecast, this->curve_height);
+    const auto ya = normalize_temperatures(this->model->hourly_forecast,
+                                           this->curve_height);
     if (ya.size() < gsl_interp_type_min_size(gsl_interp_cspline)) {
       return;
     }
@@ -186,12 +188,12 @@ private:
     }
 
     std::unique_ptr<gsl_interp_accel, void (*)(gsl_interp_accel *)> accelerator{
-      gsl_interp_accel_alloc(), &gsl_interp_accel_free};
+        gsl_interp_accel_alloc(), &gsl_interp_accel_free};
     std::unique_ptr<gsl_interp, void (*)(gsl_interp *)> state{
-      gsl_interp_alloc(gsl_interp_cspline, xa.size()), &gsl_interp_free};
+        gsl_interp_alloc(gsl_interp_cspline, xa.size()), &gsl_interp_free};
 
     const auto error =
-      gsl_interp_init(state.get(), xa.data(), ya.data(), xa.size());
+        gsl_interp_init(state.get(), xa.data(), ya.data(), xa.size());
     if (error) {
       // TODO log
       return;
@@ -200,7 +202,7 @@ private:
     const auto width = this->bounding_box.w;
     for (int x_screen = this->bounding_box.x; x_screen < width; ++x_screen) {
       const double x =
-        this->forecast_offset * step + (x_screen - this->bounding_box.x);
+          this->forecast_offset * step + (x_screen - this->bounding_box.x);
       if (x < xa.front() || x > xa.back()) {
         continue;
       }
