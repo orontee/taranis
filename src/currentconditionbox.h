@@ -8,6 +8,7 @@
 #include "fonts.h"
 #include "model.h"
 #include "units.h"
+#include "util.h"
 #include "widget.h"
 
 #define T(x) GetLangText(x)
@@ -108,19 +109,11 @@ private:
     const auto condition = *(this->model->current_condition);
     const Units units{this->model};
 
-    const char *const time_format = "%H:%M";
-    std::string sunrise_text{"?????"};
-    std::strftime(const_cast<char *>(sunrise_text.c_str()), 6, time_format,
-                  std::localtime(&condition.sunrise));
-    std::string sunset_text{"?????"};
-    std::strftime(const_cast<char *>(sunset_text.c_str()), 6, time_format,
-                  std::localtime(&condition.sunset));
-
     std::stringstream content;
-    content << T("Sunrise") << std::right << std::setw(10) << sunrise_text
-            << std::endl
-            << T("Sunset") << std::right << std::setw(10) << sunset_text
-            << std::endl
+    content << T("Sunrise") << std::right << std::setw(10)
+            << format_time(condition.sunrise) << std::endl
+            << T("Sunset") << std::right << std::setw(10)
+            << format_time(condition.sunset) << std::endl
             << T("Pressure") << std::right << std::setw(10)
             << units.format_pressure(condition.pressure) << std::endl
             << T("Humidity") << std::right << std::setw(10)

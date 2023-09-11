@@ -13,6 +13,8 @@ extern const ibitmap icon_11n_2x;
 extern const ibitmap icon_13n_2x;
 extern const ibitmap icon_50n_2x;
 extern const ibitmap icon_menu;
+extern const ibitmap icon_warning;
+;
 
 namespace taranis {
 class Icons {
@@ -22,7 +24,8 @@ public:
         icon_03n{&::icon_03n_2x}, icon_04n{&::icon_04n_2x},
         icon_09n{&::icon_09n_2x}, icon_10n{&::icon_10n_2x},
         icon_11n{&::icon_11n_2x}, icon_13n{&::icon_13n_2x},
-        icon_50n{&::icon_50n_2x}, icon_menu{&::icon_menu} {}
+        icon_50n{&::icon_50n_2x}, icon_menu{&::icon_menu},
+        icon_warning{&::icon_warning} {}
 
   ibitmap *get(const std::string &name) {
     if (name == "01d" or name == "01n") {
@@ -55,6 +58,9 @@ public:
     if (name == "menu") {
       return const_cast<ibitmap *>(this->icon_menu);
     }
+    if (name == "warning") {
+      return const_cast<ibitmap *>(this->icon_warning);
+    }
     return nullptr;
   }
 
@@ -69,5 +75,6 @@ private:
   const ibitmap *const icon_13n;
   const ibitmap *const icon_50n;
   const ibitmap *const icon_menu;
+  const ibitmap *const icon_warning;
 };
 } // namespace taranis

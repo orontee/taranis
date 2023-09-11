@@ -112,6 +112,14 @@ struct Condition {
   long double snow;
 };
 
+struct Alert {
+  std::string sender;
+  std::string event;
+  std::time_t start_date;
+  std::time_t end_date;
+  std::string description;
+};
+
 struct Model {
   std::string source;
   UnitSystem unit_system{standard};
@@ -120,5 +128,7 @@ struct Model {
 
   std::optional<Condition> current_condition;
   std::vector<Condition> hourly_forecast;
+
+  std::vector<Alert> alerts;
 };
 } // namespace taranis

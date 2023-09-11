@@ -8,5 +8,6 @@ icons = files(
   'icon_11n_2x.bmp',
   'icon_13n_2x.bmp',
   'icon_50n_2x.bmp',
-  'icon_menu.bmp'
+  'icon_menu.bmp',
+  'icon_warning.bmp'
 )

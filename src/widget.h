@@ -21,11 +21,15 @@ struct Widget {
 
   virtual ~Widget() {}
 
-  irect get_bounding_box() const { return this->bounding_box; }
+  const irect &get_bounding_box() const { return this->bounding_box; }
 
   int get_pos_x() { return this->bounding_box.x; }
 
+  void set_pos_x(int pos_x) { this->bounding_box.x = pos_x; }
+
   int get_pos_y() { return this->bounding_box.y; }
+
+  void set_pos_y(int pos_y) { this->bounding_box.y = pos_y; }
 
   int get_width() { return this->bounding_box.w; }
 
@@ -57,10 +61,6 @@ protected:
     this->bounding_box.w = width;
     this->bounding_box.h = height;
   }
-
-  void set_pos_x(int pos_x) { this->bounding_box.x = pos_x; }
-
-  void set_pos_y(int pos_y) { this->bounding_box.y = pos_y; }
 
   void set_width(int width) { this->bounding_box.w = width; }
 

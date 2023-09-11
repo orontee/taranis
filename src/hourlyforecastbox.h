@@ -136,10 +136,7 @@ private:
 
         SetFont(tiny_font.get(), BLACK);
 
-        std::string time_text{"?????"};
-        const char *const time_format = "%H:%M";
-        std::strftime(const_cast<char *>(time_text.c_str()), 6, time_format,
-                      std::localtime(&forecast.date));
+        const auto time_text = format_time(forecast.date);
         DrawString(bar_center_x - StringWidth(time_text.c_str()) / 2.0,
                    this->time_y, time_text.c_str());
 

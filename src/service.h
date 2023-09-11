@@ -41,19 +41,8 @@ public:
                                           const std::string &country,
                                           const std::string &language,
                                           const std::string &units) {
-    const auto lonlat = this->identify_lonlat(town, country);
-
-    std::stringstream url;
-    url << openweather::url << openweather::onecall_path << "?"
-        << "lon=" << lonlat.first << "&"
-        << "lat=" << lonlat.second << "&"
-        << "units=" << units << "&"
-        << "exclude=minutely"
-        << "&"
-        << "lang=" << language << "&"
-        << "appid=" << this->api_key;
-
-    const auto returned_value = this->send_get_request(url.str());
+    const auto returned_value =
+        this->request_onecall_api(town, country, language, units);
 
     if (not returned_value.isMember("current") or
         not returned_value["current"].isObject()) {
@@ -82,6 +71,8 @@ public:
     return conditions;
   }
 
+  const std::vector<Alert> &get_alerts() const { return this->alerts; }
+
 private:
   static const int max_forecasts = 24;
 
@@ -91,6 +82,8 @@ private:
   std::string town;
   std::string country;
   std::optional<std::pair<long double, long double>> lonlat;
+
+  std::vector<Alert> alerts;
 
   std::pair<long double, long double>
   identify_lonlat(const std::string &town, const std::string &country) {
@@ -127,6 +120,29 @@ private:
       throw ServiceError::get_unexpected_error();
     }
     this->lonlat = std::make_pair(lon, lat);
+  }
+
+  Json::Value request_onecall_api(const std::string &town,
+                                  const std::string &country,
+                                  const std::string &language,
+                                  const std::string &units) {
+    const auto lonlat = this->identify_lonlat(town, country);
+
+    std::stringstream url;
+    url << openweather::url << openweather::onecall_path << "?"
+        << "lon=" << lonlat.first << "&"
+        << "lat=" << lonlat.second << "&"
+        << "units=" << units << "&"
+        << "exclude=minutely"
+        << "&"
+        << "lang=" << language << "&"
+        << "appid=" << this->api_key;
+
+    const auto returned_value = this->send_get_request(url.str());
+
+    this->extract_alerts(returned_value);
+
+    return returned_value;
   }
 
   Json::Value send_get_request(const std::string &url) {
@@ -194,6 +210,22 @@ private:
       condition.snow = NAN;
     }
     return condition;
+  }
+
+  void extract_alerts(const Json::Value &value) {
+    this->alerts.clear();
+
+    if (value.isMember("alerts") and value["alerts"].isArray()) {
+      for (auto alert_value : value["alerts"]) {
+        const Alert alert{
+            alert_value.get("sender_name", "").asString(),
+            alert_value.get("event", "").asString(),
+            static_cast<time_t>(alert_value.get("start", 0).asInt()),
+            static_cast<time_t>(alert_value.get("end", 0).asInt()),
+            alert_value.get("description", "").asString()};
+        this->alerts.push_back(alert);
+      }
+    }
   }
 };
 } // namespace taranis

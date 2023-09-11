@@ -148,6 +148,11 @@ private:
         this->ui->show();
         return 1;
       }
+    } else if (param_one == CustomEvent::display_alert) {
+      if (this->ui) {
+        this->ui->display_alert();
+        return 1;
+      }
     } else if (param_one == CustomEvent::new_location_requested) {
       auto *const raw_location =
           reinterpret_cast<std::array<char, 256> *>(GetCurrentEventExData());
@@ -197,6 +202,9 @@ private:
         this->model->hourly_forecast.push_back(*it);
         ++it;
       }
+
+      const auto alerts = this->service->get_alerts();
+      this->model->alerts = alerts;
 
       const auto event_handler = GetEventHandler();
       SendEvent(event_handler, EVT_CUSTOM, CustomEvent::model_updated, 0);

@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "alerts.h"
 #include "currentconditionbox.h"
 #include "fonts.h"
 #include "hourlyforecastbox.h"
@@ -49,8 +50,17 @@ public:
         std::make_shared<MenuButton>(this->model, this->icons, this->fonts);
     menu_button->set_menu_handler(handle_menu_item_selected);
 
+    const auto &menu_button_bounding_box = menu_button->get_bounding_box();
+
+    this->alerts_button =
+        std::make_shared<AlertsButton>(model, this->icons, this->fonts);
+    this->alerts_button->set_pos_x(menu_button_bounding_box.x);
+    this->alerts_button->set_pos_y(menu_button_bounding_box.y +
+                                   menu_button_bounding_box.h);
+
     this->children.push_back(location_box);
     this->children.push_back(menu_button);
+    this->children.push_back(alerts_button);
     this->children.push_back(current_condition_box);
     this->children.push_back(hourly_forecast_box);
     this->children.push_back(status_bar);
@@ -92,10 +102,14 @@ public:
     return 0;
   }
 
+  void display_alert() { this->alerts_button->open_dialog_maybe(); }
+
 private:
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
+
+  std::shared_ptr<AlertsButton> alerts_button;
 
   std::vector<std::shared_ptr<Widget>> children;
 

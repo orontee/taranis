@@ -7,6 +7,7 @@
 
 #include "fonts.h"
 #include "model.h"
+#include "util.h"
 #include "widget.h"
 
 #define T(x) GetLangText(x)
@@ -32,11 +33,8 @@ public:
     if (this->model->refresh_date == 0) {
       first_row_text << T("Ongoing update…");
     } else {
-      std::string time_text{"?????"};
-      const char *const time_format = "%H:%M";
-      std::strftime(const_cast<char *>(time_text.c_str()), 6, time_format,
-                    std::localtime(&this->model->refresh_date));
-      first_row_text << T("Updated at") << " " << time_text << ".";
+      first_row_text << T("Updated at") << " "
+                     << format_time(this->model->refresh_date) << ".";
     }
 
     SetFont(this->font.get(), BLACK);

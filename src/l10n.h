@@ -17,6 +17,13 @@ inline void initialize_translations() {
         "Ce programme est fourni sans aucune garantie. Pour plus de détails, "
         "lisez la License publique générale GNU, version 3 ou ultérieure.");
 
+    // alerts.h
+    AddTranslation("Alert", "Alerte");
+    AddTranslation("Start", "Début");
+    AddTranslation("Duration", "Durée");
+    AddTranslation("Source", "Source");
+    AddTranslation("Next alert", "Alerte suivante");
+
     // app.h
     AddTranslation("Unsupported software version", "Logiciel incompatible");
     AddTranslation("The application isn't compatible with the software version "
@@ -95,6 +102,13 @@ inline void initialize_translations() {
         "więcej, "
         "zapoznaj się z warunkami GNU General Public License w wersji 3 lub "
         "nowszej.");
+
+    // alerts.h
+    AddTranslation("Alert", "Alert");
+    AddTranslation("Start", "Zacznij o");
+    AddTranslation("Duration", "Przez");
+    AddTranslation("Source", "Źródło");
+    AddTranslation("Next alert", "Następne powiadomienie");
 
     // app.h
     AddTranslation("Unsupported software version",
