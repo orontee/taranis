@@ -35,11 +35,7 @@ class MenuButton : public Button {
 public:
   MenuButton(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
              std::shared_ptr<Fonts> fonts)
-      : Button{MenuButton::icon_size + 2 * MenuButton::padding,
-               MenuButton::icon_size + 2 * MenuButton::padding,
-               BitmapStretchProportionally(icons->get("menu"),
-                                           MenuButton::icon_size,
-                                           MenuButton::icon_size)},
+      : Button{MenuButton::icon_size, icons->get("menu")},
         unit_system_items{imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD,
                                 const_cast<char *>(T("Standard")), nullptr},
                           imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_METRIC,
@@ -57,10 +53,7 @@ public:
               imenu{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT,
                     const_cast<char *>(T("Quit")), nullptr},
               imenu{0, 0, nullptr, nullptr}},
-        model{model}, font{fonts->get_normal_font()} {
-    this->set_pos_x(ScreenWidth() - this->get_width());
-    this->set_pos_y(0);
-  }
+        model{model}, font{fonts->get_normal_font()} {}
 
   void set_menu_handler(iv_menuhandler handler) {
     this->menu_handler = handler;
@@ -78,7 +71,7 @@ protected:
   void on_clicked() override { this->open_menu(); }
 
 private:
-  static const int padding{50};
+  static const int padding{5};
   static const int icon_size{70};
 
   std::array<imenu, 4> unit_system_items;
@@ -99,7 +92,7 @@ private:
         text_widths.push_back(StringWidth(item.text));
       }
     }
-    const int pos_x = this->bounding_box.x + this->bounding_box.w -
+    const int pos_x = this->bounding_box.x -
                       *std::max_element(text_widths.begin(), text_widths.end());
     const int pos_y =
         this->bounding_box.y + this->bounding_box.h - MenuButton::padding;

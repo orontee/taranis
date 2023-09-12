@@ -48,15 +48,21 @@ public:
 
     auto menu_button =
         std::make_shared<MenuButton>(this->model, this->icons, this->fonts);
+    menu_button->set_pos_x(ScreenWidth() - menu_button->get_width() -
+                           Ui::button_margin);
+    menu_button->set_pos_y(Ui::button_margin);
     menu_button->set_menu_handler(handle_menu_item_selected);
 
-    const auto &menu_button_bounding_box = menu_button->get_bounding_box();
+    const auto &current_condition_bounding_box =
+        current_condition_box->get_bounding_box();
 
-    this->alerts_button =
-        std::make_shared<AlertsButton>(model, this->icons, this->fonts);
-    this->alerts_button->set_pos_x(menu_button_bounding_box.x);
-    this->alerts_button->set_pos_y(menu_button_bounding_box.y +
-                                   menu_button_bounding_box.h);
+    this->alerts_button = std::make_shared<AlertsButton>(
+        Ui::alert_icon_size, model, this->icons, this->fonts);
+    this->alerts_button->set_pos_x(ScreenWidth() - alerts_button->get_width() -
+                                   Ui::button_margin);
+    this->alerts_button->set_pos_y(current_condition_bounding_box.y +
+                                   current_condition_bounding_box.h / 2 -
+                                   this->alerts_button->get_height() / 2);
 
     this->children.push_back(location_box);
     this->children.push_back(menu_button);
@@ -112,6 +118,9 @@ private:
   std::shared_ptr<AlertsButton> alerts_button;
 
   std::vector<std::shared_ptr<Widget>> children;
+
+  const int alert_icon_size = 150;
+  const int button_margin = 25;
 
   static bool is_on_widget(int pointer_pos_x, int pointer_pos_y,
                            std::shared_ptr<Widget> widget) {

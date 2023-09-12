@@ -12,10 +12,11 @@ namespace taranis {
 
 class Button : public Widget, Activatable {
 public:
-  Button(const int width, const int height, const ibitmap *const icon)
-      : Widget{}, Activatable{}, icon{icon} {
-    this->set_width(width);
-    this->set_height(height);
+  Button(const int icon_size, const ibitmap *const icon)
+      : Widget{}, Activatable{}, icon{BitmapStretchProportionally(
+                                     icon, icon_size, icon_size)} {
+    this->set_width(icon_size * std::sqrt(2));
+    this->set_height(icon_size * std::sqrt(2));
   }
 
   void show() override {
@@ -77,9 +78,8 @@ private:
 
   void draw_inverted_icon() const {
     const auto [pos_x, pos_y] = this->get_icon_center_position();
-    const int radius =
-        std::max((this->bounding_box.w + this->icon->width) / 4,
-                 (this->bounding_box.h + this->icon->height) / 4);
+    const int radius = static_cast<int>(
+        std::sqrt(2) * std::max(this->icon->width, this->icon->height) / 2);
     auto canvas = GetCanvas();
     invertCircle(pos_x, pos_y, radius, canvas);
   }
