@@ -14,7 +14,8 @@ e-book reader.
 * Current weather
 
 * 24 hourly forecasts with temperature, wind speed, humidity,
-  temperature curve and precipitations histogram
+  temperature curve, precipitations histogram and government weather
+  alerts
   
 * Configurable system of units
 
