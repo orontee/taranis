@@ -14,6 +14,7 @@
 #include "config.h"
 #include "errors.h"
 #include "events.h"
+#include "history.h"
 #include "l10n.h"
 #include "model.h"
 #include "service.h"
@@ -35,8 +36,8 @@ std::string get_about_content();
 class App {
 public:
   App()
-      : model{std::make_shared<Model>()}, service{std::make_unique<Service>()} {
-  }
+      : model{std::make_shared<Model>()}, service{std::make_unique<Service>()},
+        history{std::make_unique<LocationHistory>(this->model)} {}
 
   int process_event(int event_type, int param_one, int param_two) {
     if (event_type == EVT_INIT) {
@@ -83,6 +84,7 @@ private:
 
   std::shared_ptr<Model> model;
   std::unique_ptr<Service> service;
+  std::unique_ptr<LocationHistory> history;
   std::unique_ptr<Ui> ui;
 
   void setup() {
@@ -111,6 +113,7 @@ private:
 
   void exit() {
     this->ui.reset();
+    this->history.reset();
     this->service.reset();
     this->model.reset();
 
@@ -144,6 +147,7 @@ private:
     } else if (param_one == CustomEvent::change_unit_system) {
       this->change_unit_system(static_cast<UnitSystem>(param_two));
     } else if (param_one == CustomEvent::model_updated) {
+      this->history->update_history_maybe();
       if (this->ui) {
         this->ui->show();
         return 1;
@@ -158,6 +162,13 @@ private:
           reinterpret_cast<std::array<char, 256> *>(GetCurrentEventExData());
       const std::string location{raw_location->data()};
       this->update_config_location(location);
+      return 1;
+    } else if (param_one == CustomEvent::new_location_from_history) {
+      const size_t history_index = param_two;
+      auto location = this->history->get_location(history_index);
+      if (location) {
+        this->update_config_location(*location);
+      }
       return 1;
     } else if (param_one == CustomEvent::refresh_requested) {
       this->refresh_model_weather_conditions();
@@ -231,8 +242,7 @@ private:
            nullptr, &handle_about_dialog_button_clicked);
   }
 
-  static std::pair<std::string, std::string>
-  extract_town_and_country(const std::string &location) {
+  static Location parse_location(const std::string &location) {
     std::stringstream to_parse{location};
     std::vector<std::string> tokens;
     std::string token;
@@ -259,20 +269,24 @@ private:
     throw InvalidLocation{};
   }
 
-  void update_config_location(const std::string &location) {
+  void update_config_location(const std::string &text) const {
     try {
-      auto [town, country] = App::extract_town_and_country(location);
+      auto location = App::parse_location(text);
 
-      Config config;
-      config.write_string("location_town"s, town);
-      config.write_string("location_country"s, country);
-
-      Config::config_changed();
+      this->update_config_location(location);
     } catch (const InvalidLocation &error) {
       const auto event_handler = GetEventHandler();
       SendEvent(event_handler, EVT_CUSTOM, CustomEvent::warning_emitted,
                 CustomEventParam::invalid_location);
     }
+  }
+
+  void update_config_location(const Location &location) const {
+    Config config;
+    config.write_string("location_town"s, location.town);
+    config.write_string("location_country"s, location.country);
+
+    Config::config_changed();
   }
 
   void change_unit_system(UnitSystem unit_system) {

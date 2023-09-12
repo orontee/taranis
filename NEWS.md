@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- History of locations in menu
+  [#18](https://github.com/orontee/argos/issues/18)
+
 - Display alerts [#24](https://github.com/orontee/argos/issues/24)
 
 - Polish translations [#22](https://github.com/orontee/argos/issues/22)

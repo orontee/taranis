@@ -19,6 +19,8 @@ e-book reader.
   
 * Configurable system of units
 
+* History of locations
+
 * Translations (English, French, Polish)
 
 Weather data is provided by [OpenWeather](https://openweathermap.org).

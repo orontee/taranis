@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <ctime>
 #include <experimental/optional>
+#include <list>
 #include <string>
 #include <vector>
 
@@ -17,6 +18,10 @@ enum UnitSystem { standard = 0, metric = 1, imperial = 2 };
 struct Location {
   std::string town;
   std::string country;
+
+  bool operator==(const Location &other) const {
+    return this->country == other.country and this->town == other.town;
+  }
 };
 
 enum Weather {
@@ -130,5 +135,7 @@ struct Model {
   std::vector<Condition> hourly_forecast;
 
   std::vector<Alert> alerts;
+
+  std::list<Location> location_history;
 };
 } // namespace taranis

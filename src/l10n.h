@@ -72,9 +72,11 @@ inline void initialize_translations() {
     AddTranslation("Metric", "Système métrique");
     AddTranslation("Imperial", "Unités impériales");
     AddTranslation("Refresh", "Mettre à jour");
+    AddTranslation("Locations", "Lieux");
     AddTranslation("Units", "Unités");
     AddTranslation("About…", "À propos…");
     AddTranslation("Quit", "Quitter");
+    AddTranslation("Empty", "Vide");
 
     // statusbar.h
     AddTranslation("Ongoing update…", "Mise à jour en cours…");
@@ -159,9 +161,11 @@ inline void initialize_translations() {
     AddTranslation("Metric", "Metryczne");
     AddTranslation("Imperial", "Imperialne");
     AddTranslation("Refresh", "Odśwież");
+    AddTranslation("Locations", "Lokalizacje");
     AddTranslation("Units", "Jednostki");
     AddTranslation("About…", "O aplikacji");
     AddTranslation("Quit", "Wyjście");
+    AddTranslation("Empty", "Pusty");
 
     // statusbar.h
     AddTranslation("Ongoing update…", "Trwa aktualizacja…");

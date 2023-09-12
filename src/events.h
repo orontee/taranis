@@ -6,6 +6,7 @@ enum CustomEvent {
   display_alert,
   model_updated,
   new_location_requested,
+  new_location_from_history,
   refresh_requested,
   warning_emitted,
 };

@@ -85,4 +85,12 @@ inline std::string format_duration(const std::time_t &start,
                 << "h";
   return duration_text.str();
 }
+
+inline std::string format_location(const Location &location) {
+  std::string text = location.town;
+  if (not location.country.empty()) {
+    text += ", " + location.country;
+  }
+  return text;
+}
 } // namespace taranis

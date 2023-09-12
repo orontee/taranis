@@ -10,6 +10,7 @@
 
 #include "fonts.h"
 #include "model.h"
+#include "util.h"
 #include "widget.h"
 
 #define T(x) GetLangText(x)
@@ -33,18 +34,15 @@ public:
   void show() override {
     this->fill_bounding_box();
 
-    std::string location = this->model->location.town;
-    if (not this->model->location.country.empty()) {
-      location += ", "s + this->model->location.country;
-    }
-    location = elide_maybe(location);
+    std::string location_text = format_location(this->model->location);
+    location_text = elide_maybe(location_text);
 
     const auto label_pos_x = this->bounding_box.x + this->left_padding;
     const auto label_pos_y = this->bounding_box.y + this->top_padding;
 
     SetFont(this->font.get(), BLACK);
 
-    DrawString(label_pos_x, label_pos_y, location.c_str());
+    DrawString(label_pos_x, label_pos_y, location_text.c_str());
   }
 
   int handle_pointer_event(int event_type, int pointer_pos_x,
