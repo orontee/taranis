@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Display credits in about dialog
+  [#34](https://github.com/orontee/argos/issues/34)
+
 - History of locations in menu
   [#18](https://github.com/orontee/argos/issues/18)
 

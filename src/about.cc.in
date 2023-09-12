@@ -10,11 +10,15 @@
 namespace taranis {
   std::string get_about_content() {
     std::stringstream content;
-    content << "Taranis — @package_version@" << std::endl << std::endl
-            << "© Matthias Meulien 2023" << std::endl << std::endl
+    content << "Taranis — @package_version@\n\n"
+            << "© Matthias Meulien 2023\n\n"
             << T("This program is provided without any warranty. "
                  "For more details, read GNU General Public License,"
-                 " version 3 or later");
+                 " version 3 or later") << "\n\n"
+            << T("Credits") << "\n"
+            << " ⸱ Cyfranek\n"
+            << " ⸱ neilswann80\n"
+            << " ⸱ Matthias Meulien" << std::endl;
     return content.str();
   }
 }

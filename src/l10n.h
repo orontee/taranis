@@ -16,6 +16,7 @@ inline void initialize_translations() {
         "read GNU General Public License, version 3 or later",
         "Ce programme est fourni sans aucune garantie. Pour plus de détails, "
         "lisez la License publique générale GNU, version 3 ou ultérieure.");
+    AddTranslation("Credits", "Crédits");
 
     // alerts.h
     AddTranslation("Alert", "Alerte");
@@ -104,6 +105,7 @@ inline void initialize_translations() {
         "więcej, "
         "zapoznaj się z warunkami GNU General Public License w wersji 3 lub "
         "nowszej.");
+    AddTranslation("Credits", "Kredyty");
 
     // alerts.h
     AddTranslation("Alert", "Alert");
