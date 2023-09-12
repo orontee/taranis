@@ -2,10 +2,7 @@
 
 #include <inkview.h>
 #include <memory>
-#include <sstream>
 #include <string>
-
-using namespace std::string_literals;
 
 namespace taranis {
 
@@ -27,16 +24,12 @@ struct Config {
   void write_secret(const std::string &name, const std::string &value);
 
   static std::string get_config_path() {
-    std::stringstream config_path;
-
     iprofile profile = CreateProfileStruct();
     const auto failed = GetCurrentProfileEx(&profile);
     if (not failed) {
-      config_path << profile.path << "/config/taranis.cfg";
-    } else {
-      config_path << CONFIGPATH << "/taranis.cfg";
+      return std::string{profile.path} + "/config/taranis.cfg";
     }
-    return config_path.str();
+    return std::string{CONFIGPATH} + "/taranis.cfg";
   }
 
   static void config_changed();
