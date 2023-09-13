@@ -22,6 +22,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Fix invisible alerts button handing touch events 
+ [#35](https://github.com/orontee/argos/issues/35)
+
 ### Removed
 
 ## [1.0.1] - 2023-09-07

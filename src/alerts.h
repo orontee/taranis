@@ -24,24 +24,12 @@ public:
       : Button{icon_size, icons->get("warning")}, model{model},
         font{fonts->get_normal_font()} {}
 
-  void show() override {
-    if (this->model->alerts.empty()) {
-      this->fill_bounding_box();
-    } else {
-      Button::show();
-    }
-  }
+  bool is_visible() const override { return not this->model->alerts.empty(); }
 
   void open_dialog_maybe();
 
 protected:
-  void on_clicked() override {
-    if (this->model->alerts.empty()) {
-      return;
-    }
-
-    this->open_dialog_maybe();
-  }
+  void on_clicked() override { this->open_dialog_maybe(); }
 
 private:
   std::shared_ptr<Model> model;
