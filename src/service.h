@@ -37,44 +37,67 @@ public:
 
   void set_api_key(const std::string &api_key) { this->api_key = api_key; }
 
-  std::vector<Condition> fetch_conditions(const std::string &town,
-                                          const std::string &country,
-                                          const std::string &language,
-                                          const std::string &units) {
-    const auto returned_value =
+  void fetch_data(const std::string &town, const std::string &country,
+                  const std::string &language, const std::string &units) {
+    this->returned_value =
         this->request_onecall_api(town, country, language, units);
 
-    if (not returned_value.isMember("current") or
-        not returned_value["current"].isObject()) {
+    if (not this->returned_value.isMember("current") or
+        not this->returned_value["current"].isObject()) {
+      throw ServiceError::get_unexpected_error();
+    }
+    if (not this->returned_value.isMember("hourly") or
+        not this->returned_value["hourly"].isArray()) {
       throw ServiceError::get_unexpected_error();
     }
 
+    if (not this->returned_value.isMember("daily") or
+        not this->returned_value["daily"].isArray()) {
+      throw ServiceError::get_unexpected_error();
+    }
+  }
+
+  Condition get_current_condition() const {
+    return Service::extract_condition(this->returned_value["current"]);
+  }
+
+  std::vector<Condition> get_hourly_forecast() const {
     std::vector<Condition> conditions;
-    conditions.reserve(1 + Service::max_forecasts);
-    // current condition and hourly forecasts
-
-    conditions.push_back(Service::extract_condition(returned_value["current"]));
-
-    if (not returned_value.isMember("hourly") or
-        not returned_value["hourly"].isArray()) {
-      throw ServiceError::get_unexpected_error();
-    }
-
-    for (auto value : returned_value["hourly"]) {
+    conditions.reserve(Service::max_hourly_forecasts);
+    for (auto &value : this->returned_value["hourly"]) {
       conditions.push_back(Service::extract_condition(value));
 
-      if (conditions.size() == 1 + Service::max_forecasts) {
+      if (conditions.size() == Service::max_hourly_forecasts) {
         break;
       }
     }
-
     return conditions;
   }
 
-  const std::vector<Alert> &get_alerts() const { return this->alerts; }
+  std::vector<DailyCondition> get_daily_forecast() const {
+    std::vector<DailyCondition> conditions;
+    conditions.reserve(Service::max_daily_forecasts);
+    for (auto &value : this->returned_value["daily"]) {
+      conditions.push_back(Service::extract_daily_condition(value));
+
+      if (conditions.size() == Service::max_daily_forecasts) {
+        break;
+      }
+    }
+    return conditions;
+  }
+
+  std::vector<Alert> get_alerts() const {
+    if (not this->returned_value.isMember("alerts") or
+        not this->returned_value["alerts"].isArray()) {
+      return {};
+    }
+    return Service::extract_alerts(this->returned_value["alerts"]);
+  }
 
 private:
-  static const int max_forecasts = 24;
+  static const int max_hourly_forecasts = 24;
+  static const int max_daily_forecasts = 8;
 
   std::string api_key;
   HttpClient client;
@@ -83,7 +106,7 @@ private:
   std::string country;
   std::optional<std::pair<long double, long double>> lonlat;
 
-  std::vector<Alert> alerts;
+  Json::Value returned_value;
 
   std::pair<long double, long double>
   identify_lonlat(const std::string &town, const std::string &country) {
@@ -139,9 +162,6 @@ private:
         << "appid=" << this->api_key;
 
     const auto returned_value = this->send_get_request(url.str());
-
-    this->extract_alerts(returned_value);
-
     return returned_value;
   }
 
@@ -212,20 +232,80 @@ private:
     return condition;
   }
 
-  void extract_alerts(const Json::Value &value) {
-    this->alerts.clear();
+  static DailyCondition extract_daily_condition(const Json::Value &value) {
+    const auto date = static_cast<time_t>(value.get("dt", 0).asInt());
+    const auto sunrise = static_cast<time_t>(value.get("sunrise", 0).asInt());
+    const auto sunset = static_cast<time_t>(value.get("sunset", 0).asInt());
+    const auto moonrise = static_cast<time_t>(value.get("moonrise", 0).asInt());
+    const auto moonset = static_cast<time_t>(value.get("moonset", 0).asInt());
+    const auto moon_phase = value.get("moon_phase", NAN).asDouble();
+    const auto pressure = value.get("pressure", NAN).asInt();
+    const auto humidity = value.get("humidity", NAN).asInt();
+    const auto dew_point = value.get("dew_point", NAN).asDouble();
+    const auto wind_speed = value.get("wind_speed", NAN).asDouble();
+    const auto wind_degree = value.get("wind_deg", NAN).asInt();
+    const auto wind_gust = value.get("wind_gust", NAN).asDouble();
+    const auto clouds = value.get("clouds", NAN).asInt();
+    const auto probability_of_precipitation = value.get("pop", NAN).asDouble();
+    const auto uv_index = value.get("uvi", NAN).asDouble();
+    const auto rain = value.get("rain", NAN).asDouble();
+    const auto snow = value.get("snow", NAN).asDouble();
 
-    if (value.isMember("alerts") and value["alerts"].isArray()) {
-      for (auto alert_value : value["alerts"]) {
-        const Alert alert{
-            alert_value.get("sender_name", "").asString(),
-            alert_value.get("event", "").asString(),
-            static_cast<time_t>(alert_value.get("start", 0).asInt()),
-            static_cast<time_t>(alert_value.get("end", 0).asInt()),
-            alert_value.get("description", "").asString()};
-        this->alerts.push_back(alert);
-      }
+    DailyCondition condition{date,        sunrise,
+                             sunset,      moonrise,
+                             moonset,     moon_phase,
+                             pressure,    humidity,
+                             dew_point,   wind_speed,
+                             wind_degree, wind_gust,
+                             clouds,      probability_of_precipitation,
+                             uv_index,    rain,
+                             snow};
+
+    if (value.isMember("weather") and value["weather"].isArray() and
+        value["weather"].isValidIndex(0)) {
+      const auto weather_value = value["weather"][0];
+      condition.weather =
+          static_cast<Weather>(weather_value.get("id", CLEAR_SKY).asInt());
+      condition.weather_description =
+          weather_value.get("description", "").asString();
+      condition.weather_icon_name = weather_value.get("icon", "").asString();
     }
+
+    if (value.isMember("temp")) {
+      const auto temp_value = value["temp"];
+      condition.temperature_day = temp_value.get("day", NAN).asDouble();
+      condition.temperature_min = temp_value.get("min", NAN).asDouble();
+      condition.temperature_max = temp_value.get("max", NAN).asDouble();
+      condition.temperature_night = temp_value.get("nigth", NAN).asDouble();
+      condition.temperature_evening = temp_value.get("eve", NAN).asDouble();
+      condition.temperature_morning = temp_value.get("morn", NAN).asDouble();
+    }
+
+    if (value.isMember("felt")) {
+      const auto felt_value = value["felt"];
+      condition.temperature_day = felt_value.get("day", NAN).asDouble();
+      condition.temperature_min = felt_value.get("min", NAN).asDouble();
+      condition.temperature_max = felt_value.get("max", NAN).asDouble();
+      condition.temperature_night = felt_value.get("nigth", NAN).asDouble();
+      condition.temperature_evening = felt_value.get("eve", NAN).asDouble();
+      condition.temperature_morning = felt_value.get("morn", NAN).asDouble();
+    }
+    return condition;
+  }
+
+  static std::vector<Alert> extract_alerts(const Json::Value &value) {
+    std::vector<Alert> alerts;
+
+    for (auto &alert_value : value) {
+      const Alert alert{
+          alert_value.get("sender_name", "").asString(),
+          alert_value.get("event", "").asString(),
+          static_cast<time_t>(alert_value.get("start", 0).asInt()),
+          static_cast<time_t>(alert_value.get("end", 0).asInt()),
+          alert_value.get("description", "").asString()};
+      alerts.push_back(alert);
+    }
+    return alerts;
   }
 };
 } // namespace taranis

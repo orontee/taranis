@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <cmath>
 #include <ctime>
 #include <experimental/optional>
 #include <list>
@@ -95,6 +96,7 @@ enum Weather {
   OVERCAST_CLOUDS_85_100 = 804,
 };
 
+// Can contain current weather data or hourly forecast
 struct Condition {
   std::time_t date{0};
   std::time_t sunrise{0};
@@ -110,11 +112,47 @@ struct Condition {
   long double wind_speed;
   int wind_degree;
   long double wind_gust;
+
   Weather weather{CLEAR_SKY};
   std::string weather_description;
   std::string weather_icon_name;
   long double rain;
   long double snow;
+};
+
+// Can contain daily forecast
+struct DailyCondition {
+  std::time_t date{0};
+  std::time_t sunrise{0};
+  std::time_t sunset{0};
+  std::time_t moonrise{0};
+  std::time_t moonset{0};
+  long double moon_phase;
+  int pressure;
+  int humidity;
+  long double dew_point;
+  long double wind_speed;
+  int wind_degree;
+  long double wind_gust;
+  int clouds;
+  long double probability_of_precipitation;
+  long double uv_index;
+  long double rain;
+  long double snow;
+
+  Weather weather{CLEAR_SKY};
+  std::string weather_description;
+  std::string weather_icon_name;
+  long double temperature_day{NAN};
+  long double temperature_min{NAN};
+  long double temperature_max{NAN};
+  long double temperature_night{NAN};
+  long double temperature_evening{NAN};
+  long double temperature_morning{NAN};
+  long double felt_temperature_day{NAN};
+  long double felt_temperature_night{NAN};
+  long double felt_temperature_evening{NAN};
+  long double felt_temperature_morning{NAN};
 };
 
 struct Alert {
@@ -133,6 +171,7 @@ struct Model {
 
   std::optional<Condition> current_condition;
   std::vector<Condition> hourly_forecast;
+  std::vector<DailyCondition> daily_forecast;
 
   std::vector<Alert> alerts;
 

@@ -189,6 +189,7 @@ private:
   void clear_model_weather_conditions() {
     this->model->current_condition = std::optional<Condition>{};
     this->model->hourly_forecast.clear();
+    this->model->daily_forecast.clear();
     this->model->refresh_date = 0;
   }
 
@@ -199,26 +200,27 @@ private:
 
     const auto units = Units{this->model}.to_string();
     try {
-      std::vector<Condition> conditions = this->service->fetch_conditions(
-          this->model->location.town, this->model->location.country,
-          currentLang(), units);
+      this->service->fetch_data(this->model->location.town,
+                                this->model->location.country, currentLang(),
+                                units);
 
-      this->model->current_condition = conditions.front();
+      this->model->current_condition = this->service->get_current_condition();
 
       this->model->hourly_forecast.clear();
-
-      auto it = std::begin(conditions);
-      ++it; // skip current
-      while (it != std::end(conditions)) {
-        this->model->hourly_forecast.push_back(*it);
-        ++it;
+      for (auto &forecast : this->service->get_hourly_forecast()) {
+        this->model->hourly_forecast.push_back(forecast);
       }
 
-      const auto alerts = this->service->get_alerts();
-      this->model->alerts = alerts;
+      this->model->daily_forecast.clear();
+      for (auto &forecast : this->service->get_daily_forecast()) {
+        this->model->daily_forecast.push_back(forecast);
+      }
+
+      this->model->alerts = this->service->get_alerts();
 
       const auto event_handler = GetEventHandler();
       SendEvent(event_handler, EVT_CUSTOM, CustomEvent::model_updated, 0);
+
     } catch (const ConnectionError &error) {
       Message(ICON_WARNING, T("Network error"),
               T("Failure while fetching weather data. Check your network "
@@ -300,5 +302,4 @@ private:
     Config::config_changed();
   }
 };
-
 } // namespace taranis
