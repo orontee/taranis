@@ -6,8 +6,8 @@
 Local weather data on your [PocketBook](https://pocketbook.ch/en-ch)
 e-book reader.
 
-![Screenshot](./docs/screenshot-hourly-forecast.jpg)
-![Screenshot](./docs/screenshot-daily-forecast.jpg)
+![Hourly forecast screenshot](./docs/screenshot-hourly-forecast.jpg) ![Daily forecast screenshot](./docs/screenshot-daily-forecast.jpg)
+
 ![Application running on Vivlio reader](./docs/application-running-vivlio-reader.jpg)
 
 ## Features 🥳
