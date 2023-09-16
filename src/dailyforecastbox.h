@@ -69,7 +69,7 @@ private:
     auto small_bold_font = this->fonts->get_small_bold_font();
     auto tiny_font = this->fonts->get_tiny_font();
 
-    const auto day_start_x = bar_start_x + this->horizontal_padding;
+    const auto day_start_x = bar_start_x + 2 * this->horizontal_padding;
     const auto icon_start_x = day_start_x + 3 * small_font->size;
 
     const Units units{this->model};
@@ -161,7 +161,7 @@ private:
               units.format_precipitation(precipitation, false);
 
           const auto precipitation_start_y =
-              ScreenWidth() - this->horizontal_padding -
+              ScreenWidth() - 2 * this->horizontal_padding -
               StringWidth(precipitation_text.c_str());
           DrawString(precipitation_start_y, upper_text_y,
                      precipitation_text.c_str());
@@ -174,7 +174,7 @@ private:
                     static_cast<int>(probability_of_precipitation * 100)) +
                 "%";
             const auto probability_of_precipitation_start_y =
-                ScreenWidth() - this->horizontal_padding -
+                ScreenWidth() - 2 * this->horizontal_padding -
                 StringWidth(probability_of_precipitation_text.c_str());
             DrawString(probability_of_precipitation_start_y, lower_text_y,
                        probability_of_precipitation_text.c_str());
