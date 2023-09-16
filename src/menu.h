@@ -26,7 +26,6 @@ namespace taranis {
 enum menu_item_index {
   MENU_ITEM_REFRESH = 100,
   MENU_ITEM_LOCATION_HISTORY = 200,
-  MENU_ITEM_DISPLAY_DAILY_FORECAST = 201,
   MENU_ITEM_UNIT_SYSTEM = 202,
   MENU_ITEM_ABOUT = 203,
   MENU_ITEM_QUIT = 300,
@@ -37,7 +36,7 @@ enum menu_item_index {
 };
 
 class MenuButton : public Button {
-  typedef std::array<imenu, 7> MenuItems;
+  typedef std::array<imenu, 6> MenuItems;
 
 public:
   MenuButton(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
@@ -55,8 +54,6 @@ public:
               imenu{ITEM_SUBMENU, taranis::MENU_ITEM_LOCATION_HISTORY,
                     const_cast<char *>(T("Locations")),
                     this->location_history_items.data()},
-              imenu{ITEM_ACTIVE, taranis::MENU_ITEM_DISPLAY_DAILY_FORECAST,
-                    const_cast<char *>(T("Daily forecast")), nullptr},
               imenu{ITEM_SUBMENU, taranis::MENU_ITEM_UNIT_SYSTEM,
                     const_cast<char *>(T("Units")),
                     const_cast<imenu *>(this->unit_system_items.data())},
@@ -67,9 +64,6 @@ public:
               imenu{0, 0, nullptr, nullptr}},
         model{model}, font{fonts->get_normal_font()} {
     this->update_location_history_items();
-
-    this->display_daily_forecast_item =
-        const_cast<MenuItems::iterator>(this->items.begin() + 2);
   }
 
   void set_menu_handler(iv_menuhandler handler) {
@@ -94,8 +88,6 @@ private:
   std::array<imenu, 4> unit_system_items;
   std::array<imenu, LocationHistory::max_size + 1> location_history_items;
   const MenuItems items;
-
-  MenuItems::iterator display_daily_forecast_item;
 
   std::vector<std::string> location_full_names;
 
@@ -174,21 +166,12 @@ private:
     }
   }
 
-  void update_display_daily_forecast_bullet() {
-    if (this->model->display_daily_forecast) {
-      this->display_daily_forecast_item->type = ITEM_BULLET;
-    } else {
-      this->display_daily_forecast_item->type = ITEM_ACTIVE;
-    }
-  }
-
   void open_menu() {
     if (not this->menu_handler)
       return;
 
     this->update_location_history_items();
     this->update_unit_system_bullet();
-    this->update_display_daily_forecast_bullet();
 
     const auto &[pos_x, pos_y] = this->get_menu_position();
     SetMenuFont(this->font.get());
