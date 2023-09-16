@@ -21,12 +21,19 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Display alerts [#24](https://github.com/orontee/argos/issues/24)
 
-- Polish translations [#22](https://github.com/orontee/argos/issues/22)
+- Polish translations
+  [#22](https://github.com/orontee/argos/issues/22)
 
 ### Changed
 
+- Switching forecast view should not refresh data nor update whole
+  screen [#38](https://github.com/orontee/argos/issues/38)
+  
+- Don't refresh data after cancel of location edit
+  [#39](https://github.com/orontee/argos/issues/39)
+
 - Fix invisible alerts button handing touch events 
- [#35](https://github.com/orontee/argos/issues/35)
+  [#35](https://github.com/orontee/argos/issues/35)
 
 ### Removed
 

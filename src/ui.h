@@ -81,7 +81,7 @@ public:
   void show() {
     ClearScreen();
 
-    this->select_middle_widget();
+    this->select_forecast_widget();
 
     for (auto widget : this->children) {
       widget->show();
@@ -118,6 +118,14 @@ public:
 
   void display_alert() { this->alerts_button->open_dialog_maybe(); }
 
+  void switch_forecast_widget() {
+    this->select_forecast_widget();
+    auto forecast_widget = this->get_forecast_widget();
+    if (forecast_widget) {
+      forecast_widget->show_and_update();
+    }
+  }
+
 private:
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
@@ -141,7 +149,14 @@ private:
     return widget->is_in_bouding_box(pointer_pos_x, pointer_pos_y);
   }
 
-  void select_middle_widget() {
+  std::shared_ptr<Widget> get_forecast_widget() const {
+    auto forecast_widget = this->model->display_daily_forecast
+                               ? this->daily_forecast_box
+                               : this->hourly_forecast_box;
+    return forecast_widget;
+  }
+
+  void select_forecast_widget() {
     auto widget_to_display = this->model->display_daily_forecast
                                  ? this->daily_forecast_box
                                  : this->hourly_forecast_box;

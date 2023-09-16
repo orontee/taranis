@@ -37,6 +37,12 @@ struct Widget {
 
   virtual void show() = 0;
 
+  void show_and_update() {
+    this->show();
+    PartialUpdate(this->bounding_box.x, this->bounding_box.y,
+                  this->bounding_box.w, this->bounding_box.h);
+  }
+
   bool is_in_bouding_box(int pos_x, int pos_y) {
     return IsInRect(pos_x, pos_y, &this->bounding_box);
   }

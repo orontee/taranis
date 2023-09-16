@@ -164,12 +164,12 @@ struct Alert {
 };
 
 struct Model {
-  std::string source;
+  std::string source{"OpenWeather"};
   UnitSystem unit_system{standard};
   std::time_t refresh_date{0};
   Location location;
 
-  std::optional<Condition> current_condition;
+  std::optional<Condition> current_condition{};
   std::vector<Condition> hourly_forecast;
   std::vector<DailyCondition> daily_forecast;
 

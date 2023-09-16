@@ -99,7 +99,9 @@ private:
   static const int max_hourly_forecasts = 24;
   static const int max_daily_forecasts = 8;
 
-  std::string api_key;
+  std::string api_key{"4620ad6f20069b66bc36b1e88ceb4541"};
+  // API key associated to rate limited plan
+
   HttpClient client;
 
   std::string town;

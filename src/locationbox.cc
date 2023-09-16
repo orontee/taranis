@@ -8,8 +8,7 @@ std::array<char, 256> location;
 
 void taranis::keyboard_handler(char *text) {
   const auto event_handler = GetEventHandler();
-  SendEventEx(event_handler, EVT_CUSTOM, CustomEvent::new_location_requested,
-  0,
+  SendEventEx(event_handler, EVT_CUSTOM, CustomEvent::change_location, 0,
               &location);
 }
 

@@ -1,17 +1,25 @@
 #pragma once
 
 enum CustomEvent {
-  about_dialog_requested,
+  // Commands
   change_daily_forecast_display,
+  change_location,
   change_unit_system,
   display_alert,
+  refresh_data,
+  select_location_from_history,
+  show_about_dialog,
+
+  // Events
+  model_daily_forecast_display_changed,
   model_updated,
-  new_location_requested,
-  new_location_from_history,
-  refresh_requested,
   warning_emitted,
 };
 
 enum CustomEventParam {
   invalid_location,
 };
+
+// Local variables:
+// mode: c++-ts;
+// End:

@@ -56,8 +56,7 @@ public:
     }
 
     if (event_type == EVT_CONFIGCHANGED) {
-      this->clear_model_weather_conditions();
-      this->show();
+      this->load_config();
       return 1;
     }
 
@@ -100,15 +99,14 @@ private:
       return;
     }
     this->ui = std::make_unique<Ui>(this->model);
+    this->load_config();
   }
 
   void show() {
     if (not this->ui)
       return;
 
-    this->load_config();
     this->ui->show();
-    this->refresh_model_weather_conditions();
   }
 
   void exit() {
@@ -123,62 +121,94 @@ private:
   void load_config() {
     Config config;
 
-    this->model->unit_system = static_cast<UnitSystem>(
+    const auto config_unit_system = static_cast<UnitSystem>(
         config.read_int("unit_system"s, UnitSystem::metric));
+    const bool is_unit_system_obsolete =
+        (config_unit_system != this->model->unit_system);
+    if (is_unit_system_obsolete) {
+      this->model->unit_system = config_unit_system;
+    }
 
-    this->model->location.town = config.read_string("location_town"s, "Paris"s);
-
-    this->model->location.country =
+    const auto config_town = config.read_string("location_town"s, "Paris"s);
+    const auto config_country =
         config.read_string("location_country"s, "France"s);
 
-    this->service->set_api_key(config.read_string(
-        "openweather_api_key"s, "4620ad6f20069b66bc36b1e88ceb4541"s));
-    // API key associated to rate limited plan
+    const bool is_town_or_country_obsolete =
+        (config_town != this->model->location.town) or
+        (config_country != this->model->location.country);
 
-    this->model->display_daily_forecast =
+    if (is_town_or_country_obsolete) {
+      this->model->location.town = config_town;
+      this->model->location.country = config_country;
+      this->clear_model_weather_conditions();
+    }
+
+    const auto config_display_daily_forecast =
         config.read_bool("display_daily_forecast"s, false);
-
-    this->model->source = "OpenWeather"s;
+    const bool is_display_daily_forecast_obsolete =
+        (config_display_daily_forecast != this->model->display_daily_forecast);
+    if (is_display_daily_forecast_obsolete) {
+      this->model->display_daily_forecast = config_display_daily_forecast;
+    }
 
     initialize_translations();
+
+    const bool is_data_obsolete =
+        is_unit_system_obsolete or is_town_or_country_obsolete;
+    // temperatures and wind speed are computed by the backend thus
+    // unit system change implies that data are obsolete
+
+    const auto event_handler = GetEventHandler();
+    if (is_data_obsolete) {
+      SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data, 0);
+    } else if (is_display_daily_forecast_obsolete) {
+      SendEvent(event_handler, EVT_CUSTOM,
+                CustomEvent::model_daily_forecast_display_changed, 0);
+    }
   }
 
   int handle_custom_event(int param_one, int param_two) {
-    if (param_one == CustomEvent::about_dialog_requested) {
-      this->open_about_dialog();
-      return 1;
-    } else if (param_one == CustomEvent::change_daily_forecast_display) {
+    // Commands
+    if (param_one == CustomEvent::change_daily_forecast_display) {
       const bool enable = not this->model->display_daily_forecast;
       this->display_daily_forecast(enable);
-    } else if (param_one == CustomEvent::change_unit_system) {
-      this->change_unit_system(static_cast<UnitSystem>(param_two));
-    } else if (param_one == CustomEvent::model_updated) {
-      this->history->update_history_maybe();
-      if (this->ui) {
-        this->ui->show();
-        return 1;
-      }
-    } else if (param_one == CustomEvent::display_alert) {
-      if (this->ui) {
-        this->ui->display_alert();
-        return 1;
-      }
-    } else if (param_one == CustomEvent::new_location_requested) {
+    } else if (param_one == CustomEvent::change_location) {
       auto *const raw_location =
           reinterpret_cast<std::array<char, 256> *>(GetCurrentEventExData());
       const std::string location{raw_location->data()};
       this->update_config_location(location);
       return 1;
-    } else if (param_one == CustomEvent::new_location_from_history) {
+    } else if (param_one == CustomEvent::change_unit_system) {
+      this->change_unit_system(static_cast<UnitSystem>(param_two));
+    } else if (param_one == CustomEvent::display_alert) {
+      if (this->ui) {
+        this->ui->display_alert();
+        return 1;
+      }
+    } else if (param_one == CustomEvent::refresh_data) {
+      this->refresh_data();
+      return 1;
+    } else if (param_one == CustomEvent::select_location_from_history) {
       const size_t history_index = param_two;
       auto location = this->history->get_location(history_index);
       if (location) {
         this->update_config_location(*location);
       }
       return 1;
-    } else if (param_one == CustomEvent::refresh_requested) {
-      this->refresh_model_weather_conditions();
+    } else if (param_one == CustomEvent::show_about_dialog) {
+      this->open_about_dialog();
       return 1;
+    }
+
+    // Events
+    if (param_one == CustomEvent::model_daily_forecast_display_changed) {
+      if (this->ui) {
+        ui->switch_forecast_widget();
+      }
+      return 1;
+    } else if (param_one == CustomEvent::model_updated) {
+      this->history->update_history_maybe();
+      this->show();
     } else if (param_one == CustomEvent::warning_emitted) {
       if (param_two == CustomEventParam::invalid_location) {
         DialogSynchro(
@@ -199,7 +229,7 @@ private:
     this->model->refresh_date = 0;
   }
 
-  void refresh_model_weather_conditions() {
+  void refresh_data() {
     ShowHourglassForce();
 
     this->model->refresh_date = std::time(nullptr);
@@ -312,6 +342,9 @@ private:
   }
 
   void display_daily_forecast(bool enable) const {
+    if (enable == this->model->display_daily_forecast) {
+      return;
+    }
     Config config;
     config.write_bool("display_daily_forecast", enable);
 
