@@ -9,6 +9,7 @@
 #include <memory>
 #include <sstream>
 
+#include "events.h"
 #include "fonts.h"
 #include "icons.h"
 #include "model.h"
@@ -156,7 +157,7 @@ private:
         DrawString(bar_center_x - StringWidth(wind_speed_text.c_str()) / 2.0,
                    this->wind_speed_y, wind_speed_text.c_str());
 
-        std::string humidity_text =
+        const auto humidity_text =
             std::to_string(static_cast<int>(forecast.humidity)) + "%";
         DrawString(bar_center_x - StringWidth(humidity_text.c_str()) / 2.0,
                    this->humidity_y, humidity_text.c_str());
@@ -253,8 +254,9 @@ private:
         FillArea(x_screen, y_screen, bar_width, bar_height, LGRAY);
         DrawRect(x_screen, y_screen, bar_width, bar_height, 0x777777);
 
-        const std::string precipitation_text = units.format_precipitation(
-            max_number(forecast.rain, forecast.snow), true);
+        const auto precipitation_text = units.format_precipitation(
+            max_number(forecast.rain, forecast.snow), false);
+        // rain and snow are in mm/h but save space with shortest unit
 
         SetFont(tiny_font.get(), DGRAY);
         DrawString(bar_center_x - StringWidth(precipitation_text.c_str()) / 2.0,
@@ -265,7 +267,7 @@ private:
             forecast.probability_of_precipitation;
         if (not std::isnan(probability_of_precipitation)) {
 
-          const std::string probability_of_precipitation_text =
+          const auto probability_of_precipitation_text =
               std::to_string(
                   static_cast<int>(probability_of_precipitation * 100)) +
               "%";
@@ -288,6 +290,10 @@ private:
     if (updated_forecast_offset != this->forecast_offset) {
       this->forecast_offset = updated_forecast_offset;
       this->draw_and_update();
+    } else {
+      const auto event_handler = GetEventHandler();
+      SendEvent(event_handler, EVT_CUSTOM,
+              CustomEvent::change_daily_forecast_display, 0);
     }
   }
 
@@ -303,6 +309,10 @@ private:
     if (updated_forecast_offset != this->forecast_offset) {
       this->forecast_offset = updated_forecast_offset;
       this->draw_and_update();
+    } else {
+      const auto event_handler = GetEventHandler();
+      SendEvent(event_handler, EVT_CUSTOM,
+              CustomEvent::change_daily_forecast_display, 0);
     }
   }
 };

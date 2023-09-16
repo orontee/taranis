@@ -96,3 +96,30 @@ double taranis::max_number(double value_one, double value_two) {
   }
   return NAN;
 }
+
+constexpr char time_format[] = "%H:%M";
+constexpr char full_date_format[] = "%R (%F)";
+static char formatted_time[100];
+
+std::string taranis::format_time(const std::time_t &time, bool full) {
+  auto format = full ? full_date_format : time_format;
+  auto calendar_time = std::localtime(&time);
+  if (calendar_time == nullptr) {
+    return "";
+  }
+  std::strftime(formatted_time, sizeof(formatted_time), format, calendar_time);
+  // TODO should use GetLangTime() to use user "locale" but don't know
+  // how it works…
+  return formatted_time;
+}
+
+const char *weekdays[7] = {"@Sun", "@Mon", "@Tue", "@Wed",
+                           "@Thu", "@Fri", "@Sat"};
+
+std::string taranis::format_day(const std::time_t &time) {
+  auto calendar_time = std::localtime(&time);
+  if (calendar_time == nullptr) {
+    return "";
+  }
+  return GetLangText(weekdays[calendar_time->tm_wday]);
+}

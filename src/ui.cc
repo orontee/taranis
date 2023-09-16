@@ -10,6 +10,9 @@ void taranis::handle_menu_item_selected(int item_index) {
   const auto event_handler = GetEventHandler();
   if (item_index == MENU_ITEM_REFRESH) {
     SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_requested, 0);
+  } else if (item_index == MENU_ITEM_DISPLAY_DAILY_FORECAST) {
+    SendEvent(event_handler, EVT_CUSTOM,
+              CustomEvent::change_daily_forecast_display, 0);
   } else if (item_index == MENU_ITEM_UNIT_SYSTEM_STANDARD) {
     SendEvent(event_handler, EVT_CUSTOM, CustomEvent::change_unit_system,
               UnitSystem::standard);

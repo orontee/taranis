@@ -8,6 +8,8 @@
 #include "errors.h"
 #include "model.h"
 
+using namespace std::string_literals;
+
 namespace taranis {
 class Units {
 public:
@@ -33,16 +35,14 @@ public:
   }
 
   std::string format_precipitation(long double precipitation,
-                                   bool one_hour = true) const {
-    if (one_hour) {
-      if (precipitation < 1) {
-        return "<1mm";
-      }
-      std::stringstream text;
-      text << std::fixed << std::setprecision(1) << precipitation << "mm";
-      return text.str();
+                                   bool per_hour = false) const {
+    const auto unit = per_hour ? "mm/h"s : "mm"s;
+    if (precipitation < 1) {
+      return "<1"s + unit;
     }
-    return std::to_string(precipitation) + "mm/h";
+    std::stringstream text;
+    text << std::fixed << std::setprecision(1) << precipitation << unit;
+    return text.str();
   }
 
   std::string format_pressure(int pressure) const {

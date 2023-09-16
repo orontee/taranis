@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Display daily forecast
+  [#8](https://github.com/orontee/argos/issues/8)
+
 - Display credits in about dialog
   [#34](https://github.com/orontee/argos/issues/34)
 

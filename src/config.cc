@@ -1,3 +1,5 @@
+#include <cstring>
+
 #include "config.h"
 #include "inkview.h"
 
@@ -13,6 +15,16 @@ taranis::Config::Config() {
     config.reset(
         OpenConfig(Config::get_config_path().c_str(), config_template));
   }
+}
+
+bool taranis::Config::read_bool(const std::string &name, bool default_value) {
+  return std::strcmp(ReadString(config.get(), name.c_str(),
+                                default_value ? "true" : "false"),
+                     "true") == 0;
+}
+
+void taranis::Config::write_bool(const std::string &name, bool value) {
+  WriteString(config.get(), name.c_str(), value ? "true" : "false");
 }
 
 int taranis::Config::read_int(const std::string &name, int default_value) {

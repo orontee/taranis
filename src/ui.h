@@ -6,6 +6,7 @@
 
 #include "alerts.h"
 #include "currentconditionbox.h"
+#include "dailyforecastbox.h"
 #include "fonts.h"
 #include "hourlyforecastbox.h"
 #include "icons.h"
@@ -36,11 +37,17 @@ public:
 
     auto status_bar = std::make_shared<StatusBar>(this->model, this->fonts);
 
-    const auto remaining_height = ScreenHeight() - location_box->get_height() -
-                                  current_condition_box->get_height() -
-                                  status_bar->get_height();
+    const auto remaining_height =
+        status_bar->get_pos_y() - (current_condition_box->get_pos_y() +
+                                   current_condition_box->get_height());
 
-    auto hourly_forecast_box = std::make_shared<HourlyForecastBox>(
+    this->hourly_forecast_box = std::make_shared<HourlyForecastBox>(
+        0,
+        current_condition_box->get_pos_y() +
+            current_condition_box->get_height(),
+        ScreenWidth(), remaining_height, this->model, this->icons, this->fonts);
+
+    this->daily_forecast_box = std::make_shared<DailyForecastBox>(
         0,
         current_condition_box->get_pos_y() +
             current_condition_box->get_height(),
@@ -66,14 +73,15 @@ public:
 
     this->children.push_back(location_box);
     this->children.push_back(menu_button);
-    this->children.push_back(alerts_button);
     this->children.push_back(current_condition_box);
-    this->children.push_back(hourly_forecast_box);
+    this->children.push_back(alerts_button);
     this->children.push_back(status_bar);
   }
 
   void show() {
     ClearScreen();
+
+    this->select_middle_widget();
 
     for (auto widget : this->children) {
       widget->show();
@@ -117,6 +125,9 @@ private:
 
   std::shared_ptr<AlertsButton> alerts_button;
 
+  std::shared_ptr<Widget> hourly_forecast_box;
+  std::shared_ptr<Widget> daily_forecast_box;
+
   std::vector<std::shared_ptr<Widget>> children;
 
   const int alert_icon_size = 150;
@@ -128,6 +139,21 @@ private:
       return false;
 
     return widget->is_in_bouding_box(pointer_pos_x, pointer_pos_y);
+  }
+
+  void select_middle_widget() {
+    auto widget_to_display = this->model->display_daily_forecast
+                                 ? this->daily_forecast_box
+                                 : this->hourly_forecast_box;
+    auto widget_to_hide = not this->model->display_daily_forecast
+                              ? this->daily_forecast_box
+                              : this->hourly_forecast_box;
+    if (this->children.back() == widget_to_hide) {
+      this->children.pop_back();
+    }
+    if (this->children.back() != widget_to_display) {
+      this->children.push_back(widget_to_display);
+    }
   }
 };
 

@@ -57,18 +57,9 @@ inline void rtrim(std::string &s) {
       s.end());
 }
 
-constexpr char time_format[] = "%H:%M";
-constexpr char full_date_format[] = "%R (%F)";
-static char formatted_time[100];
+std::string format_time(const std::time_t &time, bool full = false);
 
-inline std::string format_time(const std::time_t &time, bool full = false) {
-  auto format = full ? full_date_format : time_format;
-  std::strftime(formatted_time, sizeof(formatted_time), format,
-                std::localtime(&time));
-  // TODO should use GetLangTime() to use user "locale" but don't know
-  // how it works…
-  return formatted_time;
-}
+std::string format_day(const std::time_t &time);
 
 inline std::string format_duration(const std::time_t &start,
                                    const std::time_t &end) {

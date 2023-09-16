@@ -7,15 +7,20 @@ Local weather data on your [PocketBook](https://pocketbook.ch/en-ch)
 e-book reader.
 
 ![Screenshot](./docs/screenshot-hourly-forecast.jpg)
+![Screenshot](./docs/screenshot-daily-forecast.jpg)
 ![Application running on Vivlio reader](./docs/application-running-vivlio-reader.jpg)
 
 ## Features 🥳
 
 * Current weather
 
+* 8 daily forecasts with sunrise hour, morning, day and evening
+  temperatures, sunset hour, wind speed, humidity and precipitations.
+
 * 24 hourly forecasts with temperature, wind speed, humidity,
-  temperature curve, precipitations histogram and government weather
-  alerts
+  temperature curve and precipitations histogram
+  
+* Government weather alerts
   
 * Configurable system of units
 

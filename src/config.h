@@ -9,6 +9,10 @@ namespace taranis {
 struct Config {
   Config();
 
+  bool read_bool(const std::string &name, bool default_value);
+
+  void write_bool(const std::string &name, bool value);
+
   int read_int(const std::string &name, int default_value);
 
   void write_int(const std::string &name, int value);

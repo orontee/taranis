@@ -116,8 +116,8 @@ struct Condition {
   Weather weather{CLEAR_SKY};
   std::string weather_description;
   std::string weather_icon_name;
-  long double rain;
-  long double snow;
+  long double rain; // mm/h
+  long double snow; // mm/h
 };
 
 // Can contain daily forecast
@@ -137,8 +137,8 @@ struct DailyCondition {
   int clouds;
   long double probability_of_precipitation;
   long double uv_index;
-  long double rain;
-  long double snow;
+  long double rain; // mm
+  long double snow; // mm
 
   Weather weather{CLEAR_SKY};
   std::string weather_description;
@@ -176,5 +176,7 @@ struct Model {
   std::vector<Alert> alerts;
 
   std::list<Location> location_history;
+
+  bool display_daily_forecast{false};
 };
 } // namespace taranis

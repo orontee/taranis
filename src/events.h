@@ -2,6 +2,7 @@
 
 enum CustomEvent {
   about_dialog_requested,
+  change_daily_forecast_display,
   change_unit_system,
   display_alert,
   model_updated,

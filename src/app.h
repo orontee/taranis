@@ -135,6 +135,9 @@ private:
         "openweather_api_key"s, "4620ad6f20069b66bc36b1e88ceb4541"s));
     // API key associated to rate limited plan
 
+    this->model->display_daily_forecast =
+        config.read_bool("display_daily_forecast"s, false);
+
     this->model->source = "OpenWeather"s;
 
     initialize_translations();
@@ -144,6 +147,9 @@ private:
     if (param_one == CustomEvent::about_dialog_requested) {
       this->open_about_dialog();
       return 1;
+    } else if (param_one == CustomEvent::change_daily_forecast_display) {
+      const bool enable = not this->model->display_daily_forecast;
+      this->display_daily_forecast(enable);
     } else if (param_one == CustomEvent::change_unit_system) {
       this->change_unit_system(static_cast<UnitSystem>(param_two));
     } else if (param_one == CustomEvent::model_updated) {
@@ -298,6 +304,13 @@ private:
 
     Config config;
     config.write_int("unit_system", unit_system);
+
+    Config::config_changed();
+  }
+
+  void display_daily_forecast(bool enable) const {
+    Config config;
+    config.write_bool("display_daily_forecast", enable);
 
     Config::config_changed();
   }
