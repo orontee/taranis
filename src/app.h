@@ -278,6 +278,9 @@ private:
   }
 
   void update_config_location(const std::string &text) const {
+    if (text == format_location(this->model->location)) {
+      return;
+    }
     try {
       auto location = App::parse_location(text);
 
