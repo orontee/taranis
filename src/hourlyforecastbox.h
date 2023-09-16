@@ -291,6 +291,7 @@ private:
       this->forecast_offset = updated_forecast_offset;
       this->draw_and_update();
     } else {
+      this->forecast_offset = 0;
       const auto event_handler = GetEventHandler();
       SendEvent(event_handler, EVT_CUSTOM,
               CustomEvent::change_daily_forecast_display, 0);
