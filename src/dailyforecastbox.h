@@ -39,7 +39,7 @@ public:
     if (key == IV_KEY_PREV or key == IV_KEY_NEXT) {
       const auto event_handler = GetEventHandler();
       SendEvent(event_handler, EVT_CUSTOM,
-		CustomEvent::change_daily_forecast_display, 0);
+                CustomEvent::change_daily_forecast_display, 0);
       return 1;
     }
     return 0;

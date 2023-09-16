@@ -28,11 +28,9 @@ public:
                     std::shared_ptr<Fonts> fonts)
       : Widget{pos_x, pos_y, width, height}, model{model}, icons{icons},
         fonts{fonts} {
-    this->visible_bars =
-        static_cast<size_t>(std::ceil(width / this->bar_width));
+    this->visible_bars = 8;
 
-    this->adjusted_bar_width =
-        static_cast<int>(std::ceil(width / this->visible_bars));
+    this->bar_width = static_cast<int>(std::ceil(width / this->visible_bars));
 
     this->bars_height = this->bounding_box.h - 2 * this->vertical_padding;
 
@@ -83,11 +81,10 @@ private:
   std::shared_ptr<Fonts> fonts;
 
   const int vertical_padding{25};
-  const int bar_width{125};
   const int icon_size{100};
 
   size_t visible_bars;
-  int adjusted_bar_width;
+  int bar_width;
 
   int frame_start_x;
   int frame_start_y;
@@ -128,8 +125,7 @@ private:
     const Units units{this->model};
 
     for (size_t bar_index = 0; bar_index < this->visible_bars; ++bar_index) {
-      const auto bar_center_x =
-          (bar_index + 1.0 / 2) * this->adjusted_bar_width;
+      const auto bar_center_x = (bar_index + 1.0 / 2) * this->bar_width;
 
       const auto forecast_index = this->forecast_offset + bar_index;
       if (forecast_index < this->model->hourly_forecast.size()) {
@@ -164,7 +160,7 @@ private:
       }
 
       if (bar_index < this->visible_bars - 1) {
-        const auto separator_x = (bar_index + 1) * this->adjusted_bar_width;
+        const auto separator_x = (bar_index + 1) * this->bar_width;
         DrawLine(separator_x, separator_start_y, separator_x, separator_stop_y,
                  LGRAY);
       }
@@ -178,7 +174,7 @@ private:
       return;
     }
 
-    const auto step = this->adjusted_bar_width;
+    const auto step = this->bar_width;
     std::vector<double> xa;
     xa.reserve(ya.size());
     for (size_t index = 0; index < ya.size(); ++index) {
@@ -235,7 +231,6 @@ private:
     const auto normalized_precipitations = normalize_precipitations(
         this->model->hourly_forecast, min_bars_height, max_bars_height);
 
-    const auto bar_width = this->adjusted_bar_width;
     const Units units{this->model};
 
     SetFont(tiny_font.get(), DGRAY);
@@ -247,12 +242,13 @@ private:
         if (std::isnan(forecast.rain)) {
           continue;
         }
-        const auto bar_center_x = (bar_index + 1.0 / 2) * bar_width;
-        const auto x_screen = this->bounding_box.x + bar_index * bar_width;
+        const auto bar_center_x = (bar_index + 1.0 / 2) * this->bar_width;
+        const auto x_screen =
+            this->bounding_box.x + bar_index * this->bar_width;
         const auto bar_height = normalized_precipitations.at(forecast_index);
         const auto y_screen = this->curve_y_offset - bar_height;
-        FillArea(x_screen, y_screen, bar_width, bar_height, LGRAY);
-        DrawRect(x_screen, y_screen, bar_width, bar_height, 0x777777);
+        FillArea(x_screen, y_screen, this->bar_width, bar_height, LGRAY);
+        DrawRect(x_screen, y_screen, this->bar_width, bar_height, 0x777777);
 
         const auto precipitation_text = units.format_precipitation(
             max_number(forecast.rain, forecast.snow), false);
@@ -294,7 +290,7 @@ private:
       this->forecast_offset = 0;
       const auto event_handler = GetEventHandler();
       SendEvent(event_handler, EVT_CUSTOM,
-              CustomEvent::change_daily_forecast_display, 0);
+                CustomEvent::change_daily_forecast_display, 0);
     }
   }
 
@@ -313,7 +309,7 @@ private:
     } else {
       const auto event_handler = GetEventHandler();
       SendEvent(event_handler, EVT_CUSTOM,
-              CustomEvent::change_daily_forecast_display, 0);
+                CustomEvent::change_daily_forecast_display, 0);
     }
   }
 };

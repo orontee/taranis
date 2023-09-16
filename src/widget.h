@@ -53,9 +53,7 @@ struct Widget {
 protected:
   irect bounding_box;
 
-  void fill_bounding_box() {
-    FillAreaRect(&this->bounding_box, WHITE);
-  }
+  void fill_bounding_box() { FillAreaRect(&this->bounding_box, WHITE); }
 
   void set_bounding_box(int pos_x, int pos_y, int width, int height) {
     this->bounding_box.x = pos_x;
