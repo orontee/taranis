@@ -4,6 +4,8 @@ namespace taranis {
 struct Activatable {
   Activatable() : activated{false} {}
 
+  virtual ~Activatable() {}
+
   bool is_activated() const { return this->activated; }
 
   void activate() {
