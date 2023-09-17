@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Min and max temperatures are displayed in daily forecast
+  [#43](https://github.com/orontee/argos/issues/43)
+
 ### Changed
 
 - Fix background color of icons
@@ -39,11 +42,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Switching forecast view should not refresh data nor update whole
   screen [#38](https://github.com/orontee/argos/issues/38)
-  
+
 - Don't refresh data after cancel of location edit
   [#39](https://github.com/orontee/argos/issues/39)
 
-- Fix invisible alerts button handing touch events 
+- Fix invisible alerts button handing touch events
   [#35](https://github.com/orontee/argos/issues/35)
 
 ## [1.0.1] - 2023-09-07
@@ -84,5 +87,5 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Support for translations
   [#3](https://github.com/orontee/argos/issues/3)
-  
+
 - Weather icons [#1](https://github.com/orontee/argos/issues/1)

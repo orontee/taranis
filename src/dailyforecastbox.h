@@ -84,8 +84,6 @@ private:
         const auto bar_center_y = bar_start_y + this->bar_height / 2;
         const auto bar_text_y =
             bar_start_y + (this->bar_height - small_font->height) / 2;
-        const auto bar_tiny_text_y =
-            bar_start_y + (this->bar_height - tiny_font->height) / 2;
         const auto upper_text_y =
             bar_start_y + (this->bar_height - 2 * tiny_font->height) / 3;
         const auto lower_text_y =
@@ -104,7 +102,11 @@ private:
             icon_start_x + icon->width + this->horizontal_padding;
         const auto sunrise_text = format_time(forecast.sunrise);
         SetFont(tiny_font.get(), BLACK);
-        DrawString(sunrise_start_x, bar_tiny_text_y, sunrise_text.c_str());
+        DrawString(sunrise_start_x, lower_text_y, sunrise_text.c_str());
+
+        const auto sunset_start_x = sunrise_start_x;
+        const auto sunset_text = format_time(forecast.sunset);
+        DrawString(sunset_start_x, upper_text_y, sunset_text.c_str());
 
         const auto morning_temperature_text =
             units.format_temperature(forecast.temperature_morning);
@@ -135,19 +137,27 @@ private:
         DrawString(evening_temperature_start_x, bar_text_y,
                    evening_temperature_text.c_str());
 
-        const auto sunset_start_x =
+        const auto min_temperature_start_x =
             evening_temperature_start_x +
             StringWidth(evening_temperature_text.c_str()) +
             this->horizontal_padding;
-        const auto sunset_text = format_time(forecast.sunset);
-
+        const auto min_temperature_text =
+            units.format_temperature(forecast.temperature_min);
         SetFont(tiny_font.get(), BLACK);
+        DrawString(min_temperature_start_x, lower_text_y,
+                   min_temperature_text.c_str());
 
-        DrawString(sunset_start_x, bar_tiny_text_y, sunset_text.c_str());
+        const auto max_temperature_start_x = min_temperature_start_x;
+        const auto max_temperature_text =
+            units.format_temperature(forecast.temperature_max);
+        DrawString(max_temperature_start_x, upper_text_y,
+                   max_temperature_text.c_str());
 
-        // moon icon
-
-        const auto wind_speed_start_x = sunset_start_x + icon->width;
+        const auto wind_speed_start_x =
+            max_temperature_start_x +
+            std::max(StringWidth(min_temperature_text.c_str()),
+                     StringWidth(max_temperature_text.c_str())) +
+            this->horizontal_padding;
         const auto wind_speed_text = units.format_speed(forecast.wind_speed);
         DrawString(wind_speed_start_x, upper_text_y, wind_speed_text.c_str());
 
