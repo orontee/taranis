@@ -12,6 +12,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Fix background color of icons
+  [#45](https://github.com/orontee/argos/issues/45)
+
 ### Removed
 
 ## [1.1.0] - 2023-09-16
