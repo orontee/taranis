@@ -86,6 +86,8 @@ private:
   std::unique_ptr<LocationHistory> history;
   std::unique_ptr<Ui> ui;
 
+  std::string language;
+
   void setup() {
     const auto version = GetSoftwareVersion();
     try {
@@ -99,6 +101,7 @@ private:
       return;
     }
     this->ui = std::make_unique<Ui>(this->model);
+    this->initialize_language();
     this->load_config();
   }
 
@@ -116,6 +119,11 @@ private:
     this->model.reset();
 
     CloseApp();
+  }
+
+  void initialize_language() {
+    this->language = currentLang();
+    initialize_translations();
   }
 
   void load_config() {
@@ -151,12 +159,19 @@ private:
       this->model->display_daily_forecast = config_display_daily_forecast;
     }
 
-    initialize_translations();
+    const std::string current_system_language = currentLang();
+    const bool is_language_obsolete = (this->language != current_system_language);
+    if (is_language_obsolete) {
+      this->language = current_system_language;
+      initialize_translations();
+    }
 
-    const bool is_data_obsolete =
-        is_unit_system_obsolete or is_town_or_country_obsolete;
-    // temperatures and wind speed are computed by the backend thus
-    // unit system change implies that data are obsolete
+    const bool is_data_obsolete = is_unit_system_obsolete or
+                                  is_town_or_country_obsolete or
+                                  is_language_obsolete;
+    // temperatures, wind speed and weather description are computed
+    // by the backend thus unit system or language change implies that
+    // data are obsolete
 
     const auto event_handler = GetEventHandler();
     if (is_data_obsolete) {
