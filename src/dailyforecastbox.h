@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <inkview.h>
 #include <memory>
 
@@ -26,7 +27,7 @@ public:
                    std::shared_ptr<Fonts> fonts)
       : Widget{pos_x, pos_y, width, height}, model{model}, icons{icons},
         fonts{fonts} {
-    this->bar_height = this->bounding_box.h / this->max_forecasts;
+    this->bar_height = this->bounding_box.h / DailyForecastBox::max_forecasts;
   }
 
   void show() override {
@@ -50,10 +51,25 @@ private:
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
 
-  const int max_forecasts{8};
-  const int horizontal_padding{25};
+  static const int max_forecasts{8};
+  static const int horizontal_padding{25};
 
   int bar_height;
+
+  int compute_day_pixel_width() {
+    static std::array<const char *, 7> weekdays = {
+        "@Sun", "@Mon", "@Tue", "@Wed", "@Thu", "@Fri", "@Sat"};
+    static std::array<int, 7> weekdays_width;
+
+    auto small_font = this->fonts->get_small_font();
+    SetFont(small_font.get(), BLACK);
+
+    std::transform(
+        std::begin(weekdays), std::end(weekdays), std::begin(weekdays_width),
+        [](const char *weekday) { return StringWidth(GetLangText(weekday)); });
+    return *std::max_element(std::begin(weekdays_width),
+                             std::end(weekdays_width));
+  }
 
   void draw_frame_and_values() {
     const auto bar_start_x = this->bounding_box.x;
@@ -69,12 +85,16 @@ private:
     auto small_bold_font = this->fonts->get_small_bold_font();
     auto tiny_font = this->fonts->get_tiny_font();
 
-    const auto day_start_x = bar_start_x + 2 * this->horizontal_padding;
-    const auto icon_start_x = day_start_x + 3 * small_font->size;
+    const auto day_start_x =
+        bar_start_x + 2 * DailyForecastBox::horizontal_padding;
+    const auto icon_start_x = day_start_x + this->compute_day_pixel_width() +
+                              DailyForecastBox::horizontal_padding / 2;
+    // Can't be computed once since depends on current language
 
     const Units units{this->model};
 
-    for (size_t bar_index = 0; bar_index < this->max_forecasts; ++bar_index) {
+    for (size_t bar_index = 0; bar_index < DailyForecastBox::max_forecasts;
+         ++bar_index) {
       bar_start_y = this->bounding_box.y + bar_index * this->bar_height;
 
       const auto forecast_index = bar_index;
@@ -99,7 +119,7 @@ private:
         DrawBitmap(icon_start_x, icon_start_y, icon);
 
         const auto sunrise_start_x =
-            icon_start_x + icon->width + this->horizontal_padding;
+            icon_start_x + icon->width + DailyForecastBox::horizontal_padding / 2;
         const auto sunrise_text = format_time(forecast.sunrise);
         SetFont(tiny_font.get(), BLACK);
         DrawString(sunrise_start_x, lower_text_y, sunrise_text.c_str());
@@ -112,7 +132,7 @@ private:
             units.format_temperature(forecast.temperature_morning);
         const auto morning_temperature_start_x =
             sunrise_start_x + StringWidth(sunrise_text.c_str()) +
-            this->horizontal_padding;
+            DailyForecastBox::horizontal_padding;
 
         SetFont(small_bold_font.get(), BLACK);
 
@@ -124,7 +144,7 @@ private:
         const auto day_temperature_start_x =
             morning_temperature_start_x +
             StringWidth(morning_temperature_text.c_str()) +
-            this->horizontal_padding;
+            DailyForecastBox::horizontal_padding;
         DrawString(day_temperature_start_x, bar_text_y,
                    day_temperature_text.c_str());
 
@@ -133,14 +153,14 @@ private:
         const auto evening_temperature_start_x =
             day_temperature_start_x +
             StringWidth(day_temperature_text.c_str()) +
-            this->horizontal_padding;
+            DailyForecastBox::horizontal_padding;
         DrawString(evening_temperature_start_x, bar_text_y,
                    evening_temperature_text.c_str());
 
         const auto min_temperature_start_x =
             evening_temperature_start_x +
             StringWidth(evening_temperature_text.c_str()) +
-            this->horizontal_padding;
+            DailyForecastBox::horizontal_padding;
         const auto min_temperature_text =
             units.format_temperature(forecast.temperature_min);
         SetFont(tiny_font.get(), BLACK);
@@ -157,7 +177,7 @@ private:
             max_temperature_start_x +
             std::max(StringWidth(min_temperature_text.c_str()),
                      StringWidth(max_temperature_text.c_str())) +
-            this->horizontal_padding;
+            DailyForecastBox::horizontal_padding;
         const auto wind_speed_text = units.format_speed(forecast.wind_speed);
         DrawString(wind_speed_start_x, upper_text_y, wind_speed_text.c_str());
 
@@ -171,7 +191,7 @@ private:
               units.format_precipitation(precipitation, false);
 
           const auto precipitation_start_y =
-              ScreenWidth() - 2 * this->horizontal_padding -
+              ScreenWidth() - 2 * DailyForecastBox::horizontal_padding -
               StringWidth(precipitation_text.c_str());
           DrawString(precipitation_start_y, upper_text_y,
                      precipitation_text.c_str());
@@ -184,7 +204,7 @@ private:
                     static_cast<int>(probability_of_precipitation * 100)) +
                 "%";
             const auto probability_of_precipitation_start_y =
-                ScreenWidth() - 2 * this->horizontal_padding -
+                ScreenWidth() - 2 * DailyForecastBox::horizontal_padding -
                 StringWidth(probability_of_precipitation_text.c_str());
             DrawString(probability_of_precipitation_start_y, lower_text_y,
                        probability_of_precipitation_text.c_str());
