@@ -84,4 +84,6 @@ inline std::string format_location(const Location &location) {
   }
   return text;
 }
+
+std::vector<std::string> identify_moon_phases(const std::vector<DailyCondition> &conditions);
 } // namespace taranis

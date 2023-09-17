@@ -13,8 +13,11 @@ extern const ibitmap icon_11n_2x;
 extern const ibitmap icon_13n_2x;
 extern const ibitmap icon_50n_2x;
 extern const ibitmap icon_menu;
+extern const ibitmap icon_moon_first_quarter;
+extern const ibitmap icon_moon_full;
+extern const ibitmap icon_moon_last_quarter;
+extern const ibitmap icon_moon_new;
 extern const ibitmap icon_warning;
-;
 
 namespace taranis {
 class Icons {
@@ -25,6 +28,10 @@ public:
         icon_09n{&::icon_09n_2x}, icon_10n{&::icon_10n_2x},
         icon_11n{&::icon_11n_2x}, icon_13n{&::icon_13n_2x},
         icon_50n{&::icon_50n_2x}, icon_menu{&::icon_menu},
+	icon_moon_first_quarter{&::icon_moon_first_quarter},
+	icon_moon_full{&::icon_moon_full},
+	icon_moon_last_quarter{&::icon_moon_last_quarter},
+	icon_moon_new{&::icon_moon_new},
         icon_warning{&::icon_warning} {}
 
   ibitmap *get(const std::string &name) {
@@ -58,6 +65,18 @@ public:
     if (name == "menu") {
       return const_cast<ibitmap *>(this->icon_menu);
     }
+    if (name == "moon_first_quarter") {
+      return const_cast<ibitmap *>(this->icon_moon_first_quarter);
+    }
+    if (name == "moon_full") {
+      return const_cast<ibitmap *>(this->icon_moon_full);
+    }
+    if (name == "moon_last_quarter") {
+      return const_cast<ibitmap *>(this->icon_moon_last_quarter);
+    }
+    if (name == "moon_new") {
+      return const_cast<ibitmap *>(this->icon_moon_new);
+    }
     if (name == "warning") {
       return const_cast<ibitmap *>(this->icon_warning);
     }
@@ -75,6 +94,10 @@ private:
   const ibitmap *const icon_13n;
   const ibitmap *const icon_50n;
   const ibitmap *const icon_menu;
+  const ibitmap *const icon_moon_first_quarter;
+  const ibitmap *const icon_moon_full;
+  const ibitmap *const icon_moon_last_quarter;
+  const ibitmap *const icon_moon_new;
   const ibitmap *const icon_warning;
 };
 } // namespace taranis

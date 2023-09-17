@@ -123,3 +123,52 @@ std::string taranis::format_day(const std::time_t &time) {
   }
   return GetLangText(weekdays[calendar_time->tm_wday]);
 }
+
+std::vector<std::string> taranis::identify_moon_phases(const std::vector<DailyCondition> &conditions) {
+  static constexpr std::array<long double, 5> phases{0.0, 0.25, 0.5, 0.75, 1.0};
+
+  std::array<long double, phases.size()> min_distances{NAN, NAN, NAN, NAN, NAN};
+
+  std::array<long double, phases.size()> phase_distances{NAN, NAN, NAN, NAN, NAN};
+  std::array<std::vector<DailyCondition>::const_iterator, phases.size()> identified_phases{conditions.end(), conditions.end(), conditions.end(), conditions.end()};
+  for (auto condition_it = conditions.begin(); condition_it < conditions.end(); ++condition_it) {
+    const auto &condition = *condition_it;
+    std::transform(phases.begin(), phases.end(), phase_distances.begin(), [&condition](long double phase) {
+      return std::abs(condition.moon_phase - phase);
+    });
+
+    const auto min_distance = std::min_element(phase_distances.begin(), phase_distances.end());
+    if (min_distance == phase_distances.end() or *min_distance >= 0.2) {
+      continue;
+    }
+    const auto min_distance_offset = std::distance(phase_distances.begin(), min_distance);
+    const auto current_min_distance = min_distances.begin() + min_distance_offset;
+    const auto previously_identified_phase = identified_phases.begin() + min_distance_offset;
+    if (*previously_identified_phase != conditions.end()) {
+      if (*min_distance >= *current_min_distance) {
+	continue;
+      }
+    }
+    *current_min_distance = *min_distance;
+    *previously_identified_phase = condition_it;
+  }
+  std::vector<std::string> phase_names;
+  phase_names.resize(conditions.size());
+  for (size_t identified_phase_index = 0; identified_phase_index < identified_phases.size(); ++identified_phase_index) {
+    const auto &condition_it = identified_phases[identified_phase_index];
+    if (condition_it == conditions.end()) {
+      continue;
+    }
+    const auto name_to_update = phase_names.begin() + std::distance(conditions.begin(), condition_it);
+    if (identified_phase_index == 0 or identified_phase_index == 4) {
+      *(name_to_update) = "moon_new";
+    } else if (identified_phase_index == 1) {
+      *(name_to_update) = "first_quarter";
+     } else if (identified_phase_index == 2) {
+      *(name_to_update) = "full";
+    } else if (identified_phase_index == 3) {
+      *(name_to_update) = "last_quarter";
+    }
+  }
+  return phase_names;
+}

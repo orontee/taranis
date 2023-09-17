@@ -91,6 +91,8 @@ private:
                               DailyForecastBox::horizontal_padding / 2;
     // Can't be computed once since depends on current language
 
+    const auto moon_phases = identify_moon_phases(this->model->daily_forecast);
+
     const Units units{this->model};
 
     for (size_t bar_index = 0; bar_index < DailyForecastBox::max_forecasts;
@@ -184,6 +186,15 @@ private:
         const auto humidity_text =
             std::to_string(static_cast<int>(forecast.humidity)) + "%";
         DrawString(wind_speed_start_x, lower_text_y, humidity_text.c_str());
+
+        const auto moon_icon_start_x = wind_speed_start_x +
+				       std::max(StringWidth(humidity_text.c_str()),
+						StringWidth(wind_speed_text.c_str())) +
+				       this->horizontal_padding / 2;
+	const auto moon_icon = this->icons->get("icon_moon_" + moon_phases[forecast_index]);
+	if (moon_icon) {
+          DrawBitmap(moon_icon_start_x, icon_start_y, moon_icon);
+	}
 
         const auto precipitation = max_number(forecast.rain, forecast.snow);
         if (not std::isnan(precipitation)) {

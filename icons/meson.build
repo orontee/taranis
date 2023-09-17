@@ -9,5 +9,9 @@ icons = files(
   'icon_13n_2x.bmp',
   'icon_50n_2x.bmp',
   'icon_menu.bmp',
-  'icon_warning.bmp'
+  'icon_moon_first_quarter.bmp',
+  'icon_moon_full.bmp',
+  'icon_moon_last_quarter.bmp',
+  'icon_moon_new.bmp',
+  'icon_warning.bmp',
 )
