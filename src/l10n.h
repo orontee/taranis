@@ -81,7 +81,7 @@ inline void initialize_translations() {
 
     // statusbar.h
     AddTranslation("Ongoing update…", "Mise à jour en cours…");
-    AddTranslation("Updated at", "Mis à jour à ");
+    AddTranslation("Last update:", "Mis à jour :");
     AddTranslation("Weather data from", "Données météorologiques de");
 
     // ui.h
@@ -171,7 +171,7 @@ inline void initialize_translations() {
 
     // statusbar.h
     AddTranslation("Ongoing update…", "Trwa aktualizacja…");
-    AddTranslation("Updated at", "Zaktualizowano");
+    AddTranslation("Last update:", "Ostatnia aktualizacja:");
     AddTranslation("Weather data from", "Dane pogodowe z");
 
     // ui.h
@@ -192,7 +192,7 @@ inline void initialize_translations() {
 
     // statusbar.h
     AddTranslation("Ongoing update…", "Laufendes Update…");
-    AddTranslation("Updated at", "Aktualisiert am");
+    AddTranslation("Last update:", "Aktualisiert am:");
     AddTranslation("Weather data from", "Wetterdaten von");
   }
 }

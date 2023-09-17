@@ -118,8 +118,8 @@ private:
         const auto icon_start_y = bar_center_y - icon->height / 2;
         DrawBitmap(icon_start_x, icon_start_y, icon);
 
-        const auto sunrise_start_x =
-            icon_start_x + icon->width + DailyForecastBox::horizontal_padding / 2;
+        const auto sunrise_start_x = icon_start_x + icon->width +
+                                     DailyForecastBox::horizontal_padding / 2;
         const auto sunrise_text = format_time(forecast.sunrise);
         SetFont(tiny_font.get(), BLACK);
         DrawString(sunrise_start_x, lower_text_y, sunrise_text.c_str());

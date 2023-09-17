@@ -33,8 +33,9 @@ public:
     if (this->model->refresh_date == 0) {
       first_row_text << T("Ongoing update…");
     } else {
-      first_row_text << T("Updated at") << " "
-                     << format_time(this->model->refresh_date) << ".";
+      first_row_text << T("Last update:") << " "
+                     << format_date(this->model->refresh_date) << ", "
+                     << format_time(this->model->refresh_date);
     }
 
     SetFont(this->font.get(), BLACK);

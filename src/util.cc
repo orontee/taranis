@@ -1,8 +1,10 @@
 #include "util.h"
+#include "inkview.h"
 
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <cstring>
 
 std::vector<double>
 taranis::normalize_temperatures(const std::vector<Condition> &conditions,

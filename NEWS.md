@@ -15,6 +15,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Display full date in status bar
+  [#46](https://github.com/orontee/taranis/issues/46)
+
 - Fix background color of icons
   [#45](https://github.com/orontee/taranis/issues/45)
 

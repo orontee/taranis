@@ -59,6 +59,10 @@ inline void rtrim(std::string &s) {
 
 std::string format_time(const std::time_t &time, bool full = false);
 
+inline std::string format_date(const std::time_t &time) {
+  return DateStr(time);
+}
+
 std::string format_day(const std::time_t &time);
 
 inline std::string format_duration(const std::time_t &start,
