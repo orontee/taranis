@@ -97,7 +97,7 @@ Screenshots can be performed through the task menu of an e-reader, and conversio
 using [ImageMagick convert script](https://www.imagemagick.org/script/convert.php); For example:
 ```
 convert /media/matthias/Vivlio/screens/scr0002.bmp \
-        -scale 40% -bordercolor pink -border 5 \
+        -scale 20% -bordercolor pink -border 5 \
         docs/screenshot-hourly-forecast.jpg
 ```
 
