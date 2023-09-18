@@ -4,6 +4,7 @@
 #include <cctype>
 #include <cstring>
 #include <ctime>
+#include <experimental/optional>
 #include <inkview.h>
 #include <iterator>
 #include <memory>
@@ -26,6 +27,10 @@
 
 using namespace std::placeholders;
 using namespace std::string_literals;
+
+namespace std {
+template <class T> using optional = std::experimental::optional<T>;
+}
 
 namespace taranis {
 
@@ -239,7 +244,7 @@ private:
   }
 
   void clear_model_weather_conditions() {
-    this->model->current_condition = std::optional<Condition>{};
+    this->model->current_condition = std::experimental::nullopt;
     this->model->hourly_forecast.clear();
     this->model->daily_forecast.clear();
     this->model->refresh_date = 0;

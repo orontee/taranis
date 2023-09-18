@@ -1,6 +1,5 @@
 #pragma once
 
-#include <experimental/optional>
 #include <inkview.h>
 #include <memory>
 
@@ -8,10 +7,6 @@
 #include "fonts.h"
 #include "icons.h"
 #include "model.h"
-
-namespace std {
-template <class T> using optional = std::experimental::optional<T>;
-}
 
 namespace taranis {
 

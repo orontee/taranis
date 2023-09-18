@@ -3,8 +3,13 @@
 #include <algorithm>
 #include <chrono>
 #include <ctime>
+#include <experimental/optional>
 #include <inkview.h>
 #include <string>
+
+namespace std {
+  template <class T> using optional = std::experimental::optional<T>;
+}
 
 namespace taranis {
 
@@ -12,6 +17,12 @@ enum SwipeType {
   no_swipe = 0,
   left_swipe = -1,
   right_swipe = 1,
+};
+
+struct TrackData {
+  std::chrono::time_point<std::chrono::steady_clock> start_time;
+  int start_pos_x;
+  int start_pos_y;
 };
 
 class SwipeDetector {
@@ -45,7 +56,7 @@ public:
       }
     } else if (event_type == EVT_POINTERUP) {
       if (not is_false_positive_track_end(pointer_pos_x, pointer_pos_y)) {
-        const auto delta_x = pointer_pos_x - this->track_start_pos.first;
+        const auto delta_x = pointer_pos_x - this->track->start_pos_x;
         if (std::abs(delta_x) > SwipeDetector::horizontal_threshold) {
           value = (delta_x > 0) ? right_swipe : left_swipe;
         }
@@ -62,19 +73,18 @@ private:
 
   irect bounding_box;
 
-  bool tracking{false};
-  std::chrono::time_point<std::chrono::steady_clock> track_start_time;
-  std::pair<int, int> track_start_pos;
+  std::optional<TrackData> track;
 
   void start_tracking(int pointer_pos_x, int pointer_pos_y) {
-    this->tracking = true;
-    this->track_start_time = std::chrono::steady_clock::now();
-    this->track_start_pos = {pointer_pos_x, pointer_pos_y};
+    this->track = TrackData{std::chrono::steady_clock::now(),
+                            pointer_pos_x, pointer_pos_y};
   }
 
-  void cancel_tracking() { this->tracking = false; }
+  void cancel_tracking() { this->track = std::experimental::nullopt; }
 
-  bool is_tracking() const { return this->tracking; }
+  bool is_tracking() const {
+    return this->track != std::experimental::nullopt;
+  }
 
   bool is_false_positive_track_start(int pointer_pos_x,
                                      int pointer_pos_y) const {
@@ -89,7 +99,7 @@ private:
     if (not IsInRect(pointer_pos_x, pointer_pos_y, &this->bounding_box)) {
       return true;
     }
-    if (std::abs(pointer_pos_y - this->track_start_pos.second) >
+    if (std::abs(pointer_pos_y - this->track->start_pos_y) >
         SwipeDetector::vertical_false_positive_threshold) {
       return true;
     }
@@ -103,9 +113,10 @@ private:
   }
 
   bool is_pointer_event_late() const {
+    // to be called after a successful call to is_tracking()
     const auto now = std::chrono::steady_clock::now();
     const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-        now - this->track_start_time);
+        now - this->track->start_time);
     return (duration.count() > SwipeDetector::time_threshold);
   }
 };
