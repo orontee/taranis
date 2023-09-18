@@ -18,6 +18,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Fix some (minor) visual glitches 
+  [#47](https://github.com/orontee/taranis/issues/47)
+
 - Display full date in status bar
   [#46](https://github.com/orontee/taranis/issues/46)
 

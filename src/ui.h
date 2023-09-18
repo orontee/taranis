@@ -40,7 +40,7 @@ public:
 
     const auto remaining_height =
         status_bar->get_pos_y() - (current_condition_box->get_pos_y() +
-                                   current_condition_box->get_height());
+                                   current_condition_box->get_height()) - 1;
 
     this->hourly_forecast_box = std::make_shared<HourlyForecastBox>(
         0,
@@ -70,7 +70,8 @@ public:
                                    Ui::button_margin);
     this->alerts_button->set_pos_y(current_condition_bounding_box.y +
                                    current_condition_bounding_box.h / 2 -
-                                   this->alerts_button->get_height() / 2);
+                                   this->alerts_button->get_height() / 2 -
+				   CurrentConditionBox::bottom_padding);
 
     this->children.push_back(location_box);
     this->children.push_back(menu_button);

@@ -88,7 +88,8 @@ private:
   void draw_inverted_icon() const {
     const auto [pos_x, pos_y] = this->get_icon_center_position();
     const int radius = static_cast<int>(
-        std::sqrt(2) * std::max(this->icon->width, this->icon->height) / 2);
+					std::sqrt(2) * std::max(this->icon->width, this->icon->height) / 2)
+		       - 2;
     auto canvas = GetCanvas();
     invertCircle(pos_x, pos_y, radius, canvas);
   }

@@ -80,6 +80,13 @@ private:
     DrawLine(separator_start_x, separator_start_y, separator_stop_x,
              separator_start_y, LGRAY);
 
+    DrawLine(separator_start_x, separator_start_y + this->bounding_box.h,
+	     separator_stop_x, separator_start_y + this->bounding_box.h,
+	     LGRAY);
+
+    // Draw both lines to be sure that they match the equivalent lines
+    // in other widgets
+
     auto normal_font = this->fonts->get_normal_font();
     auto small_font = this->fonts->get_small_font();
     auto small_bold_font = this->fonts->get_small_bold_font();
@@ -211,9 +218,12 @@ private:
           }
         }
       }
-      separator_start_y = bar_start_y + this->bar_height;
-      DrawLine(separator_start_x, separator_start_y, separator_stop_x,
-               separator_start_y, LGRAY);
+      const auto last_bar = (bar_index + 1 == this->max_forecasts);
+      if (not last_bar) {
+	separator_start_y = bar_start_y + this->bar_height;
+	DrawLine(separator_start_x, separator_start_y, separator_stop_x,
+		 separator_start_y, LGRAY);
+      }
     }
   }
 };

@@ -32,10 +32,10 @@ public:
 
     this->bar_width = static_cast<int>(std::ceil(width / this->visible_bars));
 
-    this->bars_height = this->bounding_box.h - 2 * this->vertical_padding;
+    this->bars_height = this->bounding_box.h;
 
     this->frame_start_x = this->bounding_box.x;
-    this->frame_start_y = this->bounding_box.y + this->vertical_padding;
+    this->frame_start_y = this->bounding_box.y;
 
     auto normal_font = this->fonts->get_normal_font();
     auto small_bold_font = this->fonts->get_small_bold_font();

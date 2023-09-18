@@ -19,11 +19,14 @@ void handle_current_condition_dialog_button_clicked(int button_index);
 
 class CurrentConditionBox : public Widget {
 public:
+  static constexpr int bottom_padding{25};
+
   CurrentConditionBox(int pos_x, int pos_y, std::shared_ptr<Model> model,
                       std::shared_ptr<Fonts> fonts)
       : Widget{pos_x, pos_y}, model{model}, fonts{fonts} {
     this->set_width(4 * ScreenWidth() / 5);
-    this->set_height(this->fonts->get_big_font()->height);
+    this->set_height(this->fonts->get_big_font()->height +
+		     this->bottom_padding);
   }
 
   void show() override {
