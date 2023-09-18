@@ -160,7 +160,8 @@ private:
     }
 
     const std::string current_system_language = currentLang();
-    const bool is_language_obsolete = (this->language != current_system_language);
+    const bool is_language_obsolete =
+        (this->language != current_system_language);
     if (is_language_obsolete) {
       this->language = current_system_language;
       initialize_translations();

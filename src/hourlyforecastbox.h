@@ -75,6 +75,40 @@ public:
     return 0;
   }
 
+  void increase_forecast_offset() {
+    const size_t max_forecast_offset{24 - this->visible_bars};
+    const auto updated_forecast_offset = std::min(
+        this->forecast_offset + this->visible_bars, max_forecast_offset);
+    if (updated_forecast_offset != this->forecast_offset) {
+      this->forecast_offset = updated_forecast_offset;
+      this->draw_and_update();
+    } else {
+      this->forecast_offset = 0;
+      const auto event_handler = GetEventHandler();
+      SendEvent(event_handler, EVT_CUSTOM,
+                CustomEvent::change_daily_forecast_display, 0);
+    }
+  }
+
+  void decrease_forecast_offset() {
+    const size_t min_forecast_offset{0};
+    const auto updated_forecast_offset =
+        (this->forecast_offset > this->visible_bars)
+            ? this->forecast_offset - this->visible_bars
+            : min_forecast_offset;
+
+    // don't use std::max since we're working with unsigned integers!
+
+    if (updated_forecast_offset != this->forecast_offset) {
+      this->forecast_offset = updated_forecast_offset;
+      this->draw_and_update();
+    } else {
+      const auto event_handler = GetEventHandler();
+      SendEvent(event_handler, EVT_CUSTOM,
+                CustomEvent::change_daily_forecast_display, 0);
+    }
+  }
+
 private:
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
@@ -276,40 +310,6 @@ private:
               probability_of_precipitation_text.c_str());
         }
       }
-    }
-  }
-
-  void increase_forecast_offset() {
-    const size_t max_forecast_offset{24 - this->visible_bars};
-    const auto updated_forecast_offset = std::min(
-        this->forecast_offset + this->visible_bars, max_forecast_offset);
-    if (updated_forecast_offset != this->forecast_offset) {
-      this->forecast_offset = updated_forecast_offset;
-      this->draw_and_update();
-    } else {
-      this->forecast_offset = 0;
-      const auto event_handler = GetEventHandler();
-      SendEvent(event_handler, EVT_CUSTOM,
-                CustomEvent::change_daily_forecast_display, 0);
-    }
-  }
-
-  void decrease_forecast_offset() {
-    const size_t min_forecast_offset{0};
-    const auto updated_forecast_offset =
-        (this->forecast_offset > this->visible_bars)
-            ? this->forecast_offset - this->visible_bars
-            : min_forecast_offset;
-
-    // don't use std::max since we're working with unsigned integers!
-
-    if (updated_forecast_offset != this->forecast_offset) {
-      this->forecast_offset = updated_forecast_offset;
-      this->draw_and_update();
-    } else {
-      const auto event_handler = GetEventHandler();
-      SendEvent(event_handler, EVT_CUSTOM,
-                CustomEvent::change_daily_forecast_display, 0);
     }
   }
 };

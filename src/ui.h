@@ -14,6 +14,7 @@
 #include "menu.h"
 #include "model.h"
 #include "statusbar.h"
+#include "swipe.h"
 
 namespace taranis {
 
@@ -76,6 +77,9 @@ public:
     this->children.push_back(current_condition_box);
     this->children.push_back(alerts_button);
     this->children.push_back(status_bar);
+
+    this->swipe_detector.set_bounding_box(
+        this->hourly_forecast_box->get_bounding_box());
   }
 
   void show() {
@@ -91,6 +95,9 @@ public:
 
   int handle_pointer_event(int event_type, int pointer_pos_x,
                            int pointer_pos_y) {
+    if (this->handle_possible_swipe(event_type, pointer_pos_x, pointer_pos_y)) {
+      return 1;
+    }
     for (auto widget : this->children) {
       if (Ui::is_on_widget(pointer_pos_x, pointer_pos_y, widget)) {
         return widget->handle_pointer_event(event_type, pointer_pos_x,
@@ -131,9 +138,11 @@ private:
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
 
+  SwipeDetector swipe_detector;
+
   std::shared_ptr<AlertsButton> alerts_button;
 
-  std::shared_ptr<Widget> hourly_forecast_box;
+  std::shared_ptr<HourlyForecastBox> hourly_forecast_box;
   std::shared_ptr<Widget> daily_forecast_box;
 
   std::vector<std::shared_ptr<Widget>> children;
@@ -169,6 +178,30 @@ private:
     if (this->children.back() != widget_to_display) {
       this->children.push_back(widget_to_display);
     }
+  }
+
+  int handle_possible_swipe(int event_type, int pointer_pos_x,
+                            int pointer_pos_y) {
+    const auto swipe = this->swipe_detector.guess_event_swipe_type(
+        event_type, pointer_pos_x, pointer_pos_y);
+    if (swipe != SwipeType::no_swipe) {
+      auto current_forecast_widget = this->get_forecast_widget();
+      if (current_forecast_widget == this->daily_forecast_box) {
+        const auto event_handler = GetEventHandler();
+        SendEvent(event_handler, EVT_CUSTOM,
+                  CustomEvent::change_daily_forecast_display, 0);
+        return 1;
+      } else if (current_forecast_widget == this->hourly_forecast_box) {
+        if (swipe == SwipeType::left_swipe) {
+          this->hourly_forecast_box->increase_forecast_offset();
+          return 1;
+        } else if (swipe == SwipeType::right_swipe) {
+          this->hourly_forecast_box->decrease_forecast_offset();
+          return 1;
+        }
+      }
+    }
+    return 0;
   }
 };
 

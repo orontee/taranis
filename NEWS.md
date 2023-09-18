@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Touch control allow to switch pages
+  [#27](https://github.com/orontee/taranis/issues/27)
+
 - Min and max temperatures are displayed in daily forecast
   [#43](https://github.com/orontee/taranis/issues/43)
 
