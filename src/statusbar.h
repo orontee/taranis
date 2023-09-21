@@ -10,8 +10,6 @@
 #include "util.h"
 #include "widget.h"
 
-#define T(x) GetLangText(x)
-
 namespace taranis {
 
 class StatusBar : public Widget {
@@ -31,9 +29,9 @@ public:
 
     std::stringstream first_row_text;
     if (this->model->refresh_date == 0) {
-      first_row_text << T("Ongoing update…");
+      first_row_text << GetLangText("Ongoing update…");
     } else {
-      first_row_text << T("Last update:") << " "
+      first_row_text << GetLangText("Last update:") << " "
                      << format_date(this->model->refresh_date) << ", "
                      << format_time(this->model->refresh_date);
     }
@@ -44,7 +42,8 @@ public:
     DrawString(first_row_x, first_row_y, first_row_text.str().c_str());
 
     std::stringstream second_row_text;
-    second_row_text << T("Weather data from") << " " << this->model->source;
+    second_row_text << GetLangText("Weather data from") << " "
+                    << this->model->source;
 
     SetFont(this->font.get(), DGRAY);
     const auto second_row_x = this->left_padding;

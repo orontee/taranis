@@ -8,7 +8,7 @@
 #include <string>
 
 namespace std {
-  template <class T> using optional = std::experimental::optional<T>;
+template <class T> using optional = std::experimental::optional<T>;
 }
 
 namespace taranis {
@@ -76,15 +76,13 @@ private:
   std::optional<TrackData> track;
 
   void start_tracking(int pointer_pos_x, int pointer_pos_y) {
-    this->track = TrackData{std::chrono::steady_clock::now(),
-                            pointer_pos_x, pointer_pos_y};
+    this->track = TrackData{std::chrono::steady_clock::now(), pointer_pos_x,
+                            pointer_pos_y};
   }
 
   void cancel_tracking() { this->track = std::experimental::nullopt; }
 
-  bool is_tracking() const {
-    return this->track != std::experimental::nullopt;
-  }
+  bool is_tracking() const { return this->track != std::experimental::nullopt; }
 
   bool is_false_positive_track_start(int pointer_pos_x,
                                      int pointer_pos_y) const {

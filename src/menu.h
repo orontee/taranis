@@ -16,8 +16,6 @@
 #include "model.h"
 #include "util.h"
 
-#define T(x) GetLangText(x)
-
 namespace std {
 template <class T> using optional = std::experimental::optional<T>;
 }
@@ -42,25 +40,26 @@ public:
   MenuButton(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
              std::shared_ptr<Fonts> fonts)
       : Button{MenuButton::icon_size, icons->get("menu")},
-        unit_system_items{imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD,
-                                const_cast<char *>(T("Standard")), nullptr},
-                          imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_METRIC,
-                                const_cast<char *>(T("Metric")), nullptr},
-                          imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_IMPERIAL,
-                                const_cast<char *>(T("Imperial")), nullptr},
-                          imenu{0, 0, nullptr, nullptr}},
+        unit_system_items{
+            imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD,
+                  const_cast<char *>(GetLangText("Standard")), nullptr},
+            imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_METRIC,
+                  const_cast<char *>(GetLangText("Metric")), nullptr},
+            imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_IMPERIAL,
+                  const_cast<char *>(GetLangText("Imperial")), nullptr},
+            imenu{0, 0, nullptr, nullptr}},
         items{imenu{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH,
-                    const_cast<char *>(T("Refresh")), nullptr},
+                    const_cast<char *>(GetLangText("Refresh")), nullptr},
               imenu{ITEM_SUBMENU, taranis::MENU_ITEM_LOCATION_HISTORY,
-                    const_cast<char *>(T("Locations")),
+                    const_cast<char *>(GetLangText("Locations")),
                     this->location_history_items.data()},
               imenu{ITEM_SUBMENU, taranis::MENU_ITEM_UNIT_SYSTEM,
-                    const_cast<char *>(T("Units")),
+                    const_cast<char *>(GetLangText("Units")),
                     const_cast<imenu *>(this->unit_system_items.data())},
               imenu{ITEM_ACTIVE, taranis::MENU_ITEM_ABOUT,
-                    const_cast<char *>(T("About…")), nullptr},
+                    const_cast<char *>(GetLangText("About…")), nullptr},
               imenu{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT,
-                    const_cast<char *>(T("Quit")), nullptr},
+                    const_cast<char *>(GetLangText("Quit")), nullptr},
               imenu{0, 0, nullptr, nullptr}},
         model{model}, font{fonts->get_normal_font()} {
     this->update_location_history_items();
@@ -121,7 +120,7 @@ private:
     if (location_history.empty()) {
       this->location_history_items.at(index) =
           imenu{ITEM_INACTIVE, taranis::MENU_ITEM_EMPTY_LOCATION_HISTORY,
-                const_cast<char *>(T("Empty")), nullptr};
+                const_cast<char *>(GetLangText("Empty")), nullptr};
       ++index;
     } else {
       for (const auto &location : location_history) {

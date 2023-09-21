@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Evenly distribute space between columns of daily forecast view
+  [#49](https://github.com/orontee/taranis/issues/49)
+
 - Touch control allow to switch pages
   [#27](https://github.com/orontee/taranis/issues/27)
 

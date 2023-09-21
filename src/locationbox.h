@@ -13,8 +13,6 @@
 #include "util.h"
 #include "widget.h"
 
-#define T(x) GetLangText(x)
-
 using namespace std::string_literals;
 
 namespace taranis {

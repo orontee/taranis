@@ -17,8 +17,6 @@
 #include "util.h"
 #include "widget.h"
 
-#define T(x) GetLangText(x)
-
 namespace taranis {
 
 class HourlyForecastBox : public Widget {

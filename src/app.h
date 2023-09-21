@@ -23,8 +23,6 @@
 #include "units.h"
 #include "util.h"
 
-#define T(x) GetLangText(x)
-
 using namespace std::placeholders;
 using namespace std::string_literals;
 
@@ -98,9 +96,9 @@ private:
     try {
       check_software_version(version);
     } catch (const UnsupportedSoftwareVersion &error) {
-      Message(ICON_WARNING, T("Unsupported software version"),
-              T("The application isn't compatible with the software "
-                "version of this reader."),
+      Message(ICON_WARNING, GetLangText("Unsupported software version"),
+              GetLangText("The application isn't compatible with the software "
+                          "version of this reader."),
               error_dialog_delay);
       this->exit();
       return;
@@ -233,10 +231,11 @@ private:
     } else if (param_one == CustomEvent::warning_emitted) {
       if (param_two == CustomEventParam::invalid_location) {
         DialogSynchro(
-            ICON_WARNING, T("Invalid input"),
-            T("Make sure you enter a town then a country separated by a "
-              "comma."),
-            T("Ok"), nullptr, nullptr);
+            ICON_WARNING, GetLangText("Invalid input"),
+            GetLangText(
+                "Make sure you enter a town then a country separated by a "
+                "comma."),
+            GetLangText("Ok"), nullptr, nullptr);
         return 1;
       }
     }
@@ -279,17 +278,19 @@ private:
       SendEvent(event_handler, EVT_CUSTOM, CustomEvent::model_updated, 0);
 
     } catch (const ConnectionError &error) {
-      Message(ICON_WARNING, T("Network error"),
-              T("Failure while fetching weather data. Check your network "
-                "connection."),
-              App::error_dialog_delay);
+      Message(
+          ICON_WARNING, GetLangText("Network error"),
+          GetLangText("Failure while fetching weather data. Check your network "
+                      "connection."),
+          App::error_dialog_delay);
     } catch (const RequestError &error) {
-      Message(ICON_WARNING, T("Network error"),
-              T("Failure while fetching weather data. Check your network "
-                "connection."),
-              App::error_dialog_delay);
+      Message(
+          ICON_WARNING, GetLangText("Network error"),
+          GetLangText("Failure while fetching weather data. Check your network "
+                      "connection."),
+          App::error_dialog_delay);
     } catch (const ServiceError &error) {
-      Message(ICON_WARNING, T("Service unavailable"), error.what(),
+      Message(ICON_WARNING, GetLangText("Service unavailable"), error.what(),
               App::error_dialog_delay);
     }
     HideHourglass();
@@ -297,8 +298,8 @@ private:
 
   void open_about_dialog() {
     const auto about_content = get_about_content();
-    Dialog(ICON_INFORMATION, T("About"), about_content.c_str(), T("Ok"),
-           nullptr, &handle_about_dialog_button_clicked);
+    Dialog(ICON_INFORMATION, GetLangText("About"), about_content.c_str(),
+           GetLangText("Ok"), nullptr, &handle_about_dialog_button_clicked);
   }
 
   static Location parse_location(const std::string &location) {

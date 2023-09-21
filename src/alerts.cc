@@ -6,8 +6,6 @@
 #include "events.h"
 #include "util.h"
 
-#define T(x) GetLangText(x)
-
 #define OK_BUTTON_INDEX 0
 #define NEXT_ALERT_BUTTON_INDEX 1
 
@@ -41,7 +39,8 @@ void taranis::AlertsButton::open_dialog_maybe() {
 
   const auto &alert = this->model->alerts.at(alert_index);
 
-  const auto dialog_title = not alert.event.empty() ? alert.event : T("Alert");
+  const auto dialog_title =
+      not alert.event.empty() ? alert.event : GetLangText("Alert");
   // 😕 Looks like dialog title isn't displayed at all!
 
   std::stringstream alert_text;
@@ -50,22 +49,23 @@ void taranis::AlertsButton::open_dialog_maybe() {
   }
   alert_text << alert.description << std::endl << std::endl;
   if (alert.start_date) {
-    alert_text << T("Start") << " " << format_time(alert.start_date, true)
-               << std::endl;
+    alert_text << GetLangText("Start") << " "
+               << format_time(alert.start_date, true) << std::endl;
     if (alert.end_date) {
-      alert_text << T("Duration") << " "
+      alert_text << GetLangText("Duration") << " "
                  << format_duration(alert.start_date, alert.end_date)
                  << std::endl;
     }
   }
   if (not alert.sender.empty()) {
-    alert_text << T("Source") << " " << alert.sender;
+    alert_text << GetLangText("Source") << " " << alert.sender;
   }
 
-  const auto first_button_text =
-      alert_index + 1 < alert_count ? T("Next alert") : T("Ok");
+  const auto first_button_text = alert_index + 1 < alert_count
+                                     ? GetLangText("Next alert")
+                                     : GetLangText("Ok");
   const auto second_button_text =
-      alert_index + 1 < alert_count ? T("Ok") : nullptr;
+      alert_index + 1 < alert_count ? GetLangText("Ok") : nullptr;
 
   Dialog(ICON_WARNING, dialog_title.c_str(), alert_text.str().c_str(),
          first_button_text, second_button_text, &alert_dialog_handler);

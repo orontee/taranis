@@ -4,8 +4,6 @@
 #include <stdexcept>
 #include <string>
 
-#define T(x) GetLangText(x)
-
 namespace taranis {
 struct ConnectionError : std::runtime_error {
   ConnectionError() : std::runtime_error{""} {}
@@ -35,13 +33,15 @@ struct ServiceError : std::runtime_error {
   ServiceError(std::string what) : std::runtime_error{what} {}
 
   static ServiceError get_unknown_location_error() {
-    return {T("Location unknown to the service providing weather data. Check "
-              "spelling.")};
+    return {GetLangText(
+        "Location unknown to the service providing weather data. Check "
+        "spelling.")};
   }
 
   static ServiceError get_unexpected_error() {
-    return {T("Sorry, an unexpected error was encountered. Report this to the "
-              "application author.")};
+    return {GetLangText(
+        "Sorry, an unexpected error was encountered. Report this to the "
+        "application author.")};
   }
 
   static ServiceError from_http_error(const HttpError &error) {
@@ -50,12 +50,14 @@ struct ServiceError : std::runtime_error {
       return ServiceError::get_unexpected_error();
       break;
     case 401:
-      return {T("An API key is required to consume weather data. Contact the "
-                "application maintainer.")};
+      return {GetLangText(
+          "An API key is required to consume weather data. Contact the "
+          "application maintainer.")};
       break;
     case 402: // payment required
     case 403:
-      return {T("Weather data can't be accessed with the provided API key.")};
+      return {GetLangText(
+          "Weather data can't be accessed with the provided API key.")};
       break;
     case 404:
       return ServiceError::get_unknown_location_error();
@@ -65,8 +67,9 @@ struct ServiceError : std::runtime_error {
     case 502: // bad gateway
     case 503: // service unavailable
     default:
-      return {T("The service providing weather data isn't working as expected. "
-                "Retry later.")};
+      return {GetLangText(
+          "The service providing weather data isn't working as expected. "
+          "Retry later.")};
     }
   }
 };

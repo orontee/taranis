@@ -3,8 +3,11 @@
 #pragma once
 
 #include <algorithm>
+#include <array>
+#include <boost/variant.hpp>
 #include <inkview.h>
 #include <memory>
+#include <numeric>
 
 #include "events.h"
 #include "fonts.h"
@@ -13,8 +16,6 @@
 #include "units.h"
 #include "util.h"
 #include "widget.h"
-
-#define T(x) GetLangText(x)
 
 using namespace std::string_literals;
 
@@ -27,13 +28,13 @@ public:
                    std::shared_ptr<Fonts> fonts)
       : Widget{pos_x, pos_y, width, height}, model{model}, icons{icons},
         fonts{fonts} {
-    this->bar_height = this->bounding_box.h / DailyForecastBox::max_forecasts;
+    this->row_height = this->bounding_box.h / DailyForecastBox::row_count;
   }
 
   void show() override {
     this->fill_bounding_box();
-
-    this->draw_frame_and_values();
+    this->draw_values();
+    this->draw_frame();
   }
 
   int handle_key_pressed(int key) override {
@@ -47,182 +48,278 @@ public:
   }
 
 private:
+  static constexpr size_t row_count{8};
+  static constexpr size_t column_count{9};
+  static constexpr int horizontal_padding{25};
+
+  typedef boost::variant<std::string, std::pair<std::string, std::string>,
+                         ibitmap *>
+      CellContent;
+
+  typedef std::array<CellContent, DailyForecastBox::row_count> ColumnContent;
+  typedef std::array<ColumnContent, DailyForecastBox::column_count>
+      TableContent;
+
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
 
-  static const int max_forecasts{8};
-  static const int horizontal_padding{25};
+  TableContent table_content;
 
-  int bar_height;
+  int row_height;
 
-  int compute_day_pixel_width() {
-    static std::array<const char *, 7> weekdays = {
-        "@Sun", "@Mon", "@Tue", "@Wed", "@Thu", "@Fri", "@Sat"};
-    static std::array<int, 7> weekdays_width;
+  std::array<size_t, DailyForecastBox::column_count> column_widths;
+  std::array<size_t, DailyForecastBox::column_count> column_starts;
 
-    auto small_font = this->fonts->get_small_font();
-    SetFont(small_font.get(), BLACK);
+  static constexpr size_t WeekDayColumn{0};
+  static constexpr size_t IconColumn{1};
+  static constexpr size_t SunHoursColumn{2};
+  static constexpr size_t MorningTemperatureColumn{3};
+  static constexpr size_t DayTemperatureColumn{4};
+  static constexpr size_t EveningTemperatureColumn{5};
+  static constexpr size_t MinMaxTemperatureColumn{6};
+  static constexpr size_t WindColumn{7};
+  static constexpr size_t PrecipitationColumn{8};
 
-    std::transform(
-        std::begin(weekdays), std::end(weekdays), std::begin(weekdays_width),
-        [](const char *weekday) { return StringWidth(GetLangText(weekday)); });
-    return *std::max_element(std::begin(weekdays_width),
-                             std::end(weekdays_width));
-  }
+  static constexpr std::array<int, DailyForecastBox::column_count>
+      column_text_flags{ALIGN_LEFT,  ALIGN_CENTER, ALIGN_RIGHT,
+                        ALIGN_RIGHT, ALIGN_RIGHT,  ALIGN_RIGHT,
+                        ALIGN_RIGHT, ALIGN_RIGHT,  ALIGN_RIGHT};
 
-  void draw_frame_and_values() {
-    const auto bar_start_x = this->bounding_box.x;
-    auto bar_start_y = this->bounding_box.y;
-    const auto separator_start_x = bar_start_x;
-    auto separator_start_y = bar_start_y;
-    const auto separator_stop_x = this->bounding_box.w;
-    DrawLine(separator_start_x, separator_start_y, separator_stop_x,
-             separator_start_y, LGRAY);
-
-    DrawLine(separator_start_x, separator_start_y + this->bounding_box.h,
-	     separator_stop_x, separator_start_y + this->bounding_box.h,
-	     LGRAY);
-
-    // Draw both lines to be sure that they match the equivalent lines
-    // in other widgets
-
-    auto normal_font = this->fonts->get_normal_font();
-    auto small_font = this->fonts->get_small_font();
-    auto small_bold_font = this->fonts->get_small_bold_font();
-    auto tiny_font = this->fonts->get_tiny_font();
-
-    const auto day_start_x =
-        bar_start_x + 2 * DailyForecastBox::horizontal_padding;
-    const auto icon_start_x = day_start_x + this->compute_day_pixel_width() +
-                              DailyForecastBox::horizontal_padding / 2;
-    // Can't be computed once since depends on current language
-
+  std::pair<std::string, std::string>
+  generate_precipitation_column_content(const DailyCondition &forecast) const {
     const Units units{this->model};
 
-    for (size_t bar_index = 0; bar_index < DailyForecastBox::max_forecasts;
-         ++bar_index) {
-      bar_start_y = this->bounding_box.y + bar_index * this->bar_height;
+    const auto precipitation = max_number(forecast.rain, forecast.snow);
+    if (std::isnan(precipitation)) {
+      return {"", ""};
+    }
+    const auto precipitation_text =
+        units.format_precipitation(precipitation, false);
 
-      const auto forecast_index = bar_index;
-      if (forecast_index < this->model->daily_forecast.size()) {
-        const auto forecast = this->model->daily_forecast[forecast_index];
+    const auto probability_of_precipitation =
+        forecast.probability_of_precipitation;
+    if (std::isnan(probability_of_precipitation)) {
+      return {precipitation_text, ""};
+    }
+    const auto probability_of_precipitation_text =
+        std::to_string(static_cast<int>(probability_of_precipitation * 100)) +
+        "%";
+    return {precipitation_text, probability_of_precipitation_text};
+  }
 
-        const auto bar_center_y = bar_start_y + this->bar_height / 2;
-        const auto bar_text_y =
-            bar_start_y + (this->bar_height - small_font->height) / 2;
-        const auto upper_text_y =
-            bar_start_y + (this->bar_height - 2 * tiny_font->height) / 3;
-        const auto lower_text_y =
-            upper_text_y + tiny_font->height +
-            (this->bar_height - 2 * tiny_font->height) / 3;
+  void generate_table_content() {
+    const Units units{this->model};
 
-        const auto day_text = format_day(forecast.date);
-        SetFont(small_font.get(), BLACK);
-        DrawString(day_start_x, bar_text_y, day_text.c_str());
+    for (size_t column_index = 0; column_index < DailyForecastBox::column_count;
+         ++column_index) {
+      auto &column_content = this->table_content.at(column_index);
 
-        const auto icon = this->icons->get(forecast.weather_icon_name);
-        const auto icon_start_y = bar_center_y - icon->height / 2;
-        DrawBitmap(icon_start_x, icon_start_y, icon);
+      for (size_t row_index = 0; row_index < DailyForecastBox::row_count;
+           ++row_index) {
+        if (row_index < this->model->daily_forecast.size()) {
+          const auto &forecast = this->model->daily_forecast[row_index];
 
-        const auto sunrise_start_x = icon_start_x + icon->width +
-                                     DailyForecastBox::horizontal_padding / 2;
-        const auto sunrise_text = format_time(forecast.sunrise);
-        SetFont(tiny_font.get(), BLACK);
-        DrawString(sunrise_start_x, lower_text_y, sunrise_text.c_str());
+          if (column_index == DailyForecastBox::WeekDayColumn) {
+            column_content[row_index] = format_day(forecast.date);
+          } else if (column_index == DailyForecastBox::IconColumn) {
+            column_content[row_index] =
+                this->icons->get(forecast.weather_icon_name);
+          } else if (column_index == DailyForecastBox::SunHoursColumn) {
+            column_content[row_index] = std::pair<std::string, std::string>{
+                format_time(forecast.sunset), format_time(forecast.sunrise)};
+          } else if (column_index ==
+                     DailyForecastBox::MorningTemperatureColumn) {
+            column_content[row_index] =
+                units.format_temperature(forecast.temperature_morning);
+          } else if (column_index == DailyForecastBox::DayTemperatureColumn) {
+            column_content[row_index] =
+                units.format_temperature(forecast.temperature_day);
+          } else if (column_index ==
+                     DailyForecastBox::EveningTemperatureColumn) {
+            column_content[row_index] =
+                units.format_temperature(forecast.temperature_evening);
+          } else if (column_index ==
+                     DailyForecastBox::MinMaxTemperatureColumn) {
+            column_content[row_index] = std::pair<std::string, std::string>{
+                units.format_temperature(forecast.temperature_max),
+                units.format_temperature(forecast.temperature_min)};
+          } else if (column_index == DailyForecastBox::WindColumn) {
+            column_content[row_index] = std::pair<std::string, std::string>{
+                units.format_speed(forecast.wind_speed),
+                std::to_string(static_cast<int>(forecast.humidity)) + "%"};
+          } else if (column_index == DailyForecastBox::PrecipitationColumn) {
+            column_content[row_index] =
+                this->generate_precipitation_column_content(forecast);
+          }
+        } else {
+	  if (column_index == DailyForecastBox::IconColumn) {
+	    column_content[row_index] = static_cast<ibitmap*>(nullptr);
+	  } else if (this->has_two_text_lines(column_index)) {
+	    column_content[row_index] = std::pair<std::string, std::string>{"", ""};
+	  } else {
+	    column_content[row_index] = "";
+	  }
+	}
+      }
+    }
+  }
 
-        const auto sunset_start_x = sunrise_start_x;
-        const auto sunset_text = format_time(forecast.sunset);
-        DrawString(sunset_start_x, upper_text_y, sunset_text.c_str());
+  std::shared_ptr<ifont> get_column_font(size_t column_index) const {
+    if (column_index == DailyForecastBox::WeekDayColumn) {
+      return this->fonts->get_normal_font();
+    } else if (column_index == DailyForecastBox::SunHoursColumn or
+               column_index == DailyForecastBox::MinMaxTemperatureColumn or
+               column_index == DailyForecastBox::WindColumn or
+               column_index == DailyForecastBox::PrecipitationColumn) {
+      return this->fonts->get_tiny_font();
+    } else if (column_index == DailyForecastBox::MorningTemperatureColumn or
+               column_index == DailyForecastBox::DayTemperatureColumn or
+               column_index == DailyForecastBox::EveningTemperatureColumn) {
+      return this->fonts->get_small_bold_font();
+    }
+    return nullptr;
+  }
 
-        const auto morning_temperature_text =
-            units.format_temperature(forecast.temperature_morning);
-        const auto morning_temperature_start_x =
-            sunrise_start_x + StringWidth(sunrise_text.c_str()) +
-            DailyForecastBox::horizontal_padding;
+  bool has_two_text_lines(size_t column_index) const {
+    return (column_index == DailyForecastBox::SunHoursColumn or
+            column_index == DailyForecastBox::MinMaxTemperatureColumn or
+            column_index == DailyForecastBox::WindColumn or
+            column_index == DailyForecastBox::PrecipitationColumn);
+  }
 
-        SetFont(small_bold_font.get(), BLACK);
+  int estimate_max_content_width(size_t column_index) const {
+    if (column_index == DailyForecastBox::IconColumn) {
+      return 70;
+    }
+    if (not(0 <= column_index and
+            column_index < DailyForecastBox::column_count)) {
+      return 0;
+    }
+    const auto multiple_lines = this->has_two_text_lines(column_index);
+    const auto font = this->get_column_font(column_index);
+    if (not font) { return 0; }
+    SetFont(font.get(), BLACK);
 
-        DrawString(morning_temperature_start_x, bar_text_y,
-                   morning_temperature_text.c_str());
+    auto &column_content = this->table_content.at(column_index);
+    std::array<int, DailyForecastBox::row_count> widths;
+    std::transform(
+        std::begin(column_content), std::end(column_content),
+        std::begin(widths), [multiple_lines](const CellContent &content) {
+          if (multiple_lines) {
+            const auto &values =
+                boost::get<std::pair<std::string, std::string>>(content);
+            return std::max(StringWidth(values.first.c_str()),
+                            StringWidth(values.second.c_str()));
+          }
+          return StringWidth(boost::get<std::string>(content).c_str());
+        });
+    const auto &max_width =
+        std::max_element(std::begin(widths), std::end(widths));
+    return max_width == std::end(widths) ? 0 : *max_width;
+  }
 
-        const auto day_temperature_text =
-            units.format_temperature(forecast.temperature_day);
-        const auto day_temperature_start_x =
-            morning_temperature_start_x +
-            StringWidth(morning_temperature_text.c_str()) +
-            DailyForecastBox::horizontal_padding;
-        DrawString(day_temperature_start_x, bar_text_y,
-                   day_temperature_text.c_str());
+  void compute_columns_layout() {
+    for (size_t column_index = 0; column_index < DailyForecastBox::column_count;
+         ++column_index) {
+      this->column_widths[column_index] =
+          this->estimate_max_content_width(column_index);
+    }
+    const auto total_content_width = std::accumulate(
+        std::begin(this->column_widths), std::end(this->column_widths), 0);
+    const auto remaining_pixels =
+      std::max(ScreenWidth() - 2 * DailyForecastBox::horizontal_padding - total_content_width,
+	       0);
+    const auto to_add = remaining_pixels / DailyForecastBox::column_count;
 
-        const auto evening_temperature_text =
-            units.format_temperature(forecast.temperature_evening);
-        const auto evening_temperature_start_x =
-            day_temperature_start_x +
-            StringWidth(day_temperature_text.c_str()) +
-            DailyForecastBox::horizontal_padding;
-        DrawString(evening_temperature_start_x, bar_text_y,
-                   evening_temperature_text.c_str());
+    size_t column_index = 0;
+    this->column_widths[0] += to_add;
+    this->column_starts[0] = this->bounding_box.x + DailyForecastBox::horizontal_padding;
+    ++column_index;
+    while (column_index < DailyForecastBox::column_count) {
+      const auto previous_column_index = column_index - 1;
+      this->column_widths[column_index] += to_add;
+      this->column_starts[column_index] =
+          this->column_starts[previous_column_index] +
+          this->column_widths[previous_column_index];
+      ++column_index;
+    }
+  }
 
-        const auto min_temperature_start_x =
-            evening_temperature_start_x +
-            StringWidth(evening_temperature_text.c_str()) +
-            DailyForecastBox::horizontal_padding;
-        const auto min_temperature_text =
-            units.format_temperature(forecast.temperature_min);
-        SetFont(tiny_font.get(), BLACK);
-        DrawString(min_temperature_start_x, lower_text_y,
-                   min_temperature_text.c_str());
+  void draw_frame() {
+    const auto separator_start_x = this->bounding_box.x;
+    const auto separator_stop_x = this->bounding_box.w;
 
-        const auto max_temperature_start_x = min_temperature_start_x;
-        const auto max_temperature_text =
-            units.format_temperature(forecast.temperature_max);
-        DrawString(max_temperature_start_x, upper_text_y,
-                   max_temperature_text.c_str());
+    for (size_t row_index = 0; row_index <= DailyForecastBox::row_count; ++row_index) {
+      const auto separator_start_y =
+        (row_index < DailyForecastBox::row_count
+         ? this->bounding_box.y + row_index * this->row_height
+         : this->bounding_box.y + this->bounding_box.h);
+      const auto separator_stop_y = separator_start_y;
 
-        const auto wind_speed_start_x =
-            max_temperature_start_x +
-            std::max(StringWidth(min_temperature_text.c_str()),
-                     StringWidth(max_temperature_text.c_str())) +
-            DailyForecastBox::horizontal_padding;
-        const auto wind_speed_text = units.format_speed(forecast.wind_speed);
-        DrawString(wind_speed_start_x, upper_text_y, wind_speed_text.c_str());
+      DrawLine(separator_start_x, separator_start_y, separator_stop_x,
+               separator_stop_y, LGRAY);
+    }
+  }
 
-        const auto humidity_text =
-            std::to_string(static_cast<int>(forecast.humidity)) + "%";
-        DrawString(wind_speed_start_x, lower_text_y, humidity_text.c_str());
+  void draw_values() {
+    this->generate_table_content();
+    this->compute_columns_layout();
 
-        const auto precipitation = max_number(forecast.rain, forecast.snow);
-        if (not std::isnan(precipitation)) {
-          const auto precipitation_text =
-              units.format_precipitation(precipitation, false);
+    for (size_t column_index = 0; column_index < DailyForecastBox::column_count;
+         ++column_index) {
+      const auto &column_content = this->table_content[column_index];
+      const auto &column_start_x = this->column_starts[column_index];
 
-          const auto precipitation_start_y =
-              ScreenWidth() - 2 * DailyForecastBox::horizontal_padding -
-              StringWidth(precipitation_text.c_str());
-          DrawString(precipitation_start_y, upper_text_y,
-                     precipitation_text.c_str());
+      if (column_index == DailyForecastBox::IconColumn) {
+        int row_start_y = this->bounding_box.y;
+        for (size_t row_index = 0; row_index < DailyForecastBox::row_count;
+             ++row_index) {
+          const auto icon = boost::get<ibitmap *>(column_content[row_index]);
+	  if (icon) {
+            DrawBitmap(column_start_x, row_start_y, icon);
+	  }
+	  row_start_y += this->row_height;
+        }
+      } else {
+	const auto &column_width = this->column_widths[column_index];
+	const auto &text_flags = this->column_text_flags[column_index];
+	const auto column_font = this->get_column_font(column_index);
+        SetFont(column_font.get(), BLACK);
 
-          const auto probability_of_precipitation =
-              forecast.probability_of_precipitation;
-          if (not std::isnan(probability_of_precipitation)) {
-            const auto probability_of_precipitation_text =
-                std::to_string(
-                    static_cast<int>(probability_of_precipitation * 100)) +
-                "%";
-            const auto probability_of_precipitation_start_y =
-                ScreenWidth() - 2 * DailyForecastBox::horizontal_padding -
-                StringWidth(probability_of_precipitation_text.c_str());
-            DrawString(probability_of_precipitation_start_y, lower_text_y,
-                       probability_of_precipitation_text.c_str());
+        if (not this->has_two_text_lines(column_index)) {
+          int row_start_y = this->bounding_box.y;
+          for (size_t row_index = 0; row_index < DailyForecastBox::row_count;
+               ++row_index) {
+            const auto &text =
+                boost::get<std::string>(column_content[row_index]);
+            DrawTextRect(column_start_x, row_start_y + 1, column_width,
+                         this->row_height - 2, text.c_str(),
+			 text_flags | VALIGN_MIDDLE);
+
+	    row_start_y += this->row_height;
+          }
+        } else {
+          int row_start_y = this->bounding_box.y;
+          for (size_t row_index = 0; row_index < DailyForecastBox::row_count;
+               ++row_index) {
+            const auto &content =
+                boost::get<std::pair<std::string, std::string>>(
+                    column_content[row_index]);
+            const auto &first_line_text = content.first;
+            const auto &second_line_text = content.second;
+
+            const auto &line_height = (row_height - 2) / 2;
+            DrawTextRect(column_start_x, row_start_y + 1, column_width,
+                         line_height, first_line_text.c_str(),
+			 text_flags | VALIGN_MIDDLE);
+            DrawTextRect(column_start_x, row_start_y + 1 + line_height,
+                         column_width, line_height, second_line_text.c_str(),
+                         text_flags | VALIGN_MIDDLE);
+
+            row_start_y += this->row_height;
           }
         }
-      }
-      const auto last_bar = (bar_index + 1 == this->max_forecasts);
-      if (not last_bar) {
-	separator_start_y = bar_start_y + this->bar_height;
-	DrawLine(separator_start_x, separator_start_y, separator_stop_x,
-		 separator_start_y, LGRAY);
       }
     }
   }

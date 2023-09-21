@@ -13,7 +13,7 @@ void taranis::keyboard_handler(char *text) {
 }
 
 void taranis::LocationBox::edit_location() {
-  const auto title = T("Enter location");
+  const auto title = GetLangText("Enter location");
   std::memset(location.data(), '\0', location.size());
 
   const auto current_location = format_location(this->model->location);

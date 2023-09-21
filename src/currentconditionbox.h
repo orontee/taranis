@@ -11,8 +11,6 @@
 #include "util.h"
 #include "widget.h"
 
-#define T(x) GetLangText(x)
-
 namespace taranis {
 
 void handle_current_condition_dialog_button_clicked(int button_index);
@@ -26,7 +24,7 @@ public:
       : Widget{pos_x, pos_y}, model{model}, fonts{fonts} {
     this->set_width(4 * ScreenWidth() / 5);
     this->set_height(this->fonts->get_big_font()->height +
-		     this->bottom_padding);
+                     this->bottom_padding);
   }
 
   void show() override {
@@ -98,7 +96,7 @@ private:
   std::string get_felt_temperature_text(const Condition &condition) const {
     const Units units{this->model};
     std::stringstream text;
-    text << T("Felt") << " "
+    text << GetLangText("Felt") << " "
          << units.format_temperature(
                 static_cast<int>(condition.felt_temperature));
 
@@ -113,25 +111,26 @@ private:
     const Units units{this->model};
 
     std::stringstream content;
-    content << T("Sunrise") << std::right << std::setw(10)
+    content << GetLangText("Sunrise") << std::right << std::setw(10)
             << format_time(condition.sunrise) << std::endl
-            << T("Sunset") << std::right << std::setw(10)
+            << GetLangText("Sunset") << std::right << std::setw(10)
             << format_time(condition.sunset) << std::endl
-            << T("Pressure") << std::right << std::setw(10)
+            << GetLangText("Pressure") << std::right << std::setw(10)
             << units.format_pressure(condition.pressure) << std::endl
-            << T("Humidity") << std::right << std::setw(10)
+            << GetLangText("Humidity") << std::right << std::setw(10)
             << std::to_string(condition.humidity) + "%" << std::endl
-            << T("UV index") << std::right << std::setw(10) << std::fixed
-            << std::setprecision(1) << condition.uv_index << std::endl
-            << T("Visibility") << std::right << std::setw(10)
+            << GetLangText("UV index") << std::right << std::setw(10)
+            << std::fixed << std::setprecision(1) << condition.uv_index
+            << std::endl
+            << GetLangText("Visibility") << std::right << std::setw(10)
             << units.format_distance(condition.visibility) << std::endl
-            << T("Wind") << std::right << std::setw(10)
+            << GetLangText("Wind") << std::right << std::setw(10)
             << units.format_speed(condition.wind_speed) << std::endl
-            << T("Gust") << std::right << std::setw(10)
+            << GetLangText("Gust") << std::right << std::setw(10)
             << units.format_speed(condition.wind_gust) << std::endl;
 
-    Dialog(ICON_INFORMATION, T("Current Weather Conditions"),
-           content.str().c_str(), T("Ok"), nullptr,
+    Dialog(ICON_INFORMATION, GetLangText("Current Weather Conditions"),
+           content.str().c_str(), GetLangText("Ok"), nullptr,
            &handle_current_condition_dialog_button_clicked);
   }
 };

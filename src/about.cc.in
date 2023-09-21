@@ -5,17 +5,15 @@
 #include <string>
 #include <sstream>
 
-#define T(x) GetLangText(x)
-
 namespace taranis {
   std::string get_about_content() {
     std::stringstream content;
     content << "Taranis — @package_version@\n\n"
             << "© Matthias Meulien 2023\n\n"
-            << T("This program is provided without any warranty. "
+            << GetLangText("This program is provided without any warranty. "
                  "For more details, read GNU General Public License,"
                  " version 3 or later") << "\n\n"
-            << T("Credits") << "\n"
+            << GetLangText("Credits") << "\n"
             << " ⸱ Cyfranek\n"
             << " ⸱ neilswann80\n"
             << " ⸱ Matthias Meulien" << std::endl;
