@@ -300,7 +300,8 @@ private:
       Message(ICON_WARNING, GetLangText("Service unavailable"), error.what(),
               App::error_dialog_delay);
     }
-    SetHardTimer(App::refresh_timer_name, &taranis::refresh_data, App::refresh_period);
+    SetHardTimer(App::refresh_timer_name, &taranis::refresh_data,
+                 App::refresh_period);
     HideHourglass();
   }
 
