@@ -63,7 +63,9 @@ inline std::string format_date(const std::time_t &time) {
   return DateStr(time);
 }
 
-std::string format_day(const std::time_t &time);
+std::string format_day(const std::tm *time);
+
+std::string format_short_date(const std::tm *time);
 
 inline std::string format_duration(const std::time_t &start,
                                    const std::time_t &end) {

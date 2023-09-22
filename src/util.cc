@@ -118,10 +118,20 @@ std::string taranis::format_time(const std::time_t &time, bool full) {
 const char *weekdays[7] = {"@Sun", "@Mon", "@Tue", "@Wed",
                            "@Thu", "@Fri", "@Sat"};
 
-std::string taranis::format_day(const std::time_t &time) {
-  auto calendar_time = std::localtime(&time);
-  if (calendar_time == nullptr) {
+std::string taranis::format_day(const std::tm *time) {
+  if (time == nullptr) {
     return "";
   }
-  return GetLangText(weekdays[calendar_time->tm_wday]);
+  return GetLangText(weekdays[time->tm_wday]);
+}
+
+const char *months[12] = {"@Jan", "@Feb", "@Mar", "@Apr", "@May", "@Jun",
+                          "@Jul", "@Aug", "@Sep", "@Oct", "@Nov", "@Dec"};
+
+std::string taranis::format_short_date(const std::tm *time) {
+  if (time == nullptr) {
+    return "";
+  }
+  return std::to_string(time->tm_mday) + " " +
+         GetLangText(months[time->tm_mon]);
 }

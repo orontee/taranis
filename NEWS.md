@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Show month day and name under day name
+  [#48](https://github.com/orontee/taranis/issues/48)
+
 - Evenly distribute space between columns of daily forecast view
   [#49](https://github.com/orontee/taranis/issues/49)
 
