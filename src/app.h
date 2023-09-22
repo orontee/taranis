@@ -34,7 +34,10 @@ namespace taranis {
 
 void handle_about_dialog_button_clicked(int button_index);
 
+void refresh_data();
+
 std::string get_about_content();
+// defined in generated file about.cc
 
 class App {
 public:
@@ -82,7 +85,9 @@ public:
   }
 
 private:
-  static const int error_dialog_delay{5000};
+  static constexpr char refresh_timer_name[] = "taranis_refresh_timer";
+  static constexpr int refresh_period{60 * 60 * 1000};
+  static constexpr int error_dialog_delay{5000};
 
   std::shared_ptr<Model> model;
   std::unique_ptr<Service> service;
@@ -252,6 +257,8 @@ private:
   void refresh_data() {
     ShowHourglassForce();
 
+    ClearTimerByName(App::refresh_timer_name);
+
     this->model->refresh_date = std::time(nullptr);
 
     const auto units = Units{this->model}.to_string();
@@ -293,6 +300,7 @@ private:
       Message(ICON_WARNING, GetLangText("Service unavailable"), error.what(),
               App::error_dialog_delay);
     }
+    SetHardTimer(App::refresh_timer_name, &taranis::refresh_data, App::refresh_period);
     HideHourglass();
   }
 

@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Automatic refresh every hour
+  [#26](https://github.com/orontee/taranis/issues/26)
+
 - Show month day and name under day name
   [#48](https://github.com/orontee/taranis/issues/48)
 
