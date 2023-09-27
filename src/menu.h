@@ -85,7 +85,7 @@ private:
   static const int icon_size{70};
 
   std::array<imenu, 4> unit_system_items;
-  std::array<imenu, LocationHistory::max_size + 1> location_history_items;
+  std::array<imenu, LocationHistoryProxy::max_size + 1> location_history_items;
   const MenuItems items;
 
   std::vector<std::string> location_full_names;

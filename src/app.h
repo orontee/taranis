@@ -19,6 +19,7 @@
 #include "l10n.h"
 #include "model.h"
 #include "service.h"
+#include "state.h"
 #include "ui.h"
 #include "units.h"
 #include "util.h"
@@ -41,7 +42,8 @@ class App {
 public:
   App()
       : model{std::make_shared<Model>()}, service{std::make_unique<Service>()},
-        history{std::make_unique<LocationHistory>(this->model)} {}
+        application_state{std::make_unique<ApplicationState>(this->model)},
+        history{std::make_unique<LocationHistoryProxy>(this->model)} {}
 
   int process_event(int event_type, int param_one, int param_two) {
     if (event_type == EVT_INIT) {
@@ -89,7 +91,8 @@ private:
 
   std::shared_ptr<Model> model;
   std::unique_ptr<Service> service;
-  std::unique_ptr<LocationHistory> history;
+  std::unique_ptr<ApplicationState> application_state;
+  std::unique_ptr<LocationHistoryProxy> history;
   std::unique_ptr<Ui> ui;
 
   std::string language;
@@ -121,6 +124,7 @@ private:
   void exit() {
     this->ui.reset();
     this->history.reset();
+    this->application_state.reset();
     this->service.reset();
     this->model.reset();
 

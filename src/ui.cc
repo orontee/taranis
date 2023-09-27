@@ -22,8 +22,8 @@ void taranis::handle_menu_item_selected(int item_index) {
   } else if (item_index == MENU_ITEM_ABOUT) {
     SendEvent(event_handler, EVT_CUSTOM, CustomEvent::show_about_dialog, 0);
   } else if (MENU_ITEM_EMPTY_LOCATION_HISTORY < item_index and
-             item_index <=
-                 MENU_ITEM_EMPTY_LOCATION_HISTORY + LocationHistory::max_size) {
+             item_index <= MENU_ITEM_EMPTY_LOCATION_HISTORY +
+                               LocationHistoryProxy::max_size) {
     const size_t history_index =
         item_index - MENU_ITEM_EMPTY_LOCATION_HISTORY - 1;
     SendEvent(event_handler, EVT_CUSTOM,
