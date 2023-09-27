@@ -175,6 +175,7 @@ struct Model {
 
   std::vector<Alert> alerts;
 
+  std::vector<Location> favorite_locations;
   std::list<Location> location_history;
 
   bool display_daily_forecast{false};
