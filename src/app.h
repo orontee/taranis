@@ -137,34 +137,44 @@ private:
   void load_config() {
     Config config;
 
-    const auto config_unit_system = static_cast<UnitSystem>(
-        config.read_int("unit_system"s, UnitSystem::metric));
-    const bool is_unit_system_obsolete =
-        (config_unit_system != this->model->unit_system);
-    if (is_unit_system_obsolete) {
-      this->model->unit_system = config_unit_system;
+    const auto api_key_from_config = config.read_string("api_key", "");
+    const auto is_api_key_obsolete =
+        (not api_key_from_config.empty() and
+         api_key_from_config != this->service->get_api_key());
+    if (is_api_key_obsolete) {
+      this->service->set_api_key(api_key_from_config);
     }
 
-    const auto config_town = config.read_string("location_town"s, "Paris"s);
-    const auto config_country =
+    const auto unit_system_from_config = static_cast<UnitSystem>(
+        config.read_int("unit_system"s, UnitSystem::metric));
+    const bool is_unit_system_obsolete =
+        (unit_system_from_config != this->model->unit_system);
+    if (is_unit_system_obsolete) {
+      this->model->unit_system = unit_system_from_config;
+    }
+
+    const auto town_from_config =
+        config.read_string("location_town"s, "Paris"s);
+    const auto country_from_config =
         config.read_string("location_country"s, "France"s);
 
     const bool is_town_or_country_obsolete =
-        (config_town != this->model->location.town) or
-        (config_country != this->model->location.country);
+        (town_from_config != this->model->location.town) or
+        (country_from_config != this->model->location.country);
 
     if (is_town_or_country_obsolete) {
-      this->model->location.town = config_town;
-      this->model->location.country = config_country;
+      this->model->location.town = town_from_config;
+      this->model->location.country = country_from_config;
       this->clear_model_weather_conditions();
     }
 
-    const auto config_display_daily_forecast =
+    const auto display_daily_forecast_from_config =
         config.read_bool("display_daily_forecast"s, false);
     const bool is_display_daily_forecast_obsolete =
-        (config_display_daily_forecast != this->model->display_daily_forecast);
+        (display_daily_forecast_from_config !=
+         this->model->display_daily_forecast);
     if (is_display_daily_forecast_obsolete) {
-      this->model->display_daily_forecast = config_display_daily_forecast;
+      this->model->display_daily_forecast = display_daily_forecast_from_config;
     }
 
     const std::string current_system_language = currentLang();
@@ -175,9 +185,9 @@ private:
       initialize_translations();
     }
 
-    const bool is_data_obsolete = is_unit_system_obsolete or
-                                  is_town_or_country_obsolete or
-                                  is_language_obsolete;
+    const bool is_data_obsolete =
+        is_api_key_obsolete or is_unit_system_obsolete or
+        is_town_or_country_obsolete or is_language_obsolete;
     // temperatures, wind speed and weather description are computed
     // by the backend thus unit system or language change implies that
     // data are obsolete

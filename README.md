@@ -49,6 +49,18 @@ When the application is running, press the location text at the top of
 the screen to enter a custom location (the _town, country_ format is
 expected).
 
+## Configuration
+
+The application stores the user preferences (unit system, default
+location, etc.) in a configuration file writen under
+`system/config/taranis.cfg`.
+
+Note that the Openweather API key distributed with the application is
+rate limited. It's possible to specify a custom key using the
+`api_key` keyword in the configuration file (See
+[OpenWeather](https://openweathermap.org) for instructions on how to
+register and generate API keys).
+
 ## Contributing
 
 Instructions to install an unreleased version, debug, etc. can be
