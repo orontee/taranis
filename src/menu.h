@@ -24,6 +24,7 @@ namespace taranis {
 enum menu_item_index {
   MENU_ITEM_REFRESH = 100,
   MENU_ITEM_LOCATION_HISTORY = 200,
+  MENU_ITEM_TOGGLE_FAVORITE_LOCATION = 201,
   MENU_ITEM_UNIT_SYSTEM = 202,
   MENU_ITEM_ABOUT = 203,
   MENU_ITEM_QUIT = 300,
@@ -34,34 +35,44 @@ enum menu_item_index {
 };
 
 class MenuButton : public Button {
-  typedef std::array<imenu, 6> MenuItems;
+  typedef std::array<imenuex, 6> MenuItems;
 
 public:
   MenuButton(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
              std::shared_ptr<Fonts> fonts)
-      : Button{MenuButton::icon_size, icons->get("menu")},
+      : Button{MenuButton::icon_size, icons->get("menu")}, icons{icons},
         unit_system_items{
-            imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD,
-                  const_cast<char *>(GetLangText("Standard")), nullptr},
-            imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_METRIC,
-                  const_cast<char *>(GetLangText("Metric")), nullptr},
-            imenu{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_IMPERIAL,
-                  const_cast<char *>(GetLangText("Imperial")), nullptr},
-            imenu{0, 0, nullptr, nullptr}},
-        items{imenu{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH,
-                    const_cast<char *>(GetLangText("Refresh")), nullptr},
-              imenu{ITEM_SUBMENU, taranis::MENU_ITEM_LOCATION_HISTORY,
-                    const_cast<char *>(GetLangText("Locations")),
-                    this->location_history_items.data()},
-              imenu{ITEM_SUBMENU, taranis::MENU_ITEM_UNIT_SYSTEM,
-                    const_cast<char *>(GetLangText("Units")),
-                    const_cast<imenu *>(this->unit_system_items.data())},
-              imenu{ITEM_ACTIVE, taranis::MENU_ITEM_ABOUT,
-                    const_cast<char *>(GetLangText("About…")), nullptr},
-              imenu{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT,
-                    const_cast<char *>(GetLangText("Quit")), nullptr},
-              imenu{0, 0, nullptr, nullptr}},
-        model{model}, font{fonts->get_normal_font()} {
+            imenuex{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD,
+                    const_cast<char *>(GetLangText("Standard")), nullptr,
+                    nullptr, nullptr, nullptr},
+            imenuex{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_METRIC,
+                    const_cast<char *>(GetLangText("Metric")), nullptr, nullptr,
+                    nullptr, nullptr},
+            imenuex{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_IMPERIAL,
+                    const_cast<char *>(GetLangText("Imperial")), nullptr,
+                    nullptr, nullptr, nullptr},
+            imenuex{0, 0, nullptr, nullptr, nullptr, nullptr, nullptr}},
+        items{imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH,
+                      const_cast<char *>(GetLangText("Refresh")), nullptr,
+                      nullptr, nullptr, nullptr},
+              imenuex{ITEM_SUBMENU, taranis::MENU_ITEM_LOCATION_HISTORY,
+                      const_cast<char *>(GetLangText("Locations")),
+                      this->location_history_items.data(), nullptr, nullptr,
+                      nullptr},
+              imenuex{ITEM_SUBMENU, taranis::MENU_ITEM_UNIT_SYSTEM,
+                      const_cast<char *>(GetLangText("Units")),
+                      const_cast<imenuex *>(this->unit_system_items.data()),
+                      nullptr, nullptr, nullptr},
+              imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_ABOUT,
+                      const_cast<char *>(GetLangText("About…")), nullptr,
+                      nullptr, nullptr, nullptr},
+              imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT,
+                      const_cast<char *>(GetLangText("Quit")), nullptr, nullptr,
+                      nullptr, nullptr},
+              imenuex{0, 0, nullptr, nullptr, nullptr, nullptr, nullptr}},
+        model{model}, font{fonts->get_normal_font()},
+        history{std::make_unique<LocationHistoryProxy>(this->model)} {
+    this->initialize_favorite_location_icon();
     this->update_location_history_items();
   }
 
@@ -84,15 +95,20 @@ private:
   static const int padding{5};
   static const int icon_size{70};
 
-  std::array<imenu, 4> unit_system_items;
-  std::array<imenu, LocationHistoryProxy::max_size + 1> location_history_items;
+  std::shared_ptr<Icons> icons;
+
+  std::array<imenuex, 4> unit_system_items;
+  std::array<imenuex, LocationHistoryProxy::max_size + 2>
+      location_history_items;
   const MenuItems items;
 
   std::vector<std::string> location_full_names;
 
   std::shared_ptr<Model> model;
-
   std::shared_ptr<ifont> font;
+  std::unique_ptr<LocationHistoryProxy> history;
+
+  const ibitmap *favorite_location_icon;
 
   std::optional<iv_menuhandler> menu_handler;
 
@@ -112,6 +128,16 @@ private:
     return {pos_x, pos_y};
   }
 
+  void initialize_favorite_location_icon() {
+    const auto menu_properties = LoadContextMenuProperties();
+    const auto menu_font_height =
+        menu_properties and menu_properties->font_normal
+            ? menu_properties->font_normal->height
+            : this->font->height * 0.9;
+    this->favorite_location_icon = BitmapStretchProportionally(
+        this->icons->get("favorite"), menu_font_height, menu_font_height);
+  }
+
   void update_location_history_items() {
     this->location_full_names.clear();
 
@@ -119,26 +145,68 @@ private:
     auto &location_history = this->model->location_history;
     if (location_history.empty()) {
       this->location_history_items.at(index) =
-          imenu{ITEM_INACTIVE, taranis::MENU_ITEM_EMPTY_LOCATION_HISTORY,
-                const_cast<char *>(GetLangText("Empty")), nullptr};
+          imenuex{ITEM_INACTIVE,
+                  taranis::MENU_ITEM_EMPTY_LOCATION_HISTORY,
+                  const_cast<char *>(GetLangText("Empty")),
+                  nullptr,
+                  nullptr,
+                  nullptr,
+                  nullptr};
+      ++index;
+
+      this->location_history_items[index] =
+          imenuex{ITEM_INACTIVE, taranis::MENU_ITEM_TOGGLE_FAVORITE_LOCATION,
+                  nullptr,       nullptr,
+                  nullptr,       nullptr,
+                  nullptr};
+      this->location_full_names.push_back(
+          const_cast<char *>(GetLangText("Add to favorites")));
       ++index;
     } else {
-      for (const auto &location : location_history) {
-        this->location_full_names.push_back(format_location(location));
+      for (const auto &item : location_history) {
+        this->location_full_names.push_back(format_location(item.location));
 
+        ibitmap *icon =
+            item.favorite ? const_cast<ibitmap *>(this->favorite_location_icon)
+                          : nullptr;
         const short item_index =
             taranis::MENU_ITEM_EMPTY_LOCATION_HISTORY + index + 1;
-        this->location_history_items.at(index) =
-            imenu{ITEM_ACTIVE, item_index, nullptr, nullptr};
+        this->location_history_items.at(index) = imenuex{
+            ITEM_ACTIVE, item_index, nullptr, nullptr, icon, nullptr, nullptr};
 
         ++index;
-        if (index >= this->location_history_items.size() - 1) {
+        if (index == location_history.size() or
+            index == this->location_history_items.size() - 2) {
+          const auto toggle_item_text =
+              const_cast<char *>(history->is_current_location_favorite()
+                                     ? GetLangText("Remove from favorites")
+                                     : GetLangText("Add to favorites"));
+
+          const bool is_toggle_item_active =
+              history->is_current_location_favorite() or
+              history->can_add_favorite();
+
+          const short toggle_item_state =
+              is_toggle_item_active ? ITEM_ACTIVE : ITEM_INACTIVE;
+
+          this->location_history_items.at(index) =
+              imenuex{toggle_item_state,
+                      taranis::MENU_ITEM_TOGGLE_FAVORITE_LOCATION,
+                      nullptr,
+                      nullptr,
+                      nullptr,
+                      nullptr,
+                      nullptr};
+          this->location_full_names.push_back(toggle_item_text);
+
+          ++index;
           break;
         }
       }
     }
     while (index < this->location_history_items.size()) {
-      this->location_history_items.at(index) = imenu{0, 0, nullptr, nullptr};
+      this->location_history_items.at(index) =
+          imenuex{0, 0, nullptr, nullptr, nullptr, nullptr, nullptr};
       ++index;
     }
     index = 0;
@@ -174,8 +242,8 @@ private:
 
     const auto &[pos_x, pos_y] = this->get_menu_position();
     SetMenuFont(this->font.get());
-    OpenMenu(const_cast<imenu *>(this->items.data()), 0, pos_x, pos_y,
-             *this->menu_handler);
+    OpenMenuEx(const_cast<imenuex *>(this->items.data()), 0, pos_x, pos_y,
+               *this->menu_handler);
   }
 };
 } // namespace taranis

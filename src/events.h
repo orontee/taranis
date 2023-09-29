@@ -9,6 +9,7 @@ enum CustomEvent {
   refresh_data,
   select_location_from_history,
   show_about_dialog,
+  toggle_current_location_favorite,
 
   // Events
   model_daily_forecast_display_changed,

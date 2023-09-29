@@ -31,23 +31,64 @@ public:
     }
     std::optional<Location> result;
     if (index == 0 and it != std::end(history)) {
-      result = *it;
+      result = it->location;
     }
     return result;
   }
 
   void update_history_maybe() {
-    auto &history = this->model->location_history;
     auto &current_location = this->model->location;
-    auto found = std::find(history.begin(), history.end(), current_location);
+    auto &history = this->model->location_history;
+    const auto found = std::find_if(history.begin(), history.end(),
+                                    [current_location](const auto &item) {
+                                      return item.location == current_location;
+                                    });
+    const bool found_favorite = (found != history.end() and found->favorite);
     if (found != history.end()) {
       history.erase(found);
     }
-    history.push_front(this->model->location);
-
-    if (history.size() > LocationHistoryProxy::max_size) {
-      history.pop_back();
+    if (history.size() == LocationHistoryProxy::max_size) {
+      auto last_not_favorite =
+          std::find_if(history.rbegin(), history.rend(),
+                       [](const auto &item) { return not item.favorite; });
+      if (last_not_favorite != history.rend()) {
+        history.erase(std::prev(last_not_favorite.base()));
+      }
     }
+    if (history.size() < LocationHistoryProxy::max_size) {
+      history.push_front(HistoryItem{this->model->location, found_favorite});
+    }
+  }
+
+  bool is_current_location_favorite() const {
+    auto &current_location = this->model->location;
+    auto &history = this->model->location_history;
+    const auto found = std::find_if(history.begin(), history.end(),
+                                    [current_location](const auto &item) {
+                                      return item.location == current_location;
+                                    });
+    return found != history.end() and found->favorite;
+  }
+
+  void toggle_current_location_favorite() {
+    auto &current_location = this->model->location;
+    auto &history = this->model->location_history;
+    auto found = std::find_if(history.begin(), history.end(),
+                              [current_location](const auto &item) {
+                                return item.location == current_location;
+                              });
+    if (found == history.end()) {
+      return;
+    }
+    found->favorite = (not found->favorite);
+  }
+
+  bool can_add_favorite() {
+    auto &history = this->model->location_history;
+    const auto found =
+        std::find_if(history.begin(), history.end(),
+                     [](const auto &item) { return not item.favorite; });
+    return found != history.end();
   }
 
 private:

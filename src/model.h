@@ -163,6 +163,18 @@ struct Alert {
   std::string description;
 };
 
+struct HistoryItem {
+  const Location location;
+  bool favorite;
+
+  HistoryItem(const std::string &town, const std::string &country,
+              bool favorite)
+      : location{town, country}, favorite{favorite} {}
+
+  HistoryItem(const Location &location, bool favorite)
+      : location{location}, favorite{favorite} {}
+};
+
 struct Model {
   std::string source{"OpenWeather"};
   UnitSystem unit_system{standard};
@@ -175,8 +187,7 @@ struct Model {
 
   std::vector<Alert> alerts;
 
-  std::vector<Location> favorite_locations;
-  std::list<Location> location_history;
+  std::list<HistoryItem> location_history;
 
   bool display_daily_forecast{false};
 };

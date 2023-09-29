@@ -77,7 +77,7 @@ public:
     this->children.push_back(location_box);
     this->children.push_back(menu_button);
     this->children.push_back(current_condition_box);
-    this->children.push_back(alerts_button);
+    this->children.push_back(this->alerts_button);
     this->children.push_back(status_bar);
 
     this->swipe_detector.set_bounding_box(

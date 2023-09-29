@@ -229,10 +229,16 @@ private:
       auto location = this->history->get_location(history_index);
       if (location) {
         this->update_config_location(*location);
+      } else {
+        DialogSynchro(ICON_WARNING, "Title", "Location not found!",
+                      GetLangText("Ok"), nullptr, nullptr);
       }
       return 1;
     } else if (param_one == CustomEvent::show_about_dialog) {
       this->open_about_dialog();
+      return 1;
+    } else if (param_one == CustomEvent::toggle_current_location_favorite) {
+      this->history->toggle_current_location_favorite();
       return 1;
     }
 

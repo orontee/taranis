@@ -10,6 +10,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Extend history items with favorite boolean and make sure favorites
+  won't disappear from history
+  [#40](https://github.com/orontee/taranis/issues/40)
+
 - Automatic refresh should not popup connection dialog
   [#50](https://github.com/orontee/taranis/issues/50)
 

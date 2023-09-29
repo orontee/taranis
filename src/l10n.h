@@ -77,6 +77,8 @@ inline void initialize_translations() {
     AddTranslation("Units", "Unités");
     AddTranslation("About…", "À propos…");
     AddTranslation("Quit", "Quitter");
+    AddTranslation("Add to favorites", "Ajouter aux favoris");
+    AddTranslation("Remove from favorites", "Retirer des favoris");
     AddTranslation("Empty", "Vide");
 
     // statusbar.h
@@ -167,6 +169,8 @@ inline void initialize_translations() {
     AddTranslation("Units", "Jednostki");
     AddTranslation("About…", "O aplikacji");
     AddTranslation("Quit", "Wyjście");
+    AddTranslation("Add to favorites", "Dodaj do ulubionych");
+    AddTranslation("Remove from favorites", "Usuń z ulubionych");
     AddTranslation("Empty", "Pusty");
 
     // statusbar.h

@@ -30,7 +30,6 @@ public:
     input >> root;
 
     this->restore_location_history(root);
-    this->restore_favorite_locations(root);
   }
 
   void dump() {
@@ -42,7 +41,6 @@ public:
     Json::Value root;
 
     this->dump_location_history(root);
-    this->dump_favorite_locations(root);
 
     output << root << std::endl;
     output.close();
@@ -50,7 +48,6 @@ public:
 
 private:
   static constexpr char LOCATION_HISTORY_KEY[]{"location_history"};
-  static constexpr char FAVORITE_LOCATIONS_KEY[]{"favorite_locations"};
 
   std::shared_ptr<Model> model;
 
@@ -71,8 +68,9 @@ private:
       if (town.empty()) {
         return;
       }
-      const Location location{town, value.get("country", "").asString()};
-      this->model->location_history.push_back(location);
+      const HistoryItem item{town, value.get("country", "").asString(),
+                             value.get("favorite", false).asBool()};
+      this->model->location_history.push_back(item);
     }
   }
 
@@ -80,37 +78,12 @@ private:
     auto &history_value = root[ApplicationState::LOCATION_HISTORY_KEY];
     const auto &history = this->model->location_history;
     int location_index = 0;
-    for (const auto &location : history) {
-      history_value[location_index]["town"] = location.town;
-      history_value[location_index]["country"] = location.country;
+    for (const auto &item : history) {
+      history_value[location_index]["town"] = item.location.town;
+      history_value[location_index]["country"] = item.location.country;
+      history_value[location_index]["favorite"] = item.favorite;
 
       ++location_index;
-    }
-  }
-
-  void restore_favorite_locations(const Json::Value &root) {
-    this->model->favorite_locations.clear();
-
-    for (const auto &value : root[ApplicationState::FAVORITE_LOCATIONS_KEY]) {
-      const auto town{value.get("town", "").asString()};
-      if (town.empty()) {
-        return;
-      }
-      const Location location{town, value.get("country", "").asString()};
-      this->model->favorite_locations.push_back(location);
-    }
-  }
-
-  void dump_favorite_locations(Json::Value &root) {
-    auto &favorite_locations_value =
-        root[ApplicationState::FAVORITE_LOCATIONS_KEY];
-    const auto &favorites = this->model->favorite_locations;
-    int favorite_index = 0;
-    for (const auto &location : favorites) {
-      favorite_locations_value[favorite_index]["town"] = location.town;
-      favorite_locations_value[favorite_index]["country"] = location.country;
-
-      ++favorite_index;
     }
   }
 };
