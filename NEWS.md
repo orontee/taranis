@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Automatic refresh should not popup connection dialog
+  [#50](https://github.com/orontee/taranis/issues/50)
+
 - API key can be specified through configuration file
   [#44](https://github.com/orontee/taranis/issues/44)
 

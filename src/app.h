@@ -34,8 +34,6 @@ namespace taranis {
 
 void handle_about_dialog_button_clicked(int button_index);
 
-void refresh_data();
-
 std::string get_about_content();
 // defined in generated file about.cc
 
@@ -310,7 +308,7 @@ private:
       Message(ICON_WARNING, GetLangText("Service unavailable"), error.what(),
               App::error_dialog_delay);
     }
-    SetHardTimer(App::refresh_timer_name, &taranis::refresh_data,
+    SetHardTimer(App::refresh_timer_name, &taranis::App::refresh_data_maybe,
                  App::refresh_period);
     HideHourglass();
   }
@@ -391,5 +389,7 @@ private:
 
     Config::config_changed();
   }
+
+  static void refresh_data_maybe();
 };
 } // namespace taranis

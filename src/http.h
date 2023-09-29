@@ -71,15 +71,18 @@ private:
 
   void ensure_network() {
     iv_netinfo *netinfo = NetInfo();
-    if (not netinfo->connected) {
+    if (netinfo == nullptr or not netinfo->connected) {
       const char *network_name = nullptr;
-      int result = NetConnect2(network_name, 1);
+      const auto result = NetConnect2(network_name, true);
+      // This shows hourglass pointer and may popup a connection
+      // dialog
+
       if (result != 0) {
         throw ConnectionError{};
       }
 
       netinfo = NetInfo();
-      if (not netinfo->connected) {
+      if (netinfo == nullptr or not netinfo->connected) {
         throw ConnectionError{};
       }
     }
