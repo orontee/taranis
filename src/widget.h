@@ -23,17 +23,17 @@ struct Widget {
 
   const irect &get_bounding_box() const { return this->bounding_box; }
 
-  int get_pos_x() { return this->bounding_box.x; }
+  int get_pos_x() const { return this->bounding_box.x; }
 
   void set_pos_x(int pos_x) { this->bounding_box.x = pos_x; }
 
-  int get_pos_y() { return this->bounding_box.y; }
+  int get_pos_y() const { return this->bounding_box.y; }
 
   void set_pos_y(int pos_y) { this->bounding_box.y = pos_y; }
 
-  int get_width() { return this->bounding_box.w; }
+  int get_width() const { return this->bounding_box.w; }
 
-  int get_height() { return this->bounding_box.h; }
+  int get_height() const { return this->bounding_box.h; }
 
   virtual void show() = 0;
 
@@ -43,7 +43,7 @@ struct Widget {
                   this->bounding_box.w, this->bounding_box.h);
   }
 
-  bool is_in_bouding_box(int pos_x, int pos_y) {
+  bool is_in_bouding_box(int pos_x, int pos_y) const {
     return IsInRect(pos_x, pos_y, &this->bounding_box);
   }
 
@@ -59,7 +59,7 @@ struct Widget {
 protected:
   irect bounding_box;
 
-  void fill_bounding_box() { FillAreaRect(&this->bounding_box, WHITE); }
+  void fill_bounding_box() const { FillAreaRect(&this->bounding_box, WHITE); }
 
   void set_bounding_box(int pos_x, int pos_y, int width, int height) {
     this->bounding_box.x = pos_x;

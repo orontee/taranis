@@ -140,7 +140,7 @@ private:
                   this->bounding_box.w, this->bounding_box.h);
   }
 
-  void draw_frame_and_values() {
+  void draw_frame_and_values() const {
     DrawLine(this->frame_start_x, this->frame_start_y, this->bounding_box.w,
              this->frame_start_y, LGRAY);
     DrawLine(this->frame_start_x, this->frame_start_y + this->bars_height,
@@ -199,7 +199,7 @@ private:
     }
   }
 
-  void draw_temperature_curve() {
+  void draw_temperature_curve() const {
     const auto ya = normalize_temperatures(this->model->hourly_forecast,
                                            this->curve_height);
     if (ya.size() < gsl_interp_type_min_size(gsl_interp_cspline)) {
@@ -248,7 +248,7 @@ private:
     }
   }
 
-  void draw_precipitation_histogram() {
+  void draw_precipitation_histogram() const {
     auto tiny_font = this->fonts->get_tiny_font();
     const auto min_bars_height = tiny_font.get()->height + 10;
     // 2 pixels of padding in bar

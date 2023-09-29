@@ -252,7 +252,7 @@ private:
     }
   }
 
-  void draw_frame() {
+  void draw_frame() const {
     const auto separator_start_x = this->bounding_box.x;
     const auto separator_stop_x = this->bounding_box.w;
 
