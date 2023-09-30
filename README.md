@@ -45,9 +45,9 @@ Consult the [NEWS file](NEWS.md) for notable changes between versions.
    to the `applications` directory of the e-book reader using a USB
    cable.
 
-When the application is running, press the location text at the top of
-the screen to enter a custom location (the _town, country_ format is
-expected).
+Optionally, a custom icon can be associated to the application;
+Instructions are given in [Desktop
+integration](./icons/README.md#desktop-integration).
 
 ## Configuration
 
