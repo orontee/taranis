@@ -234,8 +234,14 @@ private:
   }
 
   void open_menu() {
-    if (not this->menu_handler)
+    if (not this->menu_handler) {
       return;
+    }
+    if (this->model->refresh_date == 0) {
+      // don't popup menu while refreshing due to display update bug
+      // after menu dialog is hidden... See issue #51
+      return;
+    }
 
     this->update_location_history_items();
     this->update_unit_system_bullet();

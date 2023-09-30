@@ -249,6 +249,7 @@ private:
       }
       return 1;
     } else if (param_one == CustomEvent::model_updated) {
+      this->model->refresh_date = std::time(nullptr);
       this->history->update_history_maybe();
       this->show();
     } else if (param_one == CustomEvent::warning_emitted) {
@@ -277,7 +278,7 @@ private:
 
     ClearTimerByName(App::refresh_timer_name);
 
-    this->model->refresh_date = std::time(nullptr);
+    this->model->refresh_date = 0;
 
     const auto units = Units{this->model}.to_string();
     try {
