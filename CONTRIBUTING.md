@@ -101,6 +101,30 @@ convert /media/matthias/Vivlio/screens/scr0002.bmp \
         docs/screenshot-hourly-forecast.jpg
 ```
 
+## Remote debugging
+
+One must first start `gdbserver` on the e-reader:
+
+1. Install [pbterm](https://github.com/Alastor27/pbterm)
+2. Start `taranis.app`
+3. Press the "Home" key to go back to the "desktop"
+4. Start `pbterm`
+4. Run `TARANIS_PID=$(pgrep taranis.app)` to identify the process running
+   `taranis.app`, say 1423
+5. Run `gdbserver --attach :10002 ${TARANIS_PID}`
+
+The e-reader must be connected to Internet and its IP address must be
+known (eg start `ipconfig` in `pbterm`).
+
+On the host computer, start a shell with current working directory the
+root directory of a Git clone of taranis repository. Then start GDB:
+```shell
+./SDK_6.3.0/SDK-B288/usr/bin/arm-linux-gdb -q taranis.app
+```
+
+Under GDB, run `target remote 192.168.1.34:10002` where the IP address
+must be updated to the address of the e-reader.
+
 ## References
 
 * https://github.com/pocketbook-free/InkViewDoc
