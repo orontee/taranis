@@ -278,7 +278,7 @@ private:
 
     ClearTimerByName(App::refresh_timer_name);
 
-    this->model->refresh_date = 0;
+    clear_model_weather_conditions();
 
     const auto units = Units{this->model}.to_string();
     try {
@@ -299,10 +299,6 @@ private:
       }
 
       this->model->alerts = this->service->get_alerts();
-
-      const auto event_handler = GetEventHandler();
-      SendEvent(event_handler, EVT_CUSTOM, CustomEvent::model_updated, 0);
-
     } catch (const ConnectionError &error) {
       Message(
           ICON_WARNING, GetLangText("Network error"),
@@ -321,6 +317,10 @@ private:
     }
     SetHardTimer(App::refresh_timer_name, &taranis::App::refresh_data_maybe,
                  App::refresh_period);
+
+    const auto event_handler = GetEventHandler();
+    SendEvent(event_handler, EVT_CUSTOM, CustomEvent::model_updated, 0);
+
     HideHourglass();
   }
 

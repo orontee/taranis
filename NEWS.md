@@ -40,6 +40,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Fix menu not opening after a refresh without internet connection
+  [#53](https://github.com/orontee/taranis/issues/53)
+
 - Don't open menu during data refresh
   [#51](https://github.com/orontee/taranis/issues/51)
 
