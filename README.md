@@ -47,7 +47,7 @@ Consult the [NEWS file](NEWS.md) for notable changes between versions.
 
 Optionally, a custom icon can be associated to the application;
 Instructions are given in [Desktop
-integration](./icons/README.md#desktop-integration).
+integration](./docs/desktop_integration.md).
 
 ## Configuration
 
