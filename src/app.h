@@ -12,11 +12,13 @@
 #include <type_traits>
 #include <vector>
 
+#include "boost/log/trivial.hpp"
 #include "config.h"
 #include "errors.h"
 #include "events.h"
 #include "history.h"
 #include "l10n.h"
+#include "logging.h"
 #include "model.h"
 #include "service.h"
 #include "state.h"
@@ -33,8 +35,6 @@ template <class T> using optional = std::experimental::optional<T>;
 
 namespace taranis {
 
-void handle_about_dialog_button_clicked(int button_index);
-
 std::string get_about_content();
 // defined in generated file about.cc
 
@@ -46,6 +46,9 @@ public:
         history{std::make_unique<LocationHistoryProxy>(this->model)} {}
 
   int process_event(int event_type, int param_one, int param_two) {
+    BOOST_LOG_TRIVIAL(debug)
+        << "Processing event of type " << format_event_type(event_type);
+
     if (event_type == EVT_INIT) {
       this->setup();
       return 1;
@@ -80,7 +83,6 @@ public:
         }
       }
     }
-
     return 0;
   }
 
@@ -98,10 +100,15 @@ private:
   std::string language;
 
   void setup() {
+    BOOST_LOG_TRIVIAL(info) << "Application setup";
+
+    this->initialize_language();
+
     const auto version = GetSoftwareVersion();
     try {
       check_software_version(version);
     } catch (const UnsupportedSoftwareVersion &error) {
+      BOOST_LOG_TRIVIAL(warning) << "Unsupported software version " << version;
       Message(ICON_WARNING, GetLangText("Unsupported software version"),
               GetLangText("The application isn't compatible with the software "
                           "version of this reader."),
@@ -110,7 +117,6 @@ private:
       return;
     }
     this->ui = std::make_unique<Ui>(this->model);
-    this->initialize_language();
     this->load_config();
   }
 
@@ -122,6 +128,8 @@ private:
   }
 
   void exit() {
+    BOOST_LOG_TRIVIAL(info) << "Exiting application";
+
     this->ui.reset();
     this->history.reset();
     this->application_state.reset();
@@ -137,6 +145,8 @@ private:
   }
 
   void load_config() {
+    BOOST_LOG_TRIVIAL(debug) << "Loading config";
+
     Config config;
 
     const auto api_key_from_config = config.read_string("api_key", "");
@@ -204,18 +214,22 @@ private:
   }
 
   int handle_custom_event(int param_one, int param_two) {
+    BOOST_LOG_TRIVIAL(debug)
+        << "Handling custom event " << format_custom_event_param(param_one)
+        << " " << param_two;
+
     // Commands
     if (param_one == CustomEvent::change_daily_forecast_display) {
       const bool enable = not this->model->display_daily_forecast;
-      this->display_daily_forecast(enable);
+      this->update_configured_display_daily_forecast(enable);
     } else if (param_one == CustomEvent::change_location) {
       auto *const raw_location =
           reinterpret_cast<std::array<char, 256> *>(GetCurrentEventExData());
       const std::string location{raw_location->data()};
-      this->update_config_location(location);
+      this->update_configured_location(location);
       return 1;
     } else if (param_one == CustomEvent::change_unit_system) {
-      this->change_unit_system(static_cast<UnitSystem>(param_two));
+      this->update_configured_unit_system(static_cast<UnitSystem>(param_two));
     } else if (param_one == CustomEvent::display_alert) {
       if (this->ui) {
         this->ui->display_alert();
@@ -228,7 +242,7 @@ private:
       const size_t history_index = param_two;
       auto location = this->history->get_location(history_index);
       if (location) {
-        this->update_config_location(*location);
+        this->write_config_location(*location);
       } else {
         DialogSynchro(ICON_WARNING, "Title", "Location not found!",
                       GetLangText("Ok"), nullptr, nullptr);
@@ -267,6 +281,8 @@ private:
   }
 
   void clear_model_weather_conditions() {
+    BOOST_LOG_TRIVIAL(debug) << "Clearing weather conditions stored in model";
+
     this->model->current_condition = std::experimental::nullopt;
     this->model->hourly_forecast.clear();
     this->model->daily_forecast.clear();
@@ -274,6 +290,8 @@ private:
   }
 
   void refresh_data() {
+    BOOST_LOG_TRIVIAL(debug) << "Refreshing data";
+
     ShowHourglassForce();
 
     ClearTimerByName(App::refresh_timer_name);
@@ -300,18 +318,27 @@ private:
 
       this->model->alerts = this->service->get_alerts();
     } catch (const ConnectionError &error) {
+      BOOST_LOG_TRIVIAL(debug)
+          << "Connection error while refreshing weather conditions "
+          << error.what();
       Message(
           ICON_WARNING, GetLangText("Network error"),
           GetLangText("Failure while fetching weather data. Check your network "
                       "connection."),
           App::error_dialog_delay);
     } catch (const RequestError &error) {
+      BOOST_LOG_TRIVIAL(debug)
+          << "Request error while refreshing weather conditions "
+          << error.what();
       Message(
           ICON_WARNING, GetLangText("Network error"),
           GetLangText("Failure while fetching weather data. Check your network "
                       "connection."),
           App::error_dialog_delay);
     } catch (const ServiceError &error) {
+      BOOST_LOG_TRIVIAL(debug)
+          << "Service error while refreshing weather conditions "
+          << error.what();
       Message(ICON_WARNING, GetLangText("Service unavailable"), error.what(),
               App::error_dialog_delay);
     }
@@ -325,12 +352,16 @@ private:
   }
 
   void open_about_dialog() {
+    BOOST_LOG_TRIVIAL(debug) << "Opening about dialog";
+
     const auto about_content = get_about_content();
     Dialog(ICON_INFORMATION, GetLangText("About"), about_content.c_str(),
            GetLangText("Ok"), nullptr, &handle_about_dialog_button_clicked);
   }
 
   static Location parse_location(const std::string &location) {
+    BOOST_LOG_TRIVIAL(debug) << "Parsing location";
+
     std::stringstream to_parse{location};
     std::vector<std::string> tokens;
     std::string token;
@@ -354,17 +385,22 @@ private:
 
       return {town, country};
     }
+    BOOST_LOG_TRIVIAL(error) << "Failed to parse location " << location;
     throw InvalidLocation{};
   }
 
-  void update_config_location(const std::string &text) const {
+  void update_configured_location(const std::string &text) const {
+    BOOST_LOG_TRIVIAL(debug) << "Updating configured location";
+
     if (text == format_location(this->model->location)) {
+      BOOST_LOG_TRIVIAL(debug) << "No need to updated configured location";
+
       return;
     }
     try {
       auto location = App::parse_location(text);
 
-      this->update_config_location(location);
+      this->write_config_location(location);
     } catch (const InvalidLocation &error) {
       const auto event_handler = GetEventHandler();
       SendEvent(event_handler, EVT_CUSTOM, CustomEvent::warning_emitted,
@@ -372,7 +408,9 @@ private:
     }
   }
 
-  void update_config_location(const Location &location) const {
+  void write_config_location(const Location &location) const {
+    BOOST_LOG_TRIVIAL(debug) << "Writing config location";
+
     Config config;
     config.write_string("location_town"s, location.town);
     config.write_string("location_country"s, location.country);
@@ -380,8 +418,12 @@ private:
     Config::config_changed();
   }
 
-  void change_unit_system(UnitSystem unit_system) {
+  void update_configured_unit_system(UnitSystem unit_system) {
+    BOOST_LOG_TRIVIAL(debug) << "Updating configured unit system";
+
     if (unit_system == this->model->unit_system) {
+      BOOST_LOG_TRIVIAL(debug) << "No need to update configured unit system";
+
       return;
     }
 
@@ -391,8 +433,12 @@ private:
     Config::config_changed();
   }
 
-  void display_daily_forecast(bool enable) const {
+  void update_configured_display_daily_forecast(bool enable) const {
+    BOOST_LOG_TRIVIAL(debug) << "Updating configured display daily forecast";
+
     if (enable == this->model->display_daily_forecast) {
+      BOOST_LOG_TRIVIAL(debug)
+          << "No need to update configured display daily forecast";
       return;
     }
     Config config;
@@ -402,5 +448,7 @@ private:
   }
 
   static void refresh_data_maybe();
+
+  static void handle_about_dialog_button_clicked(int button_index);
 };
 } // namespace taranis

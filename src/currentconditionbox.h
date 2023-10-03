@@ -13,8 +13,6 @@
 
 namespace taranis {
 
-void handle_current_condition_dialog_button_clicked(int button_index);
-
 class CurrentConditionBox : public Widget {
 public:
   static constexpr int bottom_padding{25};
@@ -131,8 +129,10 @@ private:
 
     Dialog(ICON_INFORMATION, GetLangText("Current Weather Conditions"),
            content.str().c_str(), GetLangText("Ok"), nullptr,
-           &handle_current_condition_dialog_button_clicked);
+           &handle_dialog_button_clicked);
   }
+
+  static void handle_dialog_button_clicked(int button_index);
 };
 
 } // namespace taranis

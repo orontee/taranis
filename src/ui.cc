@@ -1,12 +1,16 @@
 #include "ui.h"
 
+#include "boost/log/trivial.hpp"
 #include "events.h"
 #include "history.h"
 #include "inkview.h"
+#include "logging.h"
 #include "menu.h"
 #include "model.h"
 
 void taranis::handle_menu_item_selected(int item_index) {
+  BOOST_LOG_TRIVIAL(debug) << "Handling menu item selected " << item_index;
+
   const auto event_handler = GetEventHandler();
   if (item_index == MENU_ITEM_REFRESH) {
     SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data, 0);
@@ -33,5 +37,7 @@ void taranis::handle_menu_item_selected(int item_index) {
               CustomEvent::select_location_from_history, history_index);
   } else if (item_index == MENU_ITEM_QUIT) {
     SendEvent(event_handler, EVT_EXIT, 0, 0);
+  } else {
+    BOOST_LOG_TRIVIAL(error) << "Unexpected item index" << item_index;
   }
 }

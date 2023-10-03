@@ -101,7 +101,20 @@ convert /media/matthias/Vivlio/screens/scr0002.bmp \
         docs/screenshot-hourly-forecast.jpg
 ```
 
-## Remote debugging
+## Debugging
+
+### Log file
+
+The application can be started with the `--verbose` command line
+argument to generate a detailed log file. The file path is of the form
+`/mnt/ext1/system/state/taranis.log` but may vary depending on the use
+of profiles.
+
+To specify command line arguments rather use a terminal like
+[pbterm](https://github.com/Alastor27/pbterm) or use [Desktop
+integration](./docs/desktop_integration.md).
+
+### Remote debugging
 
 One must first start `gdbserver` on the e-reader:
 
@@ -114,7 +127,8 @@ One must first start `gdbserver` on the e-reader:
 5. Run `gdbserver --attach :10002 ${TARANIS_PID}`
 
 The e-reader must be connected to Internet and its IP address must be
-known (eg start `ipconfig` in `pbterm`).
+known (eg start `ipconfig` in `pbterm`). It is recommended to disable
+automatic poweroff.
 
 On the host computer, start a shell with current working directory the
 root directory of a Git clone of taranis repository. Then start GDB:

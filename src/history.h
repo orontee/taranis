@@ -6,6 +6,7 @@
 #include <inkview.h>
 #include <memory>
 
+#include "logging.h"
 #include "model.h"
 
 namespace std {
@@ -37,6 +38,8 @@ public:
   }
 
   void update_history_maybe() {
+    BOOST_LOG_TRIVIAL(debug) << "Updating history";
+
     auto &current_location = this->model->location;
     auto &history = this->model->location_history;
     const auto found = std::find_if(history.begin(), history.end(),
@@ -45,6 +48,12 @@ public:
                                     });
     const bool found_favorite = (found != history.end() and found->favorite);
     if (found != history.end()) {
+      if (found == history.begin()) {
+        BOOST_LOG_TRIVIAL(debug) << "History already up-to-date";
+        return;
+      }
+      BOOST_LOG_TRIVIAL(debug) << "Removing history item to avoid duplicates";
+
       history.erase(found);
     }
     if (history.size() == LocationHistoryProxy::max_size) {
@@ -52,10 +61,15 @@ public:
           std::find_if(history.rbegin(), history.rend(),
                        [](const auto &item) { return not item.favorite; });
       if (last_not_favorite != history.rend()) {
+        BOOST_LOG_TRIVIAL(debug)
+            << "Removing last not favorite history item since history is full";
+
         history.erase(std::prev(last_not_favorite.base()));
       }
     }
     if (history.size() < LocationHistoryProxy::max_size) {
+      BOOST_LOG_TRIVIAL(debug) << "Adding new item in history";
+
       history.push_front(HistoryItem{this->model->location, found_favorite});
     }
   }

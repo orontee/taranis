@@ -10,8 +10,7 @@ pkgconfig = '@pwd@/SDK_6.3.0/SDK-B288/usr/bin/pkg-config'
 [built-in options]
 cpp_args = ['-fsigned-char',
 	    '-Werror-return-type',
-	    '-DNDEBUG',
-	    '-O2',
+	    '-O3',
 	    '-pipe',
 	    '-fomit-frame-pointer',
 	    '-march=armv7-a',

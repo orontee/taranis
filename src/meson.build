@@ -23,9 +23,13 @@ sources = [about_cc] + files(
   'app.cc',
   'config.cc',
   'currentconditionbox.cc',
+  'events.cc',
   'http.cc',
   'locationbox.cc',
+  'logging.cc',
   'main.cc',
+  'service.cc',
+  'state.cc',
   'ui.cc',
   'util.cc'
 )

@@ -3,11 +3,17 @@
 #include <cstring>
 #include <inkview.h>
 
+#include "logging.h"
+
 namespace taranis {
 inline void initialize_translations() {
-  LoadLanguage(currentLang());
+  const auto current_language = currentLang();
 
-  if (std::strcmp(currentLang(), "fr") == 0) {
+  BOOST_LOG_TRIVIAL(debug) << "Initializing translations " << current_language;
+
+  LoadLanguage(current_language);
+
+  if (std::strcmp(current_language, "fr") == 0) {
     // French translations
 
     // about.cc.in
@@ -96,7 +102,7 @@ inline void initialize_translations() {
     AddTranslation("Wind", "Vent");
     AddTranslation("Gust", "Rafale");
 
-  } else if (std::strcmp(currentLang(), "pl") == 0) {
+  } else if (std::strcmp(current_language, "pl") == 0) {
     // Polish translations
 
     // about.cc.in
@@ -188,7 +194,7 @@ inline void initialize_translations() {
     AddTranslation("Wind", "Wiatr");
     AddTranslation("Gust", "Porywisty wiatr");
 
-  } else if (std::strcmp(currentLang(), "de") == 0) {
+  } else if (std::strcmp(current_language, "de") == 0) {
     // German translations
 
     // currentconditionbox.h

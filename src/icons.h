@@ -3,6 +3,8 @@
 #include <inkview.h>
 #include <string>
 
+#include "logging.h"
+
 extern const ibitmap icon_01n_2x;
 extern const ibitmap icon_02n_2x;
 extern const ibitmap icon_03n_2x;
@@ -57,6 +59,8 @@ public:
     if (name == "warning") {
       return const_cast<ibitmap *>(&icon_warning);
     }
+    BOOST_LOG_TRIVIAL(error) << "Unknown icon name " << name;
+
     return nullptr;
   }
 };

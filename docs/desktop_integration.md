@@ -43,3 +43,7 @@ To customize the application icon and group:
                 },
                 {
    ```
+
+⚠️ Note that comments describing the format and possible attributes
+contain a typo: One must use the `params` (plural!) attribute to pass
+parameters to an application.

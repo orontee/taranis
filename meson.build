@@ -8,12 +8,6 @@ project(
   ]
 )
 
-configure_file(
-  input: 'crossfile_arm.ini.in',
-  output: 'crossfile_arm-v2.ini',
-  configuration: {'pwd': meson.global_build_root()}
-)
-
 pbres_command = find_program(
   './SDK_6.3.0/SDK-B288/usr/bin/pbres',
   required: true
@@ -41,11 +35,18 @@ compiler = meson.get_compiler('cpp')
 
 taranis_deps = [
   compiler.find_library('inkview', required: true),
+  compiler.find_library('boost_system', required: true, static: true),
+  compiler.find_library('boost_filesystem', required: true, static: true),
+  compiler.find_library('boost_date_time', required: true, static: true),
+  compiler.find_library('boost_log', required: true, static: true),
+  compiler.find_library('boost_log_setup', required: true, static: true),
+  compiler.find_library('boost_thread', required: true, static: true),
   compiler.find_library('curl', required: true),
   compiler.find_library('jsoncpp', required: true),
   compiler.find_library('gsl', required: true, static: true),
   compiler.find_library('gslcblas', required: true, static: true),
   compiler.find_library('m', required: true, static: true),
+  compiler.find_library('pthread', required: true),
 ]
 
 subdir('src')

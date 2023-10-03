@@ -1,3 +1,4 @@
 /builddir
 /crossfile_arm.ini
 /3rd-parties
+/data*.json

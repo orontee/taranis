@@ -4,6 +4,8 @@
 #include <memory>
 #include <string>
 
+#include "logging.h"
+
 namespace taranis {
 
 struct Config {
@@ -30,10 +32,13 @@ struct Config {
   static std::string get_config_path() {
     iprofile profile = CreateProfileStruct();
     const auto failed = GetCurrentProfileEx(&profile);
-    if (not failed) {
-      return std::string{profile.path} + "/config/taranis.cfg";
-    }
-    return std::string{CONFIGPATH} + "/taranis.cfg";
+    const auto stem = not failed ? std::string{profile.path} + "/config"
+                                 : std::string{CONFIGPATH};
+    const auto config_path = stem + "/taranis.cfg";
+
+    BOOST_LOG_TRIVIAL(info) << "Config path " << config_path;
+
+    return config_path;
   }
 
   static void config_changed();

@@ -59,7 +59,7 @@ jobs:
 
       - name: Build application
         run: |
-          meson setup builddir . --cross-file crossfile_arm.ini
+          meson setup builddir . --cross-file crossfile_arm.ini --buildtype=release
           cd builddir
           meson compile
 

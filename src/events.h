@@ -1,5 +1,9 @@
 #pragma once
 
+#include <inkview.h>
+#include <string>
+
+namespace taranis {
 enum CustomEvent {
   // Commands
   change_daily_forecast_display,
@@ -20,6 +24,11 @@ enum CustomEvent {
 enum CustomEventParam {
   invalid_location,
 };
+
+std::string format_custom_event_param(int param);
+
+std::string format_event_type(int event_type);
+} // namespace taranis
 
 // Local variables:
 // mode: c++-ts;
