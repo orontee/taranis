@@ -28,10 +28,10 @@ void taranis::initialize_logging(bool verbose_log) {
        << ": <" << logging::trivial::severity << "> "
        << logging::expressions::smessage);
 
-  auto sink = logging::add_file_log(logging::keywords::file_name = log_path,
-	 			    logging::keywords::rotation_size = 1024 * 1024,
-				    logging::keywords::format = format);
-
+  auto sink =
+      logging::add_file_log(logging::keywords::file_name = log_path,
+                            logging::keywords::rotation_size = 1024 * 1024,
+                            logging::keywords::format = format);
 
   auto core = logging::core::get();
   core->add_sink(sink);
