@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Compile with O3 optimization and strip executable
+  [#25](https://github.com/orontee/taranis/issues/25)
+
 - Add log file
   [#37](https://github.com/orontee/taranis/issues/37)
 

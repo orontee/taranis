@@ -12,3 +12,5 @@ icons = files(
   'icon_menu.bmp',
   'icon_warning.bmp'
 )
+
+install_data(sources: ['taranis.bmp', 'taranis_f.bmp'], install_dir: '/icons')

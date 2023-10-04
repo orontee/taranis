@@ -56,5 +56,7 @@ sources += [icons_cc]
 executable(
   'taranis.app',
   sources,
-  dependencies: taranis_deps
+  dependencies: taranis_deps,
+  install: true,
+  install_dir: '/',
 )

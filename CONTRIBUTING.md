@@ -19,12 +19,14 @@ and installed manually, see instructions below.
 ### Using a container
 
 To build the application *for a given version*, one can build a Docker
-image and export the ELF file from that image::
+image and export an archive containing the ELF file from that image. For example, for a debug build of the most recent version::
 ```sh
-  VERSION=v$(meson version | grep 'Project version: ' | cut -d':' -f 2 | tr -d '[:space:]')
-  buildah bud -t taranis-build:$VERSION --build-arg VERSION=${VERSION} .
+  VERSION=$(git tag --list 'v*' | sort --version-sort --reverse | head -n 1)
+  buildah bud -t taranis-build:${VERSION} \
+              --build-arg="VERSION=${VERSION}" \
+              --build-arg="MESON_ARGS=--buildtype=debug" .
   podman run --rm -v ${PWD}:/opt/taranis \
-             taranis-build:$VERSION bash -c "cp builddir/taranis.app /opt/taranis"
+             taranis-build:$VERSION bash -c "cp builddir/artifact.zip /opt/artifact.zip"
 ```
 
 ### Cross-compile on a Debian host
@@ -75,8 +77,10 @@ dependencies.
 
 4. Finally build the application:
    ```sh
-   meson setup builddir . --cross-file crossfile_arm.ini
-   pushd builddir && meson compile; popd
+   meson setup builddir . \
+         --cross-file crossfile_arm.ini \
+         --buildtype=debug
+   DESTDIR=artifact ninja -C builddir install
    ```
 
 ## Tooling

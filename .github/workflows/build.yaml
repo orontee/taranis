@@ -59,12 +59,14 @@ jobs:
 
       - name: Build application
         run: |
-          meson setup builddir . --cross-file crossfile_arm.ini --buildtype=release
-          cd builddir
-          meson compile
+          meson setup builddir . \
+                --cross-file crossfile_arm.ini \
+                --buildtype=release \
+                --strip
+          DESTDIR=artifact ninja -C builddir install
 
       - name: Upload archive
         uses: actions/upload-artifact@v3
         with:
-          path: builddir/taranis.app
+          path: builddir/artifact
           if-no-files-found: error

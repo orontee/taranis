@@ -10,7 +10,8 @@ RUN apt-get update -y && apt-get upgrade -y && \
       git \
       libtinfo5 \
       meson \
-      wget && \
+      wget \
+      zip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -47,6 +48,8 @@ RUN mkdir 3rd-parties && \
     make -j4 && \
     make install
 
-RUN meson setup builddir . --cross-file crossfile_arm.ini && \
-    cd builddir && \
-    meson compile
+ARG MESON_ARGS
+RUN meson setup builddir . --cross-file crossfile_arm.ini ${MESON_ARGS} && \
+    ninja -C builddir && \
+    DESTDIR=artifact ninja -C builddir install
+RUN cd builddir; zip -r artifact.zip artifact/

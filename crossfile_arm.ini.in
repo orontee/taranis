@@ -9,14 +9,12 @@ pkgconfig = '@pwd@/SDK_6.3.0/SDK-B288/usr/bin/pkg-config'
 
 [built-in options]
 cpp_args = ['-fsigned-char',
-	    '-Werror-return-type',
-	    '-O3',
-	    '-pipe',
-	    '-fomit-frame-pointer',
-	    '-march=armv7-a',
-	    '-mtune=cortex-a8',
-	    '-mfpu=neon',
-	    '-mfloat-abi=softfp']
+            '-fPIC',
+            '-Werror-return-type',
+            '-march=armv7-a',
+            '-mtune=cortex-a8',
+            '-mfpu=neon',
+            '-mfloat-abi=softfp']
 
 [host_machine]
 system = 'linux'
