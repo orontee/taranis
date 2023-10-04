@@ -38,6 +38,6 @@ void taranis::handle_menu_item_selected(int item_index) {
   } else if (item_index == MENU_ITEM_QUIT) {
     SendEvent(event_handler, EVT_EXIT, 0, 0);
   } else {
-    BOOST_LOG_TRIVIAL(error) << "Unexpected item index" << item_index;
+    BOOST_LOG_TRIVIAL(error) << "Unexpected item index " << item_index;
   }
 }

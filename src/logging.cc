@@ -28,14 +28,10 @@ void taranis::initialize_logging(bool verbose_log) {
        << ": <" << logging::trivial::severity << "> "
        << logging::expressions::smessage);
 
-  auto backend = boost::make_shared<logging::sinks::text_file_backend>(
-      logging::keywords::file_name = log_path,
-      logging::keywords::rotation_size = 1024 * 1024,
-      logging::keywords::format = format);
+  auto sink = logging::add_file_log(logging::keywords::file_name = log_path,
+	 			    logging::keywords::rotation_size = 1024 * 1024,
+				    logging::keywords::format = format);
 
-  typedef logging::sinks::synchronous_sink<logging::sinks::text_file_backend>
-      sink_t;
-  boost::shared_ptr<sink_t> sink{new sink_t(backend)};
 
   auto core = logging::core::get();
   core->add_sink(sink);
@@ -43,7 +39,7 @@ void taranis::initialize_logging(bool verbose_log) {
   if (verbose_log) {
     core->set_filter(logging::trivial::severity >= logging::trivial::debug);
 
-    backend->auto_flush(true);
+    sink->locked_backend()->auto_flush(true);
     // According to boost documentation: This will, of course, degrade
     // logging performance, but in case of an application crash there
     // is a good chance that last log records will not be lost.
