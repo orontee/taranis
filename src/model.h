@@ -98,9 +98,9 @@ enum Weather {
 
 // Can contain current weather data or hourly forecast
 struct Condition {
-  std::time_t date{0};
-  std::time_t sunrise{0};
-  std::time_t sunset{0};
+  std::time_t date;
+  std::time_t sunrise;
+  std::time_t sunset;
   long double temperature;
   long double felt_temperature;
   int pressure;
@@ -113,7 +113,7 @@ struct Condition {
   int wind_degree;
   long double wind_gust;
 
-  Weather weather{CLEAR_SKY};
+  Weather weather;
   std::string weather_description;
   std::string weather_icon_name;
   long double rain; // mm/h
@@ -122,11 +122,11 @@ struct Condition {
 
 // Can contain daily forecast
 struct DailyCondition {
-  std::time_t date{0};
-  std::time_t sunrise{0};
-  std::time_t sunset{0};
-  std::time_t moonrise{0};
-  std::time_t moonset{0};
+  std::time_t date;
+  std::time_t sunrise;
+  std::time_t sunset;
+  std::time_t moonrise;
+  std::time_t moonset;
   long double moon_phase;
   int pressure;
   int humidity;
@@ -143,16 +143,16 @@ struct DailyCondition {
   Weather weather{CLEAR_SKY};
   std::string weather_description;
   std::string weather_icon_name;
-  long double temperature_day{NAN};
-  long double temperature_min{NAN};
-  long double temperature_max{NAN};
-  long double temperature_night{NAN};
-  long double temperature_evening{NAN};
-  long double temperature_morning{NAN};
-  long double felt_temperature_day{NAN};
-  long double felt_temperature_night{NAN};
-  long double felt_temperature_evening{NAN};
-  long double felt_temperature_morning{NAN};
+  long double temperature_day;
+  long double temperature_min;
+  long double temperature_max;
+  long double temperature_night;
+  long double temperature_evening;
+  long double temperature_morning;
+  long double felt_temperature_day;
+  long double felt_temperature_night;
+  long double felt_temperature_evening;
+  long double felt_temperature_morning;
 };
 
 struct Alert {
@@ -178,10 +178,10 @@ struct HistoryItem {
 struct Model {
   std::string source{"OpenWeather"};
   UnitSystem unit_system{standard};
-  std::time_t refresh_date{0};
+  std::time_t refresh_date;
   Location location;
 
-  std::optional<Condition> current_condition{};
+  std::optional<Condition> current_condition;
   std::vector<Condition> hourly_forecast;
   std::vector<DailyCondition> daily_forecast;
 
