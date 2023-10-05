@@ -1,7 +1,8 @@
 #include "service.h"
 
+#include <boost/log/trivial.hpp>
+
 #include "errors.h"
-#include "logging.h"
 
 namespace taranis {
 

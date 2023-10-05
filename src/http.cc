@@ -1,8 +1,9 @@
 #include "http.h"
 
-#include "errors.h"
-#include "logging.h"
+#include <boost/log/trivial.hpp>
 #include <sstream>
+
+#include "errors.h"
 
 Json::Value taranis::HttpClient::get(const std::string &url) {
   BOOST_LOG_TRIVIAL(debug) << "Sending GET request " << url;

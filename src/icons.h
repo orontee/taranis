@@ -1,9 +1,8 @@
 #pragma once
 
+#include <boost/log/trivial.hpp>
 #include <inkview.h>
 #include <string>
-
-#include "logging.h"
 
 extern const ibitmap icon_01n_2x;
 extern const ibitmap icon_02n_2x;

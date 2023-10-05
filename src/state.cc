@@ -1,11 +1,10 @@
 #include "state.h"
 
-#include "json/writer.h"
+#include <boost/log/trivial.hpp>
 #include <fstream>
 #include <inkview.h>
 #include <iomanip>
-
-#include "logging.h"
+#include <json/writer.h>
 
 constexpr char LOCATION_HISTORY_KEY[]{"location_history"};
 

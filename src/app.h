@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <boost/log/trivial.hpp>
 #include <cctype>
 #include <cstring>
 #include <ctime>
@@ -18,7 +19,6 @@
 #include "events.h"
 #include "history.h"
 #include "l10n.h"
-#include "logging.h"
 #include "model.h"
 #include "service.h"
 #include "state.h"

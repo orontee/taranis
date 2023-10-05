@@ -1,10 +1,10 @@
 #include "ui.h"
 
-#include "boost/log/trivial.hpp"
+#include <boost/log/trivial.hpp>
+#include <inkview.h>
+
 #include "events.h"
 #include "history.h"
-#include "inkview.h"
-#include "logging.h"
 #include "menu.h"
 #include "model.h"
 

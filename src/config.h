@@ -1,10 +1,9 @@
 #pragma once
 
+#include <boost/log/trivial.hpp>
 #include <inkview.h>
 #include <memory>
 #include <string>
-
-#include "logging.h"
 
 namespace taranis {
 

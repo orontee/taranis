@@ -1,12 +1,12 @@
 #pragma once
 
 #include <algorithm>
+#include <boost/log/trivial.hpp>
 #include <experimental/optional>
 #include <fstream>
 #include <inkview.h>
 #include <memory>
 
-#include "logging.h"
 #include "model.h"
 
 namespace std {

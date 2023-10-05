@@ -1,9 +1,8 @@
 #pragma once
 
+#include <boost/log/trivial.hpp>
 #include <cstring>
 #include <inkview.h>
-
-#include "logging.h"
 
 namespace taranis {
 inline void initialize_translations() {
