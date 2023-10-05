@@ -40,9 +40,9 @@ Json::Value taranis::HttpClient::get(const std::string &url) {
   try {
     if (not Json::parseFromStream(reader, input_stream, &root, &json_errors)) {
       BOOST_LOG_TRIVIAL(error)
-      << "JSON parser error " << json_errors << " " << url;
+          << "JSON parser error " << json_errors << " " << url;
     }
-  } catch (const Json::Exception& error) {
+  } catch (const Json::Exception &error) {
     BOOST_LOG_TRIVIAL(error) << error.what();
   }
   return root;
