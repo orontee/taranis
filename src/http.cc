@@ -12,6 +12,7 @@ Json::Value taranis::HttpClient::get(const std::string &url) {
   curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
 
   std::string response_data;
+  response_data.reserve(10 * CURLOPT_BUFFERSIZE);
   curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_data);
 
   const CURLcode code = curl_easy_perform(curl.get());
@@ -49,7 +50,6 @@ std::unique_ptr<CURL, void (*)(CURL *)> taranis::HttpClient::preprare_curl() {
 
   curl_easy_setopt(curl.get(), CURLOPT_HTTPHEADER, headers);
   curl_easy_setopt(curl.get(), CURLOPT_FOLLOWLOCATION, 1L);
-  curl_easy_setopt(curl.get(), CURLOPT_BUFFERSIZE, 102400L);
   curl_easy_setopt(curl.get(), CURLOPT_NOPROGRESS, 1L);
   curl_easy_setopt(curl.get(), CURLOPT_USERAGENT, "taranis/0.0.1");
   curl_easy_setopt(curl.get(), CURLOPT_MAXREDIRS, 50L);
@@ -89,6 +89,7 @@ void taranis::HttpClient::ensure_network() {
 
 size_t taranis::HttpClient::write_callback(void *contents, size_t size,
                                            size_t nmemb, void *userp) {
+  BOOST_LOG_TRIVIAL(debug) << "Writing " << size * nmemb << " bytes to buffer";
   static_cast<std::string *>(userp)->append(static_cast<char *>(contents),
                                             size * nmemb);
   return size * nmemb;
