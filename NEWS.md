@@ -46,6 +46,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Fix possible crash on missing attributes in OpenWeather API payload
+  [#52](https://github.com/orontee/taranis/issues/52)
+
 - Fix menu not opening after a refresh without internet connection
   [#53](https://github.com/orontee/taranis/issues/53)
 
