@@ -2,6 +2,7 @@
 
 #include "errors.h"
 #include "logging.h"
+#include <sstream>
 
 Json::Value taranis::HttpClient::get(const std::string &url) {
   BOOST_LOG_TRIVIAL(debug) << "Sending GET request " << url;
@@ -29,12 +30,20 @@ Json::Value taranis::HttpClient::get(const std::string &url) {
     throw HttpError{response_code};
   }
 
+  BOOST_LOG_TRIVIAL(debug) << "Received " << response_data.size() << " bytes";
+
   Json::Value root;
-  Json::Reader reader;
-  if (not reader.parse(response_data, root)) {
-    BOOST_LOG_TRIVIAL(error)
-        << "JSON parser error " << response_data << " " << url;
-    throw JsonParseError{};
+  Json::CharReaderBuilder reader;
+  reader["collectComments"] = false;
+  std::string json_errors;
+  std::stringstream input_stream{response_data};
+  try {
+    if (not Json::parseFromStream(reader, input_stream, &root, &json_errors)) {
+      BOOST_LOG_TRIVIAL(error)
+      << "JSON parser error " << json_errors << " " << url;
+    }
+  } catch (const Json::Exception& error) {
+    BOOST_LOG_TRIVIAL(error) << error.what();
   }
   return root;
 }

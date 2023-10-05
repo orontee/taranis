@@ -15,6 +15,9 @@ int event_handler(int event_type, int param_one, int param_two) {
   } catch (const std::logic_error &error) {
     BOOST_LOG_TRIVIAL(error) << "Unhandled logic error " << error.what();
     throw;
+  } catch (const std::exception &error) {
+    BOOST_LOG_TRIVIAL(error) << "Unhandled error " << error.what();
+    throw;
   }
 }
 
