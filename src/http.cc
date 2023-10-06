@@ -5,17 +5,32 @@
 
 #include "errors.h"
 
-Json::Value taranis::HttpClient::get(const std::string &url) {
+namespace taranis {
+
+std::string
+HttpClient::encode_query_parameter(const std::string &parameter) const {
+  std::shared_ptr<char> escaped{
+      curl_easy_escape(nullptr, parameter.c_str(), parameter.size()),
+      &curl_free};
+  if (escaped == nullptr) {
+    return "";
+  }
+
+  std::string value{escaped.get()};
+  return value;
+}
+
+Json::Value HttpClient::get(const std::string &url) {
   BOOST_LOG_TRIVIAL(debug) << "Sending GET request " << url;
 
   this->ensure_network();
 
-  auto curl = this->preprare_curl();
-  curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
+  this->response_data.clear();
+  this->response_data.reserve(10 * CURLOPT_BUFFERSIZE);
 
-  std::string response_data;
-  response_data.reserve(10 * CURLOPT_BUFFERSIZE);
-  curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_data);
+  auto curl = this->prepare_curl();
+  curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
+  curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &this->response_data);
 
   const CURLcode code = curl_easy_perform(curl.get());
   if (code != CURLE_OK) {
@@ -31,13 +46,14 @@ Json::Value taranis::HttpClient::get(const std::string &url) {
     throw HttpError{response_code};
   }
 
-  BOOST_LOG_TRIVIAL(debug) << "Received " << response_data.size() << " bytes";
+  BOOST_LOG_TRIVIAL(debug) << "Received " << this->response_data.size()
+                           << " bytes";
 
   Json::Value root;
   Json::CharReaderBuilder reader;
   reader["collectComments"] = false;
   std::string json_errors;
-  std::stringstream input_stream{response_data};
+  std::stringstream input_stream{this->response_data};
   try {
     if (not Json::parseFromStream(reader, input_stream, &root, &json_errors)) {
       BOOST_LOG_TRIVIAL(error)
@@ -49,7 +65,7 @@ Json::Value taranis::HttpClient::get(const std::string &url) {
   return root;
 }
 
-std::unique_ptr<CURL, void (*)(CURL *)> taranis::HttpClient::preprare_curl() {
+std::unique_ptr<CURL, void (*)(CURL *)> HttpClient::prepare_curl() {
   std::unique_ptr<CURL, void (*)(CURL *)> curl{curl_easy_init(),
                                                &curl_easy_cleanup};
 
@@ -60,6 +76,7 @@ std::unique_ptr<CURL, void (*)(CURL *)> taranis::HttpClient::preprare_curl() {
 
   curl_easy_setopt(curl.get(), CURLOPT_HTTPHEADER, headers);
   curl_easy_setopt(curl.get(), CURLOPT_FOLLOWLOCATION, 1L);
+  curl_easy_setopt(curl.get(), CURLOPT_BUFFERSIZE, 102400L);
   curl_easy_setopt(curl.get(), CURLOPT_NOPROGRESS, 1L);
   curl_easy_setopt(curl.get(), CURLOPT_USERAGENT, "taranis/0.0.1");
   curl_easy_setopt(curl.get(), CURLOPT_MAXREDIRS, 50L);
@@ -72,7 +89,7 @@ std::unique_ptr<CURL, void (*)(CURL *)> taranis::HttpClient::preprare_curl() {
   return curl;
 }
 
-void taranis::HttpClient::ensure_network() {
+void HttpClient::ensure_network() const {
   iv_netinfo *netinfo = NetInfo();
   if (netinfo == nullptr or not netinfo->connected) {
     BOOST_LOG_TRIVIAL(debug) << "Will try to establish connection";
@@ -97,10 +114,11 @@ void taranis::HttpClient::ensure_network() {
   }
 }
 
-size_t taranis::HttpClient::write_callback(void *contents, size_t size,
-                                           size_t nmemb, void *userp) {
+size_t HttpClient::write_callback(void *contents, size_t size, size_t nmemb,
+                                  void *userp) {
   BOOST_LOG_TRIVIAL(debug) << "Writing " << size * nmemb << " bytes to buffer";
   static_cast<std::string *>(userp)->append(static_cast<char *>(contents),
                                             size * nmemb);
   return size * nmemb;
 }
+} // namespace taranis

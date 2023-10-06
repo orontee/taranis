@@ -68,6 +68,8 @@ private:
                                   const std::string &language,
                                   const std::string &units);
 
+  std::string encode_location() const;
+
   Json::Value send_get_request(const std::string &url);
 
   static Condition extract_condition(const Json::Value &value);

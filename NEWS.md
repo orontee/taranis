@@ -46,6 +46,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- URL encode location when requesting Geocoding API
+  [#55](https://github.com/orontee/taranis/issues/55)
+
 - Fix possible crash on missing attributes in OpenWeather API payload
   [#52](https://github.com/orontee/taranis/issues/52)
 

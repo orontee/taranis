@@ -80,6 +80,7 @@ Service::identify_lonlat(const std::string &town, const std::string &country) {
   }
   if (not this->lonlat) {
     this->request_lonlat();
+    BOOST_LOG_TRIVIAL(debug) << "Longitude and latitude taken from cache";
   }
   return this->lonlat.value();
 }
@@ -89,11 +90,7 @@ void Service::request_lonlat() {
 
   std::stringstream url;
   url << openweather::url << openweather::geo_path << "?"
-      << "q=" << this->town;
-  if (not this->country.empty()) {
-    url << "," << this->country;
-  }
-  url << "&"
+      << "q=" << this->encode_location() << "&"
       << "appid=" << this->api_key;
 
   auto returned_value = this->send_get_request(url.str());
@@ -130,6 +127,16 @@ Json::Value Service::request_onecall_api(const std::string &town,
 
   const auto returned_value = this->send_get_request(url.str());
   return returned_value;
+}
+
+std::string Service::encode_location() const {
+  std::string location = this->client.encode_query_parameter(this->town);
+  if (not this->country.empty()) {
+    location += "," + this->client.encode_query_parameter(this->country);
+  }
+  // ⚠️ this is not the usual way to encode query parameters, in
+  // particular the comma must not be encoded...
+  return location;
 }
 
 Json::Value Service::send_get_request(const std::string &url) {
