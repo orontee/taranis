@@ -11,8 +11,8 @@ To customize the application icon and group:
    [taranis_f.bmp](./taranis_f.bmp).
    
 2. Then the `/mnt/ext1/system/config/desktop/view.json` file must be
-   edited on the e-reader (the file path may vary depending on the
-   use of profiles):
+   edited on the e-reader (path may vary depending on the use of
+   profiles):
    
    ```diff
    --- "/mnt/ext1/system/profiles/matthias/config/desktop/view.orig.json"	2023-09-30 20:20:34.454795306 +0200

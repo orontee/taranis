@@ -83,11 +83,27 @@ inline std::string format_duration(const std::time_t &start,
   return duration_text.str();
 }
 
-inline std::string format_location(const Location &location) {
-  std::string text = location.town;
-  if (not location.country.empty()) {
-    text += ", " + location.country;
+inline std::string format_location(const std::string &town,
+                                   const std::string &country) {
+  std::string text = town;
+  if (not country.empty()) {
+    text += ", " + country;
   }
   return text;
 }
+
+inline std::string format_location(const Location &location,
+                                   bool with_state = false) {
+  std::string text = location.name;
+  if (not location.country.empty()) {
+    text += ", " + location.country;
+  }
+  if (with_state) {
+    text += " (" + location.state + ")";
+  }
+  return text;
+}
+
+std::pair<std::string, std::string>
+parse_location_description(const std::string &description);
 } // namespace taranis

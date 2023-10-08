@@ -2,6 +2,7 @@
 #include "inkview.h"
 
 #include <algorithm>
+#include <boost/log/trivial.hpp>
 #include <cassert>
 #include <cmath>
 #include <cstring>
@@ -9,6 +10,8 @@
 std::vector<double>
 taranis::normalize_temperatures(const std::vector<Condition> &conditions,
                                 const int amplitude) {
+  BOOST_LOG_TRIVIAL(debug) << "Normalizing temperatures";
+
   if (conditions.size() < 2) {
     return {};
   }
@@ -41,6 +44,8 @@ std::vector<double>
 taranis::normalize_precipitations(const std::vector<Condition> &conditions,
                                   const int lower_bound,
                                   const int upper_bound) {
+  BOOST_LOG_TRIVIAL(debug) << "Normalizing precipitations";
+
   assert(lower_bound < upper_bound);
 
   const double precipitations_threshold = 60;
@@ -134,4 +139,36 @@ std::string taranis::format_short_date(const std::tm *time) {
   }
   return std::to_string(time->tm_mday) + " " +
          GetLangText(months[time->tm_mon]);
+}
+
+std::pair<std::string, std::string>
+taranis::parse_location_description(const std::string &description) {
+  BOOST_LOG_TRIVIAL(debug) << "Parsing location description";
+
+  std::stringstream to_parse{description};
+  std::vector<std::string> tokens;
+  std::string token;
+  while (std::getline(to_parse, token, ',')) {
+    ltrim(token);
+    rtrim(token);
+    tokens.push_back(token);
+  }
+  if (tokens.size() == 1) {
+    auto town = tokens[0];
+    town[0] = std::toupper(town[0]);
+    return {town, ""};
+  } else if (tokens.size() > 1) {
+    auto country = tokens[tokens.size() - 1];
+    country[0] = std::toupper(country[0]);
+
+    auto town = description.substr(0, description.size() - country.size());
+    ltrim(town);
+    rtrim(town);
+    town[0] = std::toupper(town[0]);
+
+    return {town, country};
+  }
+  BOOST_LOG_TRIVIAL(error) << "Failed to parse location description "
+                           << description;
+  throw InvalidLocation{};
 }

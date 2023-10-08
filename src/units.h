@@ -34,7 +34,7 @@ public:
     return std::to_string(distance) + "m";
   }
 
-  std::string format_precipitation(long double precipitation,
+  std::string format_precipitation(double precipitation,
                                    bool per_hour = false) const {
     const auto unit = per_hour ? "mm/h"s : "mm"s;
     if (precipitation < 1) {
@@ -49,7 +49,7 @@ public:
     return std::to_string(pressure) + "hPa";
   }
 
-  std::string format_speed(long double speed) const {
+  std::string format_speed(double speed) const {
     if (this->model->unit_system == UnitSystem::standard ||
         this->model->unit_system == UnitSystem::metric) {
       return std::to_string(static_cast<int>(speed)) + "m/s";

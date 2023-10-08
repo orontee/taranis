@@ -7,6 +7,7 @@ namespace taranis {
 enum CustomEvent {
   // Commands
   change_daily_forecast_display,
+  search_location,
   change_location,
   change_unit_system,
   display_alert,

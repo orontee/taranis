@@ -17,11 +17,27 @@ namespace taranis {
 enum UnitSystem { standard = 0, metric = 1, imperial = 2 };
 
 struct Location {
-  std::string town;
+
+  Location() : longitude{NAN}, latitude{NAN} {}
+
+  Location(double longitude, double latitude, const std::string &name,
+           const std::string &country, const std::string &state)
+      : longitude{longitude}, latitude{latitude}, name{name}, country{country},
+        state{state} {}
+
+  Location(const Location &other)
+      : longitude{other.longitude}, latitude{other.latitude}, name{other.name},
+        country{other.country}, state{other.state} {}
+
+  double longitude;
+  double latitude;
+  std::string name;
   std::string country;
+  std::string state;
 
   bool operator==(const Location &other) const {
-    return this->country == other.country and this->town == other.town;
+    return this->longitude == other.longitude and
+           this->latitude == other.latitude;
   }
 };
 
@@ -101,23 +117,23 @@ struct Condition {
   std::time_t date;
   std::time_t sunrise;
   std::time_t sunset;
-  long double temperature;
-  long double felt_temperature;
+  double temperature;
+  double felt_temperature;
   int pressure;
   int humidity;
-  long double uv_index;
+  double uv_index;
   int clouds;
   int visibility;
-  long double probability_of_precipitation;
-  long double wind_speed;
+  double probability_of_precipitation;
+  double wind_speed;
   int wind_degree;
-  long double wind_gust;
+  double wind_gust;
 
   Weather weather;
   std::string weather_description;
   std::string weather_icon_name;
-  long double rain; // mm/h
-  long double snow; // mm/h
+  double rain; // mm/h
+  double snow; // mm/h
 };
 
 // Can contain daily forecast
@@ -127,32 +143,32 @@ struct DailyCondition {
   std::time_t sunset;
   std::time_t moonrise;
   std::time_t moonset;
-  long double moon_phase;
+  double moon_phase;
   int pressure;
   int humidity;
-  long double dew_point;
-  long double wind_speed;
+  double dew_point;
+  double wind_speed;
   int wind_degree;
-  long double wind_gust;
+  double wind_gust;
   int clouds;
-  long double probability_of_precipitation;
-  long double uv_index;
-  long double rain; // mm
-  long double snow; // mm
+  double probability_of_precipitation;
+  double uv_index;
+  double rain; // mm
+  double snow; // mm
 
   Weather weather{CLEAR_SKY};
   std::string weather_description;
   std::string weather_icon_name;
-  long double temperature_day;
-  long double temperature_min;
-  long double temperature_max;
-  long double temperature_night;
-  long double temperature_evening;
-  long double temperature_morning;
-  long double felt_temperature_day;
-  long double felt_temperature_night;
-  long double felt_temperature_evening;
-  long double felt_temperature_morning;
+  double temperature_day;
+  double temperature_min;
+  double temperature_max;
+  double temperature_night;
+  double temperature_evening;
+  double temperature_morning;
+  double felt_temperature_day;
+  double felt_temperature_night;
+  double felt_temperature_evening;
+  double felt_temperature_morning;
 };
 
 struct Alert {
@@ -166,10 +182,6 @@ struct Alert {
 struct HistoryItem {
   const Location location;
   bool favorite;
-
-  HistoryItem(const std::string &town, const std::string &country,
-              bool favorite)
-      : location{town, country}, favorite{favorite} {}
 
   HistoryItem(const Location &location, bool favorite)
       : location{location}, favorite{favorite} {}

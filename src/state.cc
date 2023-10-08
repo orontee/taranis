@@ -67,13 +67,26 @@ void ApplicationState::restore_location_history(const Json::Value &root) {
   this->model->location_history.clear();
 
   for (const auto &value : root[LOCATION_HISTORY_KEY]) {
-    const auto town{value.get("town", "").asString()};
-    if (town.empty()) {
-      return;
+    const auto location_value = value["location"];
+    if (!location_value.isObject()) {
+      continue;
     }
-    const HistoryItem item{town, value.get("country", "").asString(),
-                           value.get("favorite", false).asBool()};
+
+    const auto longitude{location_value.get("longitude", NAN).asDouble()};
+    const auto latitude{location_value.get("latitude", NAN).asDouble()};
+    const auto name{location_value.get("name", "").asString()};
+    const auto country{location_value.get("country", "").asString()};
+    const auto state{location_value.get("state", "").asString()};
+    if (std::isnan(longitude) or std::isnan(latitude) or name.empty() or
+        country.empty()) {
+      continue;
+    }
+    const Location location{longitude, latitude, name, country, state};
+    const HistoryItem item{location, value.get("favorite", false).asBool()};
     this->model->location_history.push_back(item);
+  }
+  if (this->model->location_history.size() > 0) {
+    this->model->location = this->model->location_history.begin()->location;
   }
 }
 
@@ -82,8 +95,14 @@ void ApplicationState::dump_location_history(Json::Value &root) {
   const auto &history = this->model->location_history;
   int location_index = 0;
   for (const auto &item : history) {
-    history_value[location_index]["town"] = item.location.town;
-    history_value[location_index]["country"] = item.location.country;
+    history_value[location_index]["location"]["longitude"] =
+        Json::Value{item.location.longitude};
+    history_value[location_index]["location"]["latitude"] =
+        Json::Value{item.location.latitude};
+    history_value[location_index]["location"]["name"] = item.location.name;
+    history_value[location_index]["location"]["country"] =
+        item.location.country;
+    history_value[location_index]["location"]["state"] = item.location.state;
     history_value[location_index]["favorite"] = item.favorite;
 
     ++location_index;

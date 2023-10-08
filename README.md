@@ -51,13 +51,13 @@ integration](./docs/desktop_integration.md).
 
 ## Configuration
 
-The application stores the user preferences (unit system, default
-location, etc.) in a configuration file writen under
-`system/config/taranis.cfg`.
+The application stores the user preferences (unit system, API key,
+etc.) in a configuration file writen under `system/config/taranis.cfg`
+(path may vary depending on the use of profiles).
 
 Note that the Openweather API key distributed with the application is
-rate limited. It's possible to specify a custom key using the
-`api_key` keyword in the configuration file (See
+rate limited. The `api_key` keyword in the configuration file can be
+used to specify a custom key (See
 [OpenWeather](https://openweathermap.org) for instructions on how to
 register and generate API keys).
 

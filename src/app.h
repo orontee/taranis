@@ -13,7 +13,6 @@
 #include <type_traits>
 #include <vector>
 
-#include "boost/log/trivial.hpp"
 #include "config.h"
 #include "errors.h"
 #include "events.h"
@@ -165,21 +164,6 @@ private:
       this->model->unit_system = unit_system_from_config;
     }
 
-    const auto town_from_config =
-        config.read_string("location_town"s, "Paris"s);
-    const auto country_from_config =
-        config.read_string("location_country"s, "France"s);
-
-    const bool is_town_or_country_obsolete =
-        (town_from_config != this->model->location.town) or
-        (country_from_config != this->model->location.country);
-
-    if (is_town_or_country_obsolete) {
-      this->model->location.town = town_from_config;
-      this->model->location.country = country_from_config;
-      this->clear_model_weather_conditions();
-    }
-
     const auto display_daily_forecast_from_config =
         config.read_bool("display_daily_forecast"s, false);
     const bool is_display_daily_forecast_obsolete =
@@ -198,8 +182,7 @@ private:
     }
 
     const bool is_data_obsolete =
-        is_api_key_obsolete or is_unit_system_obsolete or
-        is_town_or_country_obsolete or is_language_obsolete;
+        is_api_key_obsolete or is_unit_system_obsolete or is_language_obsolete;
     // temperatures, wind speed and weather description are computed
     // by the backend thus unit system or language change implies that
     // data are obsolete
@@ -222,11 +205,11 @@ private:
     if (param_one == CustomEvent::change_daily_forecast_display) {
       const bool enable = not this->model->display_daily_forecast;
       this->update_configured_display_daily_forecast(enable);
-    } else if (param_one == CustomEvent::change_location) {
+    } else if (param_one == CustomEvent::search_location) {
       auto *const raw_location =
           reinterpret_cast<std::array<char, 256> *>(GetCurrentEventExData());
       const std::string location{raw_location->data()};
-      this->update_configured_location(location);
+      this->search_location(location);
       return 1;
     } else if (param_one == CustomEvent::change_unit_system) {
       this->update_configured_unit_system(static_cast<UnitSystem>(param_two));
@@ -242,7 +225,7 @@ private:
       const size_t history_index = param_two;
       auto location = this->history->get_location(history_index);
       if (location) {
-        this->write_config_location(*location);
+        this->set_model_location(*location);
       } else {
         DialogSynchro(ICON_WARNING, "Title", "Location not found!",
                       GetLangText("Ok"), nullptr, nullptr);
@@ -299,10 +282,9 @@ private:
     clear_model_weather_conditions();
 
     const auto units = Units{this->model}.to_string();
+    this->service->set_location(this->model->location);
     try {
-      this->service->fetch_data(this->model->location.town,
-                                this->model->location.country, currentLang(),
-                                units);
+      this->service->fetch_data(currentLang(), units);
 
       this->model->current_condition = this->service->get_current_condition();
 
@@ -359,63 +341,60 @@ private:
            GetLangText("Ok"), nullptr, &handle_about_dialog_button_clicked);
   }
 
-  static Location parse_location(const std::string &location) {
-    BOOST_LOG_TRIVIAL(debug) << "Parsing location";
-
-    std::stringstream to_parse{location};
-    std::vector<std::string> tokens;
-    std::string token;
-    while (std::getline(to_parse, token, ',')) {
-      ltrim(token);
-      rtrim(token);
-      tokens.push_back(token);
-    }
-    if (tokens.size() == 1) {
-      auto town = tokens[0];
-      town[0] = std::toupper(town[0]);
-      return {town, ""};
-    } else if (tokens.size() > 1) {
-      auto country = tokens[tokens.size() - 1];
-      country[0] = std::toupper(country[0]);
-
-      auto town = location.substr(0, location.size() - country.size());
-      ltrim(town);
-      rtrim(town);
-      town[0] = std::toupper(town[0]);
-
-      return {town, country};
-    }
-    BOOST_LOG_TRIVIAL(error) << "Failed to parse location " << location;
-    throw InvalidLocation{};
-  }
-
-  void update_configured_location(const std::string &text) const {
-    BOOST_LOG_TRIVIAL(debug) << "Updating configured location";
-
-    if (text == format_location(this->model->location)) {
-      BOOST_LOG_TRIVIAL(debug) << "No need to updated configured location";
-
-      return;
-    }
+  void search_location(const std::string &location_description) {
     try {
-      auto location = App::parse_location(text);
+      const auto [town, country] =
+          parse_location_description(location_description);
+      const auto locations = service->search_location(town, country);
 
-      this->write_config_location(location);
+      if (locations.size() == 1) {
+        this->set_model_location(locations[0]);
+      } else if (locations.size() > 1) {
+        // TODO display list
+      }
     } catch (const InvalidLocation &error) {
       const auto event_handler = GetEventHandler();
       SendEvent(event_handler, EVT_CUSTOM, CustomEvent::warning_emitted,
                 CustomEventParam::invalid_location);
+    } catch (const ConnectionError &error) {
+      BOOST_LOG_TRIVIAL(debug)
+          << "Connection error while refreshing weather conditions "
+          << error.what();
+      Message(
+          ICON_WARNING, GetLangText("Network error"),
+          GetLangText("Failure while fetching weather data. Check your network "
+                      "connection."),
+          App::error_dialog_delay);
+    } catch (const RequestError &error) {
+      BOOST_LOG_TRIVIAL(debug)
+          << "Request error while refreshing weather conditions "
+          << error.what();
+      Message(
+          ICON_WARNING, GetLangText("Network error"),
+          GetLangText("Failure while fetching weather data. Check your network "
+                      "connection."),
+          App::error_dialog_delay);
+    } catch (const ServiceError &error) {
+      BOOST_LOG_TRIVIAL(debug)
+          << "Service error while refreshing weather conditions "
+          << error.what();
+      Message(ICON_WARNING, GetLangText("Service unavailable"), error.what(),
+              App::error_dialog_delay);
     }
   }
 
-  void write_config_location(const Location &location) const {
-    BOOST_LOG_TRIVIAL(debug) << "Writing config location";
+  void set_model_location(const Location &location) const {
+    BOOST_LOG_TRIVIAL(debug) << "Updating model location";
 
-    Config config;
-    config.write_string("location_town"s, location.town);
-    config.write_string("location_country"s, location.country);
+    if (location == this->model->location) {
+      BOOST_LOG_TRIVIAL(debug) << "No need to update configured location";
 
-    Config::config_changed();
+      return;
+    }
+    this->model->location = location;
+
+    const auto event_handler = GetEventHandler();
+    SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data, 0);
   }
 
   void update_configured_unit_system(UnitSystem unit_system) {

@@ -46,6 +46,14 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Display location country as returned by Geocoding API. Previously
+  user input was shown. 
+  
+  ⚠️ Note that this introduces a breaking change in how the application
+  used to dump its state, and favorites will be lost with this change.
+
+  [#56](https://github.com/orontee/taranis/issues/56)
+
 - URL encode location when requesting Geocoding API
   [#55](https://github.com/orontee/taranis/issues/55)
 

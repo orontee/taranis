@@ -30,8 +30,14 @@ public:
 
   void set_api_key(const std::string &api_key) { this->api_key = api_key; }
 
-  void fetch_data(const std::string &town, const std::string &country,
-                  const std::string &language, const std::string &units);
+  std::vector<Location> search_location(const std::string &town,
+                                        const std::string &country);
+
+  Location get_location() const { return this->location; }
+
+  void set_location(const Location &location);
+
+  void fetch_data(const std::string &language, const std::string &units);
 
   Condition get_current_condition() const {
     return Service::extract_condition(this->returned_value["current"]);
@@ -52,23 +58,18 @@ private:
 
   HttpClient client;
 
-  std::string town;
-  std::string country;
-  std::optional<std::pair<long double, long double>> lonlat;
+  Location location;
 
   Json::Value returned_value;
 
-  std::pair<long double, long double>
-  identify_lonlat(const std::string &town, const std::string &country);
+  std::string encode_location(const std::string &town,
+                              const std::string &country) const;
 
-  void request_lonlat();
+  Json::Value request_geocoding_api(const std::string &town,
+                                    const std::string &country);
 
-  Json::Value request_onecall_api(const std::string &town,
-                                  const std::string &country,
-                                  const std::string &language,
+  Json::Value request_onecall_api(const std::string &language,
                                   const std::string &units);
-
-  std::string encode_location() const;
 
   Json::Value send_get_request(const std::string &url);
 

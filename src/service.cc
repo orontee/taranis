@@ -3,6 +3,8 @@
 #include <boost/log/trivial.hpp>
 
 #include "errors.h"
+#include "inkview.h"
+#include "util.h"
 
 namespace taranis {
 
@@ -12,13 +14,54 @@ const std::string geo_path{"/geo/1.0/direct"};
 const std::string onecall_path{"/data/3.0/onecall"};
 } // namespace openweather
 
-void Service::fetch_data(const std::string &town, const std::string &country,
-                         const std::string &language,
+void Service::set_location(const Location &location) {
+  if (location == this->location) {
+    return;
+  }
+  this->location = location;
+  this->returned_value = Json::Value::nullSingleton();
+}
+
+std::vector<Location> Service::search_location(const std::string &town,
+                                               const std::string &country) {
+  BOOST_LOG_TRIVIAL(info) << "Searching location "
+                           << format_location(town, country);
+
+  if (town.empty()) {
+    BOOST_LOG_TRIVIAL(warning) << "Won't search for location from empty string!";
+    return {};
+  }
+  const auto value = this->request_geocoding_api(town, country);
+  std::vector<Location> locations;
+  const std::string language_code = currentLang();
+  for (const auto &location_value : value) {
+    const auto longitude = location_value.get("lon", NAN).asDouble();
+    const auto latitude = location_value.get("lat", NAN).asDouble();
+    if (std::isnan(longitude) or std::isnan(latitude)) {
+      throw ServiceError::get_unexpected_error();
+    }
+    auto name = location_value.get("name", "").asString();
+    auto country = location_value.get("country", "").asString();
+    const auto state = location_value.get("state", "").asString();
+
+    locations.emplace_back(longitude, latitude, name, country, state);
+  }
+  BOOST_LOG_TRIVIAL(info) << "Number of found locations: " << locations.size();
+
+  return locations;
+}
+
+void Service::fetch_data(const std::string &language,
                          const std::string &units) {
   BOOST_LOG_TRIVIAL(debug) << "Fetching weather data";
 
-  this->returned_value =
-      this->request_onecall_api(town, country, language, units);
+  if (std::isnan(this->location.longitude) or
+      std::isnan(this->location.latitude)) {
+    BOOST_LOG_TRIVIAL(warning)
+        << "Won't fetch weather data for unknown location";
+    return;
+  }
+  this->returned_value = this->request_onecall_api(language, units);
 
   if (not this->returned_value.isMember("current") or
       not this->returned_value["current"].isObject()) {
@@ -69,56 +112,42 @@ std::vector<Alert> Service::get_alerts() const {
   return Service::extract_alerts(this->returned_value["alerts"]);
 }
 
-std::pair<long double, long double>
-Service::identify_lonlat(const std::string &town, const std::string &country) {
-  BOOST_LOG_TRIVIAL(debug) << "Identifying longitude and latitude";
-
-  if (this->town != town or this->country != country) {
-    this->town = town;
-    this->country = country;
-    this->lonlat = {};
+std::string Service::encode_location(const std::string &town,
+                                     const std::string &country) const {
+  std::string location = this->client.encode_query_parameter(town);
+  if (not country.empty()) {
+    location += "," + this->client.encode_query_parameter(country);
   }
-  if (not this->lonlat) {
-    this->request_lonlat();
-    BOOST_LOG_TRIVIAL(debug) << "Longitude and latitude taken from cache";
-  }
-  return this->lonlat.value();
+  // ⚠️ this is not the usual way to encode query parameters, in
+  // particular the comma must not be encoded...
+  return location;
 }
 
-void Service::request_lonlat() {
+Json::Value Service::request_geocoding_api(const std::string &town,
+                                           const std::string &country) {
   BOOST_LOG_TRIVIAL(debug) << "Requesting Geocoding API";
 
   std::stringstream url;
   url << openweather::url << openweather::geo_path << "?"
-      << "q=" << this->encode_location() << "&"
+      << "q=" << this->encode_location(town, country) << "&"
+      << "limit=5" << "&"
       << "appid=" << this->api_key;
 
-  auto returned_value = this->send_get_request(url.str());
-  if (not returned_value.isArray() or returned_value.size() == 0) {
+  const auto value = this->send_get_request(url.str());
+  if (not value.isArray() or value.size() == 0) {
     throw ServiceError::get_unknown_location_error();
   }
-
-  Json::Value first_result = returned_value[0];
-  const auto lon = first_result.get("lon", NAN).asDouble();
-  const auto lat = first_result.get("lat", NAN).asDouble();
-  if (std::isnan(lon) or std::isnan(lat)) {
-    throw ServiceError::get_unexpected_error();
-  }
-  this->lonlat = std::make_pair(lon, lat);
+  return value;
 }
 
-Json::Value Service::request_onecall_api(const std::string &town,
-                                         const std::string &country,
-                                         const std::string &language,
+Json::Value Service::request_onecall_api(const std::string &language,
                                          const std::string &units) {
   BOOST_LOG_TRIVIAL(debug) << "Requesting Onecall API";
 
-  const auto lonlat = this->identify_lonlat(town, country);
-
   std::stringstream url;
   url << openweather::url << openweather::onecall_path << "?"
-      << "lon=" << lonlat.first << "&"
-      << "lat=" << lonlat.second << "&"
+      << "lon=" << this->location.longitude << "&"
+      << "lat=" << this->location.latitude << "&"
       << "units=" << units << "&"
       << "exclude=minutely"
       << "&"
@@ -127,16 +156,6 @@ Json::Value Service::request_onecall_api(const std::string &town,
 
   const auto returned_value = this->send_get_request(url.str());
   return returned_value;
-}
-
-std::string Service::encode_location() const {
-  std::string location = this->client.encode_query_parameter(this->town);
-  if (not this->country.empty()) {
-    location += "," + this->client.encode_query_parameter(this->country);
-  }
-  // ⚠️ this is not the usual way to encode query parameters, in
-  // particular the comma must not be encoded...
-  return location;
 }
 
 Json::Value Service::send_get_request(const std::string &url) {
