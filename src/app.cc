@@ -1,7 +1,5 @@
 #include "app.h"
 
-#include <experimental/optional>
-
 #include "config.h"
 #include "errors.h"
 #include "events.h"
@@ -21,12 +19,16 @@ int App::process_event(int event_type, int param_one, int param_two) {
     return 1;
   }
 
-  if (event_type == EVT_SHOW) {
+  if (event_type == EVT_SHOW or event_type == EVT_FOREGROUND) {
     this->show();
     return 1;
   }
 
-  if ((event_type == EVT_EXIT) || (event_type == EVT_HIDE)) {
+  if (event_type == EVT_HIDE or event_type == EVT_BACKGROUND) {
+    return 1;
+  }
+
+  if (event_type == EVT_EXIT) {
     this->exit();
     return 1;
   }
@@ -176,7 +178,7 @@ int App::handle_custom_event(int param_one, int param_two) {
     return 1;
   } else if (param_one == CustomEvent::select_location_from_history) {
     const size_t history_index = param_two;
-    auto location = this->history->get_location(history_index);
+    const auto location = this->history->get_location(history_index);
     if (location) {
       this->set_model_location(*location);
     } else {
@@ -184,6 +186,19 @@ int App::handle_custom_event(int param_one, int param_two) {
                     GetLangText("Ok"), nullptr, nullptr);
     }
     return 1;
+  } else if (param_one == CustomEvent::select_location_from_list) {
+    const size_t list_index = param_two;
+    if (this->ui) {
+      const auto location =
+          this->ui->get_location_from_location_list(list_index);
+      if (location) {
+        this->set_model_location(*location);
+      } else {
+        DialogSynchro(ICON_WARNING, "Title", "Location not found!",
+                      GetLangText("Ok"), nullptr, nullptr);
+      }
+      return 1;
+    }
   } else if (param_one == CustomEvent::show_about_dialog) {
     this->open_about_dialog();
     return 1;
@@ -301,7 +316,9 @@ void App::search_location(const std::string &location_description) {
     if (found_locations.size() == 1) {
       this->set_model_location(found_locations[0]);
     } else if (found_locations.size() > 1) {
-      // TODO Open location list
+      if (this->ui) {
+        this->ui->open_location_list(found_locations);
+      }
     }
   } catch (const InvalidLocation &error) {
     const auto event_handler = GetEventHandler();
@@ -336,7 +353,7 @@ void App::set_model_location(const Location &location) const {
   BOOST_LOG_TRIVIAL(debug) << "Updating model location";
 
   if (location == this->model->location) {
-    BOOST_LOG_TRIVIAL(debug) << "No need to update configured location";
+    BOOST_LOG_TRIVIAL(debug) << "No need to update model location";
 
     return;
   }

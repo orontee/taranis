@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <array>
 #include <cstring>
-#include <experimental/optional>
 #include <functional>
 #include <inkview.h>
 #include <memory>
@@ -16,9 +15,6 @@
 #include "model.h"
 #include "util.h"
 
-namespace std {
-template <class T> using optional = std::experimental::optional<T>;
-}
 namespace taranis {
 
 enum menu_item_index {
@@ -71,7 +67,8 @@ public:
                       nullptr, nullptr},
               imenuex{0, 0, nullptr, nullptr, nullptr, nullptr, nullptr}},
         model{model}, font{fonts->get_normal_font()},
-        history{std::make_unique<LocationHistoryProxy>(this->model)} {
+        history{std::make_unique<LocationHistoryProxy>(this->model)},
+        menu_handler{nullptr} {
     this->initialize_favorite_location_icon();
     this->update_location_history_items();
   }
@@ -110,7 +107,7 @@ private:
 
   const ibitmap *favorite_location_icon;
 
-  std::optional<iv_menuhandler> menu_handler;
+  iv_menuhandler menu_handler;
 
   std::pair<int, int> get_menu_position() const {
     SetFont(this->font.get(), BLACK);

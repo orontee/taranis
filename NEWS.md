@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Display location list when multiple locations are returned by
+  Geocoding API [#56](https://github.com/orontee/taranis/issues/56)
+
 - Compile with O3 optimization and strip executable
   [#25](https://github.com/orontee/taranis/issues/25)
 

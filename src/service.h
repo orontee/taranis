@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <cmath>
 #include <ctime>
-#include <experimental/optional>
 #include <json/json.h>
 #include <json/value.h>
 #include <memory>
@@ -15,10 +14,6 @@
 #include "model.h"
 
 using namespace std::string_literals;
-
-namespace std {
-template <class T> using optional = std::experimental::optional<T>;
-}
 
 namespace taranis {
 

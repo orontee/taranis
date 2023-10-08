@@ -2,12 +2,14 @@
 
 #include <boost/log/trivial.hpp>
 #include <inkview.h>
+#include <memory>
 
 #include "currentconditionbox.h"
 #include "dailyforecastbox.h"
 #include "events.h"
 #include "history.h"
 #include "locationbox.h"
+#include "locationlist.h"
 #include "menu.h"
 #include "model.h"
 #include "statusbar.h"
@@ -60,6 +62,9 @@ Ui::Ui(std::shared_ptr<Model> model)
                                  current_condition_bounding_box.h / 2 -
                                  this->alerts_button->get_height() / 2 -
                                  CurrentConditionBox::bottom_padding);
+
+  this->location_list =
+      std::make_shared<LocationList>(50, this->fonts, this->icons);
 
   this->children.push_back(location_box);
   this->children.push_back(menu_button);
@@ -118,6 +123,16 @@ void Ui::switch_forecast_widget() {
   if (forecast_widget) {
     forecast_widget->show_and_update();
   }
+}
+
+void Ui::open_location_list(const std::vector<Location> &locations) {
+  this->location_list->set_locations(locations);
+  this->location_list->show();
+}
+
+std::optional<Location>
+Ui::get_location_from_location_list(size_t index) const {
+  return this->location_list->get_location(index);
 }
 
 bool Ui::is_on_widget(int pointer_pos_x, int pointer_pos_y,
@@ -203,6 +218,8 @@ void Ui::handle_menu_item_selected(int item_index) {
               CustomEvent::select_location_from_history, history_index);
   } else if (item_index == MENU_ITEM_QUIT) {
     SendEvent(event_handler, EVT_EXIT, 0, 0);
+  } else if (item_index == -1) {
+    BOOST_LOG_TRIVIAL(debug) << "Menu to be closed";
   } else {
     BOOST_LOG_TRIVIAL(error) << "Unexpected item index " << item_index;
   }

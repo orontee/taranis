@@ -19,6 +19,9 @@ std::string taranis::format_custom_event_param(int param) {
   if (param == CustomEvent::select_location_from_history) {
     return "select_location_from_history";
   }
+  if (param == CustomEvent::select_location_from_list) {
+    return "select_location_from_list";
+  }
   if (param == CustomEvent::show_about_dialog) {
     return "show_about_dialog";
   }
@@ -39,6 +42,8 @@ std::string taranis::format_custom_event_param(int param) {
 }
 
 std::string taranis::format_event_type(int event_type) {
+  // Note that char *iv_evttype(int event_type) is not complete...
+
   if (event_type == EVT_INIT) {
     return "EVT_INIT";
   }

@@ -10,6 +10,8 @@ icons = files(
   'icon_50n_2x.bmp',
   'icon_favorite.bmp',
   'icon_menu.bmp',
+  'icon_radio_button_checked.bmp',
+  'icon_radio_button_unchecked.bmp',
   'icon_warning.bmp'
 )
 

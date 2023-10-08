@@ -65,7 +65,7 @@ private:
   std::string elide_maybe(const std::string &text) const {
     SetFont(this->font.get(), BLACK);
     const auto text_width = StringWidth(text.c_str());
-    if (text_width <= this->bounding_box.w || text.size() <= 2) {
+    if (text_width <= this->bounding_box.w or text.size() <= 2) {
       // the second case should not happen unless the default font is
       // huge...
       return text;

@@ -15,6 +15,8 @@ extern const ibitmap icon_13n_2x;
 extern const ibitmap icon_50n_2x;
 extern const ibitmap icon_favorite;
 extern const ibitmap icon_menu;
+extern const ibitmap icon_radio_button_checked;
+extern const ibitmap icon_radio_button_unchecked;
 extern const ibitmap icon_warning;
 ;
 
@@ -54,6 +56,12 @@ public:
     }
     if (name == "menu") {
       return const_cast<ibitmap *>(&icon_menu);
+    }
+    if (name == "radio-button-checked") {
+      return const_cast<ibitmap *>(&icon_radio_button_checked);
+    }
+    if (name == "radio-button-unchecked") {
+      return const_cast<ibitmap *>(&icon_radio_button_unchecked);
     }
     if (name == "warning") {
       return const_cast<ibitmap *>(&icon_warning);

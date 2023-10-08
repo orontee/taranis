@@ -36,8 +36,8 @@ struct Location {
   std::string state;
 
   bool operator==(const Location &other) const {
-    return this->longitude == other.longitude and
-           this->latitude == other.latitude;
+    return this->name == other.name and this->country == other.country and
+           this->state == other.state;
   }
 };
 

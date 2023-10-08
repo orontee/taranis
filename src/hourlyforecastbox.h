@@ -229,7 +229,7 @@ private:
     for (int x_screen = this->bounding_box.x; x_screen < width; ++x_screen) {
       const double x =
           this->forecast_offset * step + (x_screen - this->bounding_box.x);
-      if (x < xa.front() || x > xa.back()) {
+      if (x < xa.front() or x > xa.back()) {
         continue;
       }
       double y;

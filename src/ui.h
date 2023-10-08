@@ -1,5 +1,6 @@
 #pragma once
 
+#include <experimental/optional>
 #include <inkview.h>
 #include <memory>
 #include <vector>
@@ -8,8 +9,13 @@
 #include "fonts.h"
 #include "hourlyforecastbox.h"
 #include "icons.h"
+#include "locationlist.h"
 #include "model.h"
 #include "swipe.h"
+
+namespace std {
+template <class T> using optional = std::experimental::optional<T>;
+}
 
 namespace taranis {
 
@@ -31,6 +37,10 @@ public:
 
   void switch_forecast_widget();
 
+  void open_location_list(const std::vector<Location> &locations);
+
+  std::optional<Location> get_location_from_location_list(size_t index) const;
+
 private:
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
@@ -42,6 +52,8 @@ private:
 
   std::shared_ptr<HourlyForecastBox> hourly_forecast_box;
   std::shared_ptr<Widget> daily_forecast_box;
+
+  std::shared_ptr<LocationList> location_list;
 
   std::vector<std::shared_ptr<Widget>> children;
 

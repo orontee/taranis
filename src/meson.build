@@ -26,6 +26,7 @@ sources = [about_cc] + files(
   'events.cc',
   'http.cc',
   'locationbox.cc',
+  'locationlist.cc',
   'logging.cc',
   'main.cc',
   'service.cc',

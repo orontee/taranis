@@ -21,10 +21,6 @@
 using namespace std::placeholders;
 using namespace std::string_literals;
 
-namespace std {
-template <class T> using optional = std::experimental::optional<T>;
-}
-
 namespace taranis {
 
 std::string get_about_content();

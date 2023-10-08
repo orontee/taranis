@@ -50,7 +50,7 @@ public:
   }
 
   std::string format_speed(double speed) const {
-    if (this->model->unit_system == UnitSystem::standard ||
+    if (this->model->unit_system == UnitSystem::standard or
         this->model->unit_system == UnitSystem::metric) {
       return std::to_string(static_cast<int>(speed)) + "m/s";
     } else if (this->model->unit_system == UnitSystem::imperial) {
