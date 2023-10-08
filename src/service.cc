@@ -25,10 +25,11 @@ void Service::set_location(const Location &location) {
 std::vector<Location> Service::search_location(const std::string &town,
                                                const std::string &country) {
   BOOST_LOG_TRIVIAL(info) << "Searching location "
-                           << format_location(town, country);
+                          << format_location(town, country);
 
   if (town.empty()) {
-    BOOST_LOG_TRIVIAL(warning) << "Won't search for location from empty string!";
+    BOOST_LOG_TRIVIAL(warning)
+        << "Won't search for location from empty string!";
     return {};
   }
   const auto value = this->request_geocoding_api(town, country);
@@ -130,7 +131,8 @@ Json::Value Service::request_geocoding_api(const std::string &town,
   std::stringstream url;
   url << openweather::url << openweather::geo_path << "?"
       << "q=" << this->encode_location(town, country) << "&"
-      << "limit=5" << "&"
+      << "limit=5"
+      << "&"
       << "appid=" << this->api_key;
 
   const auto value = this->send_get_request(url.str());
