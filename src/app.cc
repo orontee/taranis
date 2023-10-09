@@ -73,7 +73,19 @@ void App::setup() {
     return;
   }
   this->ui = std::make_unique<Ui>(this->model);
-  this->load_config();
+
+  auto &current_location = this->model->location;
+  if (current_location.name.empty()) {
+    current_location.longitude = 2.3200410217200766;
+    current_location.latitude = 48.858889699999999;
+    current_location.name = "Paris";
+    current_location.country = "FR";
+    current_location.state = "Ile-de-France";
+  }
+
+  BOOST_LOG_TRIVIAL(info)
+      << "First load of configuration asked to trigger a data refresh";
+  this->load_config(true);
 }
 
 void App::show() {
@@ -99,7 +111,7 @@ void App::initialize_language() {
   this->language = currentLang();
   initialize_translations();
 }
-void App::load_config() {
+void App::load_config(bool force_data_refresh) {
   BOOST_LOG_TRIVIAL(debug) << "Loading config";
 
   Config config;
@@ -136,8 +148,8 @@ void App::load_config() {
     initialize_translations();
   }
 
-  const bool is_data_obsolete =
-      is_api_key_obsolete or is_unit_system_obsolete or is_language_obsolete;
+  const bool is_data_obsolete = force_data_refresh or is_api_key_obsolete or
+                                is_unit_system_obsolete or is_language_obsolete;
   // temperatures, wind speed and weather description are computed
   // by the backend thus unit system or language change implies that
   // data are obsolete

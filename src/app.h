@@ -56,7 +56,7 @@ private:
 
   void initialize_language();
 
-  void load_config();
+  void load_config(bool force_data_refresh = false);
 
   int handle_custom_event(int param_one, int param_two);
 
