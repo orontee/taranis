@@ -41,6 +41,11 @@ public:
     BOOST_LOG_TRIVIAL(debug) << "Updating history";
 
     auto &current_location = this->model->location;
+    if (not this->is_location_eligible_for_history(current_location)) {
+      BOOST_LOG_TRIVIAL(debug) << "Skipping history update for empty location";
+      return;
+    }
+
     auto &history = this->model->location_history;
     const auto found = std::find_if(history.begin(), history.end(),
                                     [current_location](const auto &item) {
@@ -107,5 +112,10 @@ public:
 
 private:
   std::shared_ptr<Model> model;
+
+  bool is_location_eligible_for_history(const Location &location) const {
+    return not(std::isnan(location.longitude) or
+               std::isnan(location.latitude) or location.name.empty());
+  }
 };
 } // namespace taranis
