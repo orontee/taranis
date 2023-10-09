@@ -80,6 +80,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Removed
 
+- It's not possible to set default location through configuration file
+  anymore [#56](https://github.com/orontee/taranis/issues/56)
+
 ## [1.1.0] - 2023-09-16
 
 ### Added
