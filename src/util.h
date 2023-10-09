@@ -98,7 +98,7 @@ inline std::string format_location(const Location &location,
   if (not location.country.empty()) {
     text += ", " + location.country;
   }
-  if (with_state) {
+  if (with_state and not location.state.empty()) {
     text += " (" + location.state + ")";
   }
   return text;
