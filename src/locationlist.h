@@ -33,11 +33,19 @@ private:
 
   std::vector<Location> locations;
 
-  std::vector<std::string> item_names;
+  std::vector<std::pair<std::string, std::string>> item_contents;
 
   std::shared_ptr<ifont> font;
+  std::shared_ptr<ifont> tiny_font;
+
   const ibitmap *const radio_button_unchecked;
   const ibitmap *const radio_button_checked;
+
+  int selected_item_index{-1};
+
+  iv_handler application_event_handler{nullptr};
+
+  void prepare_item_content();
 
   int get_item_width() const;
 

@@ -3,23 +3,21 @@
 #include <algorithm>
 #include <boost/log/trivial.hpp>
 #include <inkview.h>
+#include <iomanip>
+#include <sstream>
 
 #include "events.h"
 #include "util.h"
 
 namespace {
 taranis::LocationList *that;
-
-iv_handler application_event_handler;
-
-int last_selected_item_index;
 } // namespace
 
 namespace taranis {
 
 LocationList::LocationList(const int icon_size, std::shared_ptr<Fonts> fonts,
                            std::shared_ptr<Icons> icons)
-    : font{fonts->get_normal_font()},
+    : font{fonts->get_small_font()}, tiny_font{fonts->get_tiny_font()},
       radio_button_unchecked{BitmapStretchProportionally(
           icons->get("radio-button-unchecked"), icon_size, icon_size)},
       radio_button_checked{BitmapStretchProportionally(
@@ -34,25 +32,34 @@ std::optional<Location> LocationList::get_location(size_t index) const {
 
 void LocationList::set_locations(const std::vector<Location> &locations) {
   this->locations = locations;
-
-  this->item_names.clear();
-  this->item_names.reserve(this->locations.size());
-
-  for (const auto &location : this->locations) {
-    this->item_names.push_back(format_location(location, true));
-  }
+  this->prepare_item_content();
 }
 
 void LocationList::show() {
   if (this->locations.size() == 0) {
     return;
   }
+  this->application_event_handler = GetEventHandler();
   that = this;
-  application_event_handler = GetEventHandler();
 
   OpenList(GetLangText("Locations"), nullptr, this->get_item_width(),
            this->get_item_height(), this->locations.size(), 0,
            &handle_list_action);
+}
+
+void LocationList::prepare_item_content() {
+  this->item_contents.clear();
+  this->item_contents.reserve(this->locations.size());
+
+  for (const auto &location : this->locations) {
+    std::stringstream details_stream;
+    details_stream << std::setprecision(6) << GetLangText("Longitude") << " "
+                   << location.longitude << "   " << GetLangText("Latitude")
+                   << " " << location.latitude;
+
+    this->item_contents.emplace_back(format_location(location, true),
+                                     details_stream.str());
+  }
 }
 
 int LocationList::get_item_width() const {
@@ -61,8 +68,8 @@ int LocationList::get_item_width() const {
 
 int LocationList::get_item_height() const {
   return std::max(static_cast<int>(this->radio_button_unchecked->height),
-                  this->font->height) +
-         LocationList::vertical_padding;
+                  this->font->height + this->tiny_font->height) +
+         2 * LocationList::vertical_padding;
 }
 
 int LocationList::get_icon_vertical_offset() const {
@@ -80,50 +87,64 @@ int LocationList::handle_list_action(int action, int x, int y, int item_index,
     BOOST_LOG_TRIVIAL(debug) << "Starting to paint location list";
     return 1;
   } else if (action == LIST_PAINT) {
-    if (0 <= item_index and item_index < that->item_names.size()) {
+    if (0 <= item_index and item_index < that->item_contents.size()) {
       BOOST_LOG_TRIVIAL(debug)
           << "Drawing list item with index " << item_index << " and state "
           << state << " at " << x << ", " << y;
 
       const ibitmap *icon = that->radio_button_unchecked;
       if (state) {
-        if (last_selected_item_index != -1) {
-          that->item_names[last_selected_item_index] =
-              format_location(that->locations[last_selected_item_index], true);
-        }
-        last_selected_item_index = item_index;
+        that->selected_item_index = item_index;
         icon = that->radio_button_checked;
 
-        DrawSelection(
-            x, y, ScreenWidth() - 2 * LocationList::horizontal_padding,
-            that->font->height + +LocationList::vertical_padding, BLACK);
+        DrawSelection(x, y + LocationList::vertical_padding / 2,
+                      ScreenWidth() - 2 * LocationList::horizontal_padding,
+                      that->get_item_height() - LocationList::vertical_padding,
+                      BLACK);
       }
       DrawBitmap(x + LocationList::horizontal_padding / 2,
                  y + that->get_icon_vertical_offset(), icon);
 
+      const auto second_row_height = that->tiny_font->height;
+
+      const auto [name, details] = that->item_contents.at(item_index);
+
+      SetFont(that->font.get(), BLACK);
+      DrawTextRect(x + 2 * LocationList::horizontal_padding + icon->width,
+                   y + LocationList::vertical_padding,
+                   ScreenWidth() - 4 * LocationList::horizontal_padding -
+                       icon->width,
+                   that->get_item_height() - second_row_height -
+                       2 * LocationList::vertical_padding,
+                   name.c_str(), ALIGN_LEFT | VALIGN_MIDDLE);
+
+      SetFont(that->tiny_font.get(), DGRAY);
       DrawTextRect(
-          x + 2 * LocationList::horizontal_padding + icon->width, y,
+          x + 2 * LocationList::horizontal_padding + icon->width,
+          y + that->get_item_height() - second_row_height -
+              LocationList::vertical_padding,
           ScreenWidth() - 4 * LocationList::horizontal_padding - icon->width,
-          that->get_item_height(), that->item_names.at(item_index).c_str(),
-          ALIGN_LEFT | VALIGN_MIDDLE);
+          second_row_height, details.c_str(), ALIGN_LEFT | VALIGN_MIDDLE);
+
+      const auto separator_y = y + that->get_item_height() - 1;
+      DrawLine(x, separator_y, x + that->get_item_width(), separator_y, DGRAY);
+
       return 1;
     }
   } else if (action == LIST_ENDPAINT) {
     BOOST_LOG_TRIVIAL(debug) << "Finished to paint location list";
     return 1;
   } else if (action == LIST_OPEN) {
-    if (0 <= item_index and item_index < that->item_names.size()) {
-      BOOST_LOG_TRIVIAL(debug)
-          << "Will select location from item with index " << item_index;
+    BOOST_LOG_TRIVIAL(debug) << "Will select location from item with index "
+                             << that->selected_item_index;
 
-      SetEventHandler(application_event_handler);
+    SetEventHandler(that->application_event_handler);
 
-      SendEvent(application_event_handler, EVT_CUSTOM,
-                CustomEvent::select_location_from_list,
-                static_cast<size_t>(last_selected_item_index));
+    SendEvent(that->application_event_handler, EVT_CUSTOM,
+              CustomEvent::select_location_from_list,
+              static_cast<size_t>(that->selected_item_index));
 
-      return 1;
-    }
+    return 1;
   } else if (action == LIST_MENU) {
     BOOST_LOG_TRIVIAL(debug) << "Received list menu action";
   } else if (action == LIST_DELETE) {
@@ -131,7 +152,7 @@ int LocationList::handle_list_action(int action, int x, int y, int item_index,
   } else if (action == LIST_EXIT) {
     BOOST_LOG_TRIVIAL(debug) << "Received list exit action";
 
-    SetEventHandler(application_event_handler);
+    SetEventHandler(that->application_event_handler);
 
     that = nullptr;
     return 1;
@@ -141,7 +162,7 @@ int LocationList::handle_list_action(int action, int x, int y, int item_index,
     BOOST_LOG_TRIVIAL(debug) << "Received list pointer action";
   } else if (action == LIST_INFO) {
     BOOST_LOG_TRIVIAL(debug) << "Received list info action";
-    last_selected_item_index = -1;
+    that->selected_item_index = -1;
   } else if (action == LIST_SCROLL) {
     BOOST_LOG_TRIVIAL(debug) << "Received list scroll action";
   } else {

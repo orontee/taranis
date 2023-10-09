@@ -73,6 +73,10 @@ inline void initialize_translations() {
                    "Le fournisseur de données météorologiques est "
                    "hors-service. Réessayer plus tard.");
 
+    // locationlist.cc
+    AddTranslation("Longitude", "Longitude");
+    AddTranslation("Latitude", "Latitude");
+
     // menu.h
     AddTranslation("Standard", "Standard");
     AddTranslation("Metric", "Système métrique");
@@ -164,6 +168,10 @@ inline void initialize_translations() {
                    "expected. Retry later.",
                    "Serwis udostępniający dane pogodowe nie działa zgodnie"
                    "z oczekiwaniami. Spróbuj później.");
+
+    // locationlist.cc
+    AddTranslation("Longitude", "Długość geo.");
+    AddTranslation("Latitude", "Szerokość");
 
     // menu.h
     AddTranslation("Standard", "SI");
