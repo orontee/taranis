@@ -180,11 +180,8 @@ struct Alert {
 };
 
 struct HistoryItem {
-  const Location location;
+  Location location;
   bool favorite;
-
-  HistoryItem(const Location &location, bool favorite)
-      : location{location}, favorite{favorite} {}
 };
 
 struct Model {

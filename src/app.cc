@@ -152,18 +152,19 @@ void App::load_config() {
     initialize_translations();
   }
 
-  const bool is_data_obsolete =
-    not config_already_loaded or is_api_key_obsolete or
-    is_unit_system_obsolete or is_language_obsolete;
+  const bool is_data_obsolete = not config_already_loaded or
+                                is_api_key_obsolete or
+                                is_unit_system_obsolete or is_language_obsolete;
   // temperatures, wind speed and weather description are computed
   // by the backend thus unit system or language change implies that
   // data are obsolete
 
   const auto event_handler = GetEventHandler();
   if (is_data_obsolete) {
-    const auto context = config_already_loaded ?
-			 CustomEventParam::triggered_by_configuration_change :
-			 CustomEventParam::triggered_by_application_startup;
+    const auto context =
+        config_already_loaded
+            ? CustomEventParam::triggered_by_configuration_change
+            : CustomEventParam::triggered_by_application_startup;
     SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data, context);
   } else if (is_display_daily_forecast_obsolete) {
     SendEvent(event_handler, EVT_CUSTOM,
@@ -196,8 +197,8 @@ int App::handle_custom_event(int param_one, int param_two) {
     }
   } else if (param_one == CustomEvent::refresh_data) {
     const bool force_refresh =
-      (param_two == CustomEventParam::triggered_by_configuration_change or
-       param_two == CustomEventParam::triggered_by_model_change);
+        (param_two == CustomEventParam::triggered_by_configuration_change or
+         param_two == CustomEventParam::triggered_by_model_change);
     // At application startup or when refresh timer triggers, one must
     // respect flight mode being enabled
     this->refresh_data(force_refresh);
@@ -269,7 +270,7 @@ void App::clear_model_weather_conditions() {
 bool App::must_skip_data_refresh() const {
   if (IsFlightModeEnabled()) {
     BOOST_LOG_TRIVIAL(info)
-      << "Won't refresh data since device has flight mode enabled";
+        << "Won't refresh data since device has flight mode enabled";
     return true;
   }
   return false;

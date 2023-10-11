@@ -6,9 +6,11 @@
 #include <iomanip>
 #include <json/writer.h>
 
-constexpr char LOCATION_HISTORY_KEY[]{"location_history"};
+#include "convert.h"
 
 namespace taranis {
+
+constexpr char MODEL_KEY[]{"model"};
 
 void ApplicationState::restore() {
   BOOST_LOG_TRIVIAL(debug) << "Restoring application state";
@@ -27,7 +29,7 @@ void ApplicationState::restore() {
     BOOST_LOG_TRIVIAL(error) << "Unexpected application state";
     return;
   }
-  this->restore_location_history(root);
+  this->restore_model(root);
 }
 
 void ApplicationState::dump() {
@@ -41,7 +43,7 @@ void ApplicationState::dump() {
     return;
   }
   Json::Value root;
-  this->dump_location_history(root);
+  this->dump_model(root);
 
   output << root << std::endl;
   if (not output) {
@@ -63,50 +65,14 @@ std::string ApplicationState::get_application_state_path() {
   return application_state_path;
 }
 
-void ApplicationState::restore_location_history(const Json::Value &root) {
-  this->model->location_history.clear();
-
-  for (const auto &value : root[LOCATION_HISTORY_KEY]) {
-    const auto location_value = value["location"];
-    if (!location_value.isObject()) {
-      continue;
-    }
-
-    const auto longitude{location_value.get("longitude", NAN).asDouble()};
-    const auto latitude{location_value.get("latitude", NAN).asDouble()};
-    const auto name{location_value.get("name", "").asString()};
-    const auto country{location_value.get("country", "").asString()};
-    const auto state{location_value.get("state", "").asString()};
-    if (std::isnan(longitude) or std::isnan(latitude) or name.empty() or
-        country.empty()) {
-      continue;
-    }
-    const Location location{longitude, latitude, name, country, state};
-    const HistoryItem item{location, value.get("favorite", false).asBool()};
-    this->model->location_history.push_back(item);
-  }
-  if (this->model->location_history.size() > 0) {
-    this->model->location = this->model->location_history.begin()->location;
-  }
+void ApplicationState::restore_model(const Json::Value &root) {
+  const auto &model_value = root[MODEL_KEY];
+  update_from_json(*this->model, model_value);
 }
 
-void ApplicationState::dump_location_history(Json::Value &root) {
-  auto &history_value = root[LOCATION_HISTORY_KEY];
-  const auto &history = this->model->location_history;
-  int location_index = 0;
-  for (const auto &item : history) {
-    history_value[location_index]["location"]["longitude"] =
-        Json::Value{item.location.longitude};
-    history_value[location_index]["location"]["latitude"] =
-        Json::Value{item.location.latitude};
-    history_value[location_index]["location"]["name"] = item.location.name;
-    history_value[location_index]["location"]["country"] =
-        item.location.country;
-    history_value[location_index]["location"]["state"] = item.location.state;
-    history_value[location_index]["favorite"] = item.favorite;
-
-    ++location_index;
-  }
+void ApplicationState::dump_model(Json::Value &root) {
+  auto &model_value = root[MODEL_KEY];
+  model_value = to_json(*this->model);
 }
 
 } // namespace taranis

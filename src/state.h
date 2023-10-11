@@ -25,8 +25,8 @@ private:
 
   static std::string get_application_state_path();
 
-  void restore_location_history(const Json::Value &root);
+  void restore_model(const Json::Value &root);
 
-  void dump_location_history(Json::Value &root);
+  void dump_model(Json::Value &root);
 };
 } // namespace taranis

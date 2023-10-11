@@ -22,6 +22,7 @@ sources = [about_cc] + files(
   'alerts.cc',
   'app.cc',
   'config.cc',
+  'convert.cc',
   'currentconditionbox.cc',
   'events.cc',
   'http.cc',
