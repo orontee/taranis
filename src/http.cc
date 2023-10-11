@@ -1,6 +1,7 @@
 #include "http.h"
 
 #include <boost/log/trivial.hpp>
+#include <memory>
 #include <sstream>
 
 #include "errors.h"
@@ -90,7 +91,7 @@ std::unique_ptr<CURL, void (*)(CURL *)> HttpClient::prepare_curl() {
 }
 
 void HttpClient::ensure_network() const {
-  iv_netinfo *netinfo = NetInfo();
+  const auto *netinfo = NetInfo();
   if (netinfo == nullptr or not netinfo->connected) {
     BOOST_LOG_TRIVIAL(debug) << "Will try to establish connection";
 

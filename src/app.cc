@@ -10,6 +10,8 @@
 
 namespace taranis {
 
+bool config_already_loaded{false};
+
 int App::process_event(int event_type, int param_one, int param_two) {
   BOOST_LOG_TRIVIAL(debug) << "Processing event of type "
                            << format_event_type(event_type);
@@ -82,10 +84,7 @@ void App::setup() {
     current_location.country = "FR";
     current_location.state = "Ile-de-France";
   }
-
-  BOOST_LOG_TRIVIAL(info)
-      << "First load of configuration asked to trigger a data refresh";
-  this->load_config(true);
+  this->load_config();
 }
 
 void App::show() {
@@ -111,8 +110,13 @@ void App::initialize_language() {
   this->language = currentLang();
   initialize_translations();
 }
-void App::load_config(bool force_data_refresh) {
-  BOOST_LOG_TRIVIAL(debug) << "Loading config";
+
+void App::load_config() {
+  if (not config_already_loaded) {
+    BOOST_LOG_TRIVIAL(debug) << "Loading configuration";
+  } else {
+    BOOST_LOG_TRIVIAL(debug) << "Rereading configuration";
+  }
 
   Config config;
 
@@ -148,19 +152,24 @@ void App::load_config(bool force_data_refresh) {
     initialize_translations();
   }
 
-  const bool is_data_obsolete = force_data_refresh or is_api_key_obsolete or
-                                is_unit_system_obsolete or is_language_obsolete;
+  const bool is_data_obsolete =
+    not config_already_loaded or is_api_key_obsolete or
+    is_unit_system_obsolete or is_language_obsolete;
   // temperatures, wind speed and weather description are computed
   // by the backend thus unit system or language change implies that
   // data are obsolete
 
   const auto event_handler = GetEventHandler();
   if (is_data_obsolete) {
-    SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data, 0);
+    const auto context = config_already_loaded ?
+			 CustomEventParam::triggered_by_configuration_change :
+			 CustomEventParam::triggered_by_application_startup;
+    SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data, context);
   } else if (is_display_daily_forecast_obsolete) {
     SendEvent(event_handler, EVT_CUSTOM,
               CustomEvent::model_daily_forecast_display_changed, 0);
   }
+  config_already_loaded = true;
 }
 
 int App::handle_custom_event(int param_one, int param_two) {
@@ -186,7 +195,12 @@ int App::handle_custom_event(int param_one, int param_two) {
       return 1;
     }
   } else if (param_one == CustomEvent::refresh_data) {
-    this->refresh_data();
+    const bool force_refresh =
+      (param_two == CustomEventParam::triggered_by_configuration_change or
+       param_two == CustomEventParam::triggered_by_model_change);
+    // At application startup or when refresh timer triggers, one must
+    // respect flight mode being enabled
+    this->refresh_data(force_refresh);
     return 1;
   } else if (param_one == CustomEvent::select_location_from_history) {
     const size_t history_index = param_two;
@@ -252,9 +266,21 @@ void App::clear_model_weather_conditions() {
   this->model->refresh_date = 0;
 }
 
-void App::refresh_data() {
+bool App::must_skip_data_refresh() const {
+  if (IsFlightModeEnabled()) {
+    BOOST_LOG_TRIVIAL(info)
+      << "Won't refresh data since device has flight mode enabled";
+    return true;
+  }
+  return false;
+}
+
+void App::refresh_data(bool force) {
   BOOST_LOG_TRIVIAL(debug) << "Refreshing data";
 
+  if (not force and this->must_skip_data_refresh()) {
+    return;
+  }
   ShowHourglassForce();
 
   ClearTimerByName(App::refresh_timer_name);
@@ -372,7 +398,8 @@ void App::set_model_location(const Location &location) const {
   this->model->location = location;
 
   const auto event_handler = GetEventHandler();
-  SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data, 0);
+  SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data,
+            CustomEventParam::triggered_by_model_change);
 }
 
 void App::update_configured_unit_system(UnitSystem unit_system) {
@@ -416,7 +443,8 @@ void App::refresh_data_maybe() {
     return;
   }
   const auto event_handler = GetEventHandler();
-  SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data, 0);
+  SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data,
+            CustomEventParam::triggered_by_timer);
 }
 
 void App::handle_about_dialog_button_clicked(int button_index) {

@@ -10,6 +10,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Dump/Restore most of model in application state
+  [#57](https://github.com/orontee/taranis/issues/57)
+
+- Check flight mode state before refreshing data
+  [#57](https://github.com/orontee/taranis/issues/57)
+
 ### Changed
 
 ### Removed

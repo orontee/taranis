@@ -25,6 +25,11 @@ enum CustomEvent {
 
 enum CustomEventParam {
   invalid_location,
+  triggered_by_application_startup,
+  triggered_by_configuration_change,
+  triggered_by_model_change,
+  triggered_by_timer,
+  triggered_by_user,
 };
 
 std::string format_custom_event_param(int param);

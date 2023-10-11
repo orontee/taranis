@@ -56,13 +56,15 @@ private:
 
   void initialize_language();
 
-  void load_config(bool force_data_refresh = false);
+  void load_config();
 
   int handle_custom_event(int param_one, int param_two);
 
   void clear_model_weather_conditions();
 
-  void refresh_data();
+  bool must_skip_data_refresh() const;
+
+  void refresh_data(bool force);
 
   void open_about_dialog();
 
