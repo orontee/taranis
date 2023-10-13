@@ -18,6 +18,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Don't clear model in case of data refresh failure
+  [#57](https://github.com/orontee/taranis/issues/57)
+
 ### Removed
 
 ## [1.2.0] - 2023-10-09

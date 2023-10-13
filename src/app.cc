@@ -5,6 +5,7 @@
 #include "events.h"
 #include "inkview.h"
 #include "l10n.h"
+#include "model.h"
 #include "units.h"
 #include "util.h"
 
@@ -264,6 +265,7 @@ void App::clear_model_weather_conditions() {
   this->model->current_condition = std::experimental::nullopt;
   this->model->hourly_forecast.clear();
   this->model->daily_forecast.clear();
+  this->model->alerts.clear();
   this->model->refresh_date = 0;
 }
 
@@ -286,27 +288,23 @@ void App::refresh_data(bool force) {
 
   ClearTimerByName(App::refresh_timer_name);
 
-  clear_model_weather_conditions();
-
   const auto units = Units{this->model}.to_string();
+  bool failed = false;
+  Condition current_condition;
+  std::vector<Condition> hourly_forecast;
+  std::vector<DailyCondition> daily_forecast;
+  std::vector<Alert> alerts;
   this->service->set_location(this->model->location);
   try {
     this->service->fetch_data(currentLang(), units);
 
-    this->model->current_condition = this->service->get_current_condition();
+    current_condition = this->service->get_current_condition();
+    hourly_forecast = this->service->get_hourly_forecast();
+    daily_forecast = this->service->get_daily_forecast();
+    alerts = this->service->get_alerts();
 
-    this->model->hourly_forecast.clear();
-    for (auto &forecast : this->service->get_hourly_forecast()) {
-      this->model->hourly_forecast.push_back(forecast);
-    }
-
-    this->model->daily_forecast.clear();
-    for (auto &forecast : this->service->get_daily_forecast()) {
-      this->model->daily_forecast.push_back(forecast);
-    }
-
-    this->model->alerts = this->service->get_alerts();
   } catch (const ConnectionError &error) {
+    failed = true;
     BOOST_LOG_TRIVIAL(debug)
         << "Connection error while refreshing weather conditions "
         << error.what();
@@ -316,6 +314,7 @@ void App::refresh_data(bool force) {
                     "connection."),
         App::error_dialog_delay);
   } catch (const RequestError &error) {
+    failed = true;
     BOOST_LOG_TRIVIAL(debug)
         << "Request error while refreshing weather conditions " << error.what();
     Message(
@@ -324,18 +323,38 @@ void App::refresh_data(bool force) {
                     "connection."),
         App::error_dialog_delay);
   } catch (const ServiceError &error) {
+    failed = true;
     BOOST_LOG_TRIVIAL(debug)
         << "Service error while refreshing weather conditions " << error.what();
     Message(ICON_WARNING, GetLangText("Service unavailable"), error.what(),
             App::error_dialog_delay);
   }
+  if (not failed or force) {
+    clear_model_weather_conditions();
+
+    // if model isn't cleared and a forced refresh has been required
+    // (user changes language or location), incoherent data will be
+    // shown!
+  }
+  if (not failed) {
+    this->model->current_condition = current_condition;
+    this->model->hourly_forecast = hourly_forecast;
+    this->model->daily_forecast = daily_forecast;
+    this->model->alerts = alerts;
+  }
   SetHardTimer(App::refresh_timer_name, &taranis::App::refresh_data_maybe,
                App::refresh_period);
+
+  HideHourglass();
 
   const auto event_handler = GetEventHandler();
   SendEvent(event_handler, EVT_CUSTOM, CustomEvent::model_updated, 0);
 
-  HideHourglass();
+  // always post model updated event otherwise display could be
+  // incoherent: Parts of the screen may have been restored to their
+  // state before a dialog on device not being connected popup, which
+  // doesn't respect the reset implemented in case of a forced
+  // refresh…
 }
 
 void App::open_about_dialog() {
