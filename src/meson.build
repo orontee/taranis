@@ -36,3 +36,4 @@ sources = [about_cc] + files(
   'util.cc'
 )
 
+subdir('l10n')

@@ -26,7 +26,7 @@ e-book reader.
 
 * History of locations
 
-* Translations (English, French, Polish)
+* Translations (English, Czech, French, Polish)
 
 Weather data is provided by [OpenWeather](https://openweathermap.org).
 

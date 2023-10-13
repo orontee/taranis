@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Czech translations
+  [#58](https://github.com/orontee/taranis/issues/58)
+
 - Dump/Restore most of model in application state
   [#57](https://github.com/orontee/taranis/issues/57)
 
