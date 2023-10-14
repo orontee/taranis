@@ -14,6 +14,7 @@
 
 #include "events.h"
 #include "history.h"
+#include "l10n.h"
 #include "model.h"
 #include "service.h"
 #include "state.h"
@@ -30,7 +31,8 @@ std::string get_about_content();
 class App {
 public:
   App()
-      : model{std::make_shared<Model>()}, service{std::make_unique<Service>()},
+      : model{std::make_shared<Model>()}, l10n{std::make_unique<L10n>()},
+        service{std::make_unique<Service>()},
         application_state{std::make_unique<ApplicationState>(this->model)},
         history{std::make_unique<LocationHistoryProxy>(this->model)} {}
 
@@ -42,20 +44,17 @@ private:
   static constexpr int error_dialog_delay{5000};
 
   std::shared_ptr<Model> model;
+  std::unique_ptr<L10n> l10n;
   std::unique_ptr<Service> service;
   std::unique_ptr<ApplicationState> application_state;
   std::unique_ptr<LocationHistoryProxy> history;
   std::unique_ptr<Ui> ui;
-
-  std::string language;
 
   void setup();
 
   void show();
 
   void exit();
-
-  void initialize_language();
 
   void load_config();
 

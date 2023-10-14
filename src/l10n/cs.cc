@@ -1,11 +1,9 @@
 #include "../l10n.h"
 
 namespace taranis {
-namespace l10n {
-
 // Czech translations
 
-const Translations cs_translations{
+const L10n::Translations L10n::cs_translations{
     // about.cc.in
     {"This program is provided without any warranty. For more details, "
      "read GNU General Public License, version 3 or later",
@@ -90,5 +88,4 @@ const Translations cs_translations{
     {"Wind", "Vítr"},
     {"Gust", "Nárazový vítr"},
 };
-} // namespace l10n
 } // namespace taranis

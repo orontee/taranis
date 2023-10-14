@@ -4,7 +4,6 @@
 #include "errors.h"
 #include "events.h"
 #include "inkview.h"
-#include "l10n.h"
 #include "model.h"
 #include "units.h"
 #include "util.h"
@@ -61,7 +60,7 @@ int App::process_event(int event_type, int param_one, int param_two) {
 void App::setup() {
   BOOST_LOG_TRIVIAL(info) << "Application setup";
 
-  this->initialize_language();
+  this->l10n->initialize_translations();
 
   const auto version = GetSoftwareVersion();
   try {
@@ -107,11 +106,6 @@ void App::exit() {
   CloseApp();
 }
 
-void App::initialize_language() {
-  this->language = currentLang();
-  initialize_translations();
-}
-
 void App::load_config() {
   if (not config_already_loaded) {
     BOOST_LOG_TRIVIAL(debug) << "Loading configuration";
@@ -147,10 +141,9 @@ void App::load_config() {
   }
 
   const std::string current_system_language = currentLang();
-  const bool is_language_obsolete = (this->language != current_system_language);
+  const bool is_language_obsolete = this->l10n->is_language_obsolete();
   if (is_language_obsolete) {
-    this->language = current_system_language;
-    initialize_translations();
+    this->l10n->update_translations();
   }
 
   const bool is_data_obsolete = not config_already_loaded or
