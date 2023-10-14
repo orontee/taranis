@@ -55,7 +55,7 @@ The application stores the user preferences (unit system, API key,
 etc.) in a configuration file writen under `system/config/taranis.cfg`
 (path may vary depending on the use of profiles).
 
-One can add `start_with_daily_forecast = true` to the configuration file
+One can add `start_with_daily_forecast=true` to the configuration file
 to have the application start with the daily forecast.
 
 Note that the Openweather API key distributed with the application is
