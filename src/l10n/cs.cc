@@ -14,7 +14,7 @@ const L10n::Translations L10n::cs_translations{
     // alerts.h
     {"Alert", "Výstraha"},
     {"Start", "Začátek"},
-    {"Duration", "Přes"},
+    {"Duration", "Trvá"},
     {"Source", "Zdroj"},
     {"Next alert", "Následující výstraha"},
 
@@ -31,7 +31,7 @@ const L10n::Translations L10n::cs_translations{
     {"Service unavailable", "Služba není dostupná"},
     {"Invalid input", "Neplatné zadání"},
     {"Make sure you enter a town then a country separated by a comma.",
-     "Zkontroluj, zda je správné jméno města a potom státu"
+     "Zkontroluj, zda je správné jméno města a potom státu "
      "oddělené čárkou."},
 
     // currentconditionbox.h
@@ -53,7 +53,7 @@ const L10n::Translations L10n::cs_translations{
      "Data o počasí nejsou dostupná s tímto klíčem API."},
     {"The service providing weather data isn't working as "
      "expected. Retry later.",
-     "Služba poskytující data o počasí nepracuje správně"
+     "Služba poskytující data o počasí nepracuje správně "
      "Zkus později."},
 
     // locationlist.cc
@@ -64,7 +64,7 @@ const L10n::Translations L10n::cs_translations{
     {"Standard", "SI"},
     {"Metric", "Metrické"},
     {"Imperial", "Imperiální"},
-    {"Refresh", "Aktualizuj"},
+    {"Refresh", "Aktualizace"},
     {"Locations", "Lokality"},
     {"Units", "Jednotky"},
     {"About…", "O aplikaci"},
