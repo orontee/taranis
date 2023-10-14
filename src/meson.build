@@ -30,6 +30,7 @@ sources = [about_cc] + files(
   'locationlist.cc',
   'logging.cc',
   'main.cc',
+  'menu.cc',
   'service.cc',
   'state.cc',
   'ui.cc',
