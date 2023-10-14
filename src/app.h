@@ -12,6 +12,7 @@
 #include <type_traits>
 #include <vector>
 
+#include "events.h"
 #include "history.h"
 #include "model.h"
 #include "service.h"
@@ -64,7 +65,7 @@ private:
 
   bool must_skip_data_refresh() const;
 
-  void refresh_data(bool force);
+  void refresh_data(CallContext context);
 
   void open_about_dialog();
 

@@ -162,10 +162,9 @@ void App::load_config() {
 
   const auto event_handler = GetEventHandler();
   if (is_data_obsolete) {
-    const auto context =
-        config_already_loaded
-            ? CustomEventParam::triggered_by_configuration_change
-            : CustomEventParam::triggered_by_application_startup;
+    const auto context = config_already_loaded
+                             ? CallContext::triggered_by_configuration_change
+                             : CallContext::triggered_by_application_startup;
     SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data, context);
   } else if (is_display_daily_forecast_obsolete) {
     SendEvent(event_handler, EVT_CUSTOM,
@@ -197,12 +196,7 @@ int App::handle_custom_event(int param_one, int param_two) {
       return 1;
     }
   } else if (param_one == CustomEvent::refresh_data) {
-    const bool force_refresh =
-        (param_two == CustomEventParam::triggered_by_configuration_change or
-         param_two == CustomEventParam::triggered_by_model_change);
-    // At application startup or when refresh timer triggers, one must
-    // respect flight mode being enabled
-    this->refresh_data(force_refresh);
+    this->refresh_data(static_cast<CallContext>(param_two));
     return 1;
   } else if (param_one == CustomEvent::select_location_from_history) {
     const size_t history_index = param_two;
@@ -278,8 +272,14 @@ bool App::must_skip_data_refresh() const {
   return false;
 }
 
-void App::refresh_data(bool force) {
+void App::refresh_data(CallContext context) {
   BOOST_LOG_TRIVIAL(debug) << "Refreshing data";
+
+  const bool force =
+      (context == CallContext::triggered_by_configuration_change or
+       context == CallContext::triggered_by_model_change);
+  // At application startup, when refresh timer triggers, or when user
+  // triggered the refresh, one must respect flight mode being enabled
 
   if (not force and this->must_skip_data_refresh()) {
     return;
@@ -341,20 +341,26 @@ void App::refresh_data(bool force) {
     this->model->hourly_forecast = hourly_forecast;
     this->model->daily_forecast = daily_forecast;
     this->model->alerts = alerts;
+
+    const auto event_handler = GetEventHandler();
+    SendEvent(event_handler, EVT_CUSTOM, CustomEvent::model_updated, 0);
+  } else {
+    if (force) {
+      const auto event_handler = GetEventHandler();
+      SendEvent(event_handler, EVT_CUSTOM, CustomEvent::model_updated, 0);
+    } else {
+      this->show();
+    }
   }
+  // Make sure to redraw screen otherwise display could be incoherent:
+  // Parts of the screen may have been restored to their state before
+  // a dialog on device not being connected popup, which doesn't
+  // respect the reset implemented in case of a forced refresh…
+
   SetHardTimer(App::refresh_timer_name, &taranis::App::refresh_data_maybe,
                App::refresh_period);
 
   HideHourglass();
-
-  const auto event_handler = GetEventHandler();
-  SendEvent(event_handler, EVT_CUSTOM, CustomEvent::model_updated, 0);
-
-  // always post model updated event otherwise display could be
-  // incoherent: Parts of the screen may have been restored to their
-  // state before a dialog on device not being connected popup, which
-  // doesn't respect the reset implemented in case of a forced
-  // refresh…
 }
 
 void App::open_about_dialog() {
@@ -419,7 +425,7 @@ void App::set_model_location(const Location &location) const {
 
   const auto event_handler = GetEventHandler();
   SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data,
-            CustomEventParam::triggered_by_model_change);
+            CallContext::triggered_by_model_change);
 }
 
 void App::update_configured_unit_system(UnitSystem unit_system) {
@@ -464,7 +470,7 @@ void App::refresh_data_maybe() {
   }
   const auto event_handler = GetEventHandler();
   SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data,
-            CustomEventParam::triggered_by_timer);
+            CallContext::triggered_by_timer);
 }
 
 void App::handle_about_dialog_button_clicked(int button_index) {

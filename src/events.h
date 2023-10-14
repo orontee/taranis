@@ -25,6 +25,9 @@ enum CustomEvent {
 
 enum CustomEventParam {
   invalid_location,
+};
+
+enum CallContext {
   triggered_by_application_startup,
   triggered_by_configuration_change,
   triggered_by_model_change,
