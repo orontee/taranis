@@ -6,6 +6,7 @@
 #include <functional>
 #include <inkview.h>
 #include <memory>
+#include <map>
 #include <vector>
 
 #include "button.h"
@@ -30,8 +31,6 @@ enum menu_item_index {
 };
 
 class MenuButton : public Button {
-  typedef std::array<imenuex, 6> MenuItems;
-
 public:
   MenuButton(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
              std::shared_ptr<Fonts> fonts);
@@ -44,6 +43,8 @@ protected:
   void on_clicked() override { this->open_menu(); }
 
 private:
+  typedef std::array<imenuex, 6> MenuItems;
+
   static const int padding{5};
   static const int icon_size{70};
 
@@ -52,7 +53,7 @@ private:
   std::array<imenuex, 4> unit_system_items;
   std::array<imenuex, LocationHistoryProxy::max_size + 2>
       location_history_items;
-  const MenuItems items;
+  MenuItems items;
 
   std::vector<std::string> location_full_names;
 
@@ -67,6 +68,8 @@ private:
   std::pair<int, int> get_menu_position() const;
 
   void initialize_favorite_location_icon();
+
+  void update_item_texts();
 
   void update_location_history_items();
 

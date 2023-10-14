@@ -1,5 +1,6 @@
 #include "menu.h"
 
+#include "inkview.h"
 #include "util.h"
 
 namespace taranis {
@@ -9,32 +10,28 @@ MenuButton::MenuButton(std::shared_ptr<Model> model,
                        std::shared_ptr<Fonts> fonts)
     : Button{MenuButton::icon_size, icons->get("menu")}, icons{icons},
       unit_system_items{
-          imenuex{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD,
-                  const_cast<char *>(GetLangText("Standard")), nullptr, nullptr,
+          imenuex{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD, nullptr, nullptr, nullptr,
                   nullptr, nullptr},
-          imenuex{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_METRIC,
-                  const_cast<char *>(GetLangText("Metric")), nullptr, nullptr,
+          imenuex{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_METRIC, nullptr, nullptr, nullptr,
                   nullptr, nullptr},
-          imenuex{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_IMPERIAL,
-                  const_cast<char *>(GetLangText("Imperial")), nullptr, nullptr,
+          imenuex{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_IMPERIAL, nullptr, nullptr, nullptr,
                   nullptr, nullptr},
           imenuex{0, 0, nullptr, nullptr, nullptr, nullptr, nullptr}},
-      items{imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH,
-                    const_cast<char *>(GetLangText("Refresh")), nullptr,
+      items{imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH, nullptr, nullptr,
                     nullptr, nullptr, nullptr},
             imenuex{ITEM_SUBMENU, taranis::MENU_ITEM_LOCATION_HISTORY,
-                    const_cast<char *>(GetLangText("Locations")),
+                    nullptr,
                     this->location_history_items.data(), nullptr, nullptr,
                     nullptr},
             imenuex{ITEM_SUBMENU, taranis::MENU_ITEM_UNIT_SYSTEM,
-                    const_cast<char *>(GetLangText("Units")),
+                    nullptr,
                     const_cast<imenuex *>(this->unit_system_items.data()),
                     nullptr, nullptr, nullptr},
             imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_ABOUT,
-                    const_cast<char *>(GetLangText("About…")), nullptr, nullptr,
+                    nullptr, nullptr, nullptr,
                     nullptr, nullptr},
             imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT,
-                    const_cast<char *>(GetLangText("Quit")), nullptr, nullptr,
+                    nullptr, nullptr, nullptr,
                     nullptr, nullptr},
             imenuex{0, 0, nullptr, nullptr, nullptr, nullptr, nullptr}},
       model{model}, font{fonts->get_normal_font()},
@@ -79,6 +76,31 @@ void MenuButton::initialize_favorite_location_icon() {
                                     : this->font->height * 0.9;
   this->favorite_location_icon = BitmapStretchProportionally(
       this->icons->get("favorite"), menu_font_height, menu_font_height);
+}
+
+void MenuButton::update_item_texts() {
+  for (auto &item : this->items) {
+    if (item.index == MENU_ITEM_REFRESH) {
+      item.text = const_cast<char *>(GetLangText("Refresh"));
+    } else if (item.index == MENU_ITEM_LOCATION_HISTORY) {
+      item.text = const_cast<char *>(GetLangText("Locations"));
+    } else if (item.index == MENU_ITEM_UNIT_SYSTEM) {
+      item.text = const_cast<char *>(GetLangText("Units"));
+    } else if (item.index == MENU_ITEM_ABOUT) {
+      item.text = const_cast<char *>(GetLangText("About…"));
+    } else if (item.index == MENU_ITEM_QUIT) {
+      item.text = const_cast<char *>(GetLangText("Quit"));
+    }
+  }
+  for (auto &item : this->unit_system_items) {
+    if (item.index == MENU_ITEM_UNIT_SYSTEM_STANDARD) {
+      item.text = const_cast<char *>(GetLangText("Standard"));
+    } else if (item.index == MENU_ITEM_UNIT_SYSTEM_METRIC) {
+      item.text = const_cast<char *>(GetLangText("Metric"));
+    } else if (item.index == MENU_ITEM_UNIT_SYSTEM_IMPERIAL) {
+      item.text = const_cast<char *>(GetLangText("Imperial"));
+    }
+  }
 }
 
 void MenuButton::update_location_history_items() {
@@ -186,6 +208,7 @@ void MenuButton::open_menu() {
     return;
   }
 
+  this->update_item_texts();
   this->update_location_history_items();
   this->update_unit_system_bullet();
 
