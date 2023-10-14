@@ -33,7 +33,7 @@ inline void initialize_translations() {
   }
 
   if (translations) {
-    for (const auto &translation : l10n::fr_translations) {
+    for (const auto &translation : *translations) {
       AddTranslation(translation.first.c_str(), translation.second.c_str());
     }
   }
