@@ -10,8 +10,6 @@
 
 namespace taranis {
 
-bool config_already_loaded{false};
-
 int App::process_event(int event_type, int param_one, int param_two) {
   BOOST_LOG_TRIVIAL(debug) << "Processing event of type "
                            << format_event_type(event_type);
@@ -21,12 +19,12 @@ int App::process_event(int event_type, int param_one, int param_two) {
     return 1;
   }
 
-  if (event_type == EVT_SHOW or event_type == EVT_FOREGROUND) {
+  if (event_type == EVT_SHOW or event_type == EVT_ACTIVATE) {
     this->show();
     return 1;
   }
 
-  if (event_type == EVT_HIDE or event_type == EVT_BACKGROUND) {
+  if (event_type == EVT_HIDE) {
     return 1;
   }
 
@@ -107,7 +105,7 @@ void App::exit() {
 }
 
 void App::load_config() {
-  if (not config_already_loaded) {
+  if (not this->config_already_loaded) {
     BOOST_LOG_TRIVIAL(debug) << "Loading configuration";
   } else {
     BOOST_LOG_TRIVIAL(debug) << "Rereading configuration";
@@ -131,7 +129,7 @@ void App::load_config() {
     this->model->unit_system = unit_system_from_config;
   }
 
-  if (not config_already_loaded) {
+  if (not this->config_already_loaded) {
     const auto start_with_daily_forecast_from_config =
         config.read_bool("start_with_daily_forecast"s, false);
     this->model->display_daily_forecast = start_with_daily_forecast_from_config;
@@ -143,7 +141,7 @@ void App::load_config() {
     this->l10n->update_translations();
   }
 
-  const bool is_data_obsolete = not config_already_loaded or
+  const bool is_data_obsolete = not this->config_already_loaded or
                                 is_api_key_obsolete or
                                 is_unit_system_obsolete or is_language_obsolete;
   // temperatures, wind speed and weather description are computed
@@ -152,12 +150,12 @@ void App::load_config() {
 
   const auto event_handler = GetEventHandler();
   if (is_data_obsolete) {
-    const auto context = config_already_loaded
+    const auto context = this->config_already_loaded
                              ? CallContext::triggered_by_configuration_change
                              : CallContext::triggered_by_application_startup;
     SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data, context);
   }
-  config_already_loaded = true;
+  this->config_already_loaded = true;
 }
 
 int App::handle_custom_event(int param_one, int param_two) {
@@ -179,13 +177,14 @@ int App::handle_custom_event(int param_one, int param_two) {
     const std::string location{raw_location->data()};
     this->search_location(location);
     return 1;
-  } else if (param_one == CustomEvent::change_unit_system) {
-    this->update_configured_unit_system(static_cast<UnitSystem>(param_two));
   } else if (param_one == CustomEvent::display_alert) {
     if (this->ui) {
       this->ui->display_alert();
       return 1;
     }
+  } else if (param_one == CustomEvent::open_config_editor) {
+    Config config;
+    config.open_editor();
   } else if (param_one == CustomEvent::refresh_data) {
     this->refresh_data(static_cast<CallContext>(param_two));
     return 1;

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <boost/log/trivial.hpp>
 #include <inkview.h>
 #include <memory>
 #include <string>
@@ -28,17 +27,9 @@ struct Config {
 
   void write_secret(const std::string &name, const std::string &value);
 
-  static std::string get_config_path() {
-    iprofile profile = CreateProfileStruct();
-    const auto failed = GetCurrentProfileEx(&profile);
-    const auto stem = not failed ? std::string{profile.path} + "/config"
-                                 : std::string{CONFIGPATH};
-    const auto config_path = stem + "/taranis.cfg";
+  void open_editor();
 
-    BOOST_LOG_TRIVIAL(info) << "Config path " << config_path;
-
-    return config_path;
-  }
+  static std::string get_config_path();
 
   static void config_changed();
 };

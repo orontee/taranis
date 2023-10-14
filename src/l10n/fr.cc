@@ -34,6 +34,16 @@ const L10n::Translations L10n::fr_translations{
      "Assurez-vous d'avoir saisi des noms de ville et de pays séparés par "
      "une virgule."},
 
+    // config.h
+    {"Standard", "Standard"},
+    {"Metric", "Système métrique"},
+    {"Imperial", "Unités impériales"},
+    {"Hourly forecast", "Prévision par heure"},
+    {"Daily forecast", "Prévision par jour"},
+    {"Start screen", "Écran de démarrage"},
+    {"Custom API key", "Clé d'API personnalisée"},
+    {"Parameters", "Paramètres"},
+
     // currentconditionbox.h
     {"Felt", "Ressenti"},
 
@@ -62,12 +72,9 @@ const L10n::Translations L10n::fr_translations{
     {"Latitude", "Latitude"},
 
     // menu.h
-    {"Standard", "Standard"},
-    {"Metric", "Système métrique"},
-    {"Imperial", "Unités impériales"},
     {"Refresh", "Mettre à jour"},
     {"Locations", "Lieux"},
-    {"Units", "Unités"},
+    {"Parameters…", "Paramètres…"},
     {"About…", "À propos…"},
     {"Quit", "Quitter"},
     {"Add to favorites", "Ajouter aux favoris"},

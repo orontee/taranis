@@ -22,7 +22,7 @@ e-book reader.
   
 * Government weather alerts
   
-* Configurable system of units
+* Configuration editor for system of units, custom API key, etc.
 
 * History of locations
 
@@ -51,18 +51,10 @@ integration](./docs/desktop_integration.md).
 
 ## Configuration
 
-The application stores the user preferences (unit system, API key,
-etc.) in a configuration file writen under `system/config/taranis.cfg`
-(path may vary depending on the use of profiles).
-
-One can add `start_with_daily_forecast=true` to the configuration file
-to have the application start with the daily forecast.
-
 Note that the Openweather API key distributed with the application is
-rate limited. The `api_key` keyword in the configuration file can be
-used to specify a custom key (See
-[OpenWeather](https://openweathermap.org) for instructions on how to
-register and generate API keys).
+rate limited. A custom API key can be specified through the
+"Parameters…" menu item (See [OpenWeather](https://openweathermap.org)
+for instructions on how to register and generate API keys).
 
 ## Contributing
 

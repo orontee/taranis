@@ -50,6 +50,8 @@ private:
   std::unique_ptr<LocationHistoryProxy> history;
   std::unique_ptr<Ui> ui;
 
+  bool config_already_loaded{false};
+
   void setup();
 
   void show();

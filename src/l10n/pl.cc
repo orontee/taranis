@@ -36,6 +36,16 @@ const L10n::Translations L10n::pl_translations{
      "Upewnij się, że podano poprawnie nazwę miasta i państwa "
      "rozdzielone przecinkiem."},
 
+    // config.h
+    {"Standard", "SI"},
+    {"Metric", "Metryczne"},
+    {"Imperial", "Imperialne"},
+    {"Hourly forecast", "Prognoza godzinowa"},
+    {"Daily forecast", "Prognoza dzienna"},
+    {"Start screen", "Ekran startowy"},
+    {"Custom API key", "Niestandardowy klucz API"},
+    {"Parameters", "Parametry"},
+
     // currentconditionbox.h
     {"Felt", "Temp. odczuwalna"},
 
@@ -64,13 +74,10 @@ const L10n::Translations L10n::pl_translations{
     {"Latitude", "Szerokość"},
 
     // menu.h
-    {"Standard", "SI"},
-    {"Metric", "Metryczne"},
-    {"Imperial", "Imperialne"},
     {"Refresh", "Odśwież"},
     {"Locations", "Lokalizacje"},
-    {"Units", "Jednostki"},
-    {"About…", "O aplikacji"},
+    {"Parameters…", "Parametry…"},
+    {"About…", "O aplikacji…"},
     {"Quit", "Wyjście"},
     {"Add to favorites", "Dodaj do ulubionych"},
     {"Remove from favorites", "Usuń z ulubionych"},

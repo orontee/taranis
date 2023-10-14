@@ -9,21 +9,12 @@ MenuButton::MenuButton(std::shared_ptr<Model> model,
                        std::shared_ptr<Icons> icons,
                        std::shared_ptr<Fonts> fonts)
     : Button{MenuButton::icon_size, icons->get("menu")}, icons{icons},
-      unit_system_items{
-          imenuex{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_STANDARD, nullptr, nullptr,
-                  nullptr, nullptr, nullptr},
-          imenuex{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_METRIC, nullptr, nullptr,
-                  nullptr, nullptr, nullptr},
-          imenuex{ITEM_ACTIVE, MENU_ITEM_UNIT_SYSTEM_IMPERIAL, nullptr, nullptr,
-                  nullptr, nullptr, nullptr},
-          imenuex{0, 0, nullptr, nullptr, nullptr, nullptr, nullptr}},
       items{imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH, nullptr, nullptr,
                     nullptr, nullptr, nullptr},
             imenuex{ITEM_SUBMENU, taranis::MENU_ITEM_LOCATION_HISTORY, nullptr,
                     this->location_history_items.data(), nullptr, nullptr,
                     nullptr},
-            imenuex{ITEM_SUBMENU, taranis::MENU_ITEM_UNIT_SYSTEM, nullptr,
-                    const_cast<imenuex *>(this->unit_system_items.data()),
+            imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_CONFIGURE, nullptr, nullptr,
                     nullptr, nullptr, nullptr},
             imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_ABOUT, nullptr, nullptr,
                     nullptr, nullptr, nullptr},
@@ -80,21 +71,12 @@ void MenuButton::update_item_texts() {
       item.text = const_cast<char *>(GetLangText("Refresh"));
     } else if (item.index == MENU_ITEM_LOCATION_HISTORY) {
       item.text = const_cast<char *>(GetLangText("Locations"));
-    } else if (item.index == MENU_ITEM_UNIT_SYSTEM) {
-      item.text = const_cast<char *>(GetLangText("Units"));
+    } else if (item.index == MENU_ITEM_CONFIGURE) {
+      item.text = const_cast<char *>(GetLangText("Parameters…"));
     } else if (item.index == MENU_ITEM_ABOUT) {
       item.text = const_cast<char *>(GetLangText("About…"));
     } else if (item.index == MENU_ITEM_QUIT) {
       item.text = const_cast<char *>(GetLangText("Quit"));
-    }
-  }
-  for (auto &item : this->unit_system_items) {
-    if (item.index == MENU_ITEM_UNIT_SYSTEM_STANDARD) {
-      item.text = const_cast<char *>(GetLangText("Standard"));
-    } else if (item.index == MENU_ITEM_UNIT_SYSTEM_METRIC) {
-      item.text = const_cast<char *>(GetLangText("Metric"));
-    } else if (item.index == MENU_ITEM_UNIT_SYSTEM_IMPERIAL) {
-      item.text = const_cast<char *>(GetLangText("Imperial"));
     }
   }
 }
@@ -178,22 +160,6 @@ void MenuButton::update_location_history_items() {
   }
 }
 
-void MenuButton::update_unit_system_bullet() {
-  if (this->model->unit_system == UnitSystem::standard) {
-    this->unit_system_items[0].type = ITEM_BULLET;
-    this->unit_system_items[1].type = ITEM_ACTIVE;
-    this->unit_system_items[2].type = ITEM_ACTIVE;
-  } else if (this->model->unit_system == UnitSystem::metric) {
-    this->unit_system_items[0].type = ITEM_ACTIVE;
-    this->unit_system_items[1].type = ITEM_BULLET;
-    this->unit_system_items[2].type = ITEM_ACTIVE;
-  } else if (this->model->unit_system == UnitSystem::imperial) {
-    this->unit_system_items[0].type = ITEM_ACTIVE;
-    this->unit_system_items[1].type = ITEM_ACTIVE;
-    this->unit_system_items[2].type = ITEM_BULLET;
-  }
-}
-
 void MenuButton::open_menu() {
   if (not this->menu_handler) {
     return;
@@ -206,7 +172,6 @@ void MenuButton::open_menu() {
 
   this->update_item_texts();
   this->update_location_history_items();
-  this->update_unit_system_bullet();
 
   const auto &[pos_x, pos_y] = this->get_menu_position();
   SetMenuFont(this->font.get());

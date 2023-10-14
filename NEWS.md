@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Configuration editor 
+  [#2](https://github.com/orontee/taranis/issues/2)
+
 ### Changed
 
 ### Removed

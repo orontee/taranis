@@ -34,6 +34,16 @@ const L10n::Translations L10n::cs_translations{
      "Zkontroluj, zda je správné jméno města a potom státu "
      "oddělené čárkou."},
 
+    // config.h
+    {"Standard", "SI"},
+    {"Metric", "Metrické"},
+    {"Imperial", "Imperiální"},
+    {"Hourly forecast", "Hodinová předpověď"},
+    {"Daily forecast", "Denní předpověď"},
+    {"Start screen", "Startovací obrazovka"},
+    {"Custom API key", "Vlastní klíč API"},
+    {"Parameters", "Parametry"},
+
     // currentconditionbox.h
     {"Felt", "Pocitová teplota"},
 
@@ -61,13 +71,10 @@ const L10n::Translations L10n::cs_translations{
     {"Latitude", "Zem. šířka"},
 
     // menu.h
-    {"Standard", "SI"},
-    {"Metric", "Metrické"},
-    {"Imperial", "Imperiální"},
     {"Refresh", "Aktualizace"},
     {"Locations", "Lokality"},
-    {"Units", "Jednotky"},
-    {"About…", "O aplikaci"},
+    {"Parameters…", "Parametry…"},
+    {"About…", "O aplikaci…"},
     {"Quit", "Konec"},
     {"Add to favorites", "Přidat do oblíbených"},
     {"Remove from favorites", "Odebrat z oblíbených"},
