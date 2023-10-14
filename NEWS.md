@@ -21,6 +21,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- At application start, it used to show the same type of forecast
+  (daily or hourly) as when exiting. Now the application always starts
+  with the same type of forecast. The default is to start with the
+  hourly forecast. Add `start_with_daily_forecast = true` to the
+  configuration file to change default
+  behavior. [#59](https://github.com/orontee/taranis/issues/59)
+
 - Don't clear model in case of data refresh failure
   [#57](https://github.com/orontee/taranis/issues/57)
 

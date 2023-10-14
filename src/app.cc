@@ -131,13 +131,10 @@ void App::load_config() {
     this->model->unit_system = unit_system_from_config;
   }
 
-  const auto display_daily_forecast_from_config =
-      config.read_bool("display_daily_forecast"s, false);
-  const bool is_display_daily_forecast_obsolete =
-      (display_daily_forecast_from_config !=
-       this->model->display_daily_forecast);
-  if (is_display_daily_forecast_obsolete) {
-    this->model->display_daily_forecast = display_daily_forecast_from_config;
+  if (not config_already_loaded) {
+    const auto start_with_daily_forecast_from_config =
+        config.read_bool("start_with_daily_forecast"s, false);
+    this->model->display_daily_forecast = start_with_daily_forecast_from_config;
   }
 
   const std::string current_system_language = currentLang();
@@ -159,9 +156,6 @@ void App::load_config() {
                              ? CallContext::triggered_by_configuration_change
                              : CallContext::triggered_by_application_startup;
     SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data, context);
-  } else if (is_display_daily_forecast_obsolete) {
-    SendEvent(event_handler, EVT_CUSTOM,
-              CustomEvent::model_daily_forecast_display_changed, 0);
   }
   config_already_loaded = true;
 }
@@ -173,8 +167,12 @@ int App::handle_custom_event(int param_one, int param_two) {
 
   // Commands
   if (param_one == CustomEvent::change_daily_forecast_display) {
-    const bool enable = not this->model->display_daily_forecast;
-    this->update_configured_display_daily_forecast(enable);
+    this->model->display_daily_forecast =
+        not this->model->display_daily_forecast;
+
+    const auto event_handler = GetEventHandler();
+    SendEvent(event_handler, EVT_CUSTOM,
+              CustomEvent::model_daily_forecast_display_changed, 0);
   } else if (param_one == CustomEvent::search_location) {
     auto *const raw_location =
         reinterpret_cast<std::array<char, 256> *>(GetCurrentEventExData());
@@ -432,20 +430,6 @@ void App::update_configured_unit_system(UnitSystem unit_system) {
 
   Config config;
   config.write_int("unit_system", unit_system);
-
-  Config::config_changed();
-}
-
-void App::update_configured_display_daily_forecast(bool enable) const {
-  BOOST_LOG_TRIVIAL(debug) << "Updating configured display daily forecast";
-
-  if (enable == this->model->display_daily_forecast) {
-    BOOST_LOG_TRIVIAL(debug)
-        << "No need to update configured display daily forecast";
-    return;
-  }
-  Config config;
-  config.write_bool("display_daily_forecast", enable);
 
   Config::config_changed();
 }

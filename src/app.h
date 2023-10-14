@@ -74,8 +74,6 @@ private:
 
   void update_configured_unit_system(UnitSystem unit_system);
 
-  void update_configured_display_daily_forecast(bool enable) const;
-
   static void refresh_data_maybe();
 
   static void handle_about_dialog_button_clicked(int button_index);

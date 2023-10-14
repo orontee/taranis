@@ -5,8 +5,8 @@
 #include <cstring>
 #include <functional>
 #include <inkview.h>
-#include <memory>
 #include <map>
+#include <memory>
 #include <vector>
 
 #include "button.h"
