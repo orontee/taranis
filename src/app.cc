@@ -72,6 +72,8 @@ void App::setup() {
     this->exit();
     return;
   }
+  this->set_task_parameters();
+
   this->ui = std::make_unique<Ui>(this->model);
 
   auto &current_location = this->model->location;
@@ -431,6 +433,18 @@ void App::update_configured_unit_system(UnitSystem unit_system) {
   config.write_int("unit_system", unit_system);
 
   Config::config_changed();
+}
+
+void App::set_task_parameters() {
+  const auto task_identifier = GetCurrentTask();
+  const auto task_info = GetTaskInfo(task_identifier);
+  if (task_info) {
+    BOOST_LOG_TRIVIAL(debug) << "Setting task parameters";
+    SetTaskParameters(task_identifier, task_info->appname, "Taranis",
+                      const_cast<ibitmap *>(&icon_taranis), task_info->flags);
+  } else {
+    BOOST_LOG_TRIVIAL(warning) << "No task info!";
+  }
 }
 
 void App::refresh_data_maybe() {

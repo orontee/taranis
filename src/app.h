@@ -76,6 +76,8 @@ private:
 
   void update_configured_unit_system(UnitSystem unit_system);
 
+  static void set_task_parameters();
+
   static void refresh_data_maybe();
 
   static void handle_about_dialog_button_clicked(int button_index);

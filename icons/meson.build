@@ -15,7 +15,8 @@ icons = files(
   'icon_menu.bmp',
   'icon_radio_button_checked.bmp',
   'icon_radio_button_unchecked.bmp',
+  'icon_taranis.bmp',
   'icon_warning.bmp'
 )
 
-install_data(sources: ['taranis.bmp', 'taranis_f.bmp'], install_dir: '/icons')
+install_data(sources: ['icon_taranis.bmp', 'icon_taranis_f.bmp'], install_dir: '/icons')

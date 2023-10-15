@@ -7,8 +7,8 @@ To customize the application icon and group:
    application in the "desktop" view, the other is displayed
    temporarily when the application is launched.
    
-   Samples icons are provided: [taranis.bmp](./taranis.bmp) and
-   [taranis_f.bmp](./taranis_f.bmp).
+   Samples icons are provided: [icon_taranis.bmp](./icon_taranis.bmp) and
+   [icon_taranis_f.bmp](./icon_taranis_f.bmp).
    
 2. Then the `/mnt/ext1/system/config/desktop/view.json` file must be
    edited on the e-reader (path may vary depending on the use of
@@ -26,8 +26,8 @@ To customize the application icon and group:
    +        "U_Taranis": {
    +            "path": "/mnt/ext1/applications/taranis.app",
    +            "title": "Taranis",
-   +            "icon": "/mnt/ext1/applications/icons/taranis.bmp",
-   +            "focused_icon": "/mnt/ext1/applications/icons/taranis_f.bmp"
+   +            "icon": "/mnt/ext1/applications/icons/icon_taranis.bmp",
+   +            "focused_icon": "/mnt/ext1/applications/icons/icon_taranis_f.bmp"
    +        }
         },
         "view": {
