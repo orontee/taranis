@@ -4,6 +4,8 @@
 #include <cstring>
 #include <inkview.h>
 
+#include "icons.h"
+
 namespace taranis {
 
 static iconfig *config = nullptr;
@@ -23,16 +25,19 @@ char *custom_api_key_value[] = {const_cast<char *>(""), nullptr};
 // translations must be provided as usual
 
 static iconfigedit config_template[] = {
-    {CFG_INDEX, nullptr, const_cast<char *>("Units"), nullptr,
+    {CFG_INDEX, &icon_measuring_tape, const_cast<char *>("Units"), nullptr,
      const_cast<char *>("unit_system"), const_cast<char *>("0"),
      unit_system_values, nullptr},
-    {CFG_INDEX, nullptr, const_cast<char *>("Start screen"), nullptr,
-     const_cast<char *>("start_with_daily_forecast"), const_cast<char *>("0"),
-     start_with_daily_forecast_values, nullptr},
-    {CFG_TEXT, nullptr, const_cast<char *>("Custom API key"), nullptr,
+    {CFG_INDEX, &icon_display_settings, const_cast<char *>("Start screen"),
+     nullptr, const_cast<char *>("start_with_daily_forecast"),
+     const_cast<char *>("0"), start_with_daily_forecast_values, nullptr},
+    {CFG_TEXT, &icon_key, const_cast<char *>("Custom API key"), nullptr,
      const_cast<char *>("api_key"), const_cast<char *>(""),
      custom_api_key_value, nullptr},
     {0}};
+
+// Don't use hints since failed to find a way to change their font
+// size...
 
 Config::Config() {
   if (not config) {
