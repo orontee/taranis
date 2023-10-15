@@ -7,7 +7,7 @@ const L10n::Translations L10n::cs_translations{
     // about.cc.in
     {"This program is provided without any warranty. For more details, "
      "read GNU General Public License, version 3 or later",
-     "Tento program je bez jakékoliv záruky. Další podrobnosti jsou"
+     "Tento program je bez jakékoliv záruky. Další podrobnosti jsou "
      "v GNU General Public License, verze 3 nebo novější."},
     {"Credits", "Poděkování"},
 
@@ -26,12 +26,12 @@ const L10n::Translations L10n::cs_translations{
      "této čtečky."},
     {"Network error", "Chyba sítě"},
     {"Failure while fetching weather data. Check your network connection.",
-     "Chyba při stahování dat o počasí. Zkontroluj "
+     "Chyba při stahování dat o počasí. Zkontrolujte "
      "síťové připojení."},
     {"Service unavailable", "Služba není dostupná"},
     {"Invalid input", "Neplatné zadání"},
     {"Make sure you enter a town then a country separated by a comma.",
-     "Zkontroluj, zda je správné jméno města a potom státu "
+     "Zkontrolujte, zda je správné jméno města a potom státu "
      "oddělené čárkou."},
 
     // config.h
@@ -51,27 +51,27 @@ const L10n::Translations L10n::cs_translations{
     {"Location unknown to the service providing weather data. "
      "Check spelling.",
      "Lokalita není známá ve službě počasí. "
-     "Zkontroluj zápis."},
+     "Zkontrolujte zápis."},
     {"Sorry, an unexpected error was encountered. Report this to "
      "the application author.",
-     "Chyba aplikace. Informuj autora."},
+     "Chyba aplikace. Informujte autora."},
     {"An API key is required to consume weather data. Contact the "
      "application maintainer.",
      "Pro odběr daných dat o počasí je vyžadován klíč API. "
-     "Kontaktuj autora aplikace."},
+     "Kontaktujte autora aplikace."},
     {"Weather data can't be accessed with the provided API key.",
      "Data o počasí nejsou dostupná s tímto klíčem API."},
     {"The service providing weather data isn't working as "
      "expected. Retry later.",
      "Služba poskytující data o počasí nepracuje správně "
-     "Zkus později."},
+     "Zkuste později."},
 
     // locationlist.cc
     {"Longitude", "Zem. délka"},
     {"Latitude", "Zem. šířka"},
 
     // menu.h
-    {"Refresh", "Aktualizace"},
+    {"Refresh", "Aktualizovat"},
     {"Locations", "Lokality"},
     {"Parameters…", "Parametry…"},
     {"About…", "O aplikaci…"},

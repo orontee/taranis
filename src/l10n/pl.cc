@@ -43,7 +43,7 @@ const L10n::Translations L10n::pl_translations{
     {"Hourly forecast", "Prognoza godzinowa"},
     {"Daily forecast", "Prognoza dzienna"},
     {"Start screen", "Ekran startowy"},
-    {"Custom API key", "Niestandardowy klucz API"},
+    {"Custom API key", "Własny klucz API"},
     {"Parameters", "Parametry"},
 
     // currentconditionbox.h
