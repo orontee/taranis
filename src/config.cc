@@ -6,18 +6,21 @@
 
 #include "icons.h"
 
+#define GetLangText(str) str
+
 namespace taranis {
 
 static iconfig *config = nullptr;
 
-char *unit_system_values[] = {const_cast<char *>("Standard"),
-                              const_cast<char *>("Metric"),
-                              const_cast<char *>("Imperial"), nullptr};
+char *unit_system_values[] = {const_cast<char *>(GetLangText("Standard")),
+                              const_cast<char *>(GetLangText("Metric")),
+                              const_cast<char *>(GetLangText("Imperial")),
+                              nullptr};
 // ☠️ index must match UnitSystem enum values…
 
 char *start_with_daily_forecast_values[] = {
-    const_cast<char *>("Hourly forecast"), const_cast<char *>("Daily forecast"),
-    nullptr};
+    const_cast<char *>(GetLangText("Hourly forecast")),
+    const_cast<char *>(GetLangText("Daily forecast")), nullptr};
 
 char *custom_api_key_value[] = {const_cast<char *>(""), nullptr};
 
@@ -25,14 +28,15 @@ char *custom_api_key_value[] = {const_cast<char *>(""), nullptr};
 // translations must be provided as usual
 
 static iconfigedit config_template[] = {
-    {CFG_INDEX, &icon_measuring_tape, const_cast<char *>("Units"), nullptr,
-     const_cast<char *>("unit_system"), const_cast<char *>("0"),
+    {CFG_INDEX, &icon_measuring_tape, const_cast<char *>(GetLangText("Units")),
+     nullptr, const_cast<char *>("unit_system"), const_cast<char *>("0"),
      unit_system_values, nullptr},
-    {CFG_INDEX, &icon_display_settings, const_cast<char *>("Start screen"),
-     nullptr, const_cast<char *>("start_with_daily_forecast"),
-     const_cast<char *>("0"), start_with_daily_forecast_values, nullptr},
-    {CFG_TEXT, &icon_key, const_cast<char *>("Custom API key"), nullptr,
-     const_cast<char *>("api_key"), const_cast<char *>(""),
+    {CFG_INDEX, &icon_display_settings,
+     const_cast<char *>(GetLangText("Start screen")), nullptr,
+     const_cast<char *>("start_with_daily_forecast"), const_cast<char *>("0"),
+     start_with_daily_forecast_values, nullptr},
+    {CFG_TEXT, &icon_key, const_cast<char *>(GetLangText("Custom API key")),
+     nullptr, const_cast<char *>("api_key"), const_cast<char *>(""),
      custom_api_key_value, nullptr},
     {0}};
 
