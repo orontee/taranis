@@ -40,6 +40,7 @@ const L10n::Translations L10n::cs_translations{
     {"Imperial", "Imperiální"},
     {"Hourly forecast", "Hodinová předpověď"},
     {"Daily forecast", "Denní předpověď"},
+    {"Units", "Jednotky"},
     {"Start screen", "Startovací obrazovka"},
     {"Custom API key", "Vlastní klíč API"},
     {"Parameters", "Parametry"},

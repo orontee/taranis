@@ -42,6 +42,7 @@ const L10n::Translations L10n::pl_translations{
     {"Imperial", "Imperialne"},
     {"Hourly forecast", "Prognoza godzinowa"},
     {"Daily forecast", "Prognoza dzienna"},
+    {"Units", "Jednostki"},
     {"Start screen", "Ekran startowy"},
     {"Custom API key", "Własny klucz API"},
     {"Parameters", "Parametry"},
