@@ -8,6 +8,8 @@ project(
   ]
 )
 
+i18n = import('i18n')
+
 pbres_command = find_program(
   './SDK_6.3.0/SDK-B288/usr/bin/pbres',
   required: true
@@ -50,6 +52,8 @@ taranis_deps = [
 subdir('src')
 
 sources += [icons_cc]
+
+subdir('po')
 
 executable(
   'taranis.app',
