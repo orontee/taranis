@@ -9,7 +9,6 @@ src/config.cc
 src/config.h
 src/convert.cc
 src/convert.h
-src/currentconditionbox.cc
 src/currentconditionbox.h
 src/dailyforecastbox.h
 src/errors.h
@@ -18,13 +17,9 @@ src/events.h
 src/fonts.h
 src/history.h
 src/hourlyforecastbox.h
+src/hourlyforecastbox.cc
 src/http.cc
 src/http.h
-src/icons.h
-src/l10n.h
-src/l10n/cs.cc
-src/l10n/fr.cc
-src/l10n/pl.cc
 src/locationbox.cc
 src/locationbox.h
 src/locationlist.cc

@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the taranis package.
 # Matthias Meulien <orontee@gmail.com>, 2023.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-17 22:41+0200\n"
-"PO-Revision-Date: 2023-10-17 22:37+0200\n"
-"Last-Translator: Visla\n"
-"Language-Team: Czech\n"
-"Language: cs\n"
+"POT-Creation-Date: 2023-10-22 11:06+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: Czech\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,218 +22,227 @@ msgid ""
 "This program is provided without any warranty. For more details, read GNU "
 "General Public License, version 3 or later"
 msgstr ""
+"Tento program je bez jakékoliv záruky. Další podrobnosti jsou v GNU General "
+"Public License, verze 3 nebo novější."
 
 #: src/about.cc.in:16
 msgid "Credits"
-msgstr ""
+msgstr "Poděkování"
 
 #: src/alerts.cc:43
 msgid "Alert"
-msgstr ""
+msgstr "Výstraha"
 
 #: src/alerts.cc:52
 msgid "Start"
-msgstr ""
+msgstr "Začátek"
 
-#: src/alerts.cc:55
+#: src/alerts.cc:54
 msgid "Duration"
-msgstr ""
+msgstr "Trvá"
 
-#: src/alerts.cc:61
+#: src/alerts.cc:58
 msgid "Source"
-msgstr ""
+msgstr "Zdroj"
 
-#: src/alerts.cc:65
+#: src/alerts.cc:62
 msgid "Next alert"
-msgstr ""
+msgstr "Následující výstraha"
 
-#: src/alerts.cc:66 src/alerts.cc:68 src/app.cc:200 src/app.cc:212
-#: src/app.cc:241 src/app.cc:363 src/currentconditionbox.h:131
+#: src/alerts.cc:63 src/alerts.cc:65 src/app.cc:199 src/app.cc:211
+#: src/app.cc:240 src/app.cc:362
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
+
+#: src/app.cc:67
+msgid "Unsupported software version"
+msgstr "Nepodporovaná verze programu"
 
 #: src/app.cc:68
-msgid "Unsupported software version"
-msgstr ""
-
-#: src/app.cc:69
 msgid ""
 "The application isn't compatible with the software version of this reader."
-msgstr ""
+msgstr "Aplikace není kompatibilní s programovou verzí této čtečky."
 
-#: src/app.cc:237
+#: src/app.cc:236
 msgid "Invalid input"
-msgstr ""
+msgstr "Neplatné zadání"
 
-#: src/app.cc:239
+#: src/app.cc:238
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr ""
+"Zkontrolujte, zda je správné jméno města a potom státu oddělené čárkou."
+
+#: src/app.cc:303 src/app.cc:312 src/app.cc:387 src/app.cc:395
+msgid "Network error"
+msgstr "Chyba sítě"
 
 #: src/app.cc:304 src/app.cc:313 src/app.cc:388 src/app.cc:396
-msgid "Network error"
-msgstr ""
-
-#: src/app.cc:305 src/app.cc:314 src/app.cc:389 src/app.cc:397
 msgid "Failure while fetching weather data. Check your network connection."
-msgstr ""
+msgstr "Chyba při stahování dat o počasí. Zkontrolujte síťové připojení."
 
-#: src/app.cc:321 src/app.cc:403
+#: src/app.cc:320 src/app.cc:402
 msgid "Service unavailable"
-msgstr ""
+msgstr "Služba není dostupná"
 
-#: src/app.cc:362
+#: src/app.cc:361
 msgid "About"
-msgstr ""
+msgstr "O aplikaci"
 
 #: src/config.cc:15
 msgid "Standard"
-msgstr ""
+msgstr "SI"
 
 #: src/config.cc:16
 msgid "Metric"
-msgstr ""
+msgstr "Metrické"
 
 #: src/config.cc:17
 msgid "Imperial"
-msgstr ""
+msgstr "Imperiální"
 
 #: src/config.cc:22
 msgid "Hourly forecast"
-msgstr ""
+msgstr "Hodinová předpověď"
 
 #: src/config.cc:23
 msgid "Daily forecast"
-msgstr ""
+msgstr "Denní předpověď"
 
 #: src/config.cc:31
 msgid "Units"
-msgstr ""
+msgstr "Jednotky"
 
 #: src/config.cc:35
 msgid "Start screen"
-msgstr ""
+msgstr "Startovací obrazovka"
 
 #: src/config.cc:38
 msgid "Custom API key"
-msgstr ""
+msgstr "Vlastní klíč API"
 
-#: src/currentconditionbox.h:97
+#: src/config.cc:91
+msgid "Parameters"
+msgstr "Parametry"
+
+#: src/currentconditionbox.h:85
 msgid "Felt"
-msgstr ""
-
-#: src/currentconditionbox.h:112
-msgid "Sunrise"
-msgstr ""
-
-#: src/currentconditionbox.h:114
-msgid "Sunset"
-msgstr ""
-
-#: src/currentconditionbox.h:116
-msgid "Pressure"
-msgstr ""
-
-#: src/currentconditionbox.h:118
-msgid "Humidity"
-msgstr ""
-
-#: src/currentconditionbox.h:120
-msgid "UV index"
-msgstr ""
-
-#: src/currentconditionbox.h:123
-msgid "Visibility"
-msgstr ""
-
-#: src/currentconditionbox.h:125
-msgid "Wind"
-msgstr ""
-
-#: src/currentconditionbox.h:127
-msgid "Gust"
-msgstr ""
-
-#: src/currentconditionbox.h:130
-msgid "Current Weather Conditions"
-msgstr ""
+msgstr "Pocitová teplota"
 
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
-msgstr ""
+msgstr "Lokalita není známá ve službě počasí. Zkontrolujte zápis."
 
 #: src/errors.h:43
 msgid ""
 "Sorry, an unexpected error was encountered. Report this to the application "
 "author."
-msgstr ""
+msgstr "Chyba aplikace. Informujte autora."
 
 #: src/errors.h:54
 msgid ""
 "An API key is required to consume weather data. Contact the application "
 "maintainer."
 msgstr ""
+"Pro odběr daných dat o počasí je vyžadován klíč API. Kontaktujte autora "
+"aplikace."
 
 #: src/errors.h:60
 msgid "Weather data can't be accessed with the provided API key."
-msgstr ""
+msgstr "Data o počasí nejsou dostupná s tímto klíčem API."
 
 #: src/errors.h:71
 msgid ""
 "The service providing weather data isn't working as expected. Retry later."
-msgstr ""
+msgstr "Služba poskytující data o počasí nepracuje správně Zkuste později."
 
 #: src/locationbox.cc:14
 msgid "Enter location"
 msgstr ""
 
-#: src/locationlist.cc:45 src/menu.cc:73
+#: src/locationlist.cc:45 src/menu.cc:76
 msgid "Locations"
-msgstr ""
+msgstr "Lokality"
 
 #: src/locationlist.cc:56
 msgid "Longitude"
-msgstr ""
+msgstr "Zem. délka"
 
 #: src/locationlist.cc:57
 msgid "Latitude"
-msgstr ""
+msgstr "Zem. šířka"
 
-#: src/menu.cc:71
+#: src/menu.cc:74
 msgid "Refresh"
-msgstr ""
+msgstr "Aktualizovat"
 
-#: src/menu.cc:75
+#: src/menu.cc:78
 msgid "Parameters…"
-msgstr ""
+msgstr "Parametry…"
 
-#: src/menu.cc:77
+#: src/menu.cc:80
 msgid "About…"
-msgstr ""
+msgstr "O aplikaci…"
 
-#: src/menu.cc:79
+#: src/menu.cc:82
 msgid "Quit"
-msgstr ""
+msgstr "Konec"
 
-#: src/menu.cc:93
+#: src/menu.cc:96
 msgid "Empty"
-msgstr ""
+msgstr "Prázdný"
 
-#: src/menu.cc:106 src/menu.cc:126
+#: src/menu.cc:109 src/menu.cc:129
 msgid "Add to favorites"
-msgstr ""
+msgstr "Přidat do oblíbených"
 
-#: src/menu.cc:125
+#: src/menu.cc:128
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Odebrat z oblíbených"
 
-#: src/statusbar.h:32
+#: src/statusbar.h:33
 msgid "Ongoing update…"
-msgstr ""
+msgstr "Probíhá aktualizace…"
 
-#: src/statusbar.h:34
+#: src/statusbar.h:35
 msgid "Last update:"
-msgstr ""
+msgstr "Poslední aktualizace:"
 
 #: src/statusbar.h:45
 msgid "Weather data from"
-msgstr ""
+msgstr "Data o počasí z"
+
+#: src/util.cc:191
+msgid "Today"
+msgstr "Dnes"
+
+#: src/util.cc:196
+msgid "Yesterday"
+msgstr "Včera"
+
+#: src/util.cc:201
+msgid "Tomorrow"
+msgstr "Zítra"
+
+#~ msgid "Sunrise"
+#~ msgstr "Východ slunce"
+
+#~ msgid "Sunset"
+#~ msgstr "Západ slunce"
+
+#~ msgid "Pressure"
+#~ msgstr "Tlak"
+
+#~ msgid "Humidity"
+#~ msgstr "Vlhkost"
+
+#~ msgid "UV index"
+#~ msgstr "Index UV"
+
+#~ msgid "Visibility"
+#~ msgstr "Viditelnost"
+
+#~ msgid "Wind"
+#~ msgstr "Vítr"
+
+#~ msgid "Gust"
+#~ msgstr "Nárazový vítr"

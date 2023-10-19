@@ -19,14 +19,15 @@ and installed manually, see instructions below.
 ### Using a container
 
 To build the application *for a given version*, one can build a Docker
-image and export an archive containing the ELF file from that image. For example, for a debug build of the most recent version::
+image and export an archive containing the ELF file from that image. 
+For example, for a debug build of the most recent tagged version:
 ```sh
-  VERSION=$(git tag --list 'v*' | sort --version-sort --reverse | head -n 1)
-  buildah bud -t taranis-build:${VERSION} \
-              --build-arg="VERSION=${VERSION}" \
-              --build-arg="MESON_ARGS=--buildtype=debug" .
-  podman run --rm -v ${PWD}:/opt/taranis \
-             taranis-build:$VERSION bash -c "cp builddir/artifact.zip /opt/artifact.zip"
+VERSION=$(git tag --list 'v*' | sort --version-sort --reverse | head -n 1)
+buildah bud -t taranis-build:${VERSION} \
+            --build-arg="VERSION=${VERSION}" \
+            --build-arg="MESON_ARGS=--buildtype=debug" .
+podman run --rm -v ${PWD}:/opt/taranis \
+           taranis-build:$VERSION bash -c "cp builddir/artifact.zip /opt/artifact.zip"
 ```
 
 ### Cross-compile on a Debian host
@@ -94,6 +95,19 @@ Static analysis:
 ```sh
 SCANBUILD=./SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/bin/scan-build ninja -C builddir
 ```
+
+## Translations
+
+Translations are stored in [PO files](./po) which are textual,
+editable files]. They are generated using `xgettext`.
+
+To update translation files:
+```sh
+DESTDIR=artifact ninja -C builddir taranis-update-po
+```
+
+A custom target generates a C++ file from all PO files, see
+[generate_l10n_cc.py](./scripts/generate_l10n_cc.py).
 
 ## Screenshots
 

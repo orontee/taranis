@@ -6,7 +6,15 @@
 #include <map>
 #include <string>
 
+using Translations = std::map<std::string, std::string>;
+
 namespace taranis {
+
+namespace l10n {
+extern const Translations cs_translations;
+extern const Translations fr_translations;
+extern const Translations pl_translations;
+} // namespace l10n
 
 class L10n {
 public:
@@ -22,6 +30,8 @@ public:
     const Translations *translations =
         this->select_translations(current_system_language);
     if (translations) {
+      BOOST_LOG_TRIVIAL(warning)
+          << "Found " << translations->size() << " translations to install";
       for (const auto &translation : *translations) {
         AddTranslation(translation.first.c_str(), translation.second.c_str());
       }
@@ -47,21 +57,15 @@ public:
   }
 
 private:
-  typedef std::map<std::string, std::string> Translations;
-
-  static const Translations cs_translations;
-  static const Translations fr_translations;
-  static const Translations pl_translations;
-
   std::string language;
 
   const Translations *select_translations(const char *language) const {
     if (std::strcmp(language, "cs") == 0) {
-      return &(L10n::cs_translations);
+      return &(l10n::cs_translations);
     } else if (std::strcmp(language, "fr") == 0) {
-      return &(L10n::fr_translations);
+      return &(l10n::fr_translations);
     } else if (std::strcmp(language, "pl") == 0) {
-      return &(L10n::pl_translations);
+      return &(l10n::pl_translations);
     }
     return nullptr;
   }

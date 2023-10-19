@@ -65,23 +65,11 @@ public:
                felt_temperature_text.c_str());
   }
 
-  int handle_pointer_event(int event_type, int pointer_pos_x,
-                           int pointer_pos_y) override {
-    if (event_type == EVT_POINTERUP) {
-      // this->open_current_condition_dialog();
-      // return 1;
-
-      // Currently disabled since rendering is ugly.
-      // See https://github.com/orontee/taranis/issues/16
-    }
-    return 0;
-  }
-
 private:
+  static constexpr int horizontal_padding{50};
+
   std::shared_ptr<Model> model;
   std::shared_ptr<Fonts> fonts;
-
-  const int horizontal_padding{50};
 
   static std::string get_description_text(const Condition &condition) {
     std::string description_text = condition.weather_description;
@@ -100,39 +88,6 @@ private:
 
     return text.str();
   }
-
-  void open_current_condition_dialog() {
-    if (not this->model->current_condition) {
-      return;
-    }
-    const auto condition = *(this->model->current_condition);
-    const Units units{this->model};
-
-    std::stringstream content;
-    content << GetLangText("Sunrise") << std::right << std::setw(10)
-            << format_time(condition.sunrise) << std::endl
-            << GetLangText("Sunset") << std::right << std::setw(10)
-            << format_time(condition.sunset) << std::endl
-            << GetLangText("Pressure") << std::right << std::setw(10)
-            << units.format_pressure(condition.pressure) << std::endl
-            << GetLangText("Humidity") << std::right << std::setw(10)
-            << std::to_string(condition.humidity) + "%" << std::endl
-            << GetLangText("UV index") << std::right << std::setw(10)
-            << std::fixed << std::setprecision(1) << condition.uv_index
-            << std::endl
-            << GetLangText("Visibility") << std::right << std::setw(10)
-            << units.format_distance(condition.visibility) << std::endl
-            << GetLangText("Wind") << std::right << std::setw(10)
-            << units.format_speed(condition.wind_speed) << std::endl
-            << GetLangText("Gust") << std::right << std::setw(10)
-            << units.format_speed(condition.wind_gust) << std::endl;
-
-    Dialog(ICON_INFORMATION, GetLangText("Current Weather Conditions"),
-           content.str().c_str(), GetLangText("Ok"), nullptr,
-           &handle_dialog_button_clicked);
-  }
-
-  static void handle_dialog_button_clicked(int button_index);
 };
 
 } // namespace taranis

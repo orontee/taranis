@@ -24,6 +24,7 @@ jobs:
                 git \
                 libtinfo5 \
                 meson \
+                python3-jinja2 \
                 wget
 
       - name: Generate cross-compilation configuration

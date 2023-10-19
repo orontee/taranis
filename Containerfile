@@ -10,6 +10,7 @@ RUN apt-get update -y && apt-get upgrade -y && \
       git \
       libtinfo5 \
       meson \
+      python3-jinja2 \
       wget \
       zip && \
     apt-get clean && \

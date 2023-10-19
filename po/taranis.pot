@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-17 22:41+0200\n"
+"POT-Creation-Date: 2023-10-22 11:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,53 +35,53 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: src/alerts.cc:55
+#: src/alerts.cc:54
 msgid "Duration"
 msgstr ""
 
-#: src/alerts.cc:61
+#: src/alerts.cc:58
 msgid "Source"
 msgstr ""
 
-#: src/alerts.cc:65
+#: src/alerts.cc:62
 msgid "Next alert"
 msgstr ""
 
-#: src/alerts.cc:66 src/alerts.cc:68 src/app.cc:200 src/app.cc:212
-#: src/app.cc:241 src/app.cc:363 src/currentconditionbox.h:131
+#: src/alerts.cc:63 src/alerts.cc:65 src/app.cc:199 src/app.cc:211
+#: src/app.cc:240 src/app.cc:362
 msgid "Ok"
 msgstr ""
 
-#: src/app.cc:68
+#: src/app.cc:67
 msgid "Unsupported software version"
 msgstr ""
 
-#: src/app.cc:69
+#: src/app.cc:68
 msgid ""
 "The application isn't compatible with the software version of this reader."
 msgstr ""
 
-#: src/app.cc:237
+#: src/app.cc:236
 msgid "Invalid input"
 msgstr ""
 
-#: src/app.cc:239
+#: src/app.cc:238
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr ""
 
-#: src/app.cc:304 src/app.cc:313 src/app.cc:388 src/app.cc:396
+#: src/app.cc:303 src/app.cc:312 src/app.cc:387 src/app.cc:395
 msgid "Network error"
 msgstr ""
 
-#: src/app.cc:305 src/app.cc:314 src/app.cc:389 src/app.cc:397
+#: src/app.cc:304 src/app.cc:313 src/app.cc:388 src/app.cc:396
 msgid "Failure while fetching weather data. Check your network connection."
 msgstr ""
 
-#: src/app.cc:321 src/app.cc:403
+#: src/app.cc:320 src/app.cc:402
 msgid "Service unavailable"
 msgstr ""
 
-#: src/app.cc:362
+#: src/app.cc:361
 msgid "About"
 msgstr ""
 
@@ -117,44 +117,12 @@ msgstr ""
 msgid "Custom API key"
 msgstr ""
 
-#: src/currentconditionbox.h:97
+#: src/config.cc:91
+msgid "Parameters"
+msgstr ""
+
+#: src/currentconditionbox.h:85
 msgid "Felt"
-msgstr ""
-
-#: src/currentconditionbox.h:112
-msgid "Sunrise"
-msgstr ""
-
-#: src/currentconditionbox.h:114
-msgid "Sunset"
-msgstr ""
-
-#: src/currentconditionbox.h:116
-msgid "Pressure"
-msgstr ""
-
-#: src/currentconditionbox.h:118
-msgid "Humidity"
-msgstr ""
-
-#: src/currentconditionbox.h:120
-msgid "UV index"
-msgstr ""
-
-#: src/currentconditionbox.h:123
-msgid "Visibility"
-msgstr ""
-
-#: src/currentconditionbox.h:125
-msgid "Wind"
-msgstr ""
-
-#: src/currentconditionbox.h:127
-msgid "Gust"
-msgstr ""
-
-#: src/currentconditionbox.h:130
-msgid "Current Weather Conditions"
 msgstr ""
 
 #: src/errors.h:37
@@ -186,7 +154,7 @@ msgstr ""
 msgid "Enter location"
 msgstr ""
 
-#: src/locationlist.cc:45 src/menu.cc:73
+#: src/locationlist.cc:45 src/menu.cc:76
 msgid "Locations"
 msgstr ""
 
@@ -198,42 +166,54 @@ msgstr ""
 msgid "Latitude"
 msgstr ""
 
-#: src/menu.cc:71
+#: src/menu.cc:74
 msgid "Refresh"
 msgstr ""
 
-#: src/menu.cc:75
+#: src/menu.cc:78
 msgid "Parameters…"
 msgstr ""
 
-#: src/menu.cc:77
+#: src/menu.cc:80
 msgid "About…"
 msgstr ""
 
-#: src/menu.cc:79
+#: src/menu.cc:82
 msgid "Quit"
 msgstr ""
 
-#: src/menu.cc:93
+#: src/menu.cc:96
 msgid "Empty"
 msgstr ""
 
-#: src/menu.cc:106 src/menu.cc:126
+#: src/menu.cc:109 src/menu.cc:129
 msgid "Add to favorites"
 msgstr ""
 
-#: src/menu.cc:125
+#: src/menu.cc:128
 msgid "Remove from favorites"
 msgstr ""
 
-#: src/statusbar.h:32
+#: src/statusbar.h:33
 msgid "Ongoing update…"
 msgstr ""
 
-#: src/statusbar.h:34
+#: src/statusbar.h:35
 msgid "Last update:"
 msgstr ""
 
 #: src/statusbar.h:45
 msgid "Weather data from"
+msgstr ""
+
+#: src/util.cc:191
+msgid "Today"
+msgstr ""
+
+#: src/util.cc:196
+msgid "Yesterday"
+msgstr ""
+
+#: src/util.cc:201
+msgid "Tomorrow"
 msgstr ""

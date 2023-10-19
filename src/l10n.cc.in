@@ -1,0 +1,15 @@
+#include <map>
+#include <string>
+
+using Translations = std::map<std::string, std::string>;
+
+namespace taranis {
+namespace l10n { {% for language in translations %}
+// {{language}} translations
+extern const Translations {{language}}_translations{ {% for key, value in translations[language].items() %}
+  { std::string{ {{key}} },
+    std::string{ {{value}} } },{% endfor %}
+};
+{% endfor %}
+}
+}

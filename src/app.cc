@@ -136,7 +136,6 @@ void App::load_config() {
     this->model->display_daily_forecast = start_with_daily_forecast_from_config;
   }
 
-  const std::string current_system_language = currentLang();
   const bool is_language_obsolete = this->l10n->is_language_obsolete();
   if (is_language_obsolete) {
     this->l10n->update_translations();

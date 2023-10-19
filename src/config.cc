@@ -88,7 +88,7 @@ void Config::write_secret(const std::string &name, const std::string &value) {
 void Config::open_editor() {
   BOOST_LOG_TRIVIAL(debug) << "Opening config editor";
 
-  OpenConfigEditor("Parameters", config, config_template,
+  OpenConfigEditor(GetLangText("Parameters"), config, config_template,
                    Config::config_changed, nullptr);
 }
 
