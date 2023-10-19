@@ -6,16 +6,20 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.4.0] - 2023-10-19
 
 ### Added
+
+- Display application icon and user friendly name in task manager
+  [#60](https://github.com/orontee/taranis/issues/60)
 
 - Configuration editor 
   [#2](https://github.com/orontee/taranis/issues/2)
 
 ### Changed
 
-### Removed
+- Update of translations
+  [#58](https://github.com/orontee/taranis/issues/58)
 
 ## [1.3.0] - 2023-10-14
 
