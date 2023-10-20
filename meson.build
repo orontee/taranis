@@ -35,18 +35,16 @@ compiler = meson.get_compiler('cpp')
 
 taranis_deps = [
   compiler.find_library('inkview', required: true),
-  compiler.find_library('boost_system', required: true, static: true),
-  compiler.find_library('boost_filesystem', required: true, static: true),
-  compiler.find_library('boost_date_time', required: true, static: true),
-  compiler.find_library('boost_log', required: true, static: true),
-  compiler.find_library('boost_log_setup', required: true, static: true),
-  compiler.find_library('boost_thread', required: true, static: true),
-  compiler.find_library('curl', required: true),
-  compiler.find_library('jsoncpp', required: true),
-  compiler.find_library('gsl', required: true, static: true),
+  dependency('boost',
+             modules: ['filesystem', 'date_time', 'log',
+                       'log_setup', 'system', 'thread'],
+             required: true, static: true),
+  dependency('libcurl', required: true),
+  dependency('jsoncpp', required: true),
+  dependency('gsl', required: true, static: true),
   compiler.find_library('gslcblas', required: true, static: true),
   compiler.find_library('m', required: true, static: true),
-  compiler.find_library('pthread', required: true),
+  # dependency('pthread-stubs', required: true),
 ]
 
 subdir('src')

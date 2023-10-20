@@ -23,6 +23,9 @@ cpu = 'armv7'
 endian = 'little'
 
 [properties]
+sys_root = '@pwd@/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot'
+pkg_config_libdir = ['@pwd@/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/usr/lib/pkgconfig',
+		     '@pwd@/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/lib/pkgconfig']
 needs_exe_wrapper = true
 
 ; Local Variables:
