@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <memory>
 #include <tuple>
 
@@ -26,11 +27,15 @@ private:
   static constexpr int vertical_padding{25};
   static constexpr int icon_size{100};
   static constexpr size_t visible_bars{8};
-  static constexpr size_t wind_direction_icon_size{50};
+  static constexpr int wind_direction_icon_size{50};
 
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
+
+  std::map<int, const ibitmap *> rotated_direction_icons;
+
+  const ibitmap *const direction_icon;
 
   int bar_width;
 
@@ -64,7 +69,7 @@ private:
 
   void draw_labels() const;
 
-  void draw_frame_and_values() const;
+  void draw_frame_and_values();
 
   void draw_temperature_curve() const;
 
@@ -72,7 +77,7 @@ private:
 
   void request_change_display_forecast_display();
 
-  const ibitmap *get_direction_icon(int degree) const;
+  const ibitmap *rotate_direction_icon(int degree);
 };
 
 } // namespace taranis

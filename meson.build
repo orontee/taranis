@@ -21,6 +21,7 @@ taranis_deps = [
   dependency('gsl', required: true, static: true),
   compiler.find_library('gslcblas', required: true, static: true),
   compiler.find_library('m', required: true, static: true),
+  dependency('opencv', required: true),
 ]
 
 i18n = import('i18n')

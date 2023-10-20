@@ -12,6 +12,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- There used to be 8 wind direction icons. To improve precision, a
+  single icon is now rotated according to wind
+  direction. [#63](https://github.com/orontee/taranis/issues/63)
+
 - Fix possible missing translations
   [#64](https://github.com/orontee/taranis/issues/64)
 

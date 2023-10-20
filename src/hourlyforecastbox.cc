@@ -8,9 +8,12 @@
 #include <inkview.h>
 #include <map>
 #include <memory>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/opencv.hpp>
 #include <sstream>
 
 #include "events.h"
+#include "opencv2/imgproc/imgproc.hpp"
 #include "units.h"
 #include "util.h"
 
@@ -21,7 +24,10 @@ HourlyForecastBox::HourlyForecastBox(int pos_x, int pos_y, int width,
                                      std::shared_ptr<Icons> icons,
                                      std::shared_ptr<Fonts> fonts)
     : Widget{pos_x, pos_y, width, height}, model{model}, icons{icons},
-      fonts{fonts} {
+      fonts{fonts}, direction_icon{BitmapStretchProportionally(
+                        icons->get("direction"),
+                        HourlyForecastBox::wind_direction_icon_size,
+                        HourlyForecastBox::wind_direction_icon_size)} {
   auto normal_font = this->fonts->get_normal_font();
   auto small_bold_font = this->fonts->get_small_bold_font();
   auto tiny_font = this->fonts->get_tiny_font();
@@ -171,7 +177,7 @@ void HourlyForecastBox::draw_labels() const {
   }
 }
 
-void HourlyForecastBox::draw_frame_and_values() const {
+void HourlyForecastBox::draw_frame_and_values() {
   DrawLine(this->frame_start_x, this->frame_start_y, this->bounding_box.w,
            this->frame_start_y, LGRAY);
   DrawLine(this->frame_start_x, this->frame_start_y + this->bars_height,
@@ -221,11 +227,11 @@ void HourlyForecastBox::draw_frame_and_values() const {
       DrawString(bar_center_x - StringWidth(wind_speed_text.c_str()) / 2.0,
                  this->wind_speed_y, wind_speed_text.c_str());
 
-      const auto direction_icon =
-          this->get_direction_icon(forecast.wind_degree);
-      if (direction_icon) {
+      const auto rotated_icon =
+          this->rotate_direction_icon(forecast.wind_degree);
+      if (rotated_icon) {
         DrawBitmap(bar_center_x - this->wind_direction_icon_size / 2.0,
-                   this->wind_direction_icon_y, direction_icon);
+                   this->wind_direction_icon_y, rotated_icon);
       }
 
       const auto humidity_text =
@@ -363,42 +369,54 @@ void HourlyForecastBox::request_change_display_forecast_display() {
             CustomEvent::change_daily_forecast_display, 0);
 }
 
-std::map<int, const ibitmap *> stretched_icons;
+std::map<int, std::vector<unsigned char>> rotated_icons;
 
-const ibitmap *HourlyForecastBox::get_direction_icon(int degree) const {
-  const auto division = std::div(degree % 360, 45);
-  const auto normalized_degree = (division.rem > (45 / 2))
-                                     ? 45 * ((division.quot + 1) % 8)
-                                     : 45 * (division.quot % 8);
-  BOOST_LOG_TRIVIAL(debug) << "Wind direction " << degree << " normalized to "
-                           << normalized_degree;
-  ;
-  auto found = stretched_icons.find(normalized_degree);
-  if (found == std::end(stretched_icons)) {
-    const auto source_icon_name =
-        "direction-" + std::to_string(normalized_degree);
-    const auto source_icon = this->icons->get(source_icon_name);
-    if (source_icon) {
-      const auto icon = BitmapStretchProportionally(
-          source_icon, HourlyForecastBox::wind_direction_icon_size,
-          HourlyForecastBox::wind_direction_icon_size);
-      if (icon != nullptr) {
-        const auto [position, inserted] =
-            stretched_icons.insert({normalized_degree, icon});
-        if (inserted) {
-          found = position;
-        } else {
-          BOOST_LOG_TRIVIAL(debug) << "Failed to cache stretched bitmap";
-        }
-      } else {
-        BOOST_LOG_TRIVIAL(error) << "Failed to stretch icon";
-      }
-    } else {
-      BOOST_LOG_TRIVIAL(warning) << "No icon named " << source_icon_name;
-    }
-  } else {
-    BOOST_LOG_TRIVIAL(debug) << "Stretched bitmap found in cache";
+const ibitmap *HourlyForecastBox::rotate_direction_icon(int degree) {
+  BOOST_LOG_TRIVIAL(debug) << "Rotating direction icon, " << degree;
+  const auto arrow_angle = (180 - degree);
+  // The parameter degree is an angle measure in degrees, interpreted
+  // as the direction where the wind is blowing FROM (0 means North,
+  // 90 East), but the icon arrow must show where the wind is blowing
+  // TO. Whats more OpenCV rotation is counter-clockwise for positive
+  // angle values.
+  auto found = rotated_icons.find(degree);
+  if (found == rotated_icons.end()) {
+    auto *const icon_to_rotate = const_cast<ibitmap *>(this->direction_icon);
+    const cv::Mat image{icon_to_rotate->height, icon_to_rotate->width, CV_8UC1,
+                        icon_to_rotate->data};
+    const cv::Point2f center{
+        static_cast<float>((icon_to_rotate->width - 1) / 2.0),
+        static_cast<float>((icon_to_rotate->height - 1) / 2.0)};
+    const cv::Mat rotation_matrix =
+        cv::getRotationMatrix2D(center, arrow_angle, 1.0);
+    cv::Mat rotated_image{icon_to_rotate->height, icon_to_rotate->width,
+                          CV_8UC1};
+    cv::warpAffine(image, rotated_image, rotation_matrix, image.size(),
+                   cv::INTER_LINEAR, cv::BORDER_CONSTANT, 0xFF);
+
+    BOOST_LOG_TRIVIAL(debug) << "Rotated image has size " << rotated_image.cols
+                             << "×" << rotated_image.rows;
+
+    const auto header_size = offsetof(ibitmap, data);
+    const auto data_size = icon_to_rotate->scanline * icon_to_rotate->height;
+    auto &rotated_bitmap_data = rotated_icons[degree];
+    rotated_bitmap_data.resize(header_size + data_size);
+    BOOST_LOG_TRIVIAL(debug) << "Vector data for rotated icon added to cache";
+
+    BOOST_LOG_TRIVIAL(debug)
+        << "Copying " << header_size << " bytes of header data";
+    std::memcpy(rotated_bitmap_data.data(), icon_to_rotate, header_size);
+    // headers are the same for both bitmap
+
+    BOOST_LOG_TRIVIAL(debug)
+        << "Copying " << data_size << " bytes of image data";
+    std::memcpy(rotated_bitmap_data.data() + header_size, rotated_image.data,
+                data_size);
+
+    return reinterpret_cast<ibitmap *>(rotated_bitmap_data.data());
   }
-  return found != std::end(stretched_icons) ? found->second : nullptr;
+  BOOST_LOG_TRIVIAL(debug) << "Rotated icon data found in cache";
+
+  return reinterpret_cast<ibitmap *>(found->second.data());
 }
 } // namespace taranis
