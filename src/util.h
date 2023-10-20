@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cctype>
-#include <chrono>
 #include <ctime>
 #include <locale>
 #include <memory>
@@ -13,8 +12,6 @@
 
 #include "errors.h"
 #include "model.h"
-
-using namespace std::chrono_literals;
 
 namespace taranis {
 std::vector<double>
@@ -57,31 +54,15 @@ inline void rtrim(std::string &s) {
       s.end());
 }
 
-std::string format_time(const std::time_t &time, bool full = false);
+std::string format_time(const TimePoint &time, bool round = false);
 
-inline std::string format_date(const std::time_t &time) {
-  return DateStr(time);
-}
+std::string format_day(const TimePoint &time);
 
-std::string format_day(const std::tm *time);
+std::string format_short_date(const TimePoint &time);
 
-std::string format_short_date(const std::tm *time);
+std::string format_full_date(const TimePoint &time);
 
-inline std::string format_duration(const std::time_t &start,
-                                   const std::time_t &end) {
-  const auto duration =
-      std::chrono::duration_cast<std::chrono::hours>((end - start) * 1s);
-  if (duration < 1h) {
-    return "<1h";
-  }
-  std::stringstream duration_text;
-  duration_text << static_cast<int>(
-                       std::chrono::duration_cast<std::chrono::hours>(
-                           (end - start) * 1s)
-                           .count())
-                << "h";
-  return duration_text.str();
-}
+std::string format_duration(const TimePoint &start, const TimePoint &end);
 
 inline std::string format_location(const std::string &town,
                                    const std::string &country) {

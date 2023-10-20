@@ -3,6 +3,7 @@
 #include "config.h"
 #include "errors.h"
 #include "events.h"
+#include "experimental/optional"
 #include "inkview.h"
 #include "model.h"
 #include "units.h"
@@ -228,7 +229,7 @@ int App::handle_custom_event(int param_one, int param_two) {
     }
     return 1;
   } else if (param_one == CustomEvent::model_updated) {
-    this->model->refresh_date = std::time(nullptr);
+    this->model->refresh_date = std::chrono::system_clock::now();
     this->history->update_history_maybe();
     this->show();
   } else if (param_one == CustomEvent::warning_emitted) {
@@ -252,7 +253,7 @@ void App::clear_model_weather_conditions() {
   this->model->hourly_forecast.clear();
   this->model->daily_forecast.clear();
   this->model->alerts.clear();
-  this->model->refresh_date = 0;
+  this->model->refresh_date = std::experimental::nullopt;
 }
 
 bool App::must_skip_data_refresh() const {

@@ -5,6 +5,7 @@
 #include <memory>
 #include <sstream>
 
+#include "experimental/optional"
 #include "fonts.h"
 #include "model.h"
 #include "util.h"
@@ -28,12 +29,11 @@ public:
     this->fill_bounding_box();
 
     std::stringstream first_row_text;
-    if (this->model->refresh_date == 0) {
+    if (this->model->refresh_date == std::experimental::nullopt) {
       first_row_text << GetLangText("Ongoing update…");
     } else {
       first_row_text << GetLangText("Last update:") << " "
-                     << format_date(this->model->refresh_date) << ", "
-                     << format_time(this->model->refresh_date);
+                     << format_full_date(*this->model->refresh_date);
     }
 
     SetFont(this->font.get(), BLACK);

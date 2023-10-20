@@ -7,6 +7,8 @@
 #include <cmath>
 #include <cstring>
 
+using namespace std::chrono_literals;
+
 std::vector<double>
 taranis::normalize_temperatures(const std::vector<Condition> &conditions,
                                 const int amplitude) {
@@ -105,40 +107,94 @@ double taranis::max_number(double value_one, double value_two) {
 }
 
 constexpr char time_format[] = "%H:%M";
-constexpr char full_date_format[] = "%R (%F)";
+constexpr char full_date_format[] = "%R";
 static char formatted_time[100];
 
-std::string taranis::format_time(const std::time_t &time, bool full) {
-  auto format = full ? full_date_format : time_format;
-  auto calendar_time = std::localtime(&time);
+std::string taranis::format_full_date(const TimePoint &time) {
+  auto format = full_date_format;
+  time_t time_since_epoch{static_cast<long>(
+      std::chrono::duration_cast<std::chrono::seconds>(time - TimePoint{})
+          .count())};
+  auto calendar_time = std::localtime(&time_since_epoch);
   if (calendar_time == nullptr) {
     return "";
   }
   std::strftime(formatted_time, sizeof(formatted_time), format, calendar_time);
   // TODO should use GetLangTime() to use user "locale" but don't know
   // how it works…
+
+  return std::string{DateStr(time_since_epoch)} + ", " +
+         std::string{formatted_time};
+}
+
+std::string taranis::format_time(const TimePoint &time, bool round) {
+  auto format = time_format;
+  time_t time_since_epoch{static_cast<long>(
+      std::chrono::duration_cast<std::chrono::seconds>(time - TimePoint{})
+          .count())};
+  auto calendar_time = std::localtime(&time_since_epoch);
+  if (calendar_time == nullptr) {
+    return "";
+  }
+  if (round and calendar_time->tm_min != 0) {
+    if (calendar_time->tm_min > 30) {
+      calendar_time->tm_hour += 1;
+      calendar_time->tm_min = 0;
+      calendar_time->tm_sec = 0;
+    } else {
+      calendar_time->tm_min = 0;
+      calendar_time->tm_sec = 0;
+    }
+  }
+  std::strftime(formatted_time, sizeof(formatted_time), format, calendar_time);
+  // Should use GetLangTime() to use user "locale" but don't know how
+  // it works…
   return formatted_time;
 }
 
 const char *weekdays[7] = {"@Sun", "@Mon", "@Tue", "@Wed",
                            "@Thu", "@Fri", "@Sat"};
 
-std::string taranis::format_day(const std::tm *time) {
-  if (time == nullptr) {
+std::string taranis::format_day(const TimePoint &time) {
+  time_t time_since_epoch{static_cast<long>(
+      std::chrono::duration_cast<std::chrono::seconds>(time - TimePoint{})
+          .count())};
+  auto calendar_time = std::localtime(&time_since_epoch);
+  if (calendar_time == nullptr) {
     return "";
   }
-  return GetLangText(weekdays[time->tm_wday]);
+  return GetLangText(weekdays[calendar_time->tm_wday]);
+}
+
+std::string taranis::format_duration(const TimePoint &start,
+                                     const TimePoint &end) {
+  const auto duration =
+      std::chrono::duration_cast<std::chrono::hours>((end - start));
+  if (duration < 1h) {
+    return "<1h";
+  }
+  std::stringstream duration_text;
+  duration_text << static_cast<int>(
+                       std::chrono::duration_cast<std::chrono::hours>(
+                           (end - start))
+                           .count())
+                << "h";
+  return duration_text.str();
 }
 
 const char *months[12] = {"@Jan", "@Feb", "@Mar", "@Apr", "@May", "@Jun",
                           "@Jul", "@Aug", "@Sep", "@Oct", "@Nov", "@Dec"};
 
-std::string taranis::format_short_date(const std::tm *time) {
-  if (time == nullptr) {
+std::string taranis::format_short_date(const TimePoint &time) {
+  time_t time_since_epoch{static_cast<long>(
+      std::chrono::duration_cast<std::chrono::seconds>(time - TimePoint{})
+          .count())};
+  auto calendar_time = std::localtime(&time_since_epoch);
+  if (calendar_time == nullptr) {
     return "";
   }
-  return std::to_string(time->tm_mday) + " " +
-         GetLangText(months[time->tm_mon]);
+  return std::to_string(calendar_time->tm_mday) + " " +
+         GetLangText(months[calendar_time->tm_mon]);
 }
 
 std::pair<std::string, std::string>

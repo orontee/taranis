@@ -122,9 +122,8 @@ private:
           const auto &forecast = this->model->daily_forecast[row_index];
 
           if (column_index == DailyForecastBox::WeekDayColumn) {
-            const auto calendar_time = std::localtime(&forecast.date);
             column_content[row_index] = std::pair<std::string, std::string>{
-                format_day(calendar_time), format_short_date(calendar_time)};
+                format_day(forecast.date), format_short_date(forecast.date)};
           } else if (column_index == DailyForecastBox::IconColumn) {
             column_content[row_index] =
                 this->icons->get(forecast.weather_icon_name);

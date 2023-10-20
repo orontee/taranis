@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <ctime>
 #include <experimental/optional>
@@ -11,6 +12,8 @@
 namespace std {
 template <class T> using optional = std::experimental::optional<T>;
 }
+
+using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
 
 namespace taranis {
 
@@ -114,9 +117,9 @@ enum Weather {
 
 // Can contain current weather data or hourly forecast
 struct Condition {
-  std::time_t date;
-  std::time_t sunrise;
-  std::time_t sunset;
+  TimePoint date;
+  TimePoint sunrise;
+  TimePoint sunset;
   double temperature;
   double felt_temperature;
   int pressure;
@@ -138,11 +141,11 @@ struct Condition {
 
 // Can contain daily forecast
 struct DailyCondition {
-  std::time_t date;
-  std::time_t sunrise;
-  std::time_t sunset;
-  std::time_t moonrise;
-  std::time_t moonset;
+  TimePoint date;
+  TimePoint sunrise;
+  TimePoint sunset;
+  TimePoint moonrise;
+  TimePoint moonset;
   double moon_phase;
   int pressure;
   int humidity;
@@ -174,8 +177,8 @@ struct DailyCondition {
 struct Alert {
   std::string sender;
   std::string event;
-  std::time_t start_date;
-  std::time_t end_date;
+  TimePoint start_date;
+  TimePoint end_date;
   std::string description;
 };
 
@@ -187,10 +190,10 @@ struct HistoryItem {
 struct Model {
   std::string source{"OpenWeather"};
   UnitSystem unit_system{standard};
-  std::time_t refresh_date;
+  std::optional<TimePoint> refresh_date;
   Location location;
 
-  std::optional<Condition> current_condition;
+  std::optional<Condition> current_condition = std::experimental::nullopt;
   std::vector<Condition> hourly_forecast;
   std::vector<DailyCondition> daily_forecast;
 

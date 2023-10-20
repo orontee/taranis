@@ -12,6 +12,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- For whatever reason, on some devices, forecast timestamps did not
+  correspond to exact hours. Those timestamps are now rounded to the
+  nearest hour.
+  [#32](https://github.com/orontee/taranis/issues/32)
+
 ### Removed
 
 ## [1.4.0] - 2023-10-19

@@ -165,7 +165,7 @@ private:
 
         SetFont(tiny_font.get(), BLACK);
 
-        const auto time_text = format_time(forecast.date);
+        const auto time_text = format_time(forecast.date, true);
         DrawString(bar_center_x - StringWidth(time_text.c_str()) / 2.0,
                    this->time_y, time_text.c_str());
 

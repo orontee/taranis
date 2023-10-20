@@ -2,6 +2,8 @@
 #include "experimental/optional"
 #include "model.h"
 
+using namespace std::chrono_literals;
+
 namespace taranis {
 
 // NAN is written as null by jsoncpp, this will fix deserialization
@@ -26,9 +28,15 @@ Json::Value to_json(const Location &location) {
 
 Json::Value to_json(const Condition &condition) {
   Json::Value value;
-  value["date"] = static_cast<int64_t>(condition.date);
-  value["sunrise"] = static_cast<int64_t>(condition.sunrise);
-  value["sunset"] = static_cast<int64_t>(condition.sunset);
+  value["date"] = std::chrono::duration_cast<std::chrono::seconds>(
+                      condition.date.time_since_epoch())
+                      .count();
+  value["sunrise"] = std::chrono::duration_cast<std::chrono::seconds>(
+                         condition.sunrise.time_since_epoch())
+                         .count();
+  value["sunset"] = std::chrono::duration_cast<std::chrono::seconds>(
+                        condition.sunset.time_since_epoch())
+                        .count();
   value["temperature"] = condition.temperature;
   value["felt_temperature"] = condition.felt_temperature;
   value["pressure"] = condition.pressure;
@@ -52,11 +60,21 @@ Json::Value to_json(const Condition &condition) {
 
 Json::Value to_json(const DailyCondition &condition) {
   Json::Value value;
-  value["date"] = static_cast<int64_t>(condition.date);
-  value["sunrise"] = static_cast<int64_t>(condition.sunrise);
-  value["sunset"] = static_cast<int64_t>(condition.sunset);
-  value["moonrise"] = static_cast<int64_t>(condition.moonrise);
-  value["moonset"] = static_cast<int64_t>(condition.moonset);
+  value["date"] = std::chrono::duration_cast<std::chrono::seconds>(
+                      condition.date.time_since_epoch())
+                      .count();
+  value["sunrise"] = std::chrono::duration_cast<std::chrono::seconds>(
+                         condition.sunrise.time_since_epoch())
+                         .count();
+  value["sunset"] = std::chrono::duration_cast<std::chrono::seconds>(
+                        condition.sunset.time_since_epoch())
+                        .count();
+  value["moonrise"] = std::chrono::duration_cast<std::chrono::seconds>(
+                          condition.moonrise.time_since_epoch())
+                          .count();
+  value["moonset"] = std::chrono::duration_cast<std::chrono::seconds>(
+                         condition.moonset.time_since_epoch())
+                         .count();
   value["moon_phase"] = condition.moon_phase;
   value["pressure"] = condition.pressure;
   value["humidity"] = condition.humidity;
@@ -91,8 +109,12 @@ Json::Value to_json(const Alert &alert) {
   Json::Value value;
   value["sender"] = alert.sender;
   value["event"] = alert.event;
-  value["start_date"] = static_cast<int64_t>(alert.start_date);
-  value["end_date"] = static_cast<int64_t>(alert.end_date);
+  value["start_date"] = std::chrono::duration_cast<std::chrono::seconds>(
+                            alert.start_date.time_since_epoch())
+                            .count();
+  value["end_date"] = std::chrono::duration_cast<std::chrono::seconds>(
+                          alert.end_date.time_since_epoch())
+                          .count();
   value["description"] = alert.description;
   return value;
 }
@@ -109,7 +131,13 @@ Json::Value to_json(const Model &model) {
   Json::Value value;
   value["source"] = model.source;
   value["unit_system"] = model.unit_system;
-  value["refresh_date"] = static_cast<int64_t>(model.refresh_date);
+  if (model.refresh_date == std::experimental::nullopt) {
+    value["refresh_date"] = Json::Value::null;
+  } else {
+    value["refresh_date"] = std::chrono::duration_cast<std::chrono::seconds>(
+                                model.refresh_date->time_since_epoch())
+                                .count();
+  }
   value["location"] = to_json(model.location);
 
   if (model.current_condition) {
@@ -141,12 +169,9 @@ void update_from_json(Location &location, const Json::Value &value) {
 }
 
 void update_from_json(Condition &condition, const Json::Value &value) {
-  condition.date =
-      static_cast<std::time_t>(value.get("date", 0).asLargestInt());
-  condition.sunrise =
-      static_cast<std::time_t>(value.get("sunrise", 0).asLargestInt());
-  condition.sunset =
-      static_cast<std::time_t>(value.get("sunset", 0).asLargestInt());
+  condition.date = TimePoint{value.get("date", 0).asInt64() * 1s};
+  condition.sunrise = TimePoint{value.get("sunrise", 0).asInt64() * 1s};
+  condition.sunset = TimePoint{value.get("sunset", 0).asInt64() * 1s};
   condition.temperature = deserialize_possible_null(value["temperature"]);
   condition.felt_temperature =
       deserialize_possible_null(value["felt_temperature"]);
@@ -170,16 +195,11 @@ void update_from_json(Condition &condition, const Json::Value &value) {
 }
 
 void update_from_json(DailyCondition &condition, const Json::Value &value) {
-  condition.date =
-      static_cast<std::time_t>(value.get("date", 0).asLargestInt());
-  condition.sunrise =
-      static_cast<std::time_t>(value.get("sunrise", 0).asLargestInt());
-  condition.sunset =
-      static_cast<std::time_t>(value.get("sunset", 0).asLargestInt());
-  condition.moonrise =
-      static_cast<std::time_t>(value.get("moonrise", 0).asLargestInt());
-  condition.moonset =
-      static_cast<std::time_t>(value.get("moonset", 0).asLargestInt());
+  condition.date = TimePoint{value.get("date", 0).asInt64() * 1s};
+  condition.sunrise = TimePoint{value.get("sunrise", 0).asInt64() * 1s};
+  condition.sunset = TimePoint{value.get("sunset", 0).asInt64() * 1s};
+  condition.moonrise = TimePoint{value.get("moonrise", 0).asInt64() * 1s};
+  condition.moonset = TimePoint{value.get("moonset", 0).asInt64() * 1s};
   condition.moon_phase = deserialize_possible_null(value["moon_phase"]);
   condition.pressure = value.get("pressure", 0).asInt();
   condition.humidity = value.get("humidity", 0).asInt();
@@ -223,10 +243,8 @@ void update_from_json(DailyCondition &condition, const Json::Value &value) {
 void update_from_json(Alert &alert, const Json::Value &value) {
   alert.sender = value.get("sender", "").asString();
   alert.event = value.get("event", "").asString();
-  alert.start_date =
-      static_cast<std::time_t>(value.get("start_date", 0).asLargestInt());
-  alert.end_date =
-      static_cast<std::time_t>(value.get("end_date", 0).asLargestInt());
+  alert.start_date = TimePoint{value.get("start_date", 0).asInt64() * 1s};
+  alert.end_date = TimePoint{value.get("end_date", 0).asInt64() * 1s};
   alert.description = value.get("description", "").asString();
 }
 
@@ -242,8 +260,7 @@ void update_from_json(Model &model, const Json::Value &value) {
   model.source = value.get("source", "OpenWeather").asString();
   model.unit_system =
       static_cast<UnitSystem>(value.get("unit_system", standard).asInt());
-  model.refresh_date =
-      static_cast<std::time_t>(value.get("refresh_date", 0).asLargestInt());
+  model.refresh_date = TimePoint{value.get("refresh_date", 0).asInt64() * 1s};
 
   auto &location = model.location;
   const auto &location_value = value["location"];

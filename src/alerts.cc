@@ -47,16 +47,13 @@ void taranis::AlertsButton::open_dialog_maybe() {
   if (not alert.event.empty()) {
     alert_text << alert.event << std::endl << std::endl;
   }
-  alert_text << alert.description << std::endl << std::endl;
-  if (alert.start_date) {
-    alert_text << GetLangText("Start") << " "
-               << format_time(alert.start_date, true) << std::endl;
-    if (alert.end_date) {
-      alert_text << GetLangText("Duration") << " "
-                 << format_duration(alert.start_date, alert.end_date)
-                 << std::endl;
-    }
-  }
+  alert_text << alert.description << std::endl
+             << std::endl
+             << GetLangText("Start") << " "
+             << format_full_date(alert.start_date) << std::endl
+             << GetLangText("Duration") << " "
+             << format_duration(alert.start_date, alert.end_date) << std::endl;
+
   if (not alert.sender.empty()) {
     alert_text << GetLangText("Source") << " " << alert.sender;
   }

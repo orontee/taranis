@@ -1,5 +1,6 @@
 #include "menu.h"
 
+#include "experimental/optional"
 #include "inkview.h"
 #include "util.h"
 
@@ -164,7 +165,7 @@ void MenuButton::open_menu() {
   if (not this->menu_handler) {
     return;
   }
-  if (this->model->refresh_date == 0) {
+  if (this->model->refresh_date == std::experimental::nullopt) {
     // don't popup menu while refreshing due to display update bug
     // after menu dialog is hidden... See issue #51
     return;

@@ -1,10 +1,13 @@
 #include "service.h"
 
 #include <boost/log/trivial.hpp>
+#include <chrono>
 
 #include "errors.h"
 #include "inkview.h"
 #include "util.h"
+
+using namespace std::chrono_literals;
 
 namespace taranis {
 
@@ -173,11 +176,9 @@ Json::Value Service::send_get_request(const std::string &url) {
 Condition Service::extract_condition(const Json::Value &value) {
   BOOST_LOG_TRIVIAL(debug) << "Extracting weather condition from JSON value";
 
-  const auto date = static_cast<time_t>(value.get("dt", 0).asLargestInt());
-  const auto sunrise =
-      static_cast<time_t>(value.get("sunrise", 0).asLargestInt());
-  const auto sunset =
-      static_cast<time_t>(value.get("sunset", 0).asLargestInt());
+  const TimePoint date{value.get("dt", 0).asInt64() * 1s};
+  const TimePoint sunrise{value.get("sunrise", 0).asInt64() * 1s};
+  const TimePoint sunset{value.get("sunset", 0).asInt64() * 1s};
   const auto temperature = value.get("temp", NAN).asDouble();
   const auto felt_temperature = value.get("feels_like", NAN).asDouble();
   const auto pressure = value.get("pressure", 0).asInt();
@@ -234,15 +235,11 @@ Condition Service::extract_condition(const Json::Value &value) {
 DailyCondition Service::extract_daily_condition(const Json::Value &value) {
   BOOST_LOG_TRIVIAL(debug) << "Extracting daily condition from JSON value";
 
-  const auto date = static_cast<time_t>(value.get("dt", 0).asLargestInt());
-  const auto sunrise =
-      static_cast<time_t>(value.get("sunrise", 0).asLargestInt());
-  const auto sunset =
-      static_cast<time_t>(value.get("sunset", 0).asLargestInt());
-  const auto moonrise =
-      static_cast<time_t>(value.get("moonrise", 0).asLargestInt());
-  const auto moonset =
-      static_cast<time_t>(value.get("moonset", 0).asLargestInt());
+  const TimePoint date{value.get("dt", 0).asInt64() * 1s};
+  const TimePoint sunrise{value.get("sunrise", 0).asInt64() * 1s};
+  const TimePoint sunset{value.get("sunset", 0).asInt64() * 1s};
+  const TimePoint moonrise{value.get("moonrise", 0).asInt64() * 1s};
+  const TimePoint moonset{value.get("moonset", 0).asInt64() * 1s};
   const auto moon_phase = value.get("moon_phase", NAN).asDouble();
   const auto pressure = value.get("pressure", 0).asInt();
   const auto humidity = value.get("humidity", 0).asInt();
@@ -304,12 +301,11 @@ std::vector<Alert> Service::extract_alerts(const Json::Value &value) {
   std::vector<Alert> alerts;
 
   for (auto &alert_value : value) {
-    const Alert alert{
-        alert_value.get("sender_name", "").asString(),
-        alert_value.get("event", "").asString(),
-        static_cast<time_t>(alert_value.get("start", 0).asLargestInt()),
-        static_cast<time_t>(alert_value.get("end", 0).asLargestInt()),
-        alert_value.get("description", "").asString()};
+    const Alert alert{alert_value.get("sender_name", "").asString(),
+                      alert_value.get("event", "").asString(),
+                      TimePoint{alert_value.get("start", 0).asInt64() * 1s},
+                      TimePoint{alert_value.get("end", 0).asInt64() * 1s},
+                      alert_value.get("description", "").asString()};
     alerts.push_back(alert);
   }
   return alerts;
