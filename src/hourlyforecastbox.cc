@@ -2,8 +2,12 @@
 
 #include <boost/log/trivial.hpp>
 #include <cmath>
+#include <cstdlib>
+#include <cstring>
 #include <gsl/gsl_interp.h>
 #include <inkview.h>
+#include <map>
+#include <memory>
 #include <sstream>
 
 #include "events.h"
@@ -31,16 +35,19 @@ HourlyForecastBox::HourlyForecastBox(int pos_x, int pos_y, int width,
 
   this->date_labels_start_y = this->frame_start_y + this->vertical_padding / 2;
   this->time_y = this->date_labels_start_y + tiny_font->height;
-  this->icon_y = this->time_y + tiny_font->height;
+  this->weather_icon_y = this->time_y + tiny_font->height;
   this->temperature_y = this->frame_start_y + this->bars_height -
                         this->vertical_padding / 2 - normal_font->height -
-                        2 * tiny_font->height;
-  this->wind_speed_y = this->temperature_y + normal_font->height;
+                        2 * tiny_font->height -
+                        HourlyForecastBox::wind_direction_icon_size;
+  this->wind_direction_icon_y = this->temperature_y + normal_font->height;
+  this->wind_speed_y =
+      this->wind_direction_icon_y + HourlyForecastBox::wind_direction_icon_size;
   this->humidity_y = this->wind_speed_y + tiny_font->height;
 
   this->curve_y_offset = this->temperature_y - this->vertical_padding;
-  this->curve_height = this->temperature_y - this->icon_y - this->icon_size -
-                       2 * this->vertical_padding;
+  this->curve_height = this->temperature_y - this->weather_icon_y -
+                       this->icon_size - 2 * this->vertical_padding;
 }
 
 void HourlyForecastBox::show() {
@@ -198,7 +205,7 @@ void HourlyForecastBox::draw_frame_and_values() const {
       DrawString(bar_center_x - StringWidth(time_text.c_str()) / 2.0,
                  this->time_y, time_text.c_str());
 
-      DrawBitmap(bar_center_x - this->icon_size / 2.0, this->icon_y,
+      DrawBitmap(bar_center_x - this->icon_size / 2.0, this->weather_icon_y,
                  this->icons->get(forecast.weather_icon_name));
 
       SetFont(small_bold_font.get(), BLACK);
@@ -213,6 +220,13 @@ void HourlyForecastBox::draw_frame_and_values() const {
       const auto wind_speed_text = units.format_speed(forecast.wind_speed);
       DrawString(bar_center_x - StringWidth(wind_speed_text.c_str()) / 2.0,
                  this->wind_speed_y, wind_speed_text.c_str());
+
+      const auto direction_icon =
+          this->get_direction_icon(forecast.wind_degree);
+      if (direction_icon) {
+        DrawBitmap(bar_center_x - this->wind_direction_icon_size / 2.0,
+                   this->wind_direction_icon_y, direction_icon);
+      }
 
       const auto humidity_text =
           std::to_string(static_cast<int>(forecast.humidity)) + "%";
@@ -347,5 +361,44 @@ void HourlyForecastBox::request_change_display_forecast_display() {
   const auto event_handler = GetEventHandler();
   SendEvent(event_handler, EVT_CUSTOM,
             CustomEvent::change_daily_forecast_display, 0);
+}
+
+std::map<int, const ibitmap *> stretched_icons;
+
+const ibitmap *HourlyForecastBox::get_direction_icon(int degree) const {
+  const auto division = std::div(degree % 360, 45);
+  const auto normalized_degree = (division.rem > (45 / 2))
+                                     ? 45 * ((division.quot + 1) % 8)
+                                     : 45 * (division.quot % 8);
+  BOOST_LOG_TRIVIAL(debug) << "Wind direction " << degree << " normalized to "
+                           << normalized_degree;
+  ;
+  auto found = stretched_icons.find(normalized_degree);
+  if (found == std::end(stretched_icons)) {
+    const auto source_icon_name =
+        "direction-" + std::to_string(normalized_degree);
+    const auto source_icon = this->icons->get(source_icon_name);
+    if (source_icon) {
+      const auto icon = BitmapStretchProportionally(
+          source_icon, HourlyForecastBox::wind_direction_icon_size,
+          HourlyForecastBox::wind_direction_icon_size);
+      if (icon != nullptr) {
+        const auto [position, inserted] =
+            stretched_icons.insert({normalized_degree, icon});
+        if (inserted) {
+          found = position;
+        } else {
+          BOOST_LOG_TRIVIAL(debug) << "Failed to cache stretched bitmap";
+        }
+      } else {
+        BOOST_LOG_TRIVIAL(error) << "Failed to stretch icon";
+      }
+    } else {
+      BOOST_LOG_TRIVIAL(warning) << "No icon named " << source_icon_name;
+    }
+  } else {
+    BOOST_LOG_TRIVIAL(debug) << "Stretched bitmap found in cache";
+  }
+  return found != std::end(stretched_icons) ? found->second : nullptr;
 }
 } // namespace taranis

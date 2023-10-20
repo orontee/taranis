@@ -13,6 +13,14 @@ extern const ibitmap icon_10n_2x;
 extern const ibitmap icon_11n_2x;
 extern const ibitmap icon_13n_2x;
 extern const ibitmap icon_50n_2x;
+extern const ibitmap icon_direction_0;
+extern const ibitmap icon_direction_45;
+extern const ibitmap icon_direction_90;
+extern const ibitmap icon_direction_135;
+extern const ibitmap icon_direction_180;
+extern const ibitmap icon_direction_225;
+extern const ibitmap icon_direction_270;
+extern const ibitmap icon_direction_315;
 extern const ibitmap icon_display_settings;
 extern const ibitmap icon_favorite;
 extern const ibitmap icon_key;
@@ -54,6 +62,30 @@ public:
     }
     if (name == "50d" or name == "50n") {
       return const_cast<ibitmap *>(&icon_50n_2x);
+    }
+    if (name == "direction-0") {
+      return const_cast<ibitmap *>(&icon_direction_0);
+    }
+    if (name == "direction-45") {
+      return const_cast<ibitmap *>(&icon_direction_45);
+    }
+    if (name == "direction-90") {
+      return const_cast<ibitmap *>(&icon_direction_90);
+    }
+    if (name == "direction-135") {
+      return const_cast<ibitmap *>(&icon_direction_135);
+    }
+    if (name == "direction-180") {
+      return const_cast<ibitmap *>(&icon_direction_180);
+    }
+    if (name == "direction-225") {
+      return const_cast<ibitmap *>(&icon_direction_225);
+    }
+    if (name == "direction-270") {
+      return const_cast<ibitmap *>(&icon_direction_270);
+    }
+    if (name == "direction-315") {
+      return const_cast<ibitmap *>(&icon_direction_315);
     }
     if (name == "favorite") {
       return const_cast<ibitmap *>(&icon_favorite);

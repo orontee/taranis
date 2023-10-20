@@ -26,6 +26,7 @@ private:
   static constexpr int vertical_padding{25};
   static constexpr int icon_size{100};
   static constexpr size_t visible_bars{8};
+  static constexpr size_t wind_direction_icon_size{50};
 
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
@@ -38,9 +39,10 @@ private:
 
   int date_labels_start_y;
   int time_y;
-  int icon_y;
+  int weather_icon_y;
   int temperature_y;
   int wind_speed_y;
+  int wind_direction_icon_y;
   int humidity_y;
 
   int bars_height;
@@ -69,6 +71,8 @@ private:
   void draw_precipitation_histogram() const;
 
   void request_change_display_forecast_display();
+
+  const ibitmap *get_direction_icon(int degree) const;
 };
 
 } // namespace taranis

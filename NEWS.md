@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Display icon for wind direction
+  [#19](https://github.com/orontee/taranis/issues/19)
+
 ### Changed
 
 - The hourly forecast view used to display forecasts for 24 hours. It
