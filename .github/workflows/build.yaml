@@ -64,9 +64,16 @@ jobs:
                 --buildtype=release \
                 --strip
           DESTDIR=artifact ninja -C builddir install
+          sha256sum artifact/taranis.app > taranis.app.sha256
 
       - name: Upload archive
         uses: actions/upload-artifact@v3
         with:
           path: builddir/artifact
+          if-no-files-found: error
+
+      - name: Upload application hash
+        uses: actions/upload-artifact@v3
+        with:
+          path: builddir/taranis.app.sha256
           if-no-files-found: error
