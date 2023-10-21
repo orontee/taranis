@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <tuple>
 
 #include "fonts.h"
 #include "icons.h"
@@ -24,17 +25,18 @@ public:
 private:
   static constexpr int vertical_padding{25};
   static constexpr int icon_size{100};
+  static constexpr size_t visible_bars{8};
 
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
 
-  size_t visible_bars;
   int bar_width;
 
   int frame_start_x;
   int frame_start_y;
 
+  int date_labels_start_y;
   int time_y;
   int icon_y;
   int temperature_y;
@@ -53,7 +55,12 @@ private:
 
   bool handle_key_release(int key) override;
 
+  std::tuple<std::string, int>
+  get_date_label_properties(size_t bar_index) const;
+
   void draw_and_update();
+
+  void draw_labels() const;
 
   void draw_frame_and_values() const;
 

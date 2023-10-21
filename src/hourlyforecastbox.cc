@@ -18,20 +18,19 @@ HourlyForecastBox::HourlyForecastBox(int pos_x, int pos_y, int width,
                                      std::shared_ptr<Fonts> fonts)
     : Widget{pos_x, pos_y, width, height}, model{model}, icons{icons},
       fonts{fonts} {
-  this->visible_bars = 8;
+  auto normal_font = this->fonts->get_normal_font();
+  auto small_bold_font = this->fonts->get_small_bold_font();
+  auto tiny_font = this->fonts->get_tiny_font();
 
-  this->bar_width = static_cast<int>(std::ceil(width / this->visible_bars));
-
+  this->bar_width =
+      static_cast<int>(std::ceil(width / HourlyForecastBox::visible_bars));
   this->bars_height = this->bounding_box.h;
 
   this->frame_start_x = this->bounding_box.x;
   this->frame_start_y = this->bounding_box.y;
 
-  auto normal_font = this->fonts->get_normal_font();
-  auto small_bold_font = this->fonts->get_small_bold_font();
-  auto tiny_font = this->fonts->get_tiny_font();
-
-  this->time_y = this->frame_start_y + this->vertical_padding / 2;
+  this->date_labels_start_y = this->frame_start_y;
+  this->time_y = this->date_labels_start_y + tiny_font->height;
   this->icon_y = this->time_y + tiny_font->height;
   this->temperature_y = this->frame_start_y + this->bars_height -
                         this->vertical_padding / 2 - normal_font->height -
@@ -47,6 +46,7 @@ HourlyForecastBox::HourlyForecastBox(int pos_x, int pos_y, int width,
 void HourlyForecastBox::show() {
   this->fill_bounding_box();
 
+  this->draw_labels();
   this->draw_frame_and_values();
   this->draw_precipitation_histogram();
   this->draw_temperature_curve();
@@ -77,9 +77,10 @@ bool HourlyForecastBox::handle_key_release(int key) {
 
 void HourlyForecastBox::increase_forecast_offset() {
   const size_t max_forecast_offset{this->model->hourly_forecast.size() -
-                                   this->visible_bars};
+                                   HourlyForecastBox::visible_bars};
   const auto updated_forecast_offset =
-      std::min(this->forecast_offset + this->visible_bars, max_forecast_offset);
+      std::min(this->forecast_offset + HourlyForecastBox::visible_bars,
+               max_forecast_offset);
   if (updated_forecast_offset != this->forecast_offset) {
     this->forecast_offset = updated_forecast_offset;
     BOOST_LOG_TRIVIAL(debug)
@@ -93,8 +94,8 @@ void HourlyForecastBox::increase_forecast_offset() {
 void HourlyForecastBox::decrease_forecast_offset() {
   const size_t min_forecast_offset{0};
   const auto updated_forecast_offset =
-      (this->forecast_offset > this->visible_bars)
-          ? this->forecast_offset - this->visible_bars
+      (this->forecast_offset > HourlyForecastBox::visible_bars)
+          ? this->forecast_offset - HourlyForecastBox::visible_bars
           : min_forecast_offset;
 
   // don't use std::max since we're working with unsigned integers!
@@ -116,6 +117,53 @@ void HourlyForecastBox::draw_and_update() {
                 this->bounding_box.w, this->bounding_box.h);
 }
 
+std::tuple<std::string, int>
+HourlyForecastBox::get_date_label_properties(size_t bar_index) const {
+  const int forecast_index = this->forecast_offset + bar_index;
+  if (forecast_index < this->model->hourly_forecast.size()) {
+    const auto forecast = this->model->hourly_forecast[forecast_index];
+    if (bar_index == 0) {
+      return {format_date(forecast.date, true),
+              std::min(static_cast<int>(HourlyForecastBox::visible_bars),
+                       remaining_hours(forecast.date)) *
+                  this->bar_width};
+    } else if (bar_index == HourlyForecastBox::visible_bars - 1) {
+      return {format_date(forecast.date, true),
+              std::min(static_cast<int>(HourlyForecastBox::visible_bars),
+                       (passed_hours(forecast.date) + 1)) *
+                  this->bar_width};
+    }
+  }
+  return {"", 0};
+}
+
+void HourlyForecastBox::draw_labels() const {
+  auto tiny_font = this->fonts->get_tiny_font();
+  SetFont(tiny_font.get(), BLACK);
+
+  const auto [left_label_text, left_label_width] =
+      this->get_date_label_properties(0);
+  if (not left_label_text.empty() and left_label_width > 0) {
+    if (StringWidth(left_label_text.c_str()) < left_label_width) {
+      DrawTextRect(this->bounding_box.x, this->date_labels_start_y,
+                   left_label_width, tiny_font->height, left_label_text.c_str(),
+                   ALIGN_CENTER);
+    };
+  }
+
+  const auto [right_label_text, right_label_width] =
+      this->get_date_label_properties(HourlyForecastBox::visible_bars - 1);
+  if (not right_label_text.empty() and right_label_width > 0 and
+      right_label_text != left_label_text) {
+    if (StringWidth(right_label_text.c_str()) < right_label_width) {
+      DrawTextRect(this->bounding_box.x + this->bounding_box.w -
+                       right_label_width,
+                   this->date_labels_start_y, right_label_width,
+                   tiny_font->height, right_label_text.c_str(), ALIGN_CENTER);
+    };
+  }
+}
+
 void HourlyForecastBox::draw_frame_and_values() const {
   DrawLine(this->frame_start_x, this->frame_start_y, this->bounding_box.w,
            this->frame_start_y, LGRAY);
@@ -127,17 +175,22 @@ void HourlyForecastBox::draw_frame_and_values() const {
   auto small_bold_font = this->fonts->get_small_bold_font();
   auto tiny_font = this->fonts->get_tiny_font();
 
-  const auto separator_start_y = this->frame_start_y;
   const auto separator_stop_y = this->frame_start_y + this->bars_height;
 
   const Units units{this->model};
 
-  for (size_t bar_index = 0; bar_index < this->visible_bars; ++bar_index) {
+  for (size_t bar_index = 0; bar_index < HourlyForecastBox::visible_bars;
+       ++bar_index) {
     const auto bar_center_x = (bar_index + 1.0 / 2) * this->bar_width;
+    auto separator_start_y = this->frame_start_y;
 
     const auto forecast_index = this->forecast_offset + bar_index;
     if (forecast_index < this->model->hourly_forecast.size()) {
       const auto forecast = this->model->hourly_forecast[forecast_index];
+
+      if (remaining_hours(forecast.date) > 1) {
+        separator_start_y += tiny_font->height;
+      }
 
       SetFont(tiny_font.get(), BLACK);
 
@@ -167,7 +220,7 @@ void HourlyForecastBox::draw_frame_and_values() const {
                  this->humidity_y, humidity_text.c_str());
     }
 
-    if (bar_index < this->visible_bars - 1) {
+    if (bar_index < HourlyForecastBox::visible_bars - 1) {
       const auto separator_x = (bar_index + 1) * this->bar_width;
       DrawLine(separator_x, separator_start_y, separator_x, separator_stop_y,
                LGRAY);
@@ -243,7 +296,8 @@ void HourlyForecastBox::draw_precipitation_histogram() const {
 
   SetFont(tiny_font.get(), DGRAY);
 
-  for (size_t bar_index = 0; bar_index < this->visible_bars; ++bar_index) {
+  for (size_t bar_index = 0; bar_index < HourlyForecastBox::visible_bars;
+       ++bar_index) {
     const auto forecast_index = this->forecast_offset + bar_index;
     if (forecast_index < this->model->hourly_forecast.size()) {
       const auto forecast = this->model->hourly_forecast[forecast_index];

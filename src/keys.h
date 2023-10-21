@@ -75,7 +75,7 @@ protected:
     if (found != this->consumers.end()) {
       this->consumers.erase(found);
       if (this->last_event_consumer == consumer) {
-	this->last_event_consumer.reset();
+        this->last_event_consumer.reset();
       }
     }
   }

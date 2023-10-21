@@ -54,15 +54,26 @@ inline void rtrim(std::string &s) {
       s.end());
 }
 
+// 17:05
 std::string format_time(const TimePoint &time, bool round = false);
 
+// Saturday
 std::string format_day(const TimePoint &time);
 
+// 21 Oct
 std::string format_short_date(const TimePoint &time);
 
+// Saturday, 21st October 2023, Today or Tomorrow
+std::string format_date(const TimePoint &time, bool shortcut = false);
+
+// Saturday, 21st October 2023, 17:05
 std::string format_full_date(const TimePoint &time);
 
 std::string format_duration(const TimePoint &start, const TimePoint &end);
+
+int remaining_hours(const TimePoint &time);
+
+int passed_hours(const TimePoint &time);
 
 inline std::string format_location(const std::string &town,
                                    const std::string &country) {
