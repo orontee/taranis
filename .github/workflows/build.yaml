@@ -64,7 +64,7 @@ jobs:
                 --buildtype=release \
                 --strip
           DESTDIR=artifact ninja -C builddir install
-          sha256sum artifact/taranis.app > taranis.app.sha256
+          sha256sum builddir/artifact/taranis.app > builddir/taranis.app.sha256
 
       - name: Upload archive
         uses: actions/upload-artifact@v3
