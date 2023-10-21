@@ -33,12 +33,14 @@ void MenuButton::set_menu_handler(iv_menuhandler handler) {
   this->menu_handler = handler;
 }
 
-int MenuButton::handle_key_pressed(int key) {
+bool MenuButton::handle_key_press(int key) { return key == IV_KEY_MENU; }
+
+bool MenuButton::handle_key_release(int key) {
   if (key == IV_KEY_MENU) {
     this->open_menu();
-    return 1;
+    return true;
   }
-  return 0;
+  return false;
 }
 
 std::pair<int, int> MenuButton::get_menu_position() const {

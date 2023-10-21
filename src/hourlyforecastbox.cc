@@ -1,5 +1,6 @@
 #include "hourlyforecastbox.h"
 
+#include <boost/log/trivial.hpp>
 #include <cmath>
 #include <gsl/gsl_interp.h>
 #include <inkview.h>
@@ -51,17 +52,27 @@ void HourlyForecastBox::show() {
   this->draw_temperature_curve();
 }
 
-int HourlyForecastBox::handle_key_pressed(int key) {
+bool HourlyForecastBox::handle_key_press(int key) {
+  return (key == IV_KEY_PREV or key == IV_KEY_NEXT);
+}
+
+bool HourlyForecastBox::handle_key_repeat(int key) {
+  if (key == IV_KEY_PREV or key == IV_KEY_NEXT) {
+    this->request_change_display_forecast_display();
+    return true;
+  }
+  return false;
+}
+
+bool HourlyForecastBox::handle_key_release(int key) {
   if (key == IV_KEY_PREV) {
     this->decrease_forecast_offset();
-    return 1;
-  }
-
-  if (key == IV_KEY_NEXT) {
+    return true;
+  } else if (key == IV_KEY_NEXT) {
     this->increase_forecast_offset();
-    return 1;
+    return true;
   }
-  return 0;
+  return false;
 }
 
 void HourlyForecastBox::increase_forecast_offset() {
@@ -71,12 +82,11 @@ void HourlyForecastBox::increase_forecast_offset() {
       std::min(this->forecast_offset + this->visible_bars, max_forecast_offset);
   if (updated_forecast_offset != this->forecast_offset) {
     this->forecast_offset = updated_forecast_offset;
+    BOOST_LOG_TRIVIAL(debug)
+        << "Forecast offset increased to " << this->forecast_offset;
     this->draw_and_update();
   } else {
-    this->forecast_offset = 0;
-    const auto event_handler = GetEventHandler();
-    SendEvent(event_handler, EVT_CUSTOM,
-              CustomEvent::change_daily_forecast_display, 0);
+    this->request_change_display_forecast_display();
   }
 }
 
@@ -91,11 +101,11 @@ void HourlyForecastBox::decrease_forecast_offset() {
 
   if (updated_forecast_offset != this->forecast_offset) {
     this->forecast_offset = updated_forecast_offset;
+    BOOST_LOG_TRIVIAL(debug)
+        << "Forecast offset decreased to " << this->forecast_offset;
     this->draw_and_update();
   } else {
-    const auto event_handler = GetEventHandler();
-    SendEvent(event_handler, EVT_CUSTOM,
-              CustomEvent::change_daily_forecast_display, 0);
+    this->request_change_display_forecast_display();
   }
 }
 
@@ -276,4 +286,12 @@ void HourlyForecastBox::draw_precipitation_histogram() const {
   }
 }
 
+void HourlyForecastBox::request_change_display_forecast_display() {
+  BOOST_LOG_TRIVIAL(debug) << "Requesting a change of forecast display";
+  this->forecast_offset = 0;
+
+  const auto event_handler = GetEventHandler();
+  SendEvent(event_handler, EVT_CUSTOM,
+            CustomEvent::change_daily_forecast_display, 0);
+}
 } // namespace taranis

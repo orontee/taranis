@@ -2,8 +2,10 @@
 
 #include <inkview.h>
 
+#include "keys.h"
+
 namespace taranis {
-struct Widget {
+struct Widget : public KeyEventConsumer {
 
   Widget() {}
 
@@ -53,8 +55,6 @@ struct Widget {
     // true
     return 0;
   }
-
-  virtual int handle_key_pressed(int key) { return 0; }
 
 protected:
   irect bounding_box;

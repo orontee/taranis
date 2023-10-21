@@ -8,6 +8,7 @@
 #include "dailyforecastbox.h"
 #include "events.h"
 #include "history.h"
+#include "keys.h"
 #include "locationbox.h"
 #include "locationlist.h"
 #include "menu.h"
@@ -17,7 +18,8 @@
 namespace taranis {
 
 Ui::Ui(std::shared_ptr<Model> model)
-    : model{model}, icons{new Icons{}}, fonts{new Fonts{}} {
+    : KeyEventDispatcher{}, model{model}, icons{new Icons{}}, fonts{
+                                                                  new Fonts{}} {
   SetPanelType(0);
   SetOrientation(0);
 
@@ -72,6 +74,10 @@ Ui::Ui(std::shared_ptr<Model> model)
   this->children.push_back(this->alerts_button);
   this->children.push_back(status_bar);
 
+  // A forecast widget will be pushed back by select_forecast_widget()
+
+  this->register_key_event_consumer(menu_button);
+
   this->swipe_detector.set_bounding_box(
       this->hourly_forecast_box->get_bounding_box());
 }
@@ -96,22 +102,6 @@ int Ui::handle_pointer_event(int event_type, int pointer_pos_x,
     if (Ui::is_on_widget(pointer_pos_x, pointer_pos_y, widget)) {
       return widget->handle_pointer_event(event_type, pointer_pos_x,
                                           pointer_pos_y);
-    }
-  }
-  return 0;
-}
-
-int Ui::handle_key_pressed(int key) {
-  if (key == IV_KEY_HOME) {
-    const auto event_handler = GetEventHandler();
-    SendEvent(event_handler, EVT_EXIT, 0, 0);
-    return 1;
-  }
-
-  for (auto widget : this->children) {
-    const auto handled = widget->handle_key_pressed(key);
-    if (handled) {
-      return 1;
     }
   }
   return 0;
@@ -159,9 +149,11 @@ void Ui::select_forecast_widget() {
                             : this->hourly_forecast_box;
   if (this->children.back() == widget_to_hide) {
     this->children.pop_back();
+    this->unregister_key_event_consumer(widget_to_hide);
   }
   if (this->children.back() != widget_to_display) {
     this->children.push_back(widget_to_display);
+    this->register_key_event_consumer(widget_to_display);
   }
 }
 

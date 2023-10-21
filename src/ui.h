@@ -9,6 +9,7 @@
 #include "fonts.h"
 #include "hourlyforecastbox.h"
 #include "icons.h"
+#include "keys.h"
 #include "locationlist.h"
 #include "model.h"
 #include "swipe.h"
@@ -19,7 +20,7 @@ template <class T> using optional = std::experimental::optional<T>;
 
 namespace taranis {
 
-class Ui {
+class Ui : public KeyEventDispatcher {
 public:
   // ⚠️ Must be instantiated after application received the EVT_INIT
   // event otherwise opening fonts, etc. fails
@@ -30,8 +31,6 @@ public:
 
   int handle_pointer_event(int event_type, int pointer_pos_x,
                            int pointer_pos_y);
-
-  int handle_key_pressed(int key);
 
   void display_alert() { this->alerts_button->open_dialog_maybe(); }
 

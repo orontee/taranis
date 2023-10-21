@@ -48,9 +48,7 @@ int App::process_event(int event_type, int param_one, int param_two) {
       return this->ui->handle_pointer_event(event_type, param_one, param_two);
     }
     if (ISKEYEVENT(event_type)) {
-      if (event_type == EVT_KEYPRESS) {
-        return this->ui->handle_key_pressed(param_one);
-      }
+      return this->ui->handle_key_event(event_type, param_one);
     }
   }
   return 0;

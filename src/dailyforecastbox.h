@@ -37,16 +37,6 @@ public:
     this->draw_frame();
   }
 
-  int handle_key_pressed(int key) override {
-    if (key == IV_KEY_PREV or key == IV_KEY_NEXT) {
-      const auto event_handler = GetEventHandler();
-      SendEvent(event_handler, EVT_CUSTOM,
-                CustomEvent::change_daily_forecast_display, 0);
-      return 1;
-    }
-    return 0;
-  }
-
 private:
   static constexpr size_t row_count{8};
   static constexpr size_t column_count{9};
@@ -86,6 +76,20 @@ private:
       column_text_flags{ALIGN_LEFT,  ALIGN_CENTER, ALIGN_RIGHT,
                         ALIGN_RIGHT, ALIGN_RIGHT,  ALIGN_RIGHT,
                         ALIGN_RIGHT, ALIGN_RIGHT,  ALIGN_RIGHT};
+
+  bool handle_key_press(int key) override {
+    return (key == IV_KEY_PREV or key == IV_KEY_NEXT);
+  }
+
+  bool handle_key_release(int key) override {
+    if (key == IV_KEY_PREV or key == IV_KEY_NEXT) {
+      const auto event_handler = GetEventHandler();
+      SendEvent(event_handler, EVT_CUSTOM,
+                CustomEvent::change_daily_forecast_display, 0);
+      return true;
+    }
+    return false;
+  }
 
   std::pair<std::string, std::string>
   generate_precipitation_column_content(const DailyCondition &forecast) const {
