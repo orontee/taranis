@@ -12,6 +12,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- The hourly forecast view used to display forecasts for 24 hours. It
+  has been increased to 48 hours. Labels have been added to identify
+  dates.
+  [#62](https://github.com/orontee/taranis/issues/62)
+
 - For whatever reason, on some devices, forecast timestamps did not
   correspond to exact hours. Those timestamps are now rounded to the
   nearest hour.
