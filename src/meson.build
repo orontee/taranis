@@ -25,6 +25,7 @@ sources = [about_cc] + files(
   'convert.cc',
   'currentconditionbox.cc',
   'events.cc',
+  'hourlyforecastbox.cc',
   'http.cc',
   'locationbox.cc',
   'locationlist.cc',
