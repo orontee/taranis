@@ -74,7 +74,8 @@ public:
   }
 
   void increase_forecast_offset() {
-    const size_t max_forecast_offset{24 - this->visible_bars};
+    const size_t max_forecast_offset{this->model->hourly_forecast.size() -
+                                     this->visible_bars};
     const auto updated_forecast_offset = std::min(
         this->forecast_offset + this->visible_bars, max_forecast_offset);
     if (updated_forecast_offset != this->forecast_offset) {
