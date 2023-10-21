@@ -29,7 +29,7 @@ HourlyForecastBox::HourlyForecastBox(int pos_x, int pos_y, int width,
   this->frame_start_x = this->bounding_box.x;
   this->frame_start_y = this->bounding_box.y;
 
-  this->date_labels_start_y = this->frame_start_y;
+  this->date_labels_start_y = this->frame_start_y + this->vertical_padding / 2;
   this->time_y = this->date_labels_start_y + tiny_font->height;
   this->icon_y = this->time_y + tiny_font->height;
   this->temperature_y = this->frame_start_y + this->bars_height -
@@ -182,14 +182,14 @@ void HourlyForecastBox::draw_frame_and_values() const {
   for (size_t bar_index = 0; bar_index < HourlyForecastBox::visible_bars;
        ++bar_index) {
     const auto bar_center_x = (bar_index + 1.0 / 2) * this->bar_width;
-    auto separator_start_y = this->frame_start_y;
+    auto separator_start_y = this->time_y;
 
     const auto forecast_index = this->forecast_offset + bar_index;
     if (forecast_index < this->model->hourly_forecast.size()) {
       const auto forecast = this->model->hourly_forecast[forecast_index];
 
-      if (remaining_hours(forecast.date) > 1) {
-        separator_start_y += tiny_font->height;
+      if (remaining_hours(forecast.date) == 1) {
+        separator_start_y = this->frame_start_y;
       }
 
       SetFont(tiny_font.get(), BLACK);

@@ -96,5 +96,10 @@ const L10n::Translations L10n::fr_translations{
     {"Visibility", "Visibilité"},
     {"Wind", "Vent"},
     {"Gust", "Rafale"},
+
+    // utils.cc
+    {"Today", "Aujourd'hui"},
+    {"Yesterday", "Hier"},
+    {"Tomorrow", "Demain"},
 };
 } // namespace taranis
