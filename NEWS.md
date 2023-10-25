@@ -6,7 +6,7 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [ 1.5.0 ] - 2023-10-26
 
 ### Added
 
@@ -14,6 +14,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   [#19](https://github.com/orontee/taranis/issues/19)
 
 ### Changed
+
+- New translation infrastructure. Hopefully it should not have any
+  effect visible to the end user.
+  [#61](https://github.com/orontee/taranis/issues/61)
 
 - The hourly forecast view used to display forecasts for 24 hours. It
   has been increased to 48 hours. Labels have been added to identify
@@ -24,8 +28,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   correspond to exact hours. Those timestamps are now rounded to the
   nearest hour.
   [#32](https://github.com/orontee/taranis/issues/32)
-
-### Removed
 
 ## [1.4.0] - 2023-10-19
 
