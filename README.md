@@ -28,13 +28,26 @@ e-book reader.
 
 * Translations (English, Czech, French, Polish)
 
-Weather data is provided by [OpenWeather](https://openweathermap.org).
+Weather data is provided by [OpenWeather](https://openweather.co.uk).
 
 Positive feedback were received for Vivilo Touch HD Plus, PocketBook
 Touch HD 3, InkPad 3 and InkPad Color 2 (The application should be
 compatible with hardware running software version ≥6).
 
 Consult the [NEWS file](NEWS.md) for notable changes between versions.
+
+### Privacy policy
+
+Note that the only external service called by Taranis is provided by
+[OpenWeather](https://openweather.co.uk) and [their privacy
+policy](https://openweather.co.uk/privacy-policy) when one is using
+their APIs is quite clear:
+
+>  Please note, that we do not collect or store any parameters from
+>  your API requests, such as locations/ZIP-codes/city names, units
+>  measurements, data format, etc. When you make API requests, we also
+>  do not collect or store your IP address, user agent and other API
+>  request parameters.
 
 ## Install
 
