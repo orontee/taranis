@@ -12,6 +12,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Fix possible missing translations
+  [#64](https://github.com/orontee/taranis/issues/64)
+
 ### Removed
 
 ## [ 1.5.0 ] - 2023-10-26
