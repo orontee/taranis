@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List
 import argparse
 import re
 
@@ -24,9 +24,25 @@ def load_translations(po_files: Path) -> Dict[str, Dict[str, str]]:
         print(f"Loading translations for language {language!r}")
 
         language_translations: Dict[str, str] = {}
+
+        def store_translation(msgid_tokens: List[str],
+                              msgstr_tokens: List[str]):
+            msgid = ("".join(msgid_tokens)
+                     .replace('""', "")
+                     .replace("\n", "")
+                     .replace('"', "\""))
+            if len(msgid) == 0:
+                return
+
+            msgstr = ("".join(msgstr_tokens)
+                      .replace('""', "")
+                      .replace("\n", "")
+                      .replace('"', "\""))
+            language_translations[msgid] = msgstr
+
         with open(po_file, "r") as fh:
-            msgid_tokens = []
-            msgstr_tokens = []
+            msgid_tokens: List[str] = []
+            msgstr_tokens: List[str] = []
             defining: Optional[str] = None
             for line in fh:
                 if line.startswith("#"):
@@ -44,17 +60,15 @@ def load_translations(po_files: Path) -> Dict[str, Dict[str, str]]:
                     if defining is None:
                         continue
                     defining = None
-                    msgid = "".join(msgid_tokens).replace('""', "").replace("\n", "").replace('"', "\"")
-                    msgstr = "".join(msgstr_tokens).replace('""', "").replace("\n", "")
-                    if len(msgid) == 0:
-                        continue
+                    store_translation(msgid_tokens, msgstr_tokens)
 
-                    language_translations[msgid] = msgstr
-                    defining = None
                 elif defining == "msgid":
                     msgid_tokens.append(line.strip())
                 elif defining == "msgstr":
                     msgstr_tokens.append(line.strip())
+
+            if defining is not None:
+                store_translation(msgid_tokens, msgstr_tokens)
 
         translations[language] = language_translations
 
