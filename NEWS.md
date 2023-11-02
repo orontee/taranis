@@ -6,9 +6,7 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### Added
+## [ 1.6.0 ] - 2023-11-01
 
 ### Changed
 
@@ -18,8 +16,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Fix possible missing translations
   [#64](https://github.com/orontee/taranis/issues/64)
-
-### Removed
 
 ## [ 1.5.0 ] - 2023-10-26
 
