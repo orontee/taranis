@@ -9,6 +9,8 @@
 #define OK_BUTTON_INDEX 0
 #define NEXT_ALERT_BUTTON_INDEX 1
 
+namespace taranis {
+
 static size_t alert_index{0};
 static size_t alert_count{0};
 
@@ -16,18 +18,7 @@ inline bool is_next_alert_button_at(int button_index) {
   return (alert_index + 1 < alert_count) ? button_index == 1 : false;
 }
 
-void taranis::alert_dialog_handler(int button_index) {
-  if (is_next_alert_button_at(button_index)) {
-    const auto event_handler = GetEventHandler();
-    ++alert_index;
-    SendEvent(event_handler, EVT_CUSTOM, CustomEvent::display_alert, 0);
-  } else {
-    alert_index = 0;
-  }
-  CloseDialog();
-}
-
-void taranis::AlertsButton::open_dialog_maybe() {
+void AlertsButton::open_dialog_maybe() {
   alert_count = this->model->alerts.size();
 
   if (alert_count == 0) {
@@ -67,3 +58,15 @@ void taranis::AlertsButton::open_dialog_maybe() {
   Dialog(ICON_WARNING, dialog_title.c_str(), alert_text.str().c_str(),
          first_button_text, second_button_text, &alert_dialog_handler);
 }
+
+void AlertsButton::alert_dialog_handler(int button_index) {
+  if (is_next_alert_button_at(button_index)) {
+    const auto event_handler = GetEventHandler();
+    ++alert_index;
+    SendEvent(event_handler, EVT_CUSTOM, CustomEvent::display_alert, 0);
+  } else {
+    alert_index = 0;
+  }
+  CloseDialog();
+}
+} // namespace taranis

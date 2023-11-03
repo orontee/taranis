@@ -10,8 +10,6 @@
 
 namespace taranis {
 
-void alert_dialog_handler(int button_index);
-
 class AlertsButton : public Button {
 public:
   AlertsButton(int icon_size, std::shared_ptr<Model> model,
@@ -29,5 +27,7 @@ protected:
 private:
   std::shared_ptr<Model> model;
   std::shared_ptr<ifont> font;
+
+  static void alert_dialog_handler(int button_index);
 };
 } // namespace taranis
