@@ -9,7 +9,7 @@ enum CustomEvent {
   change_daily_forecast_display,
   search_location,
   change_location,
-  display_alert,
+  open_alert_viewer,
   open_config_editor,
   refresh_data,
   select_location_from_history,

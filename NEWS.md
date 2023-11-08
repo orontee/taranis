@@ -12,6 +12,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Alerts were displayed in a standard dialog. A widget dedicated to
+  alert viewing has been implemented to improve
+  readability. [#66](https://github.com/orontee/taranis/issues/66)
+
 ### Removed
 
 ## [ 1.6.0 ] - 2023-11-01

@@ -30,8 +30,8 @@ msgid "Credits"
 msgstr "Poděkování"
 
 #: src/alerts.cc:43
-msgid "Alert"
-msgstr "Výstraha"
+msgid "ALERT"
+msgstr "VÝSTRAHA"
 
 #: src/alerts.cc:52
 msgid "Start"

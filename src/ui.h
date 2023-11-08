@@ -34,7 +34,7 @@ public:
   int handle_pointer_event(int event_type, int pointer_pos_x,
                            int pointer_pos_y);
 
-  void display_alert() { this->alerts_button->open_dialog_maybe(); }
+  void display_alert() { this->alert_viewer->open(); }
 
   void switch_forecast_widget();
 
@@ -52,7 +52,7 @@ private:
 
   SwipeDetector swipe_detector;
 
-  std::shared_ptr<AlertsButton> alerts_button;
+  std::shared_ptr<AlertViewer> alert_viewer;
 
   std::shared_ptr<HourlyForecastBox> hourly_forecast_box;
   std::shared_ptr<Widget> daily_forecast_box;

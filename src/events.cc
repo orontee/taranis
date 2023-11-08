@@ -10,8 +10,8 @@ std::string taranis::format_custom_event_param(int param) {
   if (param == CustomEvent::change_location) {
     return "change_location";
   }
-  if (param == CustomEvent::display_alert) {
-    return "display_alert";
+  if (param == CustomEvent::open_alert_viewer) {
+    return "open_alert_viewer";
   }
   if (param == CustomEvent::open_config_editor) {
     return "open_config_editor";

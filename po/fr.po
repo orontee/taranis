@@ -30,8 +30,8 @@ msgid "Credits"
 msgstr "Crédits"
 
 #: src/alerts.cc:43
-msgid "Alert"
-msgstr "Alerte"
+msgid "ALERT"
+msgstr "ALERTE"
 
 #: src/alerts.cc:52
 msgid "Start"

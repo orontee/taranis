@@ -28,7 +28,7 @@ msgid "Credits"
 msgstr ""
 
 #: src/alerts.cc:43
-msgid "Alert"
+msgid "ALERT"
 msgstr ""
 
 #: src/alerts.cc:52

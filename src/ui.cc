@@ -56,22 +56,25 @@ Ui::Ui(std::shared_ptr<Model> model)
   const auto &current_condition_bounding_box =
       current_condition_box->get_bounding_box();
 
-  this->alerts_button = std::make_shared<AlertsButton>(
-      Ui::alert_icon_size, model, this->icons, this->fonts);
-  this->alerts_button->set_pos_x(ScreenWidth() - alerts_button->get_width() -
-                                 Ui::button_margin);
-  this->alerts_button->set_pos_y(current_condition_bounding_box.y +
-                                 current_condition_bounding_box.h / 2 -
-                                 this->alerts_button->get_height() / 2 -
-                                 CurrentConditionBox::bottom_padding);
+  alert_viewer = std::make_shared<AlertViewer>(model, this->fonts);
+
+  auto alerts_button = std::make_shared<AlertsButton>(
+      Ui::alert_icon_size, model, this->icons, alert_viewer);
+  alerts_button->set_pos_x(ScreenWidth() - alerts_button->get_width() -
+                           Ui::button_margin);
+  alerts_button->set_pos_y(
+      current_condition_bounding_box.y + current_condition_bounding_box.h / 2 -
+      alerts_button->get_height() / 2 - CurrentConditionBox::bottom_padding);
 
   this->location_selector =
       std::make_shared<LocationSelector>(50, this->fonts, this->icons);
 
+  this->modals.push_back(alert_viewer);
+
   this->children.push_back(location_box);
   this->children.push_back(menu_button);
   this->children.push_back(current_condition_box);
-  this->children.push_back(this->alerts_button);
+  this->children.push_back(alerts_button);
   this->children.push_back(status_bar);
 
   // A forecast widget will be pushed back by select_forecast_widget()
@@ -88,6 +91,7 @@ void Ui::paint() {
   this->check_modal_visibility();
 
   if (this->visible_modal) {
+    BOOST_LOG_TRIVIAL(debug) << "Painting visible modal";
     this->visible_modal->paint();
   } else {
     this->select_forecast_widget();
@@ -151,8 +155,8 @@ bool Ui::is_on_widget(int pointer_pos_x, int pointer_pos_y,
 
 void Ui::check_modal_visibility() {
   const auto found_visible_modal =
-    std::find_if(this->modals.begin(), this->modals.end(),
-                 [](const auto &modal) { return modal->is_visible(); });
+      std::find_if(this->modals.begin(), this->modals.end(),
+                   [](const auto &modal) { return modal->is_visible(); });
 
   if (found_visible_modal != this->modals.end()) {
     if (this->visible_modal != *found_visible_modal) {

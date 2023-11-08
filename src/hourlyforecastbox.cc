@@ -96,7 +96,7 @@ void HourlyForecastBox::increase_forecast_offset() {
     this->forecast_offset = updated_forecast_offset;
     BOOST_LOG_TRIVIAL(debug)
         << "Forecast offset increased to " << this->forecast_offset;
-    this->draw_and_update();
+    this->paint_and_update_screen();
   } else {
     this->request_change_display_forecast_display();
   }
@@ -115,17 +115,10 @@ void HourlyForecastBox::decrease_forecast_offset() {
     this->forecast_offset = updated_forecast_offset;
     BOOST_LOG_TRIVIAL(debug)
         << "Forecast offset decreased to " << this->forecast_offset;
-    this->draw_and_update();
+    this->paint_and_update_screen();
   } else {
     this->request_change_display_forecast_display();
   }
-}
-
-void HourlyForecastBox::draw_and_update() {
-  this->paint();
-
-  PartialUpdate(this->bounding_box.x, this->bounding_box.y,
-                this->bounding_box.w, this->bounding_box.h);
 }
 
 std::tuple<std::string, int>
