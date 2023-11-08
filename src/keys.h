@@ -34,11 +34,15 @@ struct KeyEventDispatcher {
     std::shared_ptr<KeyEventConsumer> event_consumer{nullptr};
     if (event_type == EVT_KEYPRESS) {
       for (auto consumer : this->consumers) {
+        if (not this->is_consumer_active(consumer)) {
+          continue;
+        }
         if (consumer->handle_key_press(key)) {
           event_consumer = consumer;
         }
       }
-    } else if (this->last_event_consumer) {
+    } else if (this->last_event_consumer and
+               this->is_consumer_active(this->last_event_consumer)) {
       if (event_type == EVT_KEYREPEAT) {
         if (this->last_event_consumer->handle_key_repeat(key)) {
           event_consumer = this->last_event_consumer;
@@ -78,6 +82,10 @@ protected:
         this->last_event_consumer.reset();
       }
     }
+  }
+
+  virtual bool is_consumer_active(std::shared_ptr<KeyEventConsumer> consumer) {
+    return true;
   }
 
 private:

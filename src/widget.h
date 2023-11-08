@@ -37,6 +37,10 @@ struct Widget : public KeyEventConsumer {
 
   int get_height() const { return this->bounding_box.h; }
 
+  virtual bool is_modal() const { return false; }
+  // a modal widget takes control of the screen, and receives all
+  // keys and pointers events
+
   virtual bool is_visible() const { return true; }
 
   virtual void paint() {
@@ -84,5 +88,16 @@ protected:
   void set_width(int width) { this->bounding_box.w = width; }
 
   void set_height(int height) { this->bounding_box.h = height; }
+};
+
+struct ModalWidget : public Widget {
+  ModalWidget() : Widget{0, 0, ScreenWidth(), ScreenHeight()} {}
+
+  bool is_modal() const override { return true; }
+
+  bool is_visible() const override { return this->visible; }
+
+protected:
+  bool visible{false};
 };
 } // namespace taranis

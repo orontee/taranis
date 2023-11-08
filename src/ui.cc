@@ -85,23 +85,34 @@ Ui::Ui(std::shared_ptr<Model> model)
 void Ui::paint() {
   ClearScreen();
 
-  this->select_forecast_widget();
+  this->check_modal_visibility();
 
-  for (auto widget : this->children) {
-    widget->paint();
+  if (this->visible_modal) {
+    this->visible_modal->paint();
+  } else {
+    this->select_forecast_widget();
+
+    for (auto widget : this->children) {
+      widget->paint();
+    }
   }
   FullUpdate();
 }
 
 int Ui::handle_pointer_event(int event_type, int pointer_pos_x,
                              int pointer_pos_y) {
-  if (this->handle_possible_swipe(event_type, pointer_pos_x, pointer_pos_y)) {
-    return 1;
-  }
-  for (auto widget : this->children) {
-    if (Ui::is_on_widget(pointer_pos_x, pointer_pos_y, widget)) {
-      return widget->handle_pointer_event(event_type, pointer_pos_x,
-                                          pointer_pos_y);
+  if (this->visible_modal) {
+    return this->visible_modal->handle_pointer_event(event_type, pointer_pos_x,
+                                                     pointer_pos_y);
+  } else {
+    if (this->handle_possible_swipe(event_type, pointer_pos_x, pointer_pos_y)) {
+      return 1;
+    }
+    for (auto widget : this->children) {
+      if (Ui::is_on_widget(pointer_pos_x, pointer_pos_y, widget)) {
+        return widget->handle_pointer_event(event_type, pointer_pos_x,
+                                            pointer_pos_y);
+      }
     }
   }
   return 0;
@@ -125,12 +136,37 @@ Ui::get_location_from_location_list(size_t index) const {
   return this->location_selector->get_location(index);
 }
 
+bool Ui::is_consumer_active(std::shared_ptr<KeyEventConsumer> consumer) {
+  return ((consumer == this->visible_modal) or not this->visible_modal);
+  // modals expected to register / unregister on visibility change
+}
+
 bool Ui::is_on_widget(int pointer_pos_x, int pointer_pos_y,
                       std::shared_ptr<Widget> widget) {
   if (not widget)
     return false;
 
   return widget->is_in_bouding_box(pointer_pos_x, pointer_pos_y);
+}
+
+void Ui::check_modal_visibility() {
+  const auto found_visible_modal =
+    std::find_if(this->modals.begin(), this->modals.end(),
+                 [](const auto &modal) { return modal->is_visible(); });
+
+  if (found_visible_modal != this->modals.end()) {
+    if (this->visible_modal != *found_visible_modal) {
+      BOOST_LOG_TRIVIAL(debug) << "Found visible modal";
+      this->visible_modal = *found_visible_modal;
+      this->register_key_event_consumer(this->visible_modal);
+    }
+  } else {
+    if (this->visible_modal) {
+      BOOST_LOG_TRIVIAL(debug) << "Modal hidden";
+      this->unregister_key_event_consumer(this->visible_modal);
+      this->visible_modal = nullptr;
+    }
+  }
 }
 
 std::shared_ptr<Widget> Ui::get_forecast_widget() const {
