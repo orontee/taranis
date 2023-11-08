@@ -29,9 +29,17 @@ public:
                      this->bottom_padding);
   }
 
-  void show() override {
-    this->fill_bounding_box();
+  int handle_pointer_event(int event_type, int pointer_pos_x,
+                           int pointer_pos_y) override {
+    if (event_type == EVT_POINTERUP) {
+      this->edit_location();
+      return 1;
+    }
+    return 0;
+  }
 
+protected:
+  void do_paint() override {
     std::string location_text = format_location(this->model->location);
     location_text = elide_maybe(location_text);
 
@@ -41,15 +49,6 @@ public:
     SetFont(this->font.get(), BLACK);
 
     DrawString(label_pos_x, label_pos_y, location_text.c_str());
-  }
-
-  int handle_pointer_event(int event_type, int pointer_pos_x,
-                           int pointer_pos_y) override {
-    if (event_type == EVT_POINTERUP) {
-      this->edit_location();
-      return 1;
-    }
-    return 0;
   }
 
 private:

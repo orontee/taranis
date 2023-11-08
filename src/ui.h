@@ -27,7 +27,7 @@ public:
 
   Ui(std::shared_ptr<Model> model);
 
-  void show();
+  void paint();
 
   int handle_pointer_event(int event_type, int pointer_pos_x,
                            int pointer_pos_y);

@@ -19,19 +19,6 @@ public:
     this->set_height(icon_size * std::sqrt(2));
   }
 
-  void show() override {
-    this->fill_bounding_box();
-
-    if (not this->is_visible()) {
-      return;
-    }
-
-    const auto [pos_x, pos_y] = this->get_icon_top_left_position();
-    DrawBitmap(pos_x, pos_y, this->icon);
-  }
-
-  virtual bool is_visible() const { return true; }
-
   int handle_pointer_event(int event_type, int pointer_pos_x,
                            int pointer_pos_y) override {
     if (not this->is_visible()) {
@@ -70,6 +57,11 @@ public:
   }
 
 protected:
+  void do_paint() override {
+    const auto [pos_x, pos_y] = this->get_icon_top_left_position();
+    DrawBitmap(pos_x, pos_y, this->icon);
+  }
+
   virtual void on_clicked(){};
 
 private:
@@ -79,7 +71,7 @@ private:
     if (activated) {
       this->draw_inverted_icon();
     } else {
-      this->show();
+      this->paint();
     }
     PartialUpdate(this->bounding_box.x, this->bounding_box.y,
                   this->bounding_box.w, this->bounding_box.h);

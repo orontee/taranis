@@ -25,7 +25,7 @@ public:
 
   void set_locations(const std::vector<Location> &locations);
 
-  void show();
+  void open();
 
 private:
   static constexpr int horizontal_padding{25};

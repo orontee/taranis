@@ -90,7 +90,7 @@ void App::show() {
   if (not this->ui)
     return;
 
-  this->ui->show();
+  this->ui->paint();
 }
 
 void App::exit() {

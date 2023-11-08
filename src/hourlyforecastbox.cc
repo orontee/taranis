@@ -56,9 +56,7 @@ HourlyForecastBox::HourlyForecastBox(int pos_x, int pos_y, int width,
                        this->icon_size - 2 * this->vertical_padding;
 }
 
-void HourlyForecastBox::show() {
-  this->fill_bounding_box();
-
+void HourlyForecastBox::do_paint() {
   this->draw_labels();
   this->draw_frame_and_values();
   this->draw_precipitation_histogram();
@@ -124,7 +122,7 @@ void HourlyForecastBox::decrease_forecast_offset() {
 }
 
 void HourlyForecastBox::draw_and_update() {
-  this->show();
+  this->paint();
 
   PartialUpdate(this->bounding_box.x, this->bounding_box.y,
                 this->bounding_box.w, this->bounding_box.h);

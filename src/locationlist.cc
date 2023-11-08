@@ -35,7 +35,7 @@ void LocationList::set_locations(const std::vector<Location> &locations) {
   this->prepare_item_content();
 }
 
-void LocationList::show() {
+void LocationList::open() {
   if (this->locations.size() == 0) {
     return;
   }

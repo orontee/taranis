@@ -82,13 +82,13 @@ Ui::Ui(std::shared_ptr<Model> model)
       this->hourly_forecast_box->get_bounding_box());
 }
 
-void Ui::show() {
+void Ui::paint() {
   ClearScreen();
 
   this->select_forecast_widget();
 
   for (auto widget : this->children) {
-    widget->show();
+    widget->paint();
   }
   FullUpdate();
 }
@@ -111,13 +111,13 @@ void Ui::switch_forecast_widget() {
   this->select_forecast_widget();
   auto forecast_widget = this->get_forecast_widget();
   if (forecast_widget) {
-    forecast_widget->show_and_update();
+    forecast_widget->paint_and_update_screen();
   }
 }
 
 void Ui::open_location_list(const std::vector<Location> &locations) {
   this->location_list->set_locations(locations);
-  this->location_list->show();
+  this->location_list->open();
 }
 
 std::optional<Location>

@@ -17,11 +17,12 @@ public:
                     std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
                     std::shared_ptr<Fonts> fonts);
 
-  void show() override;
-
   void increase_forecast_offset();
 
   void decrease_forecast_offset();
+
+protected:
+  void do_paint() override;
 
 private:
   static constexpr int vertical_padding{25};

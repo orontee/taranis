@@ -8,7 +8,6 @@
 #include "fonts.h"
 #include "model.h"
 #include "units.h"
-#include "util.h"
 #include "widget.h"
 
 namespace taranis {
@@ -25,9 +24,8 @@ public:
                      this->bottom_padding);
   }
 
-  void show() override {
-    this->fill_bounding_box();
-
+protected:
+  void do_paint() override {
     const auto condition = this->model->current_condition;
     if (not condition) {
       return;

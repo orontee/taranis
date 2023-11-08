@@ -31,8 +31,8 @@ public:
     this->row_height = this->bounding_box.h / DailyForecastBox::row_count;
   }
 
-  void show() override {
-    this->fill_bounding_box();
+protected:
+  void do_paint() override {
     this->draw_values();
     this->draw_frame();
   }

@@ -37,12 +37,23 @@ struct Widget : public KeyEventConsumer {
 
   int get_height() const { return this->bounding_box.h; }
 
-  virtual void show() = 0;
+  virtual bool is_visible() const { return true; }
 
-  void show_and_update() {
-    this->show();
+  virtual void paint() {
+    this->fill_bounding_box();
+
+    if (this->is_visible()) {
+      this->do_paint();
+    }
+  };
+
+  void paint_and_update_screen() {
+    this->paint();
     PartialUpdate(this->bounding_box.x, this->bounding_box.y,
                   this->bounding_box.w, this->bounding_box.h);
+
+    // must update screen even if widget is not visible, otherwise
+    // screen could be outdated after a visibility update
   }
 
   bool is_in_bouding_box(int pos_x, int pos_y) const {
@@ -60,6 +71,8 @@ protected:
   irect bounding_box;
 
   void fill_bounding_box() const { FillAreaRect(&this->bounding_box, WHITE); }
+
+  virtual void do_paint() = 0;
 
   void set_bounding_box(int pos_x, int pos_y, int width, int height) {
     this->bounding_box.x = pos_x;
