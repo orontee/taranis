@@ -22,8 +22,8 @@ src/http.cc
 src/http.h
 src/locationbox.cc
 src/locationbox.h
-src/locationlist.cc
-src/locationlist.h
+src/locationselector.cc
+src/locationselector.h
 src/logging.cc
 src/logging.h
 src/main.cc

@@ -169,15 +169,15 @@ msgstr ""
 msgid "Enter location"
 msgstr "Entrez un lieu"
 
-#: src/locationlist.cc:45 src/menu.cc:76
+#: src/locationselector.cc:45 src/menu.cc:76
 msgid "Locations"
 msgstr "Lieux"
 
-#: src/locationlist.cc:56
+#: src/locationselector.cc:56
 msgid "Longitude"
 msgstr "Longitude"
 
-#: src/locationlist.cc:57
+#: src/locationselector.cc:57
 msgid "Latitude"
 msgstr "Latitude"
 

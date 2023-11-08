@@ -16,10 +16,10 @@ template <class T> using optional = std::experimental::optional<T>;
 
 namespace taranis {
 
-class LocationList {
+class LocationSelector {
 public:
-  LocationList(int icon_size, std::shared_ptr<Fonts> fonts,
-               std::shared_ptr<Icons> icons);
+  LocationSelector(int icon_size, std::shared_ptr<Fonts> fonts,
+                   std::shared_ptr<Icons> icons);
 
   std::optional<Location> get_location(size_t index) const;
 

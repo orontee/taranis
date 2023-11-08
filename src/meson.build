@@ -68,7 +68,7 @@ sources = [about_cc, icons_cc, l10n_cc] + files(
   'hourlyforecastbox.cc',
   'http.cc',
   'locationbox.cc',
-  'locationlist.cc',
+  'locationselector.cc',
   'logging.cc',
   'main.cc',
   'menu.cc',

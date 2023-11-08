@@ -10,7 +10,7 @@
 #include "history.h"
 #include "keys.h"
 #include "locationbox.h"
-#include "locationlist.h"
+#include "locationselector.h"
 #include "menu.h"
 #include "model.h"
 #include "statusbar.h"
@@ -65,8 +65,8 @@ Ui::Ui(std::shared_ptr<Model> model)
                                  this->alerts_button->get_height() / 2 -
                                  CurrentConditionBox::bottom_padding);
 
-  this->location_list =
-      std::make_shared<LocationList>(50, this->fonts, this->icons);
+  this->location_selector =
+      std::make_shared<LocationSelector>(50, this->fonts, this->icons);
 
   this->children.push_back(location_box);
   this->children.push_back(menu_button);
@@ -116,13 +116,13 @@ void Ui::switch_forecast_widget() {
 }
 
 void Ui::open_location_list(const std::vector<Location> &locations) {
-  this->location_list->set_locations(locations);
-  this->location_list->open();
+  this->location_selector->set_locations(locations);
+  this->location_selector->open();
 }
 
 std::optional<Location>
 Ui::get_location_from_location_list(size_t index) const {
-  return this->location_list->get_location(index);
+  return this->location_selector->get_location(index);
 }
 
 bool Ui::is_on_widget(int pointer_pos_x, int pointer_pos_y,

@@ -160,15 +160,15 @@ msgstr "Serwis udostępniający dane pogodowe nie działa zgodnie z oczekiwaniam
 msgid "Enter location"
 msgstr "Wpisz lokalizację"
 
-#: src/locationlist.cc:45 src/menu.cc:76
+#: src/locationselector.cc:45 src/menu.cc:76
 msgid "Locations"
 msgstr "Lokalizacje"
 
-#: src/locationlist.cc:56
+#: src/locationselector.cc:56
 msgid "Longitude"
 msgstr "Długość geo."
 
-#: src/locationlist.cc:57
+#: src/locationselector.cc:57
 msgid "Latitude"
 msgstr "Szerokość"
 

@@ -10,7 +10,7 @@
 #include "hourlyforecastbox.h"
 #include "icons.h"
 #include "keys.h"
-#include "locationlist.h"
+#include "locationselector.h"
 #include "model.h"
 #include "swipe.h"
 
@@ -52,7 +52,7 @@ private:
   std::shared_ptr<HourlyForecastBox> hourly_forecast_box;
   std::shared_ptr<Widget> daily_forecast_box;
 
-  std::shared_ptr<LocationList> location_list;
+  std::shared_ptr<LocationSelector> location_selector;
 
   std::vector<std::shared_ptr<Widget>> children;
 

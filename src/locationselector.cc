@@ -1,4 +1,4 @@
-#include "locationlist.h"
+#include "locationselector.h"
 
 #include <algorithm>
 #include <boost/log/trivial.hpp>
@@ -10,32 +10,33 @@
 #include "util.h"
 
 namespace {
-taranis::LocationList *that;
+taranis::LocationSelector *that;
 } // namespace
 
 namespace taranis {
 
-LocationList::LocationList(const int icon_size, std::shared_ptr<Fonts> fonts,
-                           std::shared_ptr<Icons> icons)
+LocationSelector::LocationSelector(const int icon_size,
+                                   std::shared_ptr<Fonts> fonts,
+                                   std::shared_ptr<Icons> icons)
     : font{fonts->get_small_font()}, tiny_font{fonts->get_tiny_font()},
       radio_button_unchecked{BitmapStretchProportionally(
           icons->get("radio-button-unchecked"), icon_size, icon_size)},
       radio_button_checked{BitmapStretchProportionally(
           icons->get("radio-button-checked"), icon_size, icon_size)} {}
 
-std::optional<Location> LocationList::get_location(size_t index) const {
+std::optional<Location> LocationSelector::get_location(size_t index) const {
   if (index < this->locations.size()) {
     return this->locations.at(index);
   }
   return std::experimental::nullopt;
 }
 
-void LocationList::set_locations(const std::vector<Location> &locations) {
+void LocationSelector::set_locations(const std::vector<Location> &locations) {
   this->locations = locations;
   this->prepare_item_content();
 }
 
-void LocationList::open() {
+void LocationSelector::open() {
   if (this->locations.size() == 0) {
     return;
   }
@@ -47,7 +48,7 @@ void LocationList::open() {
            &handle_list_action);
 }
 
-void LocationList::prepare_item_content() {
+void LocationSelector::prepare_item_content() {
   this->item_contents.clear();
   this->item_contents.reserve(this->locations.size());
 
@@ -62,22 +63,22 @@ void LocationList::prepare_item_content() {
   }
 }
 
-int LocationList::get_item_width() const {
-  return ScreenWidth() - 2 * LocationList::horizontal_padding;
+int LocationSelector::get_item_width() const {
+  return ScreenWidth() - 2 * LocationSelector::horizontal_padding;
 }
 
-int LocationList::get_item_height() const {
+int LocationSelector::get_item_height() const {
   return std::max(static_cast<int>(this->radio_button_unchecked->height),
                   this->font->height + this->tiny_font->height) +
-         2 * LocationList::vertical_padding;
+         2 * LocationSelector::vertical_padding;
 }
 
-int LocationList::get_icon_vertical_offset() const {
+int LocationSelector::get_icon_vertical_offset() const {
   return (get_item_height() - this->radio_button_checked->height) / 2;
 }
 
-int LocationList::handle_list_action(int action, int x, int y, int item_index,
-                                     int state) {
+int LocationSelector::handle_list_action(int action, int x, int y,
+                                         int item_index, int state) {
   if (that == nullptr) {
     BOOST_LOG_TRIVIAL(debug)
         << "Skipping action received by uninitialized list " << action;
@@ -97,12 +98,13 @@ int LocationList::handle_list_action(int action, int x, int y, int item_index,
         that->selected_item_index = item_index;
         icon = that->radio_button_checked;
 
-        DrawSelection(x, y + LocationList::vertical_padding / 2,
-                      ScreenWidth() - 2 * LocationList::horizontal_padding,
-                      that->get_item_height() - LocationList::vertical_padding,
+        DrawSelection(x, y + LocationSelector::vertical_padding / 2,
+                      ScreenWidth() - 2 * LocationSelector::horizontal_padding,
+                      that->get_item_height() -
+                          LocationSelector::vertical_padding,
                       BLACK);
       }
-      DrawBitmap(x + LocationList::horizontal_padding / 2,
+      DrawBitmap(x + LocationSelector::horizontal_padding / 2,
                  y + that->get_icon_vertical_offset(), icon);
 
       const auto second_row_height = that->tiny_font->height;
@@ -110,21 +112,22 @@ int LocationList::handle_list_action(int action, int x, int y, int item_index,
       const auto [name, details] = that->item_contents.at(item_index);
 
       SetFont(that->font.get(), BLACK);
-      DrawTextRect(x + 2 * LocationList::horizontal_padding + icon->width,
-                   y + LocationList::vertical_padding,
-                   ScreenWidth() - 4 * LocationList::horizontal_padding -
+      DrawTextRect(x + 2 * LocationSelector::horizontal_padding + icon->width,
+                   y + LocationSelector::vertical_padding,
+                   ScreenWidth() - 4 * LocationSelector::horizontal_padding -
                        icon->width,
                    that->get_item_height() - second_row_height -
-                       2 * LocationList::vertical_padding,
+                       2 * LocationSelector::vertical_padding,
                    name.c_str(), ALIGN_LEFT | VALIGN_MIDDLE);
 
       SetFont(that->tiny_font.get(), DGRAY);
-      DrawTextRect(
-          x + 2 * LocationList::horizontal_padding + icon->width,
-          y + that->get_item_height() - second_row_height -
-              LocationList::vertical_padding,
-          ScreenWidth() - 4 * LocationList::horizontal_padding - icon->width,
-          second_row_height, details.c_str(), ALIGN_LEFT | VALIGN_MIDDLE);
+      DrawTextRect(x + 2 * LocationSelector::horizontal_padding + icon->width,
+                   y + that->get_item_height() - second_row_height -
+                       LocationSelector::vertical_padding,
+                   ScreenWidth() - 4 * LocationSelector::horizontal_padding -
+                       icon->width,
+                   second_row_height, details.c_str(),
+                   ALIGN_LEFT | VALIGN_MIDDLE);
 
       const auto separator_y = y + that->get_item_height() - 1;
       DrawLine(x, separator_y, x + that->get_item_width(), separator_y, DGRAY);
