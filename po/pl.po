@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-22 11:06+0200\n"
+"POT-Creation-Date: 2023-11-14 00:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,30 +29,21 @@ msgstr ""
 msgid "Credits"
 msgstr "Kredyty"
 
-#: src/alerts.cc:43
+#: src/alerts.cc:120
 msgid "ALERT"
 msgstr "ALERT"
 
-#: src/alerts.cc:52
+#: src/alerts.cc:135
 msgid "Start"
 msgstr "Zacznij o"
 
-#: src/alerts.cc:54
+#: src/alerts.cc:137
 msgid "Duration"
 msgstr "Przez"
 
-#: src/alerts.cc:58
+#: src/alerts.cc:142
 msgid "Source"
 msgstr "Źródło"
-
-#: src/alerts.cc:62
-msgid "Next alert"
-msgstr "Następne powiadomienie"
-
-#: src/alerts.cc:63 src/alerts.cc:65 src/app.cc:199 src/app.cc:211
-#: src/app.cc:240 src/app.cc:362
-msgid "Ok"
-msgstr "Ok"
 
 #: src/app.cc:67
 msgid "Unsupported software version"
@@ -63,31 +54,35 @@ msgid ""
 "The application isn't compatible with the software version of this reader."
 msgstr "Aplikacja nie jest zgodna z oprogramowaniem tego czytnika."
 
-#: src/app.cc:236
+#: src/app.cc:203 src/app.cc:215 src/app.cc:244 src/app.cc:366
+msgid "Ok"
+msgstr "Ok"
+
+#: src/app.cc:240
 msgid "Invalid input"
 msgstr "Wprowadzono błędne dane"
 
-#: src/app.cc:238
+#: src/app.cc:242
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr ""
 "Upewnij się, że podano poprawnie nazwę miasta i państwa rozdzielone "
 "przecinkiem."
 
-#: src/app.cc:303 src/app.cc:312 src/app.cc:387 src/app.cc:395
+#: src/app.cc:307 src/app.cc:316 src/app.cc:391 src/app.cc:399
 msgid "Network error"
 msgstr "Błąd połączenia"
 
-#: src/app.cc:304 src/app.cc:313 src/app.cc:388 src/app.cc:396
+#: src/app.cc:308 src/app.cc:317 src/app.cc:392 src/app.cc:400
 msgid "Failure while fetching weather data. Check your network connection."
 msgstr ""
 "Wystąpił błąd podczas pobierania danych pogodowych. Sprawdź połączenie "
 "sieciowe."
 
-#: src/app.cc:320 src/app.cc:402
+#: src/app.cc:324 src/app.cc:406
 msgid "Service unavailable"
 msgstr "Usługa niedostępna"
 
-#: src/app.cc:361
+#: src/app.cc:365
 msgid "About"
 msgstr "O aplikacji"
 
@@ -127,7 +122,7 @@ msgstr "Własny klucz API"
 msgid "Parameters"
 msgstr "Parametry"
 
-#: src/currentconditionbox.h:85
+#: src/currentconditionbox.h:83
 msgid "Felt"
 msgstr "Temp. odczuwalna"
 
@@ -145,7 +140,9 @@ msgstr "Wystąpił błąd aplikacji. Poinformuj autora."
 msgid ""
 "An API key is required to consume weather data. Contact the application "
 "maintainer."
-msgstr "Do pobierania danych pogodowych wymagany jest klucz API. Skontaktuj się z autorem aplikacji."
+msgstr ""
+"Do pobierania danych pogodowych wymagany jest klucz API. Skontaktuj się z "
+"autorem aplikacji."
 
 #: src/errors.h:60
 msgid "Weather data can't be accessed with the provided API key."
@@ -154,21 +151,23 @@ msgstr "Dane pogodowe nie są dostępne przy użyciu tego klucza API."
 #: src/errors.h:71
 msgid ""
 "The service providing weather data isn't working as expected. Retry later."
-msgstr "Serwis udostępniający dane pogodowe nie działa zgodnie z oczekiwaniami. Spróbuj później."
+msgstr ""
+"Serwis udostępniający dane pogodowe nie działa zgodnie z oczekiwaniami. "
+"Spróbuj później."
 
 #: src/locationbox.cc:14
 msgid "Enter location"
 msgstr "Wpisz lokalizację"
 
-#: src/locationselector.cc:45 src/menu.cc:76
+#: src/locationselector.cc:46 src/menu.cc:76
 msgid "Locations"
 msgstr "Lokalizacje"
 
-#: src/locationselector.cc:56
+#: src/locationselector.cc:57
 msgid "Longitude"
 msgstr "Długość geo."
 
-#: src/locationselector.cc:57
+#: src/locationselector.cc:58
 msgid "Latitude"
 msgstr "Szerokość"
 
@@ -192,23 +191,27 @@ msgstr "Wyjście"
 msgid "Empty"
 msgstr "Pusty"
 
-#: src/menu.cc:109 src/menu.cc:129
+#: src/menu.cc:109 src/menu.cc:138
 msgid "Add to favorites"
 msgstr "Dodaj do ulubionych"
 
-#: src/menu.cc:128
+#: src/menu.cc:118 src/menu.cc:164
+msgid "Edit location"
+msgstr "Edytuj lokalizację"
+
+#: src/menu.cc:137
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: src/statusbar.h:33
+#: src/statusbar.h:32
 msgid "Ongoing update…"
 msgstr "Trwa aktualizacja…"
 
-#: src/statusbar.h:35
+#: src/statusbar.h:34
 msgid "Last update:"
 msgstr "Ostatnia aktualizacja:"
 
-#: src/statusbar.h:45
+#: src/statusbar.h:44
 msgid "Weather data from"
 msgstr "Dane pogodowe z"
 
@@ -223,3 +226,6 @@ msgstr "Wczoraj"
 #: src/util.cc:201
 msgid "Tomorrow"
 msgstr "Jutro"
+
+#~ msgid "Next alert"
+#~ msgstr "Następne powiadomienie"

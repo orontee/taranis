@@ -177,6 +177,11 @@ int App::handle_custom_event(int param_one, int param_two) {
     const std::string location{raw_location->data()};
     this->search_location(location);
     return 1;
+  } else if (param_one == CustomEvent::edit_location) {
+    if (this->ui) {
+      this->ui->edit_location();
+      return 1;
+    }
   } else if (param_one == CustomEvent::open_alert_viewer) {
     if (this->ui) {
       this->ui->display_alert();

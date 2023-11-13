@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Menu item to edit location
+  [#68](https://github.com/orontee/taranis/issues/68)
+
 ### Changed
 
 - Alerts were displayed in a standard dialog. A widget dedicated to

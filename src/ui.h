@@ -10,6 +10,7 @@
 #include "hourlyforecastbox.h"
 #include "icons.h"
 #include "keys.h"
+#include "locationbox.h"
 #include "locationselector.h"
 #include "model.h"
 #include "swipe.h"
@@ -34,6 +35,8 @@ public:
   int handle_pointer_event(int event_type, int pointer_pos_x,
                            int pointer_pos_y);
 
+  void edit_location() { this->location_box->edit_location(); }
+
   void display_alert() { this->alert_viewer->open(); }
 
   void switch_forecast_widget();
@@ -52,6 +55,7 @@ private:
 
   SwipeDetector swipe_detector;
 
+  std::shared_ptr<LocationBox> location_box;
   std::shared_ptr<AlertViewer> alert_viewer;
 
   std::shared_ptr<HourlyForecastBox> hourly_forecast_box;

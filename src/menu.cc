@@ -108,6 +108,15 @@ void MenuButton::update_location_history_items() {
     this->location_full_names.push_back(
         const_cast<char *>(GetLangText("Add to favorites")));
     ++index;
+
+    this->location_history_items[index] =
+        imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_EDIT_LOCATION,
+                nullptr,     nullptr,
+                nullptr,     nullptr,
+                nullptr};
+    this->location_full_names.push_back(
+        const_cast<char *>(GetLangText("Edit location")));
+    ++index;
   } else {
     for (const auto &item : location_history) {
       this->location_full_names.push_back(format_location(item.location));
@@ -144,8 +153,17 @@ void MenuButton::update_location_history_items() {
                     nullptr,
                     nullptr};
         this->location_full_names.push_back(toggle_item_text);
-
         ++index;
+
+        this->location_history_items[index] =
+            imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_EDIT_LOCATION,
+                    nullptr,     nullptr,
+                    nullptr,     nullptr,
+                    nullptr};
+        this->location_full_names.push_back(
+            const_cast<char *>(GetLangText("Edit location")));
+        ++index;
+
         break;
       }
     }

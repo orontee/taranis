@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-22 11:06+0200\n"
+"POT-Creation-Date: 2023-11-14 00:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,30 +29,21 @@ msgstr ""
 msgid "Credits"
 msgstr "Crédits"
 
-#: src/alerts.cc:43
+#: src/alerts.cc:120
 msgid "ALERT"
 msgstr "ALERTE"
 
-#: src/alerts.cc:52
+#: src/alerts.cc:135
 msgid "Start"
 msgstr "Début"
 
-#: src/alerts.cc:54
+#: src/alerts.cc:137
 msgid "Duration"
 msgstr "Durée"
 
-#: src/alerts.cc:58
+#: src/alerts.cc:142
 msgid "Source"
 msgstr "Source"
-
-#: src/alerts.cc:62
-msgid "Next alert"
-msgstr "Alerte suivante"
-
-#: src/alerts.cc:63 src/alerts.cc:65 src/app.cc:199 src/app.cc:211
-#: src/app.cc:240 src/app.cc:362
-msgid "Ok"
-msgstr "Ok"
 
 #: src/app.cc:67
 msgid "Unsupported software version"
@@ -64,31 +55,35 @@ msgid ""
 msgstr ""
 "L'application n'est pas compatible avec la version logicielle de ce matériel."
 
-#: src/app.cc:236
+#: src/app.cc:203 src/app.cc:215 src/app.cc:244 src/app.cc:366
+msgid "Ok"
+msgstr "Ok"
+
+#: src/app.cc:240
 msgid "Invalid input"
 msgstr "Saisie invalide"
 
-#: src/app.cc:238
+#: src/app.cc:242
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr ""
 "Assurez-vous d'avoir saisi des noms de ville et de pays séparés par une "
 "virgule."
 
-#: src/app.cc:303 src/app.cc:312 src/app.cc:387 src/app.cc:395
+#: src/app.cc:307 src/app.cc:316 src/app.cc:391 src/app.cc:399
 msgid "Network error"
 msgstr "Erreur réseau"
 
-#: src/app.cc:304 src/app.cc:313 src/app.cc:388 src/app.cc:396
+#: src/app.cc:308 src/app.cc:317 src/app.cc:392 src/app.cc:400
 msgid "Failure while fetching weather data. Check your network connection."
 msgstr ""
 "Échec lors du rapatriement des données météorologiques. Vérifier la "
 "connexion réseau."
 
-#: src/app.cc:320 src/app.cc:402
+#: src/app.cc:324 src/app.cc:406
 msgid "Service unavailable"
 msgstr "Service indisponible"
 
-#: src/app.cc:361
+#: src/app.cc:365
 msgid "About"
 msgstr "À propos"
 
@@ -128,7 +123,7 @@ msgstr "Clé d'API personnalisée"
 msgid "Parameters"
 msgstr "Paramètres"
 
-#: src/currentconditionbox.h:85
+#: src/currentconditionbox.h:83
 msgid "Felt"
 msgstr "Ressenti"
 
@@ -169,15 +164,15 @@ msgstr ""
 msgid "Enter location"
 msgstr "Entrez un lieu"
 
-#: src/locationselector.cc:45 src/menu.cc:76
+#: src/locationselector.cc:46 src/menu.cc:76
 msgid "Locations"
 msgstr "Lieux"
 
-#: src/locationselector.cc:56
+#: src/locationselector.cc:57
 msgid "Longitude"
 msgstr "Longitude"
 
-#: src/locationselector.cc:57
+#: src/locationselector.cc:58
 msgid "Latitude"
 msgstr "Latitude"
 
@@ -201,23 +196,27 @@ msgstr "Quitter"
 msgid "Empty"
 msgstr "Vide"
 
-#: src/menu.cc:109 src/menu.cc:129
+#: src/menu.cc:109 src/menu.cc:138
 msgid "Add to favorites"
 msgstr "Ajouter aux favoris"
 
-#: src/menu.cc:128
+#: src/menu.cc:118 src/menu.cc:164
+msgid "Edit location"
+msgstr "Editer le lieu"
+
+#: src/menu.cc:137
 msgid "Remove from favorites"
 msgstr "Retirer des favoris"
 
-#: src/statusbar.h:33
+#: src/statusbar.h:32
 msgid "Ongoing update…"
 msgstr "Mise à jour en cours…"
 
-#: src/statusbar.h:35
+#: src/statusbar.h:34
 msgid "Last update:"
 msgstr "Mis à jour : "
 
-#: src/statusbar.h:45
+#: src/statusbar.h:44
 msgid "Weather data from"
 msgstr "Données météorologiques de"
 
@@ -232,6 +231,9 @@ msgstr "Hier"
 #: src/util.cc:201
 msgid "Tomorrow"
 msgstr "Demain"
+
+#~ msgid "Next alert"
+#~ msgstr "Alerte suivante"
 
 #~ msgid "Sunrise"
 #~ msgstr "Lever"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-22 11:06+0200\n"
+"POT-Creation-Date: 2023-11-14 00:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,30 +29,21 @@ msgstr ""
 msgid "Credits"
 msgstr "Poděkování"
 
-#: src/alerts.cc:43
+#: src/alerts.cc:120
 msgid "ALERT"
 msgstr "VÝSTRAHA"
 
-#: src/alerts.cc:52
+#: src/alerts.cc:135
 msgid "Start"
 msgstr "Začátek"
 
-#: src/alerts.cc:54
+#: src/alerts.cc:137
 msgid "Duration"
 msgstr "Trvá"
 
-#: src/alerts.cc:58
+#: src/alerts.cc:142
 msgid "Source"
 msgstr "Zdroj"
-
-#: src/alerts.cc:62
-msgid "Next alert"
-msgstr "Následující výstraha"
-
-#: src/alerts.cc:63 src/alerts.cc:65 src/app.cc:199 src/app.cc:211
-#: src/app.cc:240 src/app.cc:362
-msgid "Ok"
-msgstr "Ok"
 
 #: src/app.cc:67
 msgid "Unsupported software version"
@@ -63,28 +54,32 @@ msgid ""
 "The application isn't compatible with the software version of this reader."
 msgstr "Aplikace není kompatibilní s programovou verzí této čtečky."
 
-#: src/app.cc:236
+#: src/app.cc:203 src/app.cc:215 src/app.cc:244 src/app.cc:366
+msgid "Ok"
+msgstr "Ok"
+
+#: src/app.cc:240
 msgid "Invalid input"
 msgstr "Neplatné zadání"
 
-#: src/app.cc:238
+#: src/app.cc:242
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr ""
 "Zkontrolujte, zda je správné jméno města a potom státu oddělené čárkou."
 
-#: src/app.cc:303 src/app.cc:312 src/app.cc:387 src/app.cc:395
+#: src/app.cc:307 src/app.cc:316 src/app.cc:391 src/app.cc:399
 msgid "Network error"
 msgstr "Chyba sítě"
 
-#: src/app.cc:304 src/app.cc:313 src/app.cc:388 src/app.cc:396
+#: src/app.cc:308 src/app.cc:317 src/app.cc:392 src/app.cc:400
 msgid "Failure while fetching weather data. Check your network connection."
 msgstr "Chyba při stahování dat o počasí. Zkontrolujte síťové připojení."
 
-#: src/app.cc:320 src/app.cc:402
+#: src/app.cc:324 src/app.cc:406
 msgid "Service unavailable"
 msgstr "Služba není dostupná"
 
-#: src/app.cc:361
+#: src/app.cc:365
 msgid "About"
 msgstr "O aplikaci"
 
@@ -124,7 +119,7 @@ msgstr "Vlastní klíč API"
 msgid "Parameters"
 msgstr "Parametry"
 
-#: src/currentconditionbox.h:85
+#: src/currentconditionbox.h:83
 msgid "Felt"
 msgstr "Pocitová teplota"
 
@@ -159,15 +154,15 @@ msgstr "Služba poskytující data o počasí nepracuje správně Zkuste pozděj
 msgid "Enter location"
 msgstr ""
 
-#: src/locationselector.cc:45 src/menu.cc:76
+#: src/locationselector.cc:46 src/menu.cc:76
 msgid "Locations"
 msgstr "Lokality"
 
-#: src/locationselector.cc:56
+#: src/locationselector.cc:57
 msgid "Longitude"
 msgstr "Zem. délka"
 
-#: src/locationselector.cc:57
+#: src/locationselector.cc:58
 msgid "Latitude"
 msgstr "Zem. šířka"
 
@@ -191,23 +186,27 @@ msgstr "Konec"
 msgid "Empty"
 msgstr "Prázdný"
 
-#: src/menu.cc:109 src/menu.cc:129
+#: src/menu.cc:109 src/menu.cc:138
 msgid "Add to favorites"
 msgstr "Přidat do oblíbených"
 
-#: src/menu.cc:128
+#: src/menu.cc:118 src/menu.cc:164
+msgid "Edit location"
+msgstr "Upravit lokalita"
+
+#: src/menu.cc:137
 msgid "Remove from favorites"
 msgstr "Odebrat z oblíbených"
 
-#: src/statusbar.h:33
+#: src/statusbar.h:32
 msgid "Ongoing update…"
 msgstr "Probíhá aktualizace…"
 
-#: src/statusbar.h:35
+#: src/statusbar.h:34
 msgid "Last update:"
 msgstr "Poslední aktualizace:"
 
-#: src/statusbar.h:45
+#: src/statusbar.h:44
 msgid "Weather data from"
 msgstr "Data o počasí z"
 
@@ -222,6 +221,9 @@ msgstr "Včera"
 #: src/util.cc:201
 msgid "Tomorrow"
 msgstr "Zítra"
+
+#~ msgid "Next alert"
+#~ msgstr "Následující výstraha"
 
 #~ msgid "Sunrise"
 #~ msgstr "Východ slunce"

@@ -8,7 +8,7 @@ enum CustomEvent {
   // Commands
   change_daily_forecast_display,
   search_location,
-  change_location,
+  edit_location,
   open_alert_viewer,
   open_config_editor,
   refresh_data,

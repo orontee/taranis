@@ -7,8 +7,8 @@ std::string taranis::format_custom_event_param(int param) {
   if (param == CustomEvent::search_location) {
     return "search_location";
   }
-  if (param == CustomEvent::change_location) {
-    return "change_location";
+  if (param == CustomEvent::edit_location) {
+    return "edit_location";
   }
   if (param == CustomEvent::open_alert_viewer) {
     return "open_alert_viewer";

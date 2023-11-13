@@ -38,6 +38,8 @@ public:
     return 0;
   }
 
+  void edit_location();
+
 protected:
   void do_paint() override {
     std::string location_text = format_location(this->model->location);
@@ -52,14 +54,12 @@ protected:
   }
 
 private:
+  static constexpr int left_padding{50};
+  static constexpr int top_padding{50};
+  static constexpr int bottom_padding{25};
+
   std::shared_ptr<Model> model;
   std::shared_ptr<ifont> font;
-
-  const int left_padding{50};
-  const int top_padding{50};
-  const int bottom_padding{25};
-
-  void edit_location();
 
   std::string elide_maybe(const std::string &text) const {
     SetFont(this->font.get(), BLACK);

@@ -20,9 +20,10 @@ namespace taranis {
 enum menu_item_index {
   MENU_ITEM_REFRESH = 100,
   MENU_ITEM_LOCATION_HISTORY = 200,
-  MENU_ITEM_TOGGLE_FAVORITE_LOCATION = 201,
-  MENU_ITEM_CONFIGURE = 202,
-  MENU_ITEM_ABOUT = 203,
+  MENU_ITEM_EDIT_LOCATION = 201,
+  MENU_ITEM_TOGGLE_FAVORITE_LOCATION = 202,
+  MENU_ITEM_CONFIGURE = 203,
+  MENU_ITEM_ABOUT = 204,
   MENU_ITEM_QUIT = 300,
   MENU_ITEM_EMPTY_LOCATION_HISTORY = 800,
 };
@@ -45,7 +46,7 @@ private:
 
   std::shared_ptr<Icons> icons;
 
-  std::array<imenuex, LocationHistoryProxy::max_size + 2>
+  std::array<imenuex, LocationHistoryProxy::max_size + 3>
       location_history_items;
   MenuItems items;
 
