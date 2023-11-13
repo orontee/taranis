@@ -1,11 +1,12 @@
 #include "alerts.h"
 
+#include <cstdint>
+#include <inkview.h>
 #include <iomanip>
 #include <memory>
 #include <sstream>
 #include <string>
 
-#include "inkview.h"
 #include "model.h"
 #include "util.h"
 
@@ -15,7 +16,10 @@ void AlertsButton::on_clicked() { this->viewer->open(); }
 
 AlertViewer::AlertViewer(std::shared_ptr<Model> model,
                          std::shared_ptr<Fonts> fonts)
-    : Widget{0, 0, ScreenWidth(), ScreenHeight()}, model{model}, fonts{fonts} {}
+    : ModalWidget{}, model{model}, fonts{fonts},
+      content_width{this->bounding_box.w - 2 * AlertViewer::horizontal_padding},
+      title_height{2 * this->fonts->get_small_font()->height},
+      alert_title_start_y{this->title_height + AlertViewer::vertical_padding} {}
 
 void AlertViewer::open() {
   if (this->alert_count() == 0 or this->alert_index >= this->alert_count()) {
@@ -23,12 +27,24 @@ void AlertViewer::open() {
     return;
   }
   this->visible = true;
+
+  const auto &alert = this->model->alerts.at(this->alert_index);
+  this->update_title_text();
+  this->update_alert_title_text(alert);
+  this->update_description_text(alert);
+
+  this->update_layout();
+
+  AddScrolledArea(&this->scrollable_view_rectangle, true);
+
   const auto event_handler = GetEventHandler();
   SendEvent(event_handler, EVT_SHOW, 0, 0);
 }
 
 void AlertViewer::hide() {
   this->visible = false;
+  RemoveScrolledArea(&this->scrollable_view_rectangle);
+
   this->alert_index = 0;
 
   const auto event_handler = GetEventHandler();
@@ -36,57 +52,83 @@ void AlertViewer::hide() {
 }
 
 void AlertViewer::do_paint() {
-  const auto &alert = this->model->alerts.at(this->alert_index);
-
-  this->update_title();
-  this->update_description(alert);
-
+  // title
   const auto default_font = this->fonts->get_small_font();
   SetFont(default_font.get(), BLACK);
 
-  const auto content_width =
-      (this->bounding_box.w - 2 * AlertViewer::horizontal_padding);
-  const auto title_height =
-      std::max(TextRectHeight(content_width, this->title.c_str(), ALIGN_CENTER),
-               2 * default_font->height);
   DrawTextRect(AlertViewer::horizontal_padding, AlertViewer::vertical_padding,
-               content_width, title_height, this->title.c_str(), ALIGN_CENTER);
+               this->content_width, this->title_height,
+               this->title_text.c_str(), ALIGN_CENTER);
 
-  DrawLine(0, title_height, ScreenWidth(), title_height, BLACK);
+  DrawHorizontalSeparator(0, this->title_height, ScreenWidth(),
+                          HORIZONTAL_SEPARATOR_SOLID);
 
-  const auto alert_title_start_y = title_height + AlertViewer::vertical_padding;
-  auto description_start_y = alert_title_start_y;
+  // alert title
+  const auto bold_font = this->fonts->get_small_bold_font();
+  SetFont(bold_font.get(), BLACK);
 
-  if (not alert.event.empty()) {
-    const auto bold_font = this->fonts->get_small_bold_font();
-    SetFont(bold_font.get(), BLACK);
+  const auto alert_title_height = TextRectHeight(
+      this->content_width, this->alert_title_text.c_str(), ALIGN_LEFT);
+  DrawTextRect(AlertViewer::horizontal_padding, alert_title_start_y,
+               this->content_width, alert_title_height,
+               this->alert_title_text.c_str(), ALIGN_LEFT);
 
-    const auto alert_title = alert.event;
-    const auto alert_title_height =
-        TextRectHeight(content_width, alert_title.c_str(), ALIGN_LEFT);
-    DrawTextRect(AlertViewer::horizontal_padding, alert_title_start_y,
-                 content_width, alert_title_height, alert_title.c_str(),
-                 ALIGN_LEFT);
+  // alert description
+  SetFont(default_font.get(), BLACK);
 
-    SetFont(default_font.get(), BLACK);
-    description_start_y += alert_title_height + AlertViewer::vertical_padding;
-  }
-  const auto description_height =
-      TextRectHeight(content_width, this->description.c_str(), ALIGN_LEFT);
-  DrawTextRect(AlertViewer::horizontal_padding, description_start_y,
-               content_width, description_height, this->description.c_str(),
-               ALIGN_LEFT);
+  SetClipRect(&this->scrollable_view_rectangle);
+
+  const auto description_height = TextRectHeight(
+      this->content_width, this->alert_description_text.c_str(), ALIGN_LEFT);
+  DrawTextRect(AlertViewer::horizontal_padding,
+               this->scrollable_view_rectangle.y + this->scrollable_view_offset,
+               this->content_width, description_height,
+               this->alert_description_text.c_str(), ALIGN_LEFT);
+
+  SetClip(0, 0, ScreenWidth(), ScreenHeight());
 }
 
-void AlertViewer::update_title() {
-  this->title = std::string{GetLangText("ALERT")};
+void AlertViewer::update_layout() {
+  const auto bold_font = this->fonts->get_small_bold_font();
+  const auto default_font = this->fonts->get_small_font();
+
+  SetFont(bold_font.get(), BLACK);
+
+  const auto alert_title_height = TextRectHeight(
+      this->content_width, this->alert_title_text.c_str(), ALIGN_LEFT);
+
+  SetFont(default_font.get(), BLACK);
+
+  const auto scrollable_view_start_y = this->alert_title_start_y +
+                                       alert_title_height +
+                                       AlertViewer::vertical_padding;
+  this->scrollable_view_rectangle = iRect(
+      AlertViewer::horizontal_padding, scrollable_view_start_y,
+      ScreenWidth() - 2 * AlertViewer::horizontal_padding,
+      ScreenHeight() - scrollable_view_start_y - AlertViewer::vertical_padding,
+      0);
+
+  this->scrollable_view_offset = 0;
+
+  const auto description_height = TextRectHeight(
+      this->content_width, this->alert_description_text.c_str(), ALIGN_LEFT);
+  this->min_scrollable_view_offset =
+      -std::max(0, description_height - this->scrollable_view_rectangle.h);
+}
+
+void AlertViewer::update_title_text() {
+  this->title_text = std::string{GetLangText("ALERT")};
   if (this->alert_count() > 1) {
-    this->title += (" " + std::to_string(this->alert_index + 1) + "/" +
-                    std::to_string(this->alert_count()));
+    this->title_text += (" " + std::to_string(this->alert_index + 1) + "/" +
+                         std::to_string(this->alert_count()));
   }
 }
 
-void AlertViewer::update_description(const Alert &alert) {
+void AlertViewer::update_alert_title_text(const Alert &alert) {
+  this->alert_title_text = alert.event;
+}
+
+void AlertViewer::update_description_text(const Alert &alert) {
   std::stringstream description_text;
   description_text << alert.description << std::endl
                    << std::endl
@@ -99,7 +141,41 @@ void AlertViewer::update_description(const Alert &alert) {
   if (not alert.sender.empty()) {
     description_text << GetLangText("Source") << " " << alert.sender;
   }
-  this->description = description_text.str();
+  this->alert_description_text = description_text.str();
+}
+
+void AlertViewer::display_previous_alert_maybe() {
+  if (this->alert_index != 0) {
+    --this->alert_index;
+
+    const auto &alert = this->model->alerts.at(this->alert_index);
+    this->update_title_text();
+    this->update_alert_title_text(alert);
+    this->update_description_text(alert);
+
+    this->update_layout();
+
+    this->paint_and_update_screen();
+  } else {
+    this->hide();
+  }
+}
+
+void AlertViewer::display_next_alert_maybe() {
+  if (this->alert_index + 1 < this->alert_count()) {
+    ++this->alert_index;
+
+    const auto &alert = this->model->alerts.at(this->alert_index);
+    this->update_title_text();
+    this->update_alert_title_text(alert);
+    this->update_description_text(alert);
+
+    this->update_layout();
+
+    this->paint_and_update_screen();
+  } else {
+    this->hide();
+  }
 }
 
 bool AlertViewer::handle_key_press(int key) {
@@ -108,23 +184,38 @@ bool AlertViewer::handle_key_press(int key) {
 
 bool AlertViewer::handle_key_release(int key) {
   if (key == IV_KEY_PREV) {
-    if (this->alert_index != 0) {
-      --this->alert_index;
-      this->paint_and_update_screen();
-    } else {
-      this->hide();
-    }
+    this->display_previous_alert_maybe();
     return true;
   } else if (key == IV_KEY_NEXT) {
-    if (this->alert_index + 1 < this->alert_count()) {
-      ++this->alert_index;
-      this->paint_and_update_screen();
-    } else {
-      this->hide();
-    }
+    this->display_next_alert_maybe();
     return true;
   }
   return false;
+}
+
+int AlertViewer::handle_pointer_event(int event_type, int pointer_pos_x,
+                                      int pointer_pos_y) {
+  if (event_type == EVT_SCROLL) {
+    auto *const scroll_area = reinterpret_cast<irect *>(pointer_pos_x);
+    if (scroll_area == &this->scrollable_view_rectangle) {
+      const int delta_x = pointer_pos_y >> 16;
+      const int delta_y = (pointer_pos_y << 16) >> 16;
+      BOOST_LOG_TRIVIAL(debug)
+          << "Alert viewer received a scrolling event "
+          << "delta: " << delta_x << " " << delta_y
+          << " current offset: " << this->scrollable_view_offset
+          << " min. offset: " << this->min_scrollable_view_offset;
+
+      this->scrollable_view_offset =
+          std::min(0, std::max(this->scrollable_view_offset + delta_y,
+                               this->min_scrollable_view_offset));
+
+      this->paint_and_update_screen();
+
+      return 1;
+    }
+  }
+  return 0;
 }
 
 } // namespace taranis

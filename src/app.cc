@@ -44,7 +44,7 @@ int App::process_event(int event_type, int param_one, int param_two) {
   }
 
   if (this->ui) {
-    if (ISPOINTEREVENT(event_type)) {
+    if (ISPOINTEREVENT(event_type) || event_type == EVT_SCROLL) {
       return this->ui->handle_pointer_event(event_type, param_one, param_two);
     }
     if (ISKEYEVENT(event_type)) {
