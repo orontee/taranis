@@ -56,12 +56,12 @@ public:
     return {pos_x, pos_y};
   }
 
-protected:
   void do_paint() override {
     const auto [pos_x, pos_y] = this->get_icon_top_left_position();
     DrawBitmap(pos_x, pos_y, this->icon);
   }
 
+protected:
   virtual void on_clicked(){};
 
 private:

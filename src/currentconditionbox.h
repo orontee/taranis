@@ -24,7 +24,6 @@ public:
                      this->bottom_padding);
   }
 
-protected:
   void do_paint() override {
     const auto condition = this->model->current_condition;
     if (not condition) {

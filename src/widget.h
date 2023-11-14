@@ -60,6 +60,8 @@ struct Widget : public KeyEventConsumer {
     // screen could be outdated after a visibility update
   }
 
+  virtual void do_paint() = 0;
+
   bool is_in_bouding_box(int pos_x, int pos_y) const {
     return IsInRect(pos_x, pos_y, &this->bounding_box);
   }
@@ -75,8 +77,6 @@ protected:
   irect bounding_box;
 
   void fill_bounding_box() const { FillAreaRect(&this->bounding_box, WHITE); }
-
-  virtual void do_paint() = 0;
 
   void set_bounding_box(int pos_x, int pos_y, int width, int height) {
     this->bounding_box.x = pos_x;

@@ -11,6 +11,7 @@
 #include "keys.h"
 #include "locationbox.h"
 #include "locationselector.h"
+#include "logo.h"
 #include "menu.h"
 #include "model.h"
 #include "statusbar.h"
@@ -87,6 +88,7 @@ Ui::Ui(std::shared_ptr<Model> model)
 
 void Ui::paint() {
   ClearScreen();
+  // Will justify to call do_paint() on children and not paint()
 
   this->check_modal_visibility();
 
@@ -138,6 +140,11 @@ void Ui::open_location_list(const std::vector<Location> &locations) {
 std::optional<Location>
 Ui::get_location_from_location_list(size_t index) const {
   return this->location_selector->get_location(index);
+}
+
+void Ui::generate_logo_maybe() const {
+  LogoGenerator generator{this->model, this->icons, this->fonts};
+  generator.generate_maybe();
 }
 
 bool Ui::is_consumer_active(std::shared_ptr<KeyEventConsumer> consumer) {

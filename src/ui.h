@@ -35,15 +35,17 @@ public:
   int handle_pointer_event(int event_type, int pointer_pos_x,
                            int pointer_pos_y);
 
-  void edit_location() { this->location_box->edit_location(); }
-
   void display_alert() { this->alert_viewer->open(); }
 
   void switch_forecast_widget();
 
+  void edit_location() { this->location_box->edit_location(); }
+
   void open_location_list(const std::vector<Location> &locations);
 
   std::optional<Location> get_location_from_location_list(size_t index) const;
+
+  void generate_logo_maybe() const;
 
 protected:
   bool is_consumer_active(std::shared_ptr<KeyEventConsumer> consumer) override;

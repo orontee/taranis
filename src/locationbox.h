@@ -40,7 +40,6 @@ public:
 
   void edit_location();
 
-protected:
   void do_paint() override {
     std::string location_text = format_location(this->model->location);
     location_text = elide_maybe(location_text);

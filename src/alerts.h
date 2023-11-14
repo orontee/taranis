@@ -39,7 +39,6 @@ public:
 
   void hide();
 
-protected:
   void do_paint() override;
 
 private:

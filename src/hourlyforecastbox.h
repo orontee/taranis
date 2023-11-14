@@ -21,7 +21,6 @@ public:
 
   void decrease_forecast_offset();
 
-protected:
   void do_paint() override;
 
 private:

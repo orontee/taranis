@@ -22,6 +22,7 @@ extern const ibitmap icon_menu;
 extern const ibitmap icon_radio_button_checked;
 extern const ibitmap icon_radio_button_unchecked;
 extern const ibitmap icon_taranis;
+extern const ibitmap icon_wallpaper;
 extern const ibitmap icon_warning;
 ;
 
@@ -70,6 +71,9 @@ public:
     }
     if (name == "radio-button-unchecked") {
       return const_cast<ibitmap *>(&icon_radio_button_unchecked);
+    }
+    if (name == "wallpaper") {
+      return const_cast<ibitmap *>(&icon_wallpaper);
     }
     if (name == "warning") {
       return const_cast<ibitmap *>(&icon_warning);

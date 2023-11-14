@@ -234,6 +234,11 @@ int App::handle_custom_event(int param_one, int param_two) {
     this->model->refresh_date = std::chrono::system_clock::now();
     this->history->update_history_maybe();
     this->show();
+
+    if (this->ui) {
+      this->ui->generate_logo_maybe();
+    }
+
   } else if (param_one == CustomEvent::warning_emitted) {
     if (param_two == CustomEventParam::invalid_location) {
       DialogSynchro(
@@ -360,7 +365,6 @@ void App::refresh_data(CallContext context) {
 
 void App::open_about_dialog() {
   BOOST_LOG_TRIVIAL(debug) << "Opening about dialog";
-
   const auto about_content = get_about_content();
   Dialog(ICON_INFORMATION, GetLangText("About"), about_content.c_str(),
          GetLangText("Ok"), nullptr, &handle_about_dialog_button_clicked);

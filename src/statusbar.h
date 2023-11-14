@@ -1,11 +1,11 @@
 #pragma once
 
 #include <ctime>
+#include <experimental/optional>
 #include <inkview.h>
 #include <memory>
 #include <sstream>
 
-#include "experimental/optional"
 #include "fonts.h"
 #include "model.h"
 #include "util.h"
@@ -25,7 +25,6 @@ public:
     this->set_bounding_box(pos_x, pos_y, width, height);
   }
 
-protected:
   void do_paint() override {
     std::stringstream first_row_text;
     if (this->model->refresh_date == std::experimental::nullopt) {
@@ -51,12 +50,12 @@ protected:
   }
 
 private:
+  static constexpr int left_padding{50};
+  static constexpr int top_padding{50};
+  static constexpr int bottom_padding{25};
+
   std::shared_ptr<Model> model;
   std::shared_ptr<ifont> font;
-
-  const int left_padding{50};
-  const int top_padding{50};
-  const int bottom_padding{25};
 };
 
 } // namespace taranis

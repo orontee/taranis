@@ -70,6 +70,7 @@ sources = [about_cc, icons_cc, l10n_cc] + files(
   'locationbox.cc',
   'locationselector.cc',
   'logging.cc',
+  'logo.cc',
   'main.cc',
   'menu.cc',
   'service.cc',
