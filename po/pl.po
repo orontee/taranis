@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-14 00:31+0100\n"
+"POT-Creation-Date: 2023-11-14 23:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,35 +54,35 @@ msgid ""
 "The application isn't compatible with the software version of this reader."
 msgstr "Aplikacja nie jest zgodna z oprogramowaniem tego czytnika."
 
-#: src/app.cc:203 src/app.cc:215 src/app.cc:244 src/app.cc:366
+#: src/app.cc:203 src/app.cc:215 src/app.cc:249 src/app.cc:370
 msgid "Ok"
 msgstr "Ok"
 
-#: src/app.cc:240
+#: src/app.cc:245
 msgid "Invalid input"
 msgstr "Wprowadzono błędne dane"
 
-#: src/app.cc:242
+#: src/app.cc:247
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr ""
 "Upewnij się, że podano poprawnie nazwę miasta i państwa rozdzielone "
 "przecinkiem."
 
-#: src/app.cc:307 src/app.cc:316 src/app.cc:391 src/app.cc:399
+#: src/app.cc:312 src/app.cc:321 src/app.cc:395 src/app.cc:403
 msgid "Network error"
 msgstr "Błąd połączenia"
 
-#: src/app.cc:308 src/app.cc:317 src/app.cc:392 src/app.cc:400
+#: src/app.cc:313 src/app.cc:322 src/app.cc:396 src/app.cc:404
 msgid "Failure while fetching weather data. Check your network connection."
 msgstr ""
 "Wystąpił błąd podczas pobierania danych pogodowych. Sprawdź połączenie "
 "sieciowe."
 
-#: src/app.cc:324 src/app.cc:406
+#: src/app.cc:329 src/app.cc:410
 msgid "Service unavailable"
 msgstr "Usługa niedostępna"
 
-#: src/app.cc:365
+#: src/app.cc:369
 msgid "About"
 msgstr "O aplikacji"
 
@@ -106,23 +106,27 @@ msgstr "Prognoza godzinowa"
 msgid "Daily forecast"
 msgstr "Prognoza dzienna"
 
-#: src/config.cc:31
+#: src/config.cc:34
 msgid "Units"
 msgstr "Jednostki"
 
-#: src/config.cc:35
+#: src/config.cc:38
 msgid "Start screen"
 msgstr "Ekran startowy"
 
-#: src/config.cc:38
+#: src/config.cc:41
 msgid "Custom API key"
 msgstr "Własny klucz API"
 
-#: src/config.cc:91
+#: src/config.cc:45
+msgid "Generate shutdown logo"
+msgstr "Wygeneruj logo zamknięcia"
+
+#: src/config.cc:98
 msgid "Parameters"
 msgstr "Parametry"
 
-#: src/currentconditionbox.h:83
+#: src/currentconditionbox.h:82
 msgid "Felt"
 msgstr "Temp. odczuwalna"
 
@@ -203,15 +207,15 @@ msgstr "Edytuj lokalizację"
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: src/statusbar.h:32
+#: src/statusbar.h:31
 msgid "Ongoing update…"
 msgstr "Trwa aktualizacja…"
 
-#: src/statusbar.h:34
+#: src/statusbar.h:33
 msgid "Last update:"
 msgstr "Ostatnia aktualizacja:"
 
-#: src/statusbar.h:44
+#: src/statusbar.h:43
 msgid "Weather data from"
 msgstr "Dane pogodowe z"
 
