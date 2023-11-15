@@ -20,12 +20,23 @@ int App::process_event(int event_type, int param_one, int param_two) {
     return 1;
   }
 
-  if (event_type == EVT_SHOW or event_type == EVT_ACTIVATE) {
+  if (event_type == EVT_SHOW or
+      (event_type == EVT_ACTIVATE and this->show_on_next_activate)) {
     this->show();
+    this->show_on_next_activate = false;
     return 1;
   }
 
   if (event_type == EVT_HIDE) {
+    this->show_on_next_activate = true;
+
+    // An event of type EVT_HIDE is received before the config editor
+    // and location selector are opened; An event of type EVT_ACTIVATE
+    // is received when they're closed. The boolean
+    // `show_on_next_activate' is used to not paint the application
+    // interface on each event of type EVT_ACTIVATE (such events are
+    // received when menu, keyboard, etc. are closed). See #73.
+
     return 1;
   }
 

@@ -51,6 +51,7 @@ private:
   std::unique_ptr<Ui> ui;
 
   bool config_already_loaded{false};
+  bool show_on_next_activate{false};
 
   void setup();
 
