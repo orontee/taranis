@@ -24,7 +24,7 @@ char *start_with_daily_forecast_values[] = {
 
 char *custom_api_key_value[] = {const_cast<char *>(""), nullptr};
 
-char *yes_no_values[] = {const_cast<char *>("@Yes"), const_cast<char *>("@No"),
+char *no_yes_values[] = {const_cast<char *>("@No"), const_cast<char *>("@Yes"),
                          nullptr};
 
 // Note that translating is handled by the configuration editor but
@@ -41,10 +41,10 @@ static iconfigedit config_template[] = {
     {CFG_TEXT, &icon_key, const_cast<char *>(GetLangText("Custom API key")),
      nullptr, const_cast<char *>("api_key"), const_cast<char *>(""),
      custom_api_key_value, nullptr},
-    {CFG_CHOICE, &icon_wallpaper,
+    {CFG_INDEX, &icon_wallpaper,
      const_cast<char *>(GetLangText("Generate shutdown logo")), nullptr,
-     const_cast<char *>("generate_shutdown_logo"), const_cast<char *>("@Yes"),
-     yes_no_values, nullptr},
+     const_cast<char *>("generate_shutdown_logo"), const_cast<char *>("0"),
+     no_yes_values, nullptr},
     {0}};
 
 // Don't use hints since failed to find a way to change their font
@@ -58,12 +58,12 @@ Config::Config() {
 
 bool Config::read_bool(const std::string &name, bool default_value) {
   return std::strcmp(
-             ReadString(config, name.c_str(), default_value ? "@Yes" : "@No"),
-             "@Yes") == 0;
+             ReadString(config, name.c_str(), default_value ? "1" : "0"),
+             "1") == 0;
 }
 
 void Config::write_bool(const std::string &name, bool value) {
-  WriteString(config, name.c_str(), value ? "@Yes" : "@No");
+  WriteString(config, name.c_str(), value ? "1" : "0");
 }
 
 int Config::read_int(const std::string &name, int default_value) {
