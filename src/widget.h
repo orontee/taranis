@@ -39,9 +39,13 @@ struct Widget : public KeyEventConsumer {
 
   virtual bool is_modal() const { return false; }
   // a modal widget takes control of the screen, and receives all
-  // keys and pointers events
+  // keys and pointer events
 
   virtual bool is_visible() const { return true; }
+  // invisible widgets are painted white
+
+  virtual bool is_enabled() const { return true; }
+  // disabled widgets don't receive keys and pointer events
 
   virtual void paint() {
     this->fill_bounding_box();
@@ -61,6 +65,8 @@ struct Widget : public KeyEventConsumer {
   }
 
   virtual void do_paint() = 0;
+  // expect bounding box to have been filled and widget to be visible,
+  // not supposed to update screen (not even partially)
 
   bool is_in_bouding_box(int pos_x, int pos_y) const {
     return IsInRect(pos_x, pos_y, &this->bounding_box);
@@ -69,7 +75,7 @@ struct Widget : public KeyEventConsumer {
   virtual int handle_pointer_event(int event_type, int pointer_pos_x,
                                    int pointer_pos_y) {
     // expect is_in_bouding_box(pointer_pos_x, pointer_pos_y) to be
-    // true
+    // true and enabled to be true
     return 0;
   }
 

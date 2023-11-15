@@ -21,6 +21,8 @@ public:
       : Button{icon_size, icons->get("warning")}, model{model}, viewer{viewer} {
   }
 
+  bool is_enabled() const override { return not this->model->alerts.empty(); }
+
   bool is_visible() const override { return not this->model->alerts.empty(); }
 
 protected:

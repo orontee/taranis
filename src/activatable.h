@@ -2,7 +2,7 @@
 
 namespace taranis {
 struct Activatable {
-  Activatable() : activated{false} {}
+  Activatable() {}
 
   virtual ~Activatable() {}
 
@@ -30,6 +30,6 @@ protected:
   virtual void on_activated_changed(bool activated){};
 
 private:
-  bool activated;
+  bool activated{false};
 };
 } // namespace taranis

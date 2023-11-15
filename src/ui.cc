@@ -99,7 +99,9 @@ void Ui::paint() {
     this->select_forecast_widget();
 
     for (auto widget : this->children) {
-      widget->paint();
+      if (widget->is_visible()) {
+        widget->do_paint();
+      }
     }
   }
   FullUpdate();
@@ -115,7 +117,8 @@ int Ui::handle_pointer_event(int event_type, int pointer_pos_x,
       return 1;
     }
     for (auto widget : this->children) {
-      if (Ui::is_on_widget(pointer_pos_x, pointer_pos_y, widget)) {
+      if (Ui::is_on_widget(pointer_pos_x, pointer_pos_y, widget) and
+          widget->is_enabled()) {
         return widget->handle_pointer_event(event_type, pointer_pos_x,
                                             pointer_pos_y);
       }
@@ -148,8 +151,14 @@ void Ui::generate_logo_maybe() const {
 }
 
 bool Ui::is_consumer_active(std::shared_ptr<KeyEventConsumer> consumer) {
-  return ((consumer == this->visible_modal) or not this->visible_modal);
-  // modals expected to register / unregister on visibility change
+  if (consumer == this->visible_modal) {
+    return true;
+  }
+  if (not this->visible_modal) {
+    auto widget = std::dynamic_pointer_cast<Widget>(consumer);
+    return widget and not widget->is_modal() and widget->is_enabled();
+  };
+  return false;
 }
 
 bool Ui::is_on_widget(int pointer_pos_x, int pointer_pos_y,

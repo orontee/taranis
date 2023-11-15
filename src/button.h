@@ -12,18 +12,18 @@ namespace taranis {
 
 class Button : public Widget, Activatable {
 public:
-  Button(const int icon_size, const ibitmap *const icon)
+  Button(const int icon_size, const ibitmap *const icon,
+         const ibitmap *const icon_disabled = nullptr)
       : Widget{}, Activatable{}, icon{BitmapStretchProportionally(
-                                     icon, icon_size, icon_size)} {
+                                     icon, icon_size, icon_size)},
+        icon_disabled{
+            BitmapStretchProportionally(icon_disabled, icon_size, icon_size)} {
     this->set_width(icon_size * std::sqrt(2));
     this->set_height(icon_size * std::sqrt(2));
   }
 
   int handle_pointer_event(int event_type, int pointer_pos_x,
                            int pointer_pos_y) override {
-    if (not this->is_visible()) {
-      return 0;
-    }
     if (event_type == EVT_POINTERDOWN) {
       this->activate();
       return 1;
@@ -58,7 +58,11 @@ public:
 
   void do_paint() override {
     const auto [pos_x, pos_y] = this->get_icon_top_left_position();
-    DrawBitmap(pos_x, pos_y, this->icon);
+    const auto *const icon_to_draw =
+        this->is_enabled() ? this->icon : this->icon_disabled;
+    if (icon_to_draw) {
+      DrawBitmap(pos_x, pos_y, icon_to_draw);
+    }
   }
 
 protected:
@@ -66,6 +70,7 @@ protected:
 
 private:
   const ibitmap *const icon;
+  const ibitmap *const icon_disabled;
 
   void on_activated_changed(bool activated) override {
     if (activated) {
