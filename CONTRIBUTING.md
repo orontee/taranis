@@ -149,7 +149,7 @@ known (eg start `ipconfig` in `pbterm`). It is recommended to disable
 automatic poweroff.
 
 On the host computer, start a shell with current working directory the
-root directory of a Git clone of taranis repository. Then start GDB:
+root directory of a Git clone of `taranis` repository. Then start GDB:
 ```shell
 ./SDK_6.3.0/SDK-B288/usr/bin/arm-linux-gdb -q taranis.app
 ```
