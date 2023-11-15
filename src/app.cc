@@ -413,8 +413,7 @@ void App::search_location(const std::string &location_description) {
               CustomEventParam::invalid_location);
   } catch (const ConnectionError &error) {
     BOOST_LOG_TRIVIAL(debug)
-        << "Connection error while refreshing weather conditions "
-        << error.what();
+        << "Connection error while searching locations " << error.what();
     Message(
         ICON_WARNING, GetLangText("Network error"),
         GetLangText("Failure while fetching weather data. Check your network "
@@ -422,7 +421,7 @@ void App::search_location(const std::string &location_description) {
         App::error_dialog_delay);
   } catch (const RequestError &error) {
     BOOST_LOG_TRIVIAL(debug)
-        << "Request error while refreshing weather conditions " << error.what();
+        << "Request error while searching locations " << error.what();
     Message(
         ICON_WARNING, GetLangText("Network error"),
         GetLangText("Failure while fetching weather data. Check your network "
@@ -430,7 +429,7 @@ void App::search_location(const std::string &location_description) {
         App::error_dialog_delay);
   } catch (const ServiceError &error) {
     BOOST_LOG_TRIVIAL(debug)
-        << "Service error while refreshing weather conditions " << error.what();
+        << "Service error while searching locations " << error.what();
     Message(ICON_WARNING, GetLangText("Service unavailable"), error.what(),
             App::error_dialog_delay);
   }

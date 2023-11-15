@@ -38,9 +38,11 @@ void LocationBox::keyboard_handler(char *text) {
 }
 
 void LocationBox::edit_location() {
-  const auto title = GetLangText("Enter location");
-  std::memset(input_text.data(), '\0', input_text.size());
+  BOOST_LOG_TRIVIAL(debug) << "Will open keyboard to edit location";
 
+  const auto title = GetLangText("Enter location");
+
+  std::memset(input_text.data(), '\0', input_text.size());
   const auto formatted_location_name = format_location(this->model->location);
   std::memcpy(input_text.data(), formatted_location_name.data(),
               formatted_location_name.size());
