@@ -26,6 +26,11 @@ private:
 
 struct KeyEventDispatcher {
 
+  virtual ~KeyEventDispatcher() {
+    this->last_event_consumer.reset();
+    this->consumers.clear();
+  }
+
   int handle_key_event(int event_type, int key) {
     BOOST_LOG_TRIVIAL(debug)
         << "Processing event " << format_event_type(event_type) << " for key "

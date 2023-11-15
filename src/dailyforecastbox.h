@@ -9,7 +9,6 @@
 #include <memory>
 #include <numeric>
 
-#include "events.h"
 #include "fonts.h"
 #include "icons.h"
 #include "model.h"
@@ -75,20 +74,6 @@ private:
       column_text_flags{ALIGN_LEFT,  ALIGN_CENTER, ALIGN_RIGHT,
                         ALIGN_RIGHT, ALIGN_RIGHT,  ALIGN_RIGHT,
                         ALIGN_RIGHT, ALIGN_RIGHT,  ALIGN_RIGHT};
-
-  bool handle_key_press(int key) override {
-    return (key == IV_KEY_PREV or key == IV_KEY_NEXT);
-  }
-
-  bool handle_key_release(int key) override {
-    if (key == IV_KEY_PREV or key == IV_KEY_NEXT) {
-      const auto event_handler = GetEventHandler();
-      SendEvent(event_handler, EVT_CUSTOM,
-                CustomEvent::change_daily_forecast_display, 0);
-      return true;
-    }
-    return false;
-  }
 
   std::pair<std::string, std::string>
   generate_precipitation_column_content(const DailyCondition &forecast) const {

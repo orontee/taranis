@@ -21,7 +21,7 @@ template <class T> using optional = std::experimental::optional<T>;
 
 namespace taranis {
 
-class Ui : public KeyEventDispatcher {
+class Ui : public KeyEventDispatcher, public KeyEventConsumer {
 public:
   // ⚠️ Must be instantiated after application received the EVT_INIT
   // event otherwise opening fonts, etc. fails
@@ -84,6 +84,10 @@ private:
 
   int handle_possible_swipe(int event_type, int pointer_pos_x,
                             int pointer_pos_y);
+
+  bool handle_key_press(int key) override;
+
+  bool handle_key_release(int key) override;
 
   static void handle_menu_item_selected(int item_index);
 };

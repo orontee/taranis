@@ -18,8 +18,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
-- Some unnecessary redraw have been removed to fix screen
-  flickering. [#73](https://github.com/orontee/taranis/issues/73)
+- Switching from daily to hourly forecast now considers key or swipe
+  direction to set forecast offset
+  [#74](https://github.com/orontee/taranis/issues/74)
+
+- Some unnecessary redraw are avoided to fix screen flickering
+  [#73](https://github.com/orontee/taranis/issues/73)
 
 - Alerts were displayed in a standard dialog. A widget dedicated to
   alert viewing has been implemented to improve

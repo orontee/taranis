@@ -17,6 +17,10 @@ public:
                     std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
                     std::shared_ptr<Fonts> fonts);
 
+  void set_min_forecast_offset();
+
+  void set_max_forecast_offset();
+
   void increase_forecast_offset();
 
   void decrease_forecast_offset();
@@ -75,7 +79,7 @@ private:
 
   void draw_precipitation_histogram() const;
 
-  void request_change_display_forecast_display();
+  void request_change_daily_forecast_display();
 
   const ibitmap *rotate_direction_icon(int degree);
 };

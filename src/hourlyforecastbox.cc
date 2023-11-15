@@ -69,7 +69,7 @@ bool HourlyForecastBox::handle_key_press(int key) {
 
 bool HourlyForecastBox::handle_key_repeat(int key) {
   if (key == IV_KEY_PREV or key == IV_KEY_NEXT) {
-    this->request_change_display_forecast_display();
+    this->request_change_daily_forecast_display();
     return true;
   }
   return false;
@@ -86,6 +86,26 @@ bool HourlyForecastBox::handle_key_release(int key) {
   return false;
 }
 
+void HourlyForecastBox::set_min_forecast_offset() {
+  if (this->forecast_offset == 0) {
+    return;
+  }
+  this->forecast_offset = 0;
+  BOOST_LOG_TRIVIAL(debug) << "Forecast offset set to its min value";
+  this->paint_and_update_screen();
+}
+
+void HourlyForecastBox::set_max_forecast_offset() {
+  const size_t max_forecast_offset{this->model->hourly_forecast.size() -
+                                   HourlyForecastBox::visible_bars};
+  if (this->forecast_offset == max_forecast_offset) {
+    return;
+  }
+  this->forecast_offset = max_forecast_offset;
+  BOOST_LOG_TRIVIAL(debug) << "Forecast offset set to its max value";
+  this->paint_and_update_screen();
+}
+
 void HourlyForecastBox::increase_forecast_offset() {
   const size_t max_forecast_offset{this->model->hourly_forecast.size() -
                                    HourlyForecastBox::visible_bars};
@@ -98,7 +118,7 @@ void HourlyForecastBox::increase_forecast_offset() {
         << "Forecast offset increased to " << this->forecast_offset;
     this->paint_and_update_screen();
   } else {
-    this->request_change_display_forecast_display();
+    this->request_change_daily_forecast_display();
   }
 }
 
@@ -117,7 +137,7 @@ void HourlyForecastBox::decrease_forecast_offset() {
         << "Forecast offset decreased to " << this->forecast_offset;
     this->paint_and_update_screen();
   } else {
-    this->request_change_display_forecast_display();
+    this->request_change_daily_forecast_display();
   }
 }
 
@@ -351,10 +371,8 @@ void HourlyForecastBox::draw_precipitation_histogram() const {
   }
 }
 
-void HourlyForecastBox::request_change_display_forecast_display() {
+void HourlyForecastBox::request_change_daily_forecast_display() {
   BOOST_LOG_TRIVIAL(debug) << "Requesting a change of forecast display";
-  this->forecast_offset = 0;
-
   const auto event_handler = GetEventHandler();
   SendEvent(event_handler, EVT_CUSTOM,
             CustomEvent::change_daily_forecast_display, 0);

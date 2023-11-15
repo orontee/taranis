@@ -81,6 +81,7 @@ Ui::Ui(std::shared_ptr<Model> model)
   // A forecast widget will be pushed back by select_forecast_widget()
 
   this->register_key_event_consumer(menu_button);
+  this->register_key_event_consumer(std::shared_ptr<KeyEventConsumer>(this));
 
   this->swipe_detector.set_bounding_box(
       this->hourly_forecast_box->get_bounding_box());
@@ -154,8 +155,11 @@ bool Ui::is_consumer_active(std::shared_ptr<KeyEventConsumer> consumer) {
   if (consumer == this->visible_modal) {
     return true;
   }
+  if (consumer.get() == this) {
+    return true;
+  }
   if (not this->visible_modal) {
-    auto widget = std::dynamic_pointer_cast<Widget>(consumer);
+    const auto widget = std::dynamic_pointer_cast<Widget>(consumer);
     return widget and not widget->is_modal() and widget->is_enabled();
   };
   return false;
@@ -220,6 +224,11 @@ int Ui::handle_possible_swipe(int event_type, int pointer_pos_x,
   if (swipe != SwipeType::no_swipe) {
     auto current_forecast_widget = this->get_forecast_widget();
     if (current_forecast_widget == this->daily_forecast_box) {
+      if (swipe == SwipeType::left_swipe) {
+        this->hourly_forecast_box->set_min_forecast_offset();
+      } else if (swipe == SwipeType::right_swipe) {
+        this->hourly_forecast_box->set_max_forecast_offset();
+      }
       const auto event_handler = GetEventHandler();
       SendEvent(event_handler, EVT_CUSTOM,
                 CustomEvent::change_daily_forecast_display, 0);
@@ -235,6 +244,25 @@ int Ui::handle_possible_swipe(int event_type, int pointer_pos_x,
     }
   }
   return 0;
+}
+
+bool Ui::handle_key_press(int key) {
+  return (key == IV_KEY_PREV or key == IV_KEY_NEXT);
+}
+
+bool Ui::handle_key_release(int key) {
+  if (key == IV_KEY_PREV or key == IV_KEY_NEXT) {
+    if (key == IV_KEY_PREV) {
+      this->hourly_forecast_box->set_max_forecast_offset();
+    } else if (key == IV_KEY_NEXT) {
+      this->hourly_forecast_box->set_min_forecast_offset();
+    }
+    const auto event_handler = GetEventHandler();
+    SendEvent(event_handler, EVT_CUSTOM,
+              CustomEvent::change_daily_forecast_display, 0);
+    return true;
+  }
+  return false;
 }
 
 void Ui::handle_menu_item_selected(int item_index) {
