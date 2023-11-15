@@ -1,5 +1,7 @@
 # Desktop integration
 
+## Application icon
+
 To customize the application icon and group:
 
 1. One must copy two icons in BMP format on the e-reader (eg under
@@ -47,3 +49,15 @@ To customize the application icon and group:
 ⚠️ Note that comments describing the format and possible attributes
 contain a typo: One must use the `params` (plural!) attribute to pass
 parameters to an application.
+
+## Shutdown logo
+
+1. Start Taranis, open the `parameters` menu and enable generation of
+   shutdown logo.
+   
+   From now on, each model change will update the image file located at
+   `/mnt/ext1/system/logo/offlogo/taranis_weather_forecast.bmp`.
+
+2. Open "Appearance / Logos" screen of the device configuration
+   application. In the poweroff logo item select
+   `taranis_weather_forecast.bmp`.
