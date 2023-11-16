@@ -64,6 +64,7 @@ sources = [about_cc, icons_cc, l10n_cc] + files(
   'app.cc',
   'config.cc',
   'convert.cc',
+  'dailyforecastbox.cc',
   'events.cc',
   'hourlyforecastbox.cc',
   'http.cc',
