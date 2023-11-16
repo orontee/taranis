@@ -4,8 +4,8 @@
 #include "util.h"
 
 namespace taranis {
-DailyForecastBox::DailyForecastBox(int pos_x, int pos_y, int width,
-                                   int height, std::shared_ptr<Model> model,
+DailyForecastBox::DailyForecastBox(int pos_x, int pos_y, int width, int height,
+                                   std::shared_ptr<Model> model,
                                    std::shared_ptr<Icons> icons,
                                    std::shared_ptr<Fonts> fonts)
     : Widget{pos_x, pos_y, width, height}, model{model}, icons{icons},
@@ -208,14 +208,15 @@ void DailyForecastBox::draw_values() {
     const auto &column_start_x = this->column_starts[column_index];
 
     if (column_index == DailyForecastBox::IconColumn) {
-      int row_start_y = this->bounding_box.y;
       for (size_t row_index = 0; row_index < DailyForecastBox::row_count;
            ++row_index) {
         const auto icon = boost::get<ibitmap *>(column_content[row_index]);
         if (icon) {
-          DrawBitmap(column_start_x, row_start_y, icon);
+          const int icon_offset_y = (this->row_height - icon->height) / 2;
+          const int icon_start_y = this->bounding_box.y +
+                                   row_index * this->row_height + icon_offset_y;
+          DrawBitmap(column_start_x, icon_start_y, icon);
         }
-        row_start_y += this->row_height;
       }
     } else {
       const auto &column_width = this->column_widths[column_index];
@@ -224,9 +225,10 @@ void DailyForecastBox::draw_values() {
           this->get_column_first_line_font(column_index);
       SetFont(first_line_font.get(), BLACK);
 
-      int row_start_y = this->bounding_box.y;
       for (size_t row_index = 0; row_index < DailyForecastBox::row_count;
            ++row_index) {
+        const int row_start_y =
+            this->bounding_box.y + row_index * this->row_height;
         const auto &cell_value = column_content[row_index];
         if (cell_value.type() == typeid(std::string)) {
           const auto &text = boost::get<std::string>(column_content[row_index]);
@@ -252,7 +254,6 @@ void DailyForecastBox::draw_values() {
 
           SetFont(first_line_font.get(), BLACK);
         }
-        row_start_y += this->row_height;
       }
     }
   }

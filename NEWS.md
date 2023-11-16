@@ -18,6 +18,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Icons in daily forecast are now centered vertically
+  [#76](https://github.com/orontee/taranis/issues/76)
+
 - Switching from daily to hourly forecast now considers key or swipe
   direction to set forecast offset
   [#74](https://github.com/orontee/taranis/issues/74)
