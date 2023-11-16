@@ -33,7 +33,6 @@ public:
   App()
       : model{std::make_shared<Model>()}, l10n{std::make_unique<L10n>()},
         service{std::make_unique<Service>()},
-        application_state{std::make_unique<ApplicationState>(this->model)},
         history{std::make_unique<LocationHistoryProxy>(this->model)} {}
 
   int process_event(int event_type, int param_one, int param_two);
@@ -46,8 +45,8 @@ private:
   std::shared_ptr<Model> model;
   std::unique_ptr<L10n> l10n;
   std::unique_ptr<Service> service;
-  std::unique_ptr<ApplicationState> application_state;
   std::unique_ptr<LocationHistoryProxy> history;
+  std::unique_ptr<ApplicationState> application_state;
   std::unique_ptr<Ui> ui;
 
   bool config_already_loaded{false};

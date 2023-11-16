@@ -6,6 +6,7 @@
 #include "experimental/optional"
 #include "inkview.h"
 #include "model.h"
+#include "state.h"
 #include "units.h"
 #include "util.h"
 
@@ -86,13 +87,21 @@ void App::setup() {
 
   this->ui = std::make_unique<Ui>(this->model);
 
+  this->application_state = std::make_unique<ApplicationState>(this->model);
+  this->application_state->restore();
+
   auto &current_location = this->model->location;
   if (current_location.name.empty()) {
+    BOOST_LOG_TRIVIAL(debug) << "Setting current location to default value "
+                             << "since not restored from application state";
     current_location.longitude = 2.3200410217200766;
     current_location.latitude = 48.858889699999999;
     current_location.name = "Paris";
     current_location.country = "FR";
     current_location.state = "Ile-de-France";
+  } else {
+    BOOST_LOG_TRIVIAL(debug)
+        << "Current location restored from application state";
   }
   this->load_config();
 }
@@ -107,9 +116,11 @@ void App::show() {
 void App::exit() {
   BOOST_LOG_TRIVIAL(info) << "Exiting application";
 
+  this->application_state->dump();
+
   this->ui.reset();
-  this->history.reset();
   this->application_state.reset();
+  this->history.reset();
   this->service.reset();
   this->model.reset();
 

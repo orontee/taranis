@@ -68,11 +68,15 @@ std::string ApplicationState::get_application_state_path() {
 void ApplicationState::restore_model(const Json::Value &root) {
   const auto &model_value = root[MODEL_KEY];
   update_from_json(*this->model, model_value);
+
+  BOOST_LOG_TRIVIAL(info) << "Model restored from application state";
 }
 
 void ApplicationState::dump_model(Json::Value &root) {
   auto &model_value = root[MODEL_KEY];
   model_value = to_json(*this->model);
+
+  BOOST_LOG_TRIVIAL(info) << "Model dumped to application state";
 }
 
 } // namespace taranis

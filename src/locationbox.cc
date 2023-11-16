@@ -1,6 +1,7 @@
 #include "locationbox.h"
 
 #include <array>
+#include <boost/log/trivial.hpp>
 #include <cmath>
 #include <cstring>
 #include <inkview.h>

@@ -10,11 +10,9 @@ namespace taranis {
 class ApplicationState {
 
 public:
-  ApplicationState(std::shared_ptr<Model> model) : model{model} {
-    this->restore();
-  }
+  ApplicationState(std::shared_ptr<Model> model) : model{model} {}
 
-  ~ApplicationState() { this->dump(); }
+  ~ApplicationState() {}
 
   void restore();
 

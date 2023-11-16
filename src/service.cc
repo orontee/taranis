@@ -174,8 +174,6 @@ Json::Value Service::send_get_request(const std::string &url) {
 }
 
 Condition Service::extract_condition(const Json::Value &value) {
-  BOOST_LOG_TRIVIAL(debug) << "Extracting weather condition from JSON value";
-
   const TimePoint date{value.get("dt", 0).asInt64() * 1s};
   const TimePoint sunrise{value.get("sunrise", 0).asInt64() * 1s};
   const TimePoint sunset{value.get("sunset", 0).asInt64() * 1s};
@@ -233,8 +231,6 @@ Condition Service::extract_condition(const Json::Value &value) {
 }
 
 DailyCondition Service::extract_daily_condition(const Json::Value &value) {
-  BOOST_LOG_TRIVIAL(debug) << "Extracting daily condition from JSON value";
-
   const TimePoint date{value.get("dt", 0).asInt64() * 1s};
   const TimePoint sunrise{value.get("sunrise", 0).asInt64() * 1s};
   const TimePoint sunset{value.get("sunset", 0).asInt64() * 1s};
@@ -296,8 +292,6 @@ DailyCondition Service::extract_daily_condition(const Json::Value &value) {
 }
 
 std::vector<Alert> Service::extract_alerts(const Json::Value &value) {
-  BOOST_LOG_TRIVIAL(debug) << "Extracting alerts from JSON value";
-
   std::vector<Alert> alerts;
 
   for (auto &alert_value : value) {
