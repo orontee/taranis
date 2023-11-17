@@ -49,7 +49,7 @@ HourlyForecastBox::HourlyForecastBox(int pos_x, int pos_y, int width,
   this->wind_direction_icon_y = this->temperature_y + normal_font->height;
   this->wind_speed_y =
       this->wind_direction_icon_y + HourlyForecastBox::wind_direction_icon_size;
-  this->humidity_y = this->wind_speed_y + tiny_font->height;
+  this->wind_gust_y = this->wind_speed_y + tiny_font->height;
 
   this->curve_y_offset = this->temperature_y - this->vertical_padding;
   this->curve_height = this->temperature_y - this->weather_icon_y -
@@ -195,9 +195,10 @@ void HourlyForecastBox::draw_frame_and_values() {
            this->bounding_box.w, this->frame_start_y + this->bars_height,
            LGRAY);
 
-  auto normal_font = this->fonts->get_normal_font();
-  auto small_bold_font = this->fonts->get_small_bold_font();
-  auto tiny_font = this->fonts->get_tiny_font();
+  const auto normal_font = this->fonts->get_normal_font();
+  const auto small_bold_font = this->fonts->get_small_bold_font();
+  const auto tiny_font = this->fonts->get_tiny_font();
+  const auto tiny_italic_font = this->fonts->get_tiny_italic_font();
 
   const auto separator_stop_y = this->frame_start_y + this->bars_height;
 
@@ -234,10 +235,6 @@ void HourlyForecastBox::draw_frame_and_values() {
 
       SetFont(tiny_font.get(), DGRAY);
 
-      const auto wind_speed_text = units.format_speed(forecast.wind_speed);
-      DrawString(bar_center_x - StringWidth(wind_speed_text.c_str()) / 2.0,
-                 this->wind_speed_y, wind_speed_text.c_str());
-
       const auto rotated_icon =
           this->rotate_direction_icon(forecast.wind_degree);
       if (rotated_icon) {
@@ -245,10 +242,15 @@ void HourlyForecastBox::draw_frame_and_values() {
                    this->wind_direction_icon_y, rotated_icon);
       }
 
-      const auto humidity_text =
-          std::to_string(static_cast<int>(forecast.humidity)) + "%";
-      DrawString(bar_center_x - StringWidth(humidity_text.c_str()) / 2.0,
-                 this->humidity_y, humidity_text.c_str());
+      const auto wind_speed_text = units.format_speed(forecast.wind_speed);
+      DrawString(bar_center_x - StringWidth(wind_speed_text.c_str()) / 2.0,
+                 this->wind_speed_y, wind_speed_text.c_str());
+
+      SetFont(tiny_italic_font.get(), DGRAY);
+
+      const auto wind_gust_text = units.format_speed(forecast.wind_gust);
+      DrawString(bar_center_x - StringWidth(wind_gust_text.c_str()) / 2.0,
+                 this->wind_gust_y, wind_gust_text.c_str());
     }
 
     if (bar_index < HourlyForecastBox::visible_bars - 1) {

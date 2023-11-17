@@ -50,9 +50,9 @@ private:
   int time_y;
   int weather_icon_y;
   int temperature_y;
-  int wind_speed_y;
   int wind_direction_icon_y;
-  int humidity_y;
+  int wind_speed_y;
+  int wind_gust_y;
 
   int bars_height;
   int curve_y_offset;

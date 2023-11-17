@@ -18,6 +18,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Humidity was replaced by speed of wind gusts
+  [#78](https://github.com/orontee/taranis/issues/78)
+
 - Icons in daily forecast are now centered vertically
   [#76](https://github.com/orontee/taranis/issues/76)
 

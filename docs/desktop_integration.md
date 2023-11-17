@@ -59,5 +59,5 @@ parameters to an application.
    `/mnt/ext1/system/logo/offlogo/taranis_weather_forecast.bmp`.
 
 2. Open "Appearance / Logos" screen of the device configuration
-   application. In the poweroff logo item select
+   application. In the poweroff logo row, select
    `taranis_weather_forecast.bmp`.

@@ -78,7 +78,7 @@ void DailyForecastBox::generate_table_content() {
         } else if (column_index == DailyForecastBox::WindColumn) {
           column_content[row_index] = std::pair<std::string, std::string>{
               units.format_speed(forecast.wind_speed),
-              std::to_string(static_cast<int>(forecast.humidity)) + "%"};
+              units.format_speed(forecast.wind_gust)};
         } else if (column_index == DailyForecastBox::PrecipitationColumn) {
           column_content[row_index] =
               this->generate_precipitation_column_content(forecast);
@@ -94,19 +94,24 @@ void DailyForecastBox::generate_table_content() {
   }
 }
 
-std::shared_ptr<ifont>
-DailyForecastBox::get_column_first_line_font(size_t column_index) const {
+std::shared_ptr<ifont> DailyForecastBox::get_font(size_t column_index,
+                                                  int line_number) const {
   if (column_index == DailyForecastBox::WeekDayColumn) {
     return this->fonts->get_small_font();
   } else if (column_index == DailyForecastBox::SunHoursColumn or
              column_index == DailyForecastBox::MinMaxTemperatureColumn or
-             column_index == DailyForecastBox::WindColumn or
              column_index == DailyForecastBox::PrecipitationColumn) {
     return this->fonts->get_tiny_font();
   } else if (column_index == DailyForecastBox::MorningTemperatureColumn or
              column_index == DailyForecastBox::DayTemperatureColumn or
              column_index == DailyForecastBox::EveningTemperatureColumn) {
     return this->fonts->get_small_bold_font();
+  } else if (column_index == DailyForecastBox::WindColumn) {
+    if (line_number == 2) {
+      return this->fonts->get_tiny_italic_font();
+    } else {
+      return this->fonts->get_tiny_font();
+    }
   }
   return nullptr;
 }
@@ -119,13 +124,13 @@ int DailyForecastBox::estimate_max_content_width(size_t column_index) const {
           column_index < DailyForecastBox::column_count)) {
     return 0;
   }
-  const auto first_line_font = this->get_column_first_line_font(column_index);
+  const auto first_line_font = this->get_font(column_index, 1);
   if (not first_line_font) {
     return 0;
   }
   SetFont(first_line_font.get(), BLACK);
 
-  const auto second_line_font = this->fonts->get_tiny_font();
+  const auto second_line_font = this->get_font(column_index, 2);
 
   auto &column_content = this->table_content.at(column_index);
   std::array<int, DailyForecastBox::row_count> widths;
@@ -200,8 +205,6 @@ void DailyForecastBox::draw_values() {
   this->generate_table_content();
   this->compute_columns_layout();
 
-  const auto second_line_font = this->fonts->get_tiny_font();
-
   for (size_t column_index = 0; column_index < DailyForecastBox::column_count;
        ++column_index) {
     const auto &column_content = this->table_content[column_index];
@@ -221,9 +224,8 @@ void DailyForecastBox::draw_values() {
     } else {
       const auto &column_width = this->column_widths[column_index];
       const auto &text_flags = this->column_text_flags[column_index];
-      const auto first_line_font =
-          this->get_column_first_line_font(column_index);
-      SetFont(first_line_font.get(), BLACK);
+      const auto first_line_font = this->get_font(column_index, 1);
+      const auto second_line_font = this->get_font(column_index, 2);
 
       for (size_t row_index = 0; row_index < DailyForecastBox::row_count;
            ++row_index) {
@@ -231,6 +233,8 @@ void DailyForecastBox::draw_values() {
             this->bounding_box.y + row_index * this->row_height;
         const auto &cell_value = column_content[row_index];
         if (cell_value.type() == typeid(std::string)) {
+          SetFont(first_line_font.get(), BLACK);
+
           const auto &text = boost::get<std::string>(column_content[row_index]);
           DrawTextRect(column_start_x, row_start_y + 1, column_width,
                        this->row_height - 2, text.c_str(),
@@ -240,6 +244,8 @@ void DailyForecastBox::draw_values() {
               column_content[row_index]);
           const auto &first_line_text = content.first;
           const auto &second_line_text = content.second;
+
+          SetFont(first_line_font.get(), BLACK);
 
           const auto &line_height = (row_height - 2) / 2;
           DrawTextRect(column_start_x, row_start_y + 1, column_width,
@@ -251,8 +257,6 @@ void DailyForecastBox::draw_values() {
           DrawTextRect(column_start_x, row_start_y + 1 + line_height,
                        column_width, line_height, second_line_text.c_str(),
                        text_flags | VALIGN_MIDDLE);
-
-          SetFont(first_line_font.get(), BLACK);
         }
       }
     }

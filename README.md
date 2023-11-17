@@ -14,17 +14,19 @@ e-book reader.
 
 * Current weather
 
-* 8 daily forecasts with sunrise hour, morning, day and evening
-  temperatures, sunset hour, wind speed, humidity and precipitations.
+* 8 daily forecasts with sunrise/sunset hour, morning, day and evening
+  temperatures, wind speed, wind gust and precipitations.
 
-* 24 hourly forecasts with temperature, wind speed, humidity,
-  temperature curve and precipitations histogram
+* 24 hourly forecasts with temperature, wind direction, wind speed,
+  wind gust, temperature curve and precipitations histogram
   
 * Government weather alerts
   
 * Configuration editor for system of units, custom API key, etc.
 
-* History of locations
+* History of locations, favorite locations
+
+* Generation of shutdown logo
 
 * Translations (English, Czech, French, Polish)
 
@@ -36,7 +38,7 @@ compatible with hardware running software version ≥6).
 
 Consult the [NEWS file](NEWS.md) for notable changes between versions.
 
-### Privacy policy
+## Privacy policy
 
 Note that the only external service called by Taranis is provided by
 [OpenWeather](https://openweather.co.uk) and [their privacy
@@ -60,7 +62,7 @@ their APIs is quite clear:
 
 Optionally, a custom icon can be associated to the application;
 Instructions are given in [Desktop
-integration](./docs/desktop_integration.md).
+integration](./docs/desktop_integration.md#application-icon).
 
 ## Configuration
 
@@ -68,6 +70,11 @@ Note that the Openweather API key distributed with the application is
 rate limited. A custom API key can be specified through the
 "Parameters…" menu item (See [OpenWeather](https://openweathermap.org)
 for instructions on how to register and generate API keys).
+
+Another parameter allows to enable/disable generation of a shutdown
+logo. Instructions are given in [Desktop
+integration](./docs/desktop_integration.md#shutdown-logo) on how to setup the device
+to effectively display this logo on power off.
 
 ## Contributing
 

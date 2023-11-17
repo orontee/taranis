@@ -17,7 +17,9 @@ public:
         big{OpenFont(DEFAULTFONTB, BIG_FONT_SIZE, false), &CloseFont},
         small{OpenFont(DEFAULTFONT, SMALL_FONT_SIZE, false), &CloseFont},
         small_bold{OpenFont(DEFAULTFONTB, SMALL_FONT_SIZE, false), &CloseFont},
-        tiny{OpenFont(DEFAULTFONT, TINY_FONT_SIZE, false), &CloseFont} {}
+        tiny{OpenFont(DEFAULTFONT, TINY_FONT_SIZE, false), &CloseFont},
+        tiny_italic{OpenFont(DEFAULTFONTI, TINY_FONT_SIZE, false), &CloseFont} {
+  }
 
   std::shared_ptr<ifont> get_normal_font() const { return this->normal; }
 
@@ -33,6 +35,10 @@ public:
 
   std::shared_ptr<ifont> get_tiny_font() const { return this->tiny; }
 
+  std::shared_ptr<ifont> get_tiny_italic_font() const {
+    return this->tiny_italic;
+  }
+
 private:
   std::shared_ptr<ifont> normal;
   std::shared_ptr<ifont> bold;
@@ -40,5 +46,6 @@ private:
   std::shared_ptr<ifont> small;
   std::shared_ptr<ifont> small_bold;
   std::shared_ptr<ifont> tiny;
+  std::shared_ptr<ifont> tiny_italic;
 };
 } // namespace taranis

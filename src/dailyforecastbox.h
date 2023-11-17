@@ -71,7 +71,7 @@ private:
 
   void generate_table_content();
 
-  std::shared_ptr<ifont> get_column_first_line_font(size_t column_index) const;
+  std::shared_ptr<ifont> get_font(size_t column_index, int line_number) const;
 
   int estimate_max_content_width(size_t column_index) const;
 
