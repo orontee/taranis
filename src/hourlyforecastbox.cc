@@ -246,11 +246,13 @@ void HourlyForecastBox::draw_frame_and_values() {
       DrawString(bar_center_x - StringWidth(wind_speed_text.c_str()) / 2.0,
                  this->wind_speed_y, wind_speed_text.c_str());
 
-      SetFont(tiny_italic_font.get(), DGRAY);
-
       const auto wind_gust_text = units.format_speed(forecast.wind_gust);
-      DrawString(bar_center_x - StringWidth(wind_gust_text.c_str()) / 2.0,
-                 this->wind_gust_y, wind_gust_text.c_str());
+      if (forecast.wind_gust > forecast.wind_speed and
+          wind_gust_text != wind_speed_text) {
+        SetFont(tiny_italic_font.get(), DGRAY);
+        DrawString(bar_center_x - StringWidth(wind_gust_text.c_str()) / 2.0,
+                   this->wind_gust_y, wind_gust_text.c_str());
+      }
     }
 
     if (bar_index < HourlyForecastBox::visible_bars - 1) {

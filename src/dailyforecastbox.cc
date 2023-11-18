@@ -76,9 +76,16 @@ void DailyForecastBox::generate_table_content() {
               units.format_temperature(forecast.temperature_max),
               units.format_temperature(forecast.temperature_min)};
         } else if (column_index == DailyForecastBox::WindColumn) {
-          column_content[row_index] = std::pair<std::string, std::string>{
-              units.format_speed(forecast.wind_speed),
-              units.format_speed(forecast.wind_gust)};
+          const auto wind_speed_text = units.format_speed(forecast.wind_speed);
+          const auto wind_gust_text = units.format_speed(forecast.wind_gust);
+          if (forecast.wind_gust > forecast.wind_speed and
+              wind_gust_text != wind_speed_text) {
+            column_content[row_index] = std::pair<std::string, std::string>{
+                wind_speed_text, wind_gust_text};
+          } else {
+            column_content[row_index] =
+                std::pair<std::string, std::string>{wind_speed_text, ""};
+          }
         } else if (column_index == DailyForecastBox::PrecipitationColumn) {
           column_content[row_index] =
               this->generate_precipitation_column_content(forecast);
