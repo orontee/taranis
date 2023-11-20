@@ -17,8 +17,6 @@ MenuButton::MenuButton(std::shared_ptr<Model> model,
                     nullptr},
             imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_CONFIGURE, nullptr, nullptr,
                     nullptr, nullptr, nullptr},
-            imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_ABOUT, nullptr, nullptr,
-                    nullptr, nullptr, nullptr},
             imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_QUIT, nullptr, nullptr,
                     nullptr, nullptr, nullptr},
             imenuex{0, 0, nullptr, nullptr, nullptr, nullptr, nullptr}},
@@ -76,8 +74,6 @@ void MenuButton::update_item_texts() {
       item.text = const_cast<char *>(GetLangText("Locations"));
     } else if (item.index == MENU_ITEM_CONFIGURE) {
       item.text = const_cast<char *>(GetLangText("Parameters…"));
-    } else if (item.index == MENU_ITEM_ABOUT) {
-      item.text = const_cast<char *>(GetLangText("About…"));
     } else if (item.index == MENU_ITEM_QUIT) {
       item.text = const_cast<char *>(GetLangText("Quit"));
     }

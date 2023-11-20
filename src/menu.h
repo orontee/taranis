@@ -23,7 +23,6 @@ enum menu_item_index {
   MENU_ITEM_EDIT_LOCATION = 201,
   MENU_ITEM_TOGGLE_FAVORITE_LOCATION = 202,
   MENU_ITEM_CONFIGURE = 203,
-  MENU_ITEM_ABOUT = 204,
   MENU_ITEM_QUIT = 300,
   MENU_ITEM_EMPTY_LOCATION_HISTORY = 800,
 };
@@ -39,7 +38,7 @@ protected:
   void on_clicked() override { this->open_menu(); }
 
 private:
-  typedef std::array<imenuex, 6> MenuItems;
+  typedef std::array<imenuex, 5> MenuItems;
 
   static const int padding{5};
   static const int icon_size{70};
