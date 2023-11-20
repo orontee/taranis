@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "alerts.h"
+#include "config.h"
 #include "fonts.h"
 #include "hourlyforecastbox.h"
 #include "icons.h"
@@ -26,7 +27,7 @@ public:
   // ⚠️ Must be instantiated after application received the EVT_INIT
   // event otherwise opening fonts, etc. fails
 
-  Ui(std::shared_ptr<Model> model);
+  Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model);
 
   virtual ~Ui() {}
 
@@ -51,6 +52,7 @@ protected:
   bool is_consumer_active(std::shared_ptr<KeyEventConsumer> consumer) override;
 
 private:
+  std::shared_ptr<Config> config;
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;

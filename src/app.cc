@@ -85,7 +85,7 @@ void App::setup() {
   }
   this->set_task_parameters();
 
-  this->ui = std::make_unique<Ui>(this->model);
+  this->ui = std::make_unique<Ui>(this->config, this->model);
 
   this->application_state = std::make_unique<ApplicationState>(this->model);
   this->application_state->restore();
@@ -135,9 +135,7 @@ void App::load_config() {
     BOOST_LOG_TRIVIAL(debug) << "Rereading configuration";
   }
 
-  Config config;
-
-  const auto api_key_from_config = config.read_string("api_key", "");
+  const auto api_key_from_config = this->config->read_string("api_key", "");
   const auto is_api_key_obsolete =
       (not api_key_from_config.empty() and
        api_key_from_config != this->service->get_api_key());
@@ -146,7 +144,7 @@ void App::load_config() {
   }
 
   const auto unit_system_from_config = static_cast<UnitSystem>(
-      config.read_int("unit_system"s, UnitSystem::metric));
+      this->config->read_int("unit_system"s, UnitSystem::metric));
   const bool is_unit_system_obsolete =
       (unit_system_from_config != this->model->unit_system);
   if (is_unit_system_obsolete) {
@@ -155,7 +153,7 @@ void App::load_config() {
 
   if (not this->config_already_loaded) {
     const auto start_with_daily_forecast_from_config =
-        config.read_bool("start_with_daily_forecast"s, false);
+        this->config->read_bool("start_with_daily_forecast"s, false);
     this->model->display_daily_forecast = start_with_daily_forecast_from_config;
   }
 
@@ -172,7 +170,7 @@ void App::load_config() {
   // data are obsolete
 
   const bool generate_shutdown_logo =
-      config.read_bool("generate_shutdown_logo", false);
+      this->config->read_bool("generate_shutdown_logo", false);
   if (generate_shutdown_logo) {
     if (this->ui) {
       this->ui->generate_logo_maybe();
@@ -224,8 +222,7 @@ int App::handle_custom_event(int param_one, int param_two) {
       return 1;
     }
   } else if (param_one == CustomEvent::open_config_editor) {
-    Config config;
-    config.open_editor();
+    this->config->open_editor();
   } else if (param_one == CustomEvent::refresh_data) {
     this->refresh_data(static_cast<CallContext>(param_two));
     return 1;
@@ -460,9 +457,7 @@ void App::update_configured_unit_system(UnitSystem unit_system) {
 
     return;
   }
-
-  Config config;
-  config.write_int("unit_system", unit_system);
+  this->config->write_int("unit_system", unit_system);
 
   Config::config_changed();
 }

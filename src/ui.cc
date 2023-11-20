@@ -18,8 +18,8 @@
 
 namespace taranis {
 
-Ui::Ui(std::shared_ptr<Model> model)
-    : KeyEventDispatcher{}, model{model}, icons{new Icons{}}, fonts{
+  Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
+   : KeyEventDispatcher{}, config{config}, model{model}, icons{new Icons{}}, fonts{
                                                                   new Fonts{}} {
   SetPanelType(0);
   SetOrientation(0);
@@ -147,7 +147,7 @@ Ui::get_location_from_location_list(size_t index) const {
 }
 
 void Ui::generate_logo_maybe() const {
-  LogoGenerator generator{this->model, this->icons, this->fonts};
+  LogoGenerator generator{this->config, this->model, this->icons, this->fonts};
   generator.generate_maybe();
 }
 

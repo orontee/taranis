@@ -12,6 +12,7 @@
 #include <type_traits>
 #include <vector>
 
+#include "config.h"
 #include "events.h"
 #include "history.h"
 #include "http.h"
@@ -30,7 +31,9 @@ class App {
 public:
   App()
       : client{std::make_shared<HttpClient>()},
-        model{std::make_shared<Model>()}, l10n{std::make_unique<L10n>()},
+        model{std::make_shared<Model>()},
+        config{std::make_shared<Config>()},
+        l10n{std::make_unique<L10n>()},
         service{std::make_unique<Service>(client)},
         history{std::make_unique<LocationHistoryProxy>(this->model)} {}
 
@@ -43,6 +46,7 @@ private:
 
   std::shared_ptr<HttpClient> client;
   std::shared_ptr<Model> model;
+  std::shared_ptr<Config> config;
   std::unique_ptr<L10n> l10n;
   std::unique_ptr<Service> service;
   std::unique_ptr<LocationHistoryProxy> history;

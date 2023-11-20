@@ -3,6 +3,7 @@
 #include <inkview.h>
 #include <memory>
 
+#include "config.h"
 #include "dailyforecastbox.h"
 #include "fonts.h"
 #include "icons.h"
@@ -15,7 +16,8 @@ namespace taranis {
 
 class Logo : public Widget {
 public:
-  Logo(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
+  Logo(std::shared_ptr<Model> model,
+       std::shared_ptr<Icons> icons,
        std::shared_ptr<Fonts> fonts);
 
   void do_paint() override;
@@ -30,13 +32,16 @@ private:
 };
 
 struct LogoGenerator {
-  LogoGenerator(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
+  LogoGenerator(std::shared_ptr<Config> config,
+                std::shared_ptr<Model> model,
+		std::shared_ptr<Icons> icons,
                 std::shared_ptr<Fonts> fonts)
-      : model{model}, icons{icons}, fonts{fonts} {}
+    : config{config}, model{model}, icons{icons}, fonts{fonts} {}
 
   void generate_maybe() const;
 
 private:
+  std::shared_ptr<Config> config;
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
