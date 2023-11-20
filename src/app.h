@@ -26,9 +26,6 @@ using namespace std::string_literals;
 
 namespace taranis {
 
-std::string get_about_content();
-// defined in generated file about.cc
-
 class App {
 public:
   App()
@@ -71,8 +68,6 @@ private:
 
   void refresh_data(CallContext context);
 
-  void open_about_dialog();
-
   void search_location(const std::string &location_description);
 
   void set_model_location(const Location &location) const;
@@ -82,7 +77,5 @@ private:
   static void set_task_parameters();
 
   static void refresh_data_maybe();
-
-  static void handle_about_dialog_button_clicked(int button_index);
 };
 } // namespace taranis

@@ -14,7 +14,6 @@ enum CustomEvent {
   refresh_data,
   select_location_from_history,
   select_location_from_list,
-  show_about_dialog,
   toggle_current_location_favorite,
 
   // Events

@@ -252,9 +252,6 @@ int App::handle_custom_event(int param_one, int param_two) {
       }
       return 1;
     }
-  } else if (param_one == CustomEvent::show_about_dialog) {
-    this->open_about_dialog();
-    return 1;
   } else if (param_one == CustomEvent::toggle_current_location_favorite) {
     this->history->toggle_current_location_favorite();
     return 1;
@@ -399,13 +396,6 @@ void App::refresh_data(CallContext context) {
   HideHourglass();
 }
 
-void App::open_about_dialog() {
-  BOOST_LOG_TRIVIAL(debug) << "Opening about dialog";
-  const auto about_content = get_about_content();
-  Dialog(ICON_INFORMATION, GetLangText("About"), about_content.c_str(),
-         GetLangText("Ok"), nullptr, &handle_about_dialog_button_clicked);
-}
-
 void App::search_location(const std::string &location_description) {
   try {
     const auto [town, country] =
@@ -503,9 +493,5 @@ void App::refresh_data_maybe() {
   const auto event_handler = GetEventHandler();
   SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data,
             CallContext::triggered_by_timer);
-}
-
-void App::handle_about_dialog_button_clicked(int button_index) {
-  CloseDialog();
 }
 } // namespace taranis
