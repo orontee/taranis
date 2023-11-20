@@ -19,7 +19,7 @@ namespace taranis {
 
 class Service {
 public:
-  Service() {}
+  Service(std::shared_ptr<HttpClient> client) : client{client} {}
 
   std::string get_api_key() const { return this->api_key; }
 
@@ -51,7 +51,7 @@ private:
   std::string api_key{"4620ad6f20069b66bc36b1e88ceb4541"};
   // API key associated to rate limited plan
 
-  HttpClient client;
+  std::shared_ptr<HttpClient> client;
 
   Location location;
 

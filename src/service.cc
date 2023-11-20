@@ -118,9 +118,9 @@ std::vector<Alert> Service::get_alerts() const {
 
 std::string Service::encode_location(const std::string &town,
                                      const std::string &country) const {
-  std::string location = this->client.encode_query_parameter(town);
+  std::string location = this->client->encode_query_parameter(town);
   if (not country.empty()) {
-    location += "," + this->client.encode_query_parameter(country);
+    location += "," + this->client->encode_query_parameter(country);
   }
   // ⚠️ this is not the usual way to encode query parameters, in
   // particular the comma must not be encoded...
@@ -165,7 +165,7 @@ Json::Value Service::request_onecall_api(const std::string &language,
 
 Json::Value Service::send_get_request(const std::string &url) {
   try {
-    return this->client.get(url);
+    return this->client->get(url);
   } catch (const HttpError &error) {
     throw ServiceError::from_http_error(error);
   } catch (const JsonParseError &error) {

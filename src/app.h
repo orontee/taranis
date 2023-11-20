@@ -14,6 +14,7 @@
 
 #include "events.h"
 #include "history.h"
+#include "http.h"
 #include "l10n.h"
 #include "model.h"
 #include "service.h"
@@ -31,8 +32,9 @@ std::string get_about_content();
 class App {
 public:
   App()
-      : model{std::make_shared<Model>()}, l10n{std::make_unique<L10n>()},
-        service{std::make_unique<Service>()},
+      : client{std::make_shared<HttpClient>()},
+        model{std::make_shared<Model>()}, l10n{std::make_unique<L10n>()},
+        service{std::make_unique<Service>(client)},
         history{std::make_unique<LocationHistoryProxy>(this->model)} {}
 
   int process_event(int event_type, int param_one, int param_two);
@@ -42,6 +44,7 @@ private:
   static constexpr int refresh_period{60 * 60 * 1000};
   static constexpr int error_dialog_delay{5000};
 
+  std::shared_ptr<HttpClient> client;
   std::shared_ptr<Model> model;
   std::unique_ptr<L10n> l10n;
   std::unique_ptr<Service> service;

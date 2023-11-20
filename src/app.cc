@@ -123,6 +123,7 @@ void App::exit() {
   this->history.reset();
   this->service.reset();
   this->model.reset();
+  this->client.reset();
 
   CloseApp();
 }
