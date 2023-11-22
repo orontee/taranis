@@ -16,7 +16,6 @@ icons = files(
   'icon_menu.bmp',
   'icon_radio_button_checked.bmp',
   'icon_radio_button_unchecked.bmp',
-  'icon_software_automatic_version_check.bmp',
   'icon_software_version.bmp',
   'icon_software_version_check.bmp',
   'icon_taranis.bmp',
