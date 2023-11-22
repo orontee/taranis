@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-14 23:14+0100\n"
+"POT-Creation-Date: 2023-11-22 23:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/about.cc.in:13
+#: src/about.cc.in:15
 msgid ""
 "This program is provided without any warranty. For more details, read GNU "
 "General Public License, version 3 or later"
@@ -25,7 +25,7 @@ msgstr ""
 "Tento program je bez jakékoliv záruky. Další podrobnosti jsou v GNU General "
 "Public License, verze 3 nebo novější."
 
-#: src/about.cc.in:16
+#: src/about.cc.in:18
 msgid "Credits"
 msgstr "Poděkování"
 
@@ -45,81 +45,93 @@ msgstr "Trvá"
 msgid "Source"
 msgstr "Zdroj"
 
-#: src/app.cc:67
+#: src/app.cc:80
 msgid "Unsupported software version"
 msgstr "Nepodporovaná verze programu"
 
-#: src/app.cc:68
+#: src/app.cc:81
 msgid ""
 "The application isn't compatible with the software version of this reader."
 msgstr "Aplikace není kompatibilní s programovou verzí této čtečky."
 
-#: src/app.cc:203 src/app.cc:215 src/app.cc:249 src/app.cc:370
+#: src/app.cc:242 src/app.cc:254 src/app.cc:288 src/app.cc:410
+#: src/version.cc:96
 msgid "Ok"
 msgstr "Ok"
 
-#: src/app.cc:245
+#: src/app.cc:284
 msgid "Invalid input"
 msgstr "Neplatné zadání"
 
-#: src/app.cc:247
+#: src/app.cc:286
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr ""
 "Zkontrolujte, zda je správné jméno města a potom státu oddělené čárkou."
 
-#: src/app.cc:312 src/app.cc:321 src/app.cc:395 src/app.cc:403
+#: src/app.cc:351 src/app.cc:360 src/app.cc:435 src/app.cc:443
 msgid "Network error"
 msgstr "Chyba sítě"
 
-#: src/app.cc:313 src/app.cc:322 src/app.cc:396 src/app.cc:404
+#: src/app.cc:352 src/app.cc:361 src/app.cc:436 src/app.cc:444
 msgid "Failure while fetching weather data. Check your network connection."
 msgstr "Chyba při stahování dat o počasí. Zkontrolujte síťové připojení."
 
-#: src/app.cc:329 src/app.cc:410
+#: src/app.cc:368 src/app.cc:450
 msgid "Service unavailable"
 msgstr "Služba není dostupná"
 
-#: src/app.cc:369
-msgid "About"
-msgstr "O aplikaci"
+#: src/app.cc:409 src/config.cc:40 src/version.cc:61 src/version.cc:68
+#: src/version.cc:75 src/version.cc:83 src/version.cc:95
+#, fuzzy
+msgid "Software version"
+msgstr "Nepodporovaná verze programu"
 
-#: src/config.cc:15
+#: src/config.cc:20
 msgid "Standard"
 msgstr "SI"
 
-#: src/config.cc:16
+#: src/config.cc:21
 msgid "Metric"
 msgstr "Metrické"
 
-#: src/config.cc:17
+#: src/config.cc:22
 msgid "Imperial"
 msgstr "Imperiální"
 
-#: src/config.cc:22
+#: src/config.cc:27
 msgid "Hourly forecast"
 msgstr "Hodinová předpověď"
 
-#: src/config.cc:23
+#: src/config.cc:28
 msgid "Daily forecast"
 msgstr "Denní předpověď"
 
-#: src/config.cc:34
+#: src/config.cc:43
+msgid "Check newer version"
+msgstr ""
+
+#: src/config.cc:48
 msgid "Units"
 msgstr "Jednotky"
 
-#: src/config.cc:38
+#: src/config.cc:52
 msgid "Start screen"
 msgstr "Startovací obrazovka"
 
-#: src/config.cc:41
+#: src/config.cc:55
 msgid "Custom API key"
 msgstr "Vlastní klíč API"
 
-#: src/config.cc:45
+#: src/config.cc:59
 msgid "Generate shutdown logo"
 msgstr "Vygenerovat logo vypnutí"
 
-#: src/config.cc:98
+#: src/config.cc:63
+#, fuzzy
+msgid "Software"
+msgstr "Nepodporovaná verze programu"
+
+#: src/config.cc:120
 msgid "Parameters"
 msgstr "Parametry"
 
@@ -131,7 +143,7 @@ msgstr "Pocitová teplota"
 msgid "Location unknown to the service providing weather data. Check spelling."
 msgstr "Lokalita není známá ve službě počasí. Zkontrolujte zápis."
 
-#: src/errors.h:43
+#: src/errors.h:43 src/version.cc:48
 msgid ""
 "Sorry, an unexpected error was encountered. Report this to the application "
 "author."
@@ -154,11 +166,11 @@ msgid ""
 "The service providing weather data isn't working as expected. Retry later."
 msgstr "Služba poskytující data o počasí nepracuje správně Zkuste později."
 
-#: src/locationbox.cc:14
+#: src/locationbox.cc:44
 msgid "Enter location"
 msgstr ""
 
-#: src/locationselector.cc:46 src/menu.cc:76
+#: src/locationselector.cc:46 src/menu.cc:74
 msgid "Locations"
 msgstr "Lokality"
 
@@ -170,35 +182,31 @@ msgstr "Zem. délka"
 msgid "Latitude"
 msgstr "Zem. šířka"
 
-#: src/menu.cc:74
+#: src/menu.cc:72
 msgid "Refresh"
 msgstr "Aktualizovat"
 
-#: src/menu.cc:78
+#: src/menu.cc:76
 msgid "Parameters…"
 msgstr "Parametry…"
 
-#: src/menu.cc:80
-msgid "About…"
-msgstr "O aplikaci…"
-
-#: src/menu.cc:82
+#: src/menu.cc:78
 msgid "Quit"
 msgstr "Konec"
 
-#: src/menu.cc:96
+#: src/menu.cc:92
 msgid "Empty"
 msgstr "Prázdný"
 
-#: src/menu.cc:109 src/menu.cc:138
+#: src/menu.cc:105 src/menu.cc:134
 msgid "Add to favorites"
 msgstr "Přidat do oblíbených"
 
-#: src/menu.cc:118 src/menu.cc:164
+#: src/menu.cc:114 src/menu.cc:160
 msgid "Edit location"
 msgstr "Upravit lokalita"
 
-#: src/menu.cc:137
+#: src/menu.cc:133
 msgid "Remove from favorites"
 msgstr "Odebrat z oblíbených"
 
@@ -225,6 +233,29 @@ msgstr "Včera"
 #: src/util.cc:201
 msgid "Tomorrow"
 msgstr "Zítra"
+
+#: src/version.cc:58
+#, fuzzy
+msgid "The service hosting releases isn't working as expected. Retry later."
+msgstr "Služba poskytující data o počasí nepracuje správně Zkuste později."
+
+#: src/version.cc:84
+msgid "Latest release already installed"
+msgstr ""
+
+#: src/version.cc:96
+msgid "Browse"
+msgstr ""
+
+#: src/version.cc:187
+msgid "A new version is available: "
+msgstr ""
+
+#~ msgid "About"
+#~ msgstr "O aplikaci"
+
+#~ msgid "About…"
+#~ msgstr "O aplikaci…"
 
 #~ msgid "Next alert"
 #~ msgstr "Následující výstraha"

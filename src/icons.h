@@ -21,6 +21,9 @@ extern const ibitmap icon_measuring_tape;
 extern const ibitmap icon_menu;
 extern const ibitmap icon_radio_button_checked;
 extern const ibitmap icon_radio_button_unchecked;
+extern const ibitmap icon_software_automatic_version_check;
+extern const ibitmap icon_software_version;
+extern const ibitmap icon_software_version_check;
 extern const ibitmap icon_taranis;
 extern const ibitmap icon_wallpaper;
 extern const ibitmap icon_warning;
@@ -71,6 +74,15 @@ public:
     }
     if (name == "radio-button-unchecked") {
       return const_cast<ibitmap *>(&icon_radio_button_unchecked);
+    }
+    if (name == "software-automatic-version-check") {
+      return const_cast<ibitmap *>(&icon_software_automatic_version_check);
+    }
+    if (name == "software-version") {
+      return const_cast<ibitmap *>(&icon_software_version);
+    }
+    if (name == "software-version-check") {
+      return const_cast<ibitmap *>(&icon_software_version_check);
     }
     if (name == "wallpaper") {
       return const_cast<ibitmap *>(&icon_wallpaper);

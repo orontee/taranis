@@ -18,9 +18,9 @@
 
 namespace taranis {
 
-  Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
-   : KeyEventDispatcher{}, config{config}, model{model}, icons{new Icons{}}, fonts{
-                                                                  new Fonts{}} {
+Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
+    : KeyEventDispatcher{}, config{config}, model{model}, icons{new Icons{}},
+      fonts{new Fonts{}} {
   SetPanelType(0);
   SetOrientation(0);
 

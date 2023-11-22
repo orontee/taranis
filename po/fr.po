@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-14 23:14+0100\n"
+"POT-Creation-Date: 2023-11-22 23:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/about.cc.in:13
+#: src/about.cc.in:15
 msgid ""
 "This program is provided without any warranty. For more details, read GNU "
 "General Public License, version 3 or later"
@@ -25,7 +25,7 @@ msgstr ""
 "Ce programme est fourni sans aucune garantie. Pour plus de détails, lisez la "
 "License publique générale GNU, version 3 ou ultérieure."
 
-#: src/about.cc.in:16
+#: src/about.cc.in:18
 msgid "Credits"
 msgstr "Crédits"
 
@@ -45,85 +45,95 @@ msgstr "Durée"
 msgid "Source"
 msgstr "Source"
 
-#: src/app.cc:67
+#: src/app.cc:80
 msgid "Unsupported software version"
 msgstr "Logiciel incompatible"
 
-#: src/app.cc:68
+#: src/app.cc:81
 msgid ""
 "The application isn't compatible with the software version of this reader."
 msgstr ""
 "L'application n'est pas compatible avec la version logicielle de ce matériel."
 
-#: src/app.cc:203 src/app.cc:215 src/app.cc:249 src/app.cc:370
+#: src/app.cc:242 src/app.cc:254 src/app.cc:288 src/app.cc:410
+#: src/version.cc:96
 msgid "Ok"
 msgstr "Ok"
 
-#: src/app.cc:245
+#: src/app.cc:284
 msgid "Invalid input"
 msgstr "Saisie invalide"
 
-#: src/app.cc:247
+#: src/app.cc:286
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr ""
 "Assurez-vous d'avoir saisi des noms de ville et de pays séparés par une "
 "virgule."
 
-#: src/app.cc:312 src/app.cc:321 src/app.cc:395 src/app.cc:403
+#: src/app.cc:351 src/app.cc:360 src/app.cc:435 src/app.cc:443
 msgid "Network error"
 msgstr "Erreur réseau"
 
-#: src/app.cc:313 src/app.cc:322 src/app.cc:396 src/app.cc:404
+#: src/app.cc:352 src/app.cc:361 src/app.cc:436 src/app.cc:444
 msgid "Failure while fetching weather data. Check your network connection."
 msgstr ""
 "Échec lors du rapatriement des données météorologiques. Vérifier la "
 "connexion réseau."
 
-#: src/app.cc:329 src/app.cc:410
+#: src/app.cc:368 src/app.cc:450
 msgid "Service unavailable"
 msgstr "Service indisponible"
 
-#: src/app.cc:369
-msgid "About"
-msgstr "À propos"
+#: src/app.cc:409 src/config.cc:40 src/version.cc:61 src/version.cc:68
+#: src/version.cc:75 src/version.cc:83 src/version.cc:95
+msgid "Software version"
+msgstr "Version du logiciel"
 
-#: src/config.cc:15
+#: src/config.cc:20
 msgid "Standard"
 msgstr "Standard"
 
-#: src/config.cc:16
+#: src/config.cc:21
 msgid "Metric"
 msgstr "Système métrique"
 
-#: src/config.cc:17
+#: src/config.cc:22
 msgid "Imperial"
 msgstr "Unités impériales"
 
-#: src/config.cc:22
+#: src/config.cc:27
 msgid "Hourly forecast"
 msgstr "Prévision par heure"
 
-#: src/config.cc:23
+#: src/config.cc:28
 msgid "Daily forecast"
 msgstr "Prévision par jour"
 
-#: src/config.cc:34
+#: src/config.cc:43
+msgid "Check newer version"
+msgstr "Vérifier l'existence de nouvelle version"
+
+#: src/config.cc:48
 msgid "Units"
 msgstr "Unités"
 
-#: src/config.cc:38
+#: src/config.cc:52
 msgid "Start screen"
 msgstr "Écran de démarrage"
 
-#: src/config.cc:41
+#: src/config.cc:55
 msgid "Custom API key"
 msgstr "Clé d'API personnalisée"
 
-#: src/config.cc:45
+#: src/config.cc:59
 msgid "Generate shutdown logo"
 msgstr "Génerer un logo d'écran hors tension"
 
-#: src/config.cc:98
+#: src/config.cc:63
+msgid "Software"
+msgstr "Logiciel"
+
+#: src/config.cc:120
 msgid "Parameters"
 msgstr "Paramètres"
 
@@ -137,7 +147,7 @@ msgstr ""
 "Localité inconnue du fournisseur de données météorologiques. Vérifier "
 "l'orthographe."
 
-#: src/errors.h:43
+#: src/errors.h:43 src/version.cc:48
 msgid ""
 "Sorry, an unexpected error was encountered. Report this to the application "
 "author."
@@ -164,11 +174,11 @@ msgstr ""
 "Le fournisseur de données météorologiques est hors-service. Réessayer plus "
 "tard."
 
-#: src/locationbox.cc:14
+#: src/locationbox.cc:44
 msgid "Enter location"
 msgstr "Entrez un lieu"
 
-#: src/locationselector.cc:46 src/menu.cc:76
+#: src/locationselector.cc:46 src/menu.cc:74
 msgid "Locations"
 msgstr "Lieux"
 
@@ -180,35 +190,31 @@ msgstr "Longitude"
 msgid "Latitude"
 msgstr "Latitude"
 
-#: src/menu.cc:74
+#: src/menu.cc:72
 msgid "Refresh"
 msgstr "Mettre à jour"
 
-#: src/menu.cc:78
+#: src/menu.cc:76
 msgid "Parameters…"
 msgstr "Paramètres…"
 
-#: src/menu.cc:80
-msgid "About…"
-msgstr "À propos…"
-
-#: src/menu.cc:82
+#: src/menu.cc:78
 msgid "Quit"
 msgstr "Quitter"
 
-#: src/menu.cc:96
+#: src/menu.cc:92
 msgid "Empty"
 msgstr "Vide"
 
-#: src/menu.cc:109 src/menu.cc:138
+#: src/menu.cc:105 src/menu.cc:134
 msgid "Add to favorites"
 msgstr "Ajouter aux favoris"
 
-#: src/menu.cc:118 src/menu.cc:164
+#: src/menu.cc:114 src/menu.cc:160
 msgid "Edit location"
 msgstr "Editer le lieu"
 
-#: src/menu.cc:137
+#: src/menu.cc:133
 msgid "Remove from favorites"
 msgstr "Retirer des favoris"
 
@@ -235,6 +241,36 @@ msgstr "Hier"
 #: src/util.cc:201
 msgid "Tomorrow"
 msgstr "Demain"
+
+#: src/version.cc:58
+msgid "The service hosting releases isn't working as expected. Retry later."
+msgstr ""
+"L'hébergement des différentes versions de l'application est hors-service. "
+"Réessayer plus tard."
+
+#: src/version.cc:84
+msgid "Latest release already installed"
+msgstr "Dernière version déjà installée"
+
+#: src/version.cc:96
+msgid "Browse"
+msgstr "Consulter"
+
+#: src/version.cc:187
+msgid "A new version is available: "
+msgstr "Une nouvelle version est disponible : "
+
+#~ msgid "Automatic check"
+#~ msgstr "Vérification automatique"
+
+#~ msgid "Cancel"
+#~ msgstr "Annuler"
+
+#~ msgid "About"
+#~ msgstr "À propos"
+
+#~ msgid "About…"
+#~ msgstr "À propos…"
 
 #~ msgid "Next alert"
 #~ msgstr "Alerte suivante"

@@ -4,9 +4,14 @@
 #include <cstring>
 #include <inkview.h>
 
+#include "events.h"
 #include "icons.h"
 
 #define GetLangText(str) str
+
+namespace {
+taranis::Config *that{nullptr};
+}
 
 namespace taranis {
 
@@ -30,7 +35,20 @@ char *no_yes_values[] = {const_cast<char *>("@No"), const_cast<char *>("@Yes"),
 // Note that translating is handled by the configuration editor but
 // translations must be provided as usual
 
-static iconfigedit config_template[] = {
+static iconfigedit software_config_template[] = {
+    {CFG_ACTIONS, &icon_software_version,
+     const_cast<char *>(GetLangText("Software version")), nullptr,
+     const_cast<char *>("display_software_version"), nullptr, nullptr, nullptr},
+    {CFG_ACTIONS, &icon_software_version_check,
+     const_cast<char *>(GetLangText("Check newer version")), nullptr,
+     const_cast<char *>("check_software_version"), nullptr, nullptr, nullptr},
+    {CFG_INDEX, &icon_software_automatic_version_check,
+     const_cast<char *>(GetLangText("Automatic check")), nullptr,
+     const_cast<char *>("automatic_check"), const_cast<char *>("0"),
+     no_yes_values, nullptr},
+    {0}};
+
+static iconfigedit main_config_template[] = {
     {CFG_INDEX, &icon_measuring_tape, const_cast<char *>(GetLangText("Units")),
      nullptr, const_cast<char *>("unit_system"), const_cast<char *>("0"),
      unit_system_values, nullptr},
@@ -45,6 +63,9 @@ static iconfigedit config_template[] = {
      const_cast<char *>(GetLangText("Generate shutdown logo")), nullptr,
      const_cast<char *>("generate_shutdown_logo"), const_cast<char *>("0"),
      no_yes_values, nullptr},
+    {CFG_SUBMENU, &icon_software_version,
+     const_cast<char *>(GetLangText("Software")), nullptr, nullptr, nullptr,
+     nullptr, software_config_template},
     {0}};
 
 // Don't use hints since failed to find a way to change their font
@@ -52,7 +73,8 @@ static iconfigedit config_template[] = {
 
 Config::Config() {
   if (not config) {
-    config = OpenConfig(Config::get_config_path().c_str(), config_template);
+    config =
+        OpenConfig(Config::get_config_path().c_str(), main_config_template);
   }
 }
 
@@ -95,8 +117,12 @@ void Config::write_secret(const std::string &name, const std::string &value) {
 void Config::open_editor() {
   BOOST_LOG_TRIVIAL(debug) << "Opening config editor";
 
-  OpenConfigEditor(GetLangText("Parameters"), config, config_template,
-                   Config::config_changed, nullptr);
+  this->changed = false;
+  this->application_event_handler = GetEventHandler();
+  that = this;
+
+  OpenConfigEditor(GetLangText("Parameters"), config, main_config_template,
+                   Config::config_changed, Config::item_changed);
 }
 
 std::string Config::get_config_path() {
@@ -111,7 +137,38 @@ std::string Config::get_config_path() {
   return config_path;
 }
 
+void Config::item_changed(char *name) {
+  if (that == nullptr) {
+    BOOST_LOG_TRIVIAL(warning) << "Skipping item changed notification received "
+                                  "while uninitialized config "
+                               << name;
+    return;
+  }
+  BOOST_LOG_TRIVIAL(debug) << "Change in config item " << name;
+
+  if (std::strcmp(name, "+display_software_version") == 0) {
+    BOOST_LOG_TRIVIAL(debug) << "Opening about dialog";
+    SendEvent(that->application_event_handler, EVT_CUSTOM,
+              CustomEvent::open_about_dialog, 0);
+  } else if (std::strcmp(name, "+check_software_version") == 0) {
+    SendEvent(that->application_event_handler, EVT_CUSTOM,
+              CustomEvent::check_application_version, 0);
+  } else {
+    that->changed = true;
+  }
+}
+
 void Config::config_changed() {
+  if (that == nullptr) {
+    BOOST_LOG_TRIVIAL(warning)
+        << "Skipping config changed notification received "
+        << "while uninitialized config";
+    return;
+  }
+  if (not that->changed) {
+    BOOST_LOG_TRIVIAL(debug) << "Config unchanged, nothing to save";
+    return;
+  }
   BOOST_LOG_TRIVIAL(debug) << "Saving new config";
 
   const auto saved = SaveConfig(config);

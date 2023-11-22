@@ -11,6 +11,7 @@ pkgconfig = '@pwd@/SDK_6.3.0/SDK-B288/usr/bin/pkg-config'
 cpp_args = ['-fsigned-char',
             '-fPIC',
             '-Werror-return-type',
+	    '-Wswitch-enum',
             '-march=armv7-a',
             '-mtune=cortex-a8',
             '-mfpu=neon',

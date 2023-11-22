@@ -4,11 +4,17 @@ std::string taranis::format_custom_event_param(int param) {
   if (param == CustomEvent::change_daily_forecast_display) {
     return "change_daily_forecast_display";
   }
+  if (param == CustomEvent::check_application_version) {
+    return "check_application_version";
+  }
   if (param == CustomEvent::search_location) {
     return "search_location";
   }
   if (param == CustomEvent::edit_location) {
     return "edit_location";
+  }
+  if (param == CustomEvent::open_about_dialog) {
+    return "open_about_dialog";
   }
   if (param == CustomEvent::open_alert_viewer) {
     return "open_alert_viewer";

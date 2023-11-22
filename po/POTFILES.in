@@ -41,4 +41,6 @@ src/ui.h
 src/units.h
 src/util.cc
 src/util.h
+src/version.cc
+src/version.h
 src/widget.h

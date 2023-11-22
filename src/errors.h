@@ -82,7 +82,7 @@ struct UnsupportedUnitSystem : std::runtime_error {
   UnsupportedUnitSystem() : std::runtime_error{""} {}
 };
 
-struct UnsupportedSoftwareVersion : std::runtime_error {
-  UnsupportedSoftwareVersion() : std::runtime_error{""} {}
+struct UnsupportedFirmwareVersion : std::runtime_error {
+  UnsupportedFirmwareVersion() : std::runtime_error{""} {}
 };
 } // namespace taranis

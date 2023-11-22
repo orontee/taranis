@@ -21,20 +21,25 @@
 #include "service.h"
 #include "state.h"
 #include "ui.h"
+#include "version.h"
 
 using namespace std::placeholders;
 using namespace std::string_literals;
 
 namespace taranis {
 
+std::string get_about_content();
+// defined in generated file about.cc
+
 class App {
 public:
   App()
       : client{std::make_shared<HttpClient>()},
-        model{std::make_shared<Model>()},
-        config{std::make_shared<Config>()},
-        l10n{std::make_unique<L10n>()},
-        service{std::make_unique<Service>(client)},
+        model{std::make_shared<Model>()}, config{std::make_shared<Config>()},
+        l10n{std::make_unique<L10n>()}, service{std::make_unique<Service>(
+                                            this->client)},
+        version_checker{std::make_unique<VersionChecker>(
+            this->config, this->client, this->model)},
         history{std::make_unique<LocationHistoryProxy>(this->model)} {}
 
   int process_event(int event_type, int param_one, int param_two);
@@ -49,6 +54,7 @@ private:
   std::shared_ptr<Config> config;
   std::unique_ptr<L10n> l10n;
   std::unique_ptr<Service> service;
+  std::unique_ptr<VersionChecker> version_checker;
   std::unique_ptr<LocationHistoryProxy> history;
   std::unique_ptr<ApplicationState> application_state;
   std::unique_ptr<Ui> ui;
@@ -71,6 +77,8 @@ private:
   bool must_skip_data_refresh() const;
 
   void refresh_data(CallContext context);
+
+  void open_about_dialog();
 
   void search_location(const std::string &location_description);
 

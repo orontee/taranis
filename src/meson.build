@@ -77,5 +77,6 @@ sources = [about_cc, icons_cc, l10n_cc] + files(
   'service.cc',
   'state.cc',
   'ui.cc',
-  'util.cc'
+  'util.cc',
+  'version.cc'
 )

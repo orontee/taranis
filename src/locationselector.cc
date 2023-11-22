@@ -10,7 +10,7 @@
 #include "util.h"
 
 namespace {
-taranis::LocationSelector *that;
+taranis::LocationSelector *that{nullptr};
 } // namespace
 
 namespace taranis {
@@ -80,8 +80,8 @@ int LocationSelector::get_icon_vertical_offset() const {
 int LocationSelector::handle_list_action(int action, int x, int y,
                                          int item_index, int state) {
   if (that == nullptr) {
-    BOOST_LOG_TRIVIAL(debug)
-        << "Skipping action received by uninitialized list " << action;
+    BOOST_LOG_TRIVIAL(warning)
+        << "Skipping action received while uninitialized list " << action;
     return 1;
   }
   if (action == LIST_BEGINPAINT) {

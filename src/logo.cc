@@ -30,7 +30,8 @@ void Logo::do_paint() {
 }
 
 void LogoGenerator::generate_maybe() const {
-  const auto must_generate = this->config->read_bool("generate_shutdown_logo", false);
+  const auto must_generate =
+      this->config->read_bool("generate_shutdown_logo", false);
   if (must_generate) {
     this->generate();
   } else {

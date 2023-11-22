@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Check software version
+  [#79](https://github.com/orontee/taranis/issues/79)
+
 - Daily forecast can be used as power off logo
   [#28](https://github.com/orontee/taranis/issues/28)
 

@@ -16,8 +16,7 @@ namespace taranis {
 
 class Logo : public Widget {
 public:
-  Logo(std::shared_ptr<Model> model,
-       std::shared_ptr<Icons> icons,
+  Logo(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
        std::shared_ptr<Fonts> fonts);
 
   void do_paint() override;
@@ -32,11 +31,9 @@ private:
 };
 
 struct LogoGenerator {
-  LogoGenerator(std::shared_ptr<Config> config,
-                std::shared_ptr<Model> model,
-		std::shared_ptr<Icons> icons,
-                std::shared_ptr<Fonts> fonts)
-    : config{config}, model{model}, icons{icons}, fonts{fonts} {}
+  LogoGenerator(std::shared_ptr<Config> config, std::shared_ptr<Model> model,
+                std::shared_ptr<Icons> icons, std::shared_ptr<Fonts> fonts)
+      : config{config}, model{model}, icons{icons}, fonts{fonts} {}
 
   void generate_maybe() const;
 

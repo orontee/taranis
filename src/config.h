@@ -32,6 +32,13 @@ struct Config {
   static std::string get_config_path();
 
   static void config_changed();
+
+private:
+  bool changed{false};
+
+  iv_handler application_event_handler{nullptr};
+
+  static void item_changed(char *name);
 };
 
 } // namespace taranis

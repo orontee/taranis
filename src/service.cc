@@ -12,7 +12,7 @@ using namespace std::chrono_literals;
 namespace taranis {
 
 namespace openweather {
-const std::string url{"https://api.openweathermap.org"};
+const std::string base_url{"https://api.openweathermap.org"};
 const std::string geo_path{"/geo/1.0/direct"};
 const std::string onecall_path{"/data/3.0/onecall"};
 } // namespace openweather
@@ -132,7 +132,7 @@ Json::Value Service::request_geocoding_api(const std::string &town,
   BOOST_LOG_TRIVIAL(debug) << "Requesting Geocoding API";
 
   std::stringstream url;
-  url << openweather::url << openweather::geo_path << "?"
+  url << openweather::base_url << openweather::geo_path << "?"
       << "q=" << this->encode_location(town, country) << "&"
       << "limit=5"
       << "&"
@@ -150,7 +150,7 @@ Json::Value Service::request_onecall_api(const std::string &language,
   BOOST_LOG_TRIVIAL(debug) << "Requesting Onecall API";
 
   std::stringstream url;
-  url << openweather::url << openweather::onecall_path << "?"
+  url << openweather::base_url << openweather::onecall_path << "?"
       << "lon=" << this->location.longitude << "&"
       << "lat=" << this->location.latitude << "&"
       << "units=" << units << "&"

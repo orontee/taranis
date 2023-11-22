@@ -7,8 +7,10 @@ namespace taranis {
 enum CustomEvent {
   // Commands
   change_daily_forecast_display,
+  check_application_version,
   search_location,
   edit_location,
+  open_about_dialog,
   open_alert_viewer,
   open_config_editor,
   refresh_data,

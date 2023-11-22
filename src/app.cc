@@ -71,11 +71,12 @@ void App::setup() {
 
   this->l10n->initialize_translations();
 
-  const auto version = GetSoftwareVersion();
+  const auto firmware_version = GetSoftwareVersion();
   try {
-    check_software_version(version);
-  } catch (const UnsupportedSoftwareVersion &error) {
-    BOOST_LOG_TRIVIAL(warning) << "Unsupported software version " << version;
+    check_firmware_version(firmware_version);
+  } catch (const UnsupportedFirmwareVersion &error) {
+    BOOST_LOG_TRIVIAL(warning)
+        << "Unsupported firmware version " << firmware_version;
     Message(ICON_WARNING, GetLangText("Unsupported software version"),
             GetLangText("The application isn't compatible with the software "
                         "version of this reader."),
@@ -121,6 +122,7 @@ void App::exit() {
   this->ui.reset();
   this->application_state.reset();
   this->history.reset();
+  this->version_checker.reset();
   this->service.reset();
   this->model.reset();
   this->client.reset();
@@ -205,6 +207,10 @@ int App::handle_custom_event(int param_one, int param_two) {
     const auto event_handler = GetEventHandler();
     SendEvent(event_handler, EVT_CUSTOM,
               CustomEvent::model_daily_forecast_display_changed, 0);
+    return 1;
+  } else if (param_one == CustomEvent::check_application_version) {
+    this->version_checker->check(CallContext::triggered_by_user);
+    return 1;
   } else if (param_one == CustomEvent::search_location) {
     auto *const raw_location =
         reinterpret_cast<std::array<char, 256> *>(GetCurrentEventExData());
@@ -249,6 +255,9 @@ int App::handle_custom_event(int param_one, int param_two) {
       }
       return 1;
     }
+  } else if (param_one == CustomEvent::open_about_dialog) {
+    this->open_about_dialog();
+    return 1;
   } else if (param_one == CustomEvent::toggle_current_location_favorite) {
     this->history->toggle_current_location_favorite();
     return 1;
@@ -391,6 +400,15 @@ void App::refresh_data(CallContext context) {
                App::refresh_period);
 
   HideHourglass();
+}
+
+void App::open_about_dialog() {
+  BOOST_LOG_TRIVIAL(debug) << "Opening about dialog";
+
+  const auto about_content = get_about_content();
+  DialogSynchro(ICON_INFORMATION, GetLangText("Software version"),
+                about_content.c_str(), const_cast<char *>(GetLangText("Ok")),
+                nullptr, nullptr);
 }
 
 void App::search_location(const std::string &location_description) {

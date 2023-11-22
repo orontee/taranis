@@ -24,7 +24,7 @@ normalize_precipitations(const std::vector<Condition> &conditions,
 
 double max_number(double value_one, double value_two);
 
-inline void check_software_version(const std::string &version) {
+inline void check_firmware_version(const std::string &version) {
   // expected form V632.6.7.1405
   std::stringstream to_parse{version};
   std::string token;
@@ -37,7 +37,7 @@ inline void check_software_version(const std::string &version) {
     } catch (const std::invalid_argument &error) {
     }
   }
-  throw UnsupportedSoftwareVersion{};
+  throw UnsupportedFirmwareVersion{};
 }
 
 inline void ltrim(std::string &s) {

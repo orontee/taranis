@@ -202,5 +202,6 @@ struct Model {
   std::list<HistoryItem> location_history;
 
   bool display_daily_forecast{false};
+  std::optional<TimePoint> last_version_check;
 };
 } // namespace taranis
