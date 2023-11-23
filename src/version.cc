@@ -61,7 +61,7 @@ const std::string news_file_base_url{"https://github.com/orontee/taranis/raw"};
 VersionChecker::VersionChecker(std::shared_ptr<Config> config,
                                std::shared_ptr<HttpClient> client,
                                std::shared_ptr<Model> model)
-    : current_version{version}, config{config}, client{client}, model{model} {}
+    : current_version_extended{version}, config{config}, client{client}, model{model} {}
 
 void VersionChecker::check(CallContext context) {
   BOOST_LOG_TRIVIAL(debug) << "Checking application version";
@@ -166,7 +166,7 @@ VersionChecker::extract_newer_releases(const Json::Value &value) const {
   Version parsed_current_version;
   try {
     parsed_current_version =
-        this->parse_possible_version_string(this->current_version);
+      this->parse_possible_version_string(this->shorten_current_version_extended());
   } catch (const std::runtime_error &error) {
     BOOST_LOG_TRIVIAL(error)
         << "Failed to parse current version string!" << error.what();
@@ -249,7 +249,7 @@ VersionChecker::extract_newer_releases(const Json::Value &value) const {
 
 Version
 VersionChecker::parse_possible_version_string(const std::string &target) {
-  const std::regex pattern("v?o([0-9]+)\\.([0-9]+)\\.([0-9]+)(-([a-z0-9]+))?");
+  const std::regex pattern("v?([0-9]+)\\.([0-9]+)\\.([0-9]+)(-([a-z0-9]+))?");
   std::smatch match;
   if (not std::regex_match(target, match, pattern)) {
     throw std::runtime_error{"Failed to parse possible version string " +
@@ -274,6 +274,13 @@ VersionChecker::parse_possible_version_string(const std::string &target) {
 
   return {major, minor, patch, match[4]};
 }
+
+  std::string VersionChecker::shorten_current_version_extended() const {
+    std::stringstream to_parse{this->current_version_extended};
+    std::string token;
+    std::getline(to_parse, token, ' ');
+    return token;
+  }
 
 std::string VersionChecker::generate_new_version_question(
     const ReleaseDescription &release) const {

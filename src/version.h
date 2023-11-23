@@ -48,7 +48,7 @@ private:
 
   static constexpr int message_delay{5000};
 
-  const std::string current_version;
+  const std::string current_version_extended;
 
   std::shared_ptr<Config> config;
   std::shared_ptr<HttpClient> client;
@@ -63,10 +63,12 @@ private:
   std::vector<ReleaseDescription>
   extract_newer_releases(const Json::Value &value) const;
 
-  static Version parse_possible_version_string(const std::string &target);
-
   std::string
   generate_new_version_question(const ReleaseDescription &release) const;
+
+  std::string shorten_current_version_extended() const;
+
+  static Version parse_possible_version_string(const std::string &target);
 };
 
 } // namespace taranis
