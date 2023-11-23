@@ -6,7 +6,7 @@
 #include <sstream>
 
 namespace taranis {
-  static std::string version{"@package_version@"};
+  std::string version{"@package_version@"};
 
   std::string get_about_content() {
     std::stringstream content;
