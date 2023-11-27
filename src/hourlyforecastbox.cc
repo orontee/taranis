@@ -77,6 +77,20 @@ bool HourlyForecastBox::handle_key_release(int key) {
   return false;
 }
 
+size_t HourlyForecastBox::page_count() const {
+  return (this->model->hourly_forecast.size() /
+          HourlyForecastBox::visible_bars) +
+         (this->model->hourly_forecast.size() %
+                      HourlyForecastBox::visible_bars ==
+                  0
+              ? 0
+              : 1);
+}
+
+size_t HourlyForecastBox::current_page() const {
+  return (this->get_forecast_offset() / HourlyForecastBox::visible_bars);
+}
+
 size_t HourlyForecastBox::get_forecast_offset() const {
   return this->forecast_offset;
 }
@@ -94,6 +108,7 @@ void HourlyForecastBox::set_min_forecast_offset() {
   this->forecast_offset = 0;
   BOOST_LOG_TRIVIAL(debug) << "Forecast offset set to its min value";
   this->paint_and_update_screen();
+  this->on_page_changed();
 }
 
 void HourlyForecastBox::set_max_forecast_offset() {
@@ -105,6 +120,7 @@ void HourlyForecastBox::set_max_forecast_offset() {
   this->forecast_offset = max_forecast_offset;
   BOOST_LOG_TRIVIAL(debug) << "Forecast offset set to its max value";
   this->paint_and_update_screen();
+  this->on_page_changed();
 }
 
 void HourlyForecastBox::increase_forecast_offset() {
@@ -118,6 +134,7 @@ void HourlyForecastBox::increase_forecast_offset() {
     BOOST_LOG_TRIVIAL(debug)
         << "Forecast offset increased to " << this->forecast_offset;
     this->paint_and_update_screen();
+    this->on_page_changed();
   }
 }
 
@@ -135,6 +152,7 @@ void HourlyForecastBox::decrease_forecast_offset() {
     BOOST_LOG_TRIVIAL(debug)
         << "Forecast offset decreased to " << this->forecast_offset;
     this->paint_and_update_screen();
+    this->on_page_changed();
   }
 }
 

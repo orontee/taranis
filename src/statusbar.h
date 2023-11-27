@@ -51,7 +51,7 @@ public:
 
 private:
   static constexpr int left_padding{50};
-  static constexpr int top_padding{50};
+  static constexpr int top_padding{25};
   static constexpr int bottom_padding{25};
 
   std::shared_ptr<Model> model;

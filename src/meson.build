@@ -75,6 +75,7 @@ sources = [about_cc, icons_cc, l10n_cc] + files(
   'logo.cc',
   'main.cc',
   'menu.cc',
+  'pager.cc',
   'service.cc',
   'stack.cc',
   'state.cc',

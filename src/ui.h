@@ -48,6 +48,9 @@ public:
   void generate_logo_maybe() const;
 
 private:
+  static constexpr int alert_icon_size{150};
+  static constexpr int button_margin{25};
+
   std::shared_ptr<Config> config;
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
@@ -64,9 +67,6 @@ private:
   std::vector<std::shared_ptr<Widget>> modals;
 
   std::shared_ptr<Widget> visible_modal{nullptr};
-
-  const int alert_icon_size = 150;
-  const int button_margin = 25;
 
   static bool is_on_widget(int pointer_pos_x, int pointer_pos_y,
                            std::shared_ptr<Widget> widget);

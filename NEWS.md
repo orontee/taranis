@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Row of dots to represent forecast pages 
+  [#77](https://github.com/orontee/taranis/issues/77)
+
 - Check software version
   [#79](https://github.com/orontee/taranis/issues/79)
 

@@ -7,11 +7,12 @@
 #include "fonts.h"
 #include "icons.h"
 #include "model.h"
+#include "pager.h"
 #include "widget.h"
 
 namespace taranis {
 
-class HourlyForecastBox : public Widget {
+class HourlyForecastBox : public Widget, public Paginated {
 public:
   HourlyForecastBox(int pos_x, int pos_y, int width, int height,
                     std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
@@ -37,10 +38,14 @@ public:
 
   bool handle_key_release(int key) override;
 
+  size_t page_count() const override;
+
+  size_t current_page() const override;
+
 private:
+  static constexpr size_t visible_bars{8};
   static constexpr int vertical_padding{25};
   static constexpr int icon_size{100};
-  static constexpr size_t visible_bars{8};
   static constexpr int wind_direction_icon_size{50};
 
   std::shared_ptr<Model> model;

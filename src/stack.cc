@@ -68,6 +68,7 @@ bool Stack::set_current_widget_maybe(const std::string &name) {
 void Stack::set_current_widget(const std::string &name) {
   if (this->set_current_widget_maybe(name)) {
     this->paint_and_update_screen();
+    this->on_current_widget_changed();
   }
 }
 
@@ -84,11 +85,16 @@ void Stack::set_current_widget(const std::shared_ptr<Widget> &widget) {
       BOOST_LOG_TRIVIAL(debug)
           << "Changed current stack child to " << element->first;
       this->paint_and_update_screen();
+      this->on_current_widget_changed();
       return;
     }
   }
   BOOST_LOG_TRIVIAL(warning)
       << "Failed to find stack child corresponding to given widget";
+}
+
+void Stack::set_current_widget_callback(CurrentWidgetChangedCallback callback) {
+  this->current_widget_changed_callback = callback;
 }
 
 bool Stack::is_enabled() const {
@@ -151,5 +157,11 @@ bool Stack::handle_key_release(int key) {
     this->last_key_event_consumer.reset();
   }
   return false;
+}
+
+void Stack::on_current_widget_changed() {
+  if (this->current_widget_changed_callback) {
+    this->current_widget_changed_callback();
+  }
 }
 } // namespace taranis
