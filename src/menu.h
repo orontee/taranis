@@ -34,6 +34,10 @@ public:
 
   void set_menu_handler(iv_menuhandler handler);
 
+  bool handle_key_press(int key) override;
+
+  bool handle_key_release(int key) override;
+
 protected:
   void on_clicked() override { this->open_menu(); }
 
@@ -58,10 +62,6 @@ private:
   const ibitmap *favorite_location_icon;
 
   iv_menuhandler menu_handler;
-
-  bool handle_key_press(int key) override;
-
-  bool handle_key_release(int key) override;
 
   std::pair<int, int> get_menu_position() const;
 

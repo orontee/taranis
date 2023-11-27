@@ -79,6 +79,10 @@ struct Widget : public KeyEventConsumer {
     return 0;
   }
 
+  bool is_key_event_consumer_active() const override {
+    return this->is_visible() and this->is_enabled();
+  }
+
 protected:
   irect bounding_box;
 

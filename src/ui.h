@@ -8,13 +8,12 @@
 #include "alerts.h"
 #include "config.h"
 #include "fonts.h"
-#include "hourlyforecastbox.h"
+#include "forecast.h"
 #include "icons.h"
 #include "keys.h"
 #include "locationbox.h"
 #include "locationselector.h"
 #include "model.h"
-#include "swipe.h"
 
 namespace std {
 template <class T> using optional = std::experimental::optional<T>;
@@ -22,7 +21,7 @@ template <class T> using optional = std::experimental::optional<T>;
 
 namespace taranis {
 
-class Ui : public KeyEventDispatcher, public KeyEventConsumer {
+class Ui : public KeyEventDispatcher {
 public:
   // ⚠️ Must be instantiated after application received the EVT_INIT
   // event otherwise opening fonts, etc. fails
@@ -48,22 +47,16 @@ public:
 
   void generate_logo_maybe() const;
 
-protected:
-  bool is_consumer_active(std::shared_ptr<KeyEventConsumer> consumer) override;
-
 private:
   std::shared_ptr<Config> config;
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
 
-  SwipeDetector swipe_detector;
-
   std::shared_ptr<LocationBox> location_box;
   std::shared_ptr<AlertViewer> alert_viewer;
 
-  std::shared_ptr<HourlyForecastBox> hourly_forecast_box;
-  std::shared_ptr<Widget> daily_forecast_box;
+  std::shared_ptr<ForecastStack> forecast_stack;
 
   std::shared_ptr<LocationSelector> location_selector;
 
@@ -79,17 +72,6 @@ private:
                            std::shared_ptr<Widget> widget);
 
   void check_modal_visibility();
-
-  std::shared_ptr<Widget> get_forecast_widget() const;
-
-  void select_forecast_widget();
-
-  int handle_possible_swipe(int event_type, int pointer_pos_x,
-                            int pointer_pos_y);
-
-  bool handle_key_press(int key) override;
-
-  bool handle_key_release(int key) override;
 
   static void handle_menu_item_selected(int item_index);
 };

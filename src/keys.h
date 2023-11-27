@@ -11,17 +11,15 @@
 namespace taranis {
 
 struct KeyEventConsumer {
-protected:
   virtual ~KeyEventConsumer() {}
 
-private:
   virtual bool handle_key_press(int key) { return 0; }
 
   virtual bool handle_key_repeat(int key) { return 0; }
 
   virtual bool handle_key_release(int key) { return 0; }
 
-  friend struct KeyEventDispatcher;
+  virtual bool is_key_event_consumer_active() const { return true; }
 };
 
 struct KeyEventDispatcher {
@@ -39,15 +37,16 @@ struct KeyEventDispatcher {
     std::shared_ptr<KeyEventConsumer> event_consumer{nullptr};
     if (event_type == EVT_KEYPRESS) {
       for (auto consumer : this->consumers) {
-        if (not this->is_consumer_active(consumer)) {
+        if (not this->is_key_event_consumer_active(consumer)) {
           continue;
         }
         if (consumer->handle_key_press(key)) {
           event_consumer = consumer;
+          break;
         }
       }
     } else if (this->last_event_consumer and
-               this->is_consumer_active(this->last_event_consumer)) {
+               this->is_key_event_consumer_active(this->last_event_consumer)) {
       if (event_type == EVT_KEYREPEAT) {
         if (this->last_event_consumer->handle_key_repeat(key)) {
           event_consumer = this->last_event_consumer;
@@ -89,8 +88,9 @@ protected:
     }
   }
 
-  virtual bool is_consumer_active(std::shared_ptr<KeyEventConsumer> consumer) {
-    return true;
+  virtual bool
+  is_key_event_consumer_active(std::shared_ptr<KeyEventConsumer> consumer) {
+    return consumer ? consumer->is_key_event_consumer_active() : false;
   }
 
 private:

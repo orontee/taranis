@@ -16,7 +16,7 @@ void ApplicationState::restore() {
   BOOST_LOG_TRIVIAL(debug) << "Restoring application state";
 
   const auto path = ApplicationState::get_application_state_path();
-  std::ifstream input{path, std::ios_base::in};
+  std::ifstream input{path};
   if (not input) {
     BOOST_LOG_TRIVIAL(warning)
         << "Failed to open file to restore application state";
@@ -26,7 +26,8 @@ void ApplicationState::restore() {
   Json::Value root;
   Json::Reader reader;
   if (not reader.parse(input, root)) {
-    BOOST_LOG_TRIVIAL(error) << "Unexpected application state";
+    BOOST_LOG_TRIVIAL(error) << "Failed to read stored application state";
+    BOOST_LOG_TRIVIAL(error) << reader.getFormatedErrorMessages();
     return;
   }
   this->restore_model(root);
@@ -36,7 +37,7 @@ void ApplicationState::dump() {
   BOOST_LOG_TRIVIAL(debug) << "Dumping application state";
 
   const auto path = ApplicationState::get_application_state_path();
-  std::ofstream output{path, std::ios_base::out};
+  std::ofstream output{path};
   if (not output) {
     BOOST_LOG_TRIVIAL(warning)
         << "Failed to open file to dump application state";

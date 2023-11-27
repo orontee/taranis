@@ -5,7 +5,6 @@
 #include <memory>
 
 #include "currentconditionbox.h"
-#include "dailyforecastbox.h"
 #include "events.h"
 #include "history.h"
 #include "keys.h"
@@ -39,12 +38,7 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
                                  current_condition_box->get_height()) -
                                 1;
 
-  this->hourly_forecast_box = std::make_shared<HourlyForecastBox>(
-      0,
-      current_condition_box->get_pos_y() + current_condition_box->get_height(),
-      ScreenWidth(), remaining_height, this->model, this->icons, this->fonts);
-
-  this->daily_forecast_box = std::make_shared<DailyForecastBox>(
+  this->forecast_stack = std::make_shared<ForecastStack>(
       0,
       current_condition_box->get_pos_y() + current_condition_box->get_height(),
       ScreenWidth(), remaining_height, this->model, this->icons, this->fonts);
@@ -76,15 +70,11 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
   this->children.push_back(menu_button);
   this->children.push_back(current_condition_box);
   this->children.push_back(alerts_button);
+  this->children.push_back(this->forecast_stack);
   this->children.push_back(status_bar);
 
-  // A forecast widget will be pushed back by select_forecast_widget()
-
   this->register_key_event_consumer(menu_button);
-  this->register_key_event_consumer(std::shared_ptr<KeyEventConsumer>(this));
-
-  this->swipe_detector.set_bounding_box(
-      this->hourly_forecast_box->get_bounding_box());
+  this->register_key_event_consumer(this->forecast_stack);
 }
 
 void Ui::paint() {
@@ -97,8 +87,6 @@ void Ui::paint() {
     BOOST_LOG_TRIVIAL(debug) << "Painting visible modal";
     this->visible_modal->paint();
   } else {
-    this->select_forecast_widget();
-
     for (auto widget : this->children) {
       if (widget->is_visible()) {
         widget->do_paint();
@@ -114,9 +102,6 @@ int Ui::handle_pointer_event(int event_type, int pointer_pos_x,
     return this->visible_modal->handle_pointer_event(event_type, pointer_pos_x,
                                                      pointer_pos_y);
   } else {
-    if (this->handle_possible_swipe(event_type, pointer_pos_x, pointer_pos_y)) {
-      return 1;
-    }
     for (auto widget : this->children) {
       if (Ui::is_on_widget(pointer_pos_x, pointer_pos_y, widget) and
           widget->is_enabled()) {
@@ -128,13 +113,7 @@ int Ui::handle_pointer_event(int event_type, int pointer_pos_x,
   return 0;
 }
 
-void Ui::switch_forecast_widget() {
-  this->select_forecast_widget();
-  auto forecast_widget = this->get_forecast_widget();
-  if (forecast_widget) {
-    forecast_widget->paint_and_update_screen();
-  }
-}
+void Ui::switch_forecast_widget() { this->forecast_stack->switch_forecast(); }
 
 void Ui::open_location_list(const std::vector<Location> &locations) {
   this->location_selector->set_locations(locations);
@@ -149,20 +128,6 @@ Ui::get_location_from_location_list(size_t index) const {
 void Ui::generate_logo_maybe() const {
   LogoGenerator generator{this->config, this->model, this->icons, this->fonts};
   generator.generate_maybe();
-}
-
-bool Ui::is_consumer_active(std::shared_ptr<KeyEventConsumer> consumer) {
-  if (consumer == this->visible_modal) {
-    return true;
-  }
-  if (consumer.get() == this) {
-    return true;
-  }
-  if (not this->visible_modal) {
-    const auto widget = std::dynamic_pointer_cast<Widget>(consumer);
-    return widget and not widget->is_modal() and widget->is_enabled();
-  };
-  return false;
 }
 
 bool Ui::is_on_widget(int pointer_pos_x, int pointer_pos_y,
@@ -191,78 +156,6 @@ void Ui::check_modal_visibility() {
       this->visible_modal = nullptr;
     }
   }
-}
-
-std::shared_ptr<Widget> Ui::get_forecast_widget() const {
-  auto forecast_widget = this->model->display_daily_forecast
-                             ? this->daily_forecast_box
-                             : this->hourly_forecast_box;
-  return forecast_widget;
-}
-
-void Ui::select_forecast_widget() {
-  auto widget_to_display = this->model->display_daily_forecast
-                               ? this->daily_forecast_box
-                               : this->hourly_forecast_box;
-  auto widget_to_hide = not this->model->display_daily_forecast
-                            ? this->daily_forecast_box
-                            : this->hourly_forecast_box;
-  if (this->children.back() == widget_to_hide) {
-    this->children.pop_back();
-    this->unregister_key_event_consumer(widget_to_hide);
-  }
-  if (this->children.back() != widget_to_display) {
-    this->children.push_back(widget_to_display);
-    this->register_key_event_consumer(widget_to_display);
-  }
-}
-
-int Ui::handle_possible_swipe(int event_type, int pointer_pos_x,
-                              int pointer_pos_y) {
-  const auto swipe = this->swipe_detector.guess_event_swipe_type(
-      event_type, pointer_pos_x, pointer_pos_y);
-  if (swipe != SwipeType::no_swipe) {
-    auto current_forecast_widget = this->get_forecast_widget();
-    if (current_forecast_widget == this->daily_forecast_box) {
-      if (swipe == SwipeType::left_swipe) {
-        this->hourly_forecast_box->set_min_forecast_offset();
-      } else if (swipe == SwipeType::right_swipe) {
-        this->hourly_forecast_box->set_max_forecast_offset();
-      }
-      const auto event_handler = GetEventHandler();
-      SendEvent(event_handler, EVT_CUSTOM,
-                CustomEvent::change_daily_forecast_display, 0);
-      return 1;
-    } else if (current_forecast_widget == this->hourly_forecast_box) {
-      if (swipe == SwipeType::left_swipe) {
-        this->hourly_forecast_box->increase_forecast_offset();
-        return 1;
-      } else if (swipe == SwipeType::right_swipe) {
-        this->hourly_forecast_box->decrease_forecast_offset();
-        return 1;
-      }
-    }
-  }
-  return 0;
-}
-
-bool Ui::handle_key_press(int key) {
-  return (key == IV_KEY_PREV or key == IV_KEY_NEXT);
-}
-
-bool Ui::handle_key_release(int key) {
-  if (key == IV_KEY_PREV or key == IV_KEY_NEXT) {
-    if (key == IV_KEY_PREV) {
-      this->hourly_forecast_box->set_max_forecast_offset();
-    } else if (key == IV_KEY_NEXT) {
-      this->hourly_forecast_box->set_min_forecast_offset();
-    }
-    const auto event_handler = GetEventHandler();
-    SendEvent(event_handler, EVT_CUSTOM,
-              CustomEvent::change_daily_forecast_display, 0);
-    return true;
-  }
-  return false;
 }
 
 void Ui::handle_menu_item_selected(int item_index) {

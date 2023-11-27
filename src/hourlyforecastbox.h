@@ -17,6 +17,12 @@ public:
                     std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
                     std::shared_ptr<Fonts> fonts);
 
+  size_t get_forecast_offset() const;
+
+  size_t get_min_forecast_offset() const;
+
+  size_t get_max_forecast_offset() const;
+
   void set_min_forecast_offset();
 
   void set_max_forecast_offset();
@@ -26,6 +32,10 @@ public:
   void decrease_forecast_offset();
 
   void do_paint() override;
+
+  bool handle_key_press(int key) override;
+
+  bool handle_key_release(int key) override;
 
 private:
   static constexpr int vertical_padding{25};
@@ -60,12 +70,6 @@ private:
 
   size_t forecast_offset{0};
 
-  bool handle_key_press(int key) override;
-
-  bool handle_key_repeat(int key) override;
-
-  bool handle_key_release(int key) override;
-
   std::tuple<std::string, int>
   get_date_label_properties(size_t bar_index) const;
 
@@ -78,8 +82,6 @@ private:
   void draw_temperature_curve() const;
 
   void draw_precipitation_histogram() const;
-
-  void request_change_daily_forecast_display();
 
   const ibitmap *rotate_direction_icon(int degree);
 };

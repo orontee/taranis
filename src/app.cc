@@ -86,8 +86,6 @@ void App::setup() {
   }
   this->set_task_parameters();
 
-  this->ui = std::make_unique<Ui>(this->config, this->model);
-
   this->application_state = std::make_unique<ApplicationState>(this->model);
   this->application_state->restore();
 
@@ -105,6 +103,8 @@ void App::setup() {
         << "Current location restored from application state";
   }
   this->load_config();
+
+  this->ui = std::make_unique<Ui>(this->config, this->model);
 }
 
 void App::show() {

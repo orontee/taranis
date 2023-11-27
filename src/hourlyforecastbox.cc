@@ -1,5 +1,6 @@
 #include "hourlyforecastbox.h"
 
+#include "opencv2/imgproc/imgproc.hpp"
 #include <boost/log/trivial.hpp>
 #include <cmath>
 #include <cstdlib>
@@ -12,8 +13,6 @@
 #include <opencv2/opencv.hpp>
 #include <sstream>
 
-#include "events.h"
-#include "opencv2/imgproc/imgproc.hpp"
 #include "units.h"
 #include "util.h"
 
@@ -67,14 +66,6 @@ bool HourlyForecastBox::handle_key_press(int key) {
   return (key == IV_KEY_PREV or key == IV_KEY_NEXT);
 }
 
-bool HourlyForecastBox::handle_key_repeat(int key) {
-  if (key == IV_KEY_PREV or key == IV_KEY_NEXT) {
-    this->request_change_daily_forecast_display();
-    return true;
-  }
-  return false;
-}
-
 bool HourlyForecastBox::handle_key_release(int key) {
   if (key == IV_KEY_PREV) {
     this->decrease_forecast_offset();
@@ -84,6 +75,16 @@ bool HourlyForecastBox::handle_key_release(int key) {
     return true;
   }
   return false;
+}
+
+size_t HourlyForecastBox::get_forecast_offset() const {
+  return this->forecast_offset;
+}
+
+size_t HourlyForecastBox::get_min_forecast_offset() const { return 0; }
+
+size_t HourlyForecastBox::get_max_forecast_offset() const {
+  return this->model->hourly_forecast.size() - HourlyForecastBox::visible_bars;
 }
 
 void HourlyForecastBox::set_min_forecast_offset() {
@@ -117,8 +118,6 @@ void HourlyForecastBox::increase_forecast_offset() {
     BOOST_LOG_TRIVIAL(debug)
         << "Forecast offset increased to " << this->forecast_offset;
     this->paint_and_update_screen();
-  } else {
-    this->request_change_daily_forecast_display();
   }
 }
 
@@ -136,8 +135,6 @@ void HourlyForecastBox::decrease_forecast_offset() {
     BOOST_LOG_TRIVIAL(debug)
         << "Forecast offset decreased to " << this->forecast_offset;
     this->paint_and_update_screen();
-  } else {
-    this->request_change_daily_forecast_display();
   }
 }
 
@@ -373,13 +370,6 @@ void HourlyForecastBox::draw_precipitation_histogram() const {
       }
     }
   }
-}
-
-void HourlyForecastBox::request_change_daily_forecast_display() {
-  BOOST_LOG_TRIVIAL(debug) << "Requesting a change of forecast display";
-  const auto event_handler = GetEventHandler();
-  SendEvent(event_handler, EVT_CUSTOM,
-            CustomEvent::change_daily_forecast_display, 0);
 }
 
 std::map<int, std::vector<unsigned char>> rotated_icons;

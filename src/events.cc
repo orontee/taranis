@@ -31,10 +31,10 @@ std::string taranis::format_custom_event_param(int param) {
   if (param == CustomEvent::select_location_from_list) {
     return "select_location_from_list";
   }
+
   if (param == CustomEvent::toggle_current_location_favorite) {
     return "toggle_current_location_favorite";
   }
-
   if (param == CustomEvent::model_daily_forecast_display_changed) {
     return "model_daily_forecast_display_changed";
   }

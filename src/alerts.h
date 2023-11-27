@@ -43,6 +43,13 @@ public:
 
   void do_paint() override;
 
+  bool handle_key_press(int key) override;
+
+  bool handle_key_release(int key) override;
+
+  int handle_pointer_event(int event_type, int pointer_pos_x,
+                           int pointer_pos_y) override;
+
 private:
   static constexpr int horizontal_padding{25};
   static constexpr int vertical_padding{25};
@@ -77,12 +84,5 @@ private:
   void display_previous_alert_maybe();
 
   void display_next_alert_maybe();
-
-  bool handle_key_press(int key) override;
-
-  bool handle_key_release(int key) override;
-
-  int handle_pointer_event(int event_type, int pointer_pos_x,
-                           int pointer_pos_y) override;
 };
 } // namespace taranis
