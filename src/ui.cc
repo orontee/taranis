@@ -180,7 +180,7 @@ void Ui::handle_menu_item_selected(int item_index) {
     SendEvent(event_handler, EVT_CUSTOM,
               CustomEvent::select_location_from_history, history_index);
   } else if (item_index == MENU_ITEM_QUIT) {
-    SendEvent(event_handler, EVT_EXIT, 0, 0);
+    CloseApp();
   } else if (item_index == -1) {
     BOOST_LOG_TRIVIAL(debug) << "Menu to be closed";
   } else {

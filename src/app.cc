@@ -43,7 +43,7 @@ int App::process_event(int event_type, int param_one, int param_two) {
 
   if (event_type == EVT_EXIT) {
     this->exit();
-    return 1;
+    return 0;
   }
 
   if (event_type == EVT_CONFIGCHANGED) {
@@ -117,7 +117,9 @@ void App::show() {
 void App::exit() {
   BOOST_LOG_TRIVIAL(info) << "Exiting application";
 
-  this->application_state->dump();
+  if (this->application_state != nullptr) {
+    this->application_state->dump();
+  }
 
   this->ui.reset();
   this->application_state.reset();
@@ -126,8 +128,6 @@ void App::exit() {
   this->service.reset();
   this->model.reset();
   this->client.reset();
-
-  CloseApp();
 }
 
 void App::load_config() {
