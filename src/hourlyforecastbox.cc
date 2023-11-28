@@ -1,6 +1,5 @@
 #include "hourlyforecastbox.h"
 
-#include "opencv2/imgproc/imgproc.hpp"
 #include <boost/log/trivial.hpp>
 #include <cmath>
 #include <cstdlib>
@@ -10,6 +9,7 @@
 #include <map>
 #include <memory>
 #include <opencv2/imgproc.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
 #include <sstream>
 
