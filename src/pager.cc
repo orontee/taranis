@@ -1,5 +1,7 @@
 #include "pager.h"
-#include "inkview.h"
+
+#include <cmath>
+#include <inkview.h>
 
 namespace taranis {
 
@@ -20,10 +22,9 @@ void DotPager::do_paint() {
     return;
   }
 
-  auto dots_width = DotPager::dot_radius * dots_count;
-  if (dots_count > 0) {
-    dots_width += DotPager::horizontal_padding * (dots_count - 1);
-  }
+  const auto dots_width = 2 * DotPager::dot_radius * dots_count +
+                          DotPager::horizontal_padding * (dots_count - 1);
+
   if (dots_width > this->bounding_box.w) {
     BOOST_LOG_TRIVIAL(warning) << "Too many pages for dot pager width!";
   }
