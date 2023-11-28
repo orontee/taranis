@@ -43,8 +43,6 @@ public:
 
   void do_paint() override;
 
-  bool handle_key_press(int key) override;
-
   bool handle_key_release(int key) override;
 
   int handle_pointer_event(int event_type, int pointer_pos_x,

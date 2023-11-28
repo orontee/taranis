@@ -178,19 +178,13 @@ void AlertViewer::display_next_alert_maybe() {
   }
 }
 
-bool AlertViewer::handle_key_press(int key) {
-  return (key == IV_KEY_PREV) or (key == IV_KEY_NEXT);
-}
-
 bool AlertViewer::handle_key_release(int key) {
   if (key == IV_KEY_PREV) {
     this->display_previous_alert_maybe();
-    return true;
   } else if (key == IV_KEY_NEXT) {
     this->display_next_alert_maybe();
-    return true;
   }
-  return false;
+  return true;
 }
 
 int AlertViewer::handle_pointer_event(int event_type, int pointer_pos_x,

@@ -39,10 +39,11 @@ struct Widget : public KeyEventConsumer {
 
   virtual bool is_modal() const { return false; }
   // a modal widget takes control of the screen, and receives all
-  // keys and pointer events
+  // keys and pointer events when visible
 
   virtual bool is_visible() const { return true; }
-  // invisible widgets are painted white
+  // invisible widgets are painted white, note that nothing ensures
+  // that the returned value change when a modal is opened!
 
   virtual bool is_enabled() const { return true; }
   // disabled widgets don't receive keys and pointer events
@@ -82,6 +83,8 @@ struct Widget : public KeyEventConsumer {
   bool is_key_event_consumer_active() const override {
     return this->is_visible() and this->is_enabled();
   }
+
+  bool handle_key_press(int key) override { return this->is_modal(); }
 
 protected:
   irect bounding_box;

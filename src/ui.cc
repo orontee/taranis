@@ -73,6 +73,7 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
   this->children.push_back(this->forecast_stack);
   this->children.push_back(status_bar);
 
+  this->register_key_event_consumer(this->alert_viewer);
   this->register_key_event_consumer(menu_button);
   this->register_key_event_consumer(this->forecast_stack);
 }
@@ -111,6 +112,14 @@ int Ui::handle_pointer_event(int event_type, int pointer_pos_x,
     }
   }
   return 0;
+}
+
+bool Ui::is_key_event_consumer_active(
+    std::shared_ptr<KeyEventConsumer> consumer) {
+  if (this->visible_modal) {
+    return consumer == this->visible_modal;
+  }
+  return KeyEventDispatcher::is_key_event_consumer_active(consumer);
 }
 
 void Ui::switch_forecast_widget() { this->forecast_stack->switch_forecast(); }

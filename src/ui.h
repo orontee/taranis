@@ -35,6 +35,9 @@ public:
   int handle_pointer_event(int event_type, int pointer_pos_x,
                            int pointer_pos_y);
 
+  bool is_key_event_consumer_active(
+      std::shared_ptr<KeyEventConsumer> consumer) override;
+
   void display_alert() { this->alert_viewer->open(); }
 
   void switch_forecast_widget();
