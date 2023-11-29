@@ -286,7 +286,7 @@ std::string VersionChecker::shorten_current_version_extended() const {
 std::string VersionChecker::generate_new_version_question(
     const ReleaseDescription &release) const {
   std::stringstream question;
-  question << GetLangText("A new version is available: ") << release.name
+  question << GetLangText("A new version is available:") << " " << release.name
            << ".";
 
   return question.str();

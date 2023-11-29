@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-22 23:37+0100\n"
+"POT-Creation-Date: 2023-11-29 11:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,7 +53,7 @@ msgid ""
 msgstr ""
 
 #: src/app.cc:242 src/app.cc:254 src/app.cc:288 src/app.cc:410
-#: src/version.cc:96
+#: src/version.cc:135
 msgid "Ok"
 msgstr ""
 
@@ -77,8 +77,8 @@ msgstr ""
 msgid "Service unavailable"
 msgstr ""
 
-#: src/app.cc:409 src/config.cc:40 src/version.cc:61 src/version.cc:68
-#: src/version.cc:75 src/version.cc:83 src/version.cc:95
+#: src/app.cc:409 src/config.cc:40 src/version.cc:100 src/version.cc:107
+#: src/version.cc:114 src/version.cc:122 src/version.cc:134
 msgid "Software version"
 msgstr ""
 
@@ -138,7 +138,7 @@ msgstr ""
 msgid "Location unknown to the service providing weather data. Check spelling."
 msgstr ""
 
-#: src/errors.h:43 src/version.cc:48
+#: src/errors.h:43 src/version.cc:87
 msgid ""
 "Sorry, an unexpected error was encountered. Report this to the application "
 "author."
@@ -227,18 +227,18 @@ msgstr ""
 msgid "Tomorrow"
 msgstr ""
 
-#: src/version.cc:58
+#: src/version.cc:97
 msgid "The service hosting releases isn't working as expected. Retry later."
 msgstr ""
 
-#: src/version.cc:84
+#: src/version.cc:123
 msgid "Latest release already installed"
 msgstr ""
 
-#: src/version.cc:96
+#: src/version.cc:135
 msgid "Browse"
 msgstr ""
 
-#: src/version.cc:187
-msgid "A new version is available: "
+#: src/version.cc:289
+msgid "A new version is available:"
 msgstr ""
