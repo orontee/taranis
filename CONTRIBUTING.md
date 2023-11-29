@@ -99,7 +99,7 @@ SCANBUILD=./SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/bin/scan-build ninja
 ## Translations
 
 Translations are stored in [PO files](./po) which are textual,
-editable files]. They are generated using `xgettext`.
+editable files. They are generated using `xgettext`.
 
 To update translation files:
 ```sh
