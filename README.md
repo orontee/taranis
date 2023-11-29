@@ -79,5 +79,9 @@ to effectively display this logo on power off.
 
 ## Contributing
 
+No developer skills are required to contribute to translations or add
+support for new languages, thanks to the [Weblate
+platform](https://hosted.weblate.org/projects/taranis/taranis/).
+
 Instructions to install an unreleased version, debug, etc. can be
-found in the [CONTRIBUTING file](./CONTRIBUTING.md).
+found in the [CONTRIBUTING guide](./CONTRIBUTING.md).
