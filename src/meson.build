@@ -79,6 +79,7 @@ sources = [about_cc, icons_cc, l10n_cc] + files(
   'service.cc',
   'stack.cc',
   'state.cc',
+  'statusbar.cc',
   'ui.cc',
   'util.cc',
   'version.cc'
