@@ -24,6 +24,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Dynamically shorten status bar date to avoid screen overflow
+  [#80](https://github.com/orontee/taranis/issues/80)
+
 - Humidity was replaced by speed of wind gusts
   [#78](https://github.com/orontee/taranis/issues/78)
 

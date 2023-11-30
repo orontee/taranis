@@ -1,5 +1,9 @@
 #include "statusbar.h"
 
+#include <experimental/optional>
+#include <inkview.h>
+#include <sstream>
+
 #include "util.h"
 
 namespace taranis {
@@ -14,15 +18,30 @@ StatusBar::StatusBar(std::shared_ptr<Model> model, std::shared_ptr<Fonts> fonts)
 }
 
 void StatusBar::do_paint() {
+  SetFont(this->font.get(), BLACK);
+
   std::stringstream first_row_text;
   if (this->model->refresh_date == std::experimental::nullopt) {
     first_row_text << GetLangText("Ongoing update…");
   } else {
     first_row_text << GetLangText("Last update:") << " "
                    << format_full_date(*this->model->refresh_date);
+
+    const auto first_row_width = StringWidth(first_row_text.str().c_str());
+    const auto content_width =
+        this->get_width() - this->left_padding - this->right_padding;
+    if (first_row_width > content_width) {
+      BOOST_LOG_TRIVIAL(debug)
+          << "Shortening status bar date to avoid screen overflow";
+
+      first_row_text.str("");
+
+      first_row_text << GetLangText("Last update:") << " "
+                     << format_short_date(*this->model->refresh_date) << ", "
+                     << format_time(*this->model->refresh_date);
+    }
   }
 
-  SetFont(this->font.get(), BLACK);
   const auto first_row_x = this->left_padding;
   const auto first_row_y = this->bounding_box.y + this->top_padding;
   DrawString(first_row_x, first_row_y, first_row_text.str().c_str());

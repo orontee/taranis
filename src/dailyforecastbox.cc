@@ -55,7 +55,8 @@ void DailyForecastBox::generate_table_content() {
 
         if (column_index == DailyForecastBox::WeekDayColumn) {
           column_content[row_index] = std::pair<std::string, std::string>{
-              format_day(forecast.date), format_short_date(forecast.date)};
+              format_short_day(forecast.date),
+              format_short_date(forecast.date)};
         } else if (column_index == DailyForecastBox::IconColumn) {
           column_content[row_index] =
               this->icons->get(forecast.weather_icon_name);

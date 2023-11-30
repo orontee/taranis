@@ -57,8 +57,8 @@ inline void rtrim(std::string &s) {
 // 17:05
 std::string format_time(const TimePoint &time, bool round = false);
 
-// Saturday
-std::string format_day(const TimePoint &time);
+// Sat
+std::string format_short_day(const TimePoint &time);
 
 // 21 Oct
 std::string format_short_date(const TimePoint &time);

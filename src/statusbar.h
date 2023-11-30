@@ -1,10 +1,7 @@
 #pragma once
 
-#include <ctime>
-#include <experimental/optional>
 #include <inkview.h>
 #include <memory>
-#include <sstream>
 
 #include "fonts.h"
 #include "model.h"
@@ -20,6 +17,7 @@ public:
 
 private:
   static constexpr int left_padding{50};
+  static constexpr int right_padding{50};
   static constexpr int top_padding{25};
   static constexpr int bottom_padding{25};
 

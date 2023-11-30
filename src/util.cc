@@ -138,7 +138,7 @@ std::string taranis::format_time(const TimePoint &time, bool round) {
 const char *weekdays[7] = {"@Sun", "@Mon", "@Tue", "@Wed",
                            "@Thu", "@Fri", "@Sat"};
 
-std::string taranis::format_day(const TimePoint &time) {
+std::string taranis::format_short_day(const TimePoint &time) {
   const time_t time_since_epoch{static_cast<long>(
       std::chrono::duration_cast<std::chrono::seconds>(time - TimePoint{})
           .count())};
