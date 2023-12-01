@@ -93,10 +93,10 @@ int LocationSelector::handle_list_action(int action, int x, int y,
           << "Drawing list item with index " << item_index << " and state "
           << state << " at " << x << ", " << y;
 
-      const ibitmap *icon = that->radio_button_unchecked;
+      const ibitmap *icon = that->radio_button_unchecked.get();
       if (state) {
         that->selected_item_index = item_index;
-        icon = that->radio_button_checked;
+        icon = that->radio_button_checked.get();
 
         DrawSelection(x, y + LocationSelector::vertical_padding / 2,
                       ScreenWidth() - 2 * LocationSelector::horizontal_padding,

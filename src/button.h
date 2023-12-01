@@ -59,7 +59,7 @@ public:
   void do_paint() override {
     const auto [pos_x, pos_y] = this->get_icon_top_left_position();
     const auto *const icon_to_draw =
-        this->is_enabled() ? this->icon : this->icon_disabled;
+        this->is_enabled() ? this->icon.get() : this->icon_disabled.get();
     if (icon_to_draw) {
       DrawBitmap(pos_x, pos_y, icon_to_draw);
     }
@@ -69,8 +69,8 @@ protected:
   virtual void on_clicked(){};
 
 private:
-  const ibitmap *const icon;
-  const ibitmap *const icon_disabled;
+  std::unique_ptr<ibitmap> icon;
+  std::unique_ptr<ibitmap> icon_disabled;
 
   void on_activated_changed(bool activated) override {
     if (activated) {

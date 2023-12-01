@@ -62,8 +62,8 @@ void MenuButton::initialize_favorite_location_icon() {
   const auto menu_font_height = menu_properties and menu_properties->font_normal
                                     ? menu_properties->font_normal->height
                                     : this->font->height * 0.9;
-  this->favorite_location_icon = BitmapStretchProportionally(
-      this->icons->get("favorite"), menu_font_height, menu_font_height);
+  this->favorite_location_icon.reset(BitmapStretchProportionally(
+      this->icons->get("favorite"), menu_font_height, menu_font_height));
 }
 
 void MenuButton::update_item_texts() {
@@ -117,9 +117,8 @@ void MenuButton::update_location_history_items() {
     for (const auto &item : location_history) {
       this->location_full_names.push_back(format_location(item.location));
 
-      ibitmap *icon = item.favorite
-                          ? const_cast<ibitmap *>(this->favorite_location_icon)
-                          : nullptr;
+      ibitmap *const icon =
+          item.favorite ? this->favorite_location_icon.get() : nullptr;
       const short item_index =
           taranis::MENU_ITEM_EMPTY_LOCATION_HISTORY + index + 1;
       this->location_history_items.at(index) = imenuex{

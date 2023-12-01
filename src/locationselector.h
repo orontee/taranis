@@ -38,8 +38,8 @@ private:
   std::shared_ptr<ifont> font;
   std::shared_ptr<ifont> tiny_font;
 
-  const ibitmap *const radio_button_unchecked;
-  const ibitmap *const radio_button_checked;
+  std::unique_ptr<ibitmap> radio_button_unchecked;
+  std::unique_ptr<ibitmap> radio_button_checked;
 
   int selected_item_index{-1};
 

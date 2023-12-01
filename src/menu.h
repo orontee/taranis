@@ -59,7 +59,7 @@ private:
   std::shared_ptr<ifont> font;
   std::unique_ptr<LocationHistoryProxy> history;
 
-  const ibitmap *favorite_location_icon;
+  std::unique_ptr<ibitmap> favorite_location_icon;
 
   iv_menuhandler menu_handler;
 
