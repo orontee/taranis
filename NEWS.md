@@ -27,6 +27,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Resize application icon
+  [#72](https://github.com/orontee/taranis/issues/72)
+
 - Dynamically shorten status bar date to avoid screen overflow
   [#80](https://github.com/orontee/taranis/issues/80)
 

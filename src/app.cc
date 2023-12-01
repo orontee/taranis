@@ -11,6 +11,18 @@
 #include "util.h"
 
 namespace taranis {
+App::App()
+    : client{std::make_shared<HttpClient>()}, model{std::make_shared<Model>()},
+      config{std::make_shared<Config>()}, l10n{std::make_unique<L10n>()},
+      service{std::make_unique<Service>(this->client)},
+      version_checker{std::make_unique<VersionChecker>(
+          this->config, this->client, this->model)},
+      history{std::make_unique<LocationHistoryProxy>(this->model)},
+      application_state{std::make_unique<ApplicationState>(this->model)},
+      task_icon{BitmapStretchCopy(
+          &icon_taranis, (icon_taranis.width - task_icon_size) / 2,
+          (icon_taranis.height - task_icon_size) / 2, task_icon_size,
+          task_icon_size, task_icon_size, task_icon_size)} {}
 
 int App::process_event(int event_type, int param_one, int param_two) {
   BOOST_LOG_TRIVIAL(debug) << "Processing event of type "
@@ -86,7 +98,6 @@ void App::setup() {
   }
   this->set_task_parameters();
 
-  this->application_state = std::make_unique<ApplicationState>(this->model);
   this->application_state->restore();
 
   auto &current_location = this->model->location;
@@ -485,8 +496,9 @@ void App::set_task_parameters() {
   const auto task_info = GetTaskInfo(task_identifier);
   if (task_info) {
     BOOST_LOG_TRIVIAL(debug) << "Setting task parameters";
+
     SetTaskParameters(task_identifier, task_info->appname, "Taranis",
-                      const_cast<ibitmap *>(&icon_taranis), task_info->flags);
+                      this->task_icon.get(), task_info->flags);
   } else {
     BOOST_LOG_TRIVIAL(warning) << "No task info!";
   }

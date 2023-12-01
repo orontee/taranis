@@ -33,14 +33,7 @@ std::string get_about_content();
 
 class App {
 public:
-  App()
-      : client{std::make_shared<HttpClient>()},
-        model{std::make_shared<Model>()}, config{std::make_shared<Config>()},
-        l10n{std::make_unique<L10n>()}, service{std::make_unique<Service>(
-                                            this->client)},
-        version_checker{std::make_unique<VersionChecker>(
-            this->config, this->client, this->model)},
-        history{std::make_unique<LocationHistoryProxy>(this->model)} {}
+  App();
 
   int process_event(int event_type, int param_one, int param_two);
 
@@ -48,6 +41,7 @@ private:
   static constexpr char refresh_timer_name[] = "taranis_refresh_timer";
   static constexpr int refresh_period{60 * 60 * 1000};
   static constexpr int error_dialog_delay{5000};
+  static constexpr int task_icon_size{80};
 
   std::shared_ptr<HttpClient> client;
   std::shared_ptr<Model> model;
@@ -57,6 +51,7 @@ private:
   std::unique_ptr<VersionChecker> version_checker;
   std::unique_ptr<LocationHistoryProxy> history;
   std::unique_ptr<ApplicationState> application_state;
+  std::unique_ptr<ibitmap> task_icon;
   std::unique_ptr<Ui> ui;
 
   bool config_already_loaded{false};
@@ -86,7 +81,7 @@ private:
 
   void update_configured_unit_system(UnitSystem unit_system);
 
-  static void set_task_parameters();
+  void set_task_parameters();
 
   static void refresh_data_maybe();
 };
