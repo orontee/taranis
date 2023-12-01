@@ -24,13 +24,12 @@ public:
 
 private:
   static constexpr int left_padding{50};
+  static constexpr int right_padding{0};
   static constexpr int top_padding{50};
   static constexpr int bottom_padding{25};
 
   std::shared_ptr<Model> model;
   std::shared_ptr<ifont> font;
-
-  std::string elide_maybe(const std::string &text) const;
 
   static void keyboard_handler(char *text);
 };
