@@ -28,9 +28,15 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
 
   this->alert_viewer = std::make_shared<AlertViewer>(model, this->fonts);
 
-  auto current_condition_box = std::make_shared<CurrentConditionBox>(
-      0, this->location_box->get_height(), this->model, this->fonts);
+  auto alerts_button = std::make_shared<AlertsButton>(
+      Ui::alert_icon_size, model, this->icons, this->alert_viewer);
+  const auto alerts_button_pos_x =
+      ScreenWidth() - alerts_button->get_width() - Ui::button_margin;
 
+  const auto current_condition_box_width = alerts_button_pos_x;
+  auto current_condition_box = std::make_shared<CurrentConditionBox>(
+      0, this->location_box->get_height(), current_condition_box_width,
+      this->model, this->fonts);
   auto status_bar = std::make_shared<StatusBar>(this->model, this->fonts);
 
   const auto remaining_height = status_bar->get_pos_y() -
@@ -53,13 +59,10 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
   const auto &current_condition_bounding_box =
       current_condition_box->get_bounding_box();
 
-  auto alerts_button = std::make_shared<AlertsButton>(
-      Ui::alert_icon_size, model, this->icons, this->alert_viewer);
-  alerts_button->set_pos_x(ScreenWidth() - alerts_button->get_width() -
-                           Ui::button_margin);
-  alerts_button->set_pos_y(
-      current_condition_bounding_box.y + current_condition_bounding_box.h / 2 -
-      alerts_button->get_height() / 2 - CurrentConditionBox::bottom_padding);
+  alerts_button->set_pos_x(alerts_button_pos_x);
+  alerts_button->set_pos_y(current_condition_bounding_box.y +
+                           current_condition_bounding_box.h / 2 -
+                           alerts_button->get_height() / 2);
 
   this->location_selector =
       std::make_shared<LocationSelector>(50, this->fonts, this->icons);

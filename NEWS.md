@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Automatic elision of long weather description
+  [#81](https://github.com/orontee/taranis/issues/81)
+
 - Row of dots to represent forecast pages 
   [#77](https://github.com/orontee/taranis/issues/77)
 

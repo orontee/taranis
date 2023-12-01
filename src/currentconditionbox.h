@@ -11,15 +11,20 @@ namespace taranis {
 
 class CurrentConditionBox : public Widget {
 public:
-  static constexpr int bottom_padding{25};
-
-  CurrentConditionBox(int pos_x, int pos_y, std::shared_ptr<Model> model,
+  CurrentConditionBox(int pos_x, int pos_y, int width,
+                      std::shared_ptr<Model> model,
                       std::shared_ptr<Fonts> fonts);
 
   void do_paint() override;
 
 private:
-  static constexpr int horizontal_padding{50};
+  static constexpr int bottom_padding{25};
+  static constexpr int top_padding{0};
+  static constexpr int left_padding{50};
+  static constexpr int right_padding{25};
+
+  static constexpr int inner_horizontal_spacing{50};
+  static constexpr int inner_vertical_spacing{25};
 
   std::shared_ptr<Model> model;
   std::shared_ptr<Fonts> fonts;
