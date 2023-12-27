@@ -27,6 +27,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Hide wind information when speed is zero
+  [#82](https://github.com/orontee/taranis/issues/82)
+
 - Resize application icon
   [#72](https://github.com/orontee/taranis/issues/72)
 

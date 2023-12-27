@@ -248,25 +248,29 @@ void HourlyForecastBox::draw_frame_and_values() {
       DrawString(bar_center_x - StringWidth(temperature_text.c_str()) / 2.0,
                  this->temperature_y, temperature_text.c_str());
 
-      SetFont(tiny_font.get(), DGRAY);
-
-      const auto rotated_icon =
-          this->rotate_direction_icon(forecast.wind_degree);
-      if (rotated_icon) {
-        DrawBitmap(bar_center_x - this->wind_direction_icon_size / 2.0,
-                   this->wind_direction_icon_y, rotated_icon);
+      if (static_cast<int>(forecast.wind_speed) != 0 or
+          static_cast<int>(forecast.wind_gust) != 0) {
+        const auto rotated_icon =
+            this->rotate_direction_icon(forecast.wind_degree);
+        if (rotated_icon) {
+          DrawBitmap(bar_center_x - this->wind_direction_icon_size / 2.0,
+                     this->wind_direction_icon_y, rotated_icon);
+        }
       }
-
       const auto wind_speed_text = units.format_speed(forecast.wind_speed);
-      DrawString(bar_center_x - StringWidth(wind_speed_text.c_str()) / 2.0,
-                 this->wind_speed_y, wind_speed_text.c_str());
-
-      const auto wind_gust_text = units.format_speed(forecast.wind_gust);
-      if (forecast.wind_gust > forecast.wind_speed and
-          wind_gust_text != wind_speed_text) {
-        SetFont(tiny_italic_font.get(), DGRAY);
-        DrawString(bar_center_x - StringWidth(wind_gust_text.c_str()) / 2.0,
-                   this->wind_gust_y, wind_gust_text.c_str());
+      if (static_cast<int>(forecast.wind_speed) != 0) {
+        SetFont(tiny_font.get(), DGRAY);
+        DrawString(bar_center_x - StringWidth(wind_speed_text.c_str()) / 2.0,
+                   this->wind_speed_y, wind_speed_text.c_str());
+      }
+      if (static_cast<int>(forecast.wind_gust) != 0) {
+        const auto wind_gust_text = units.format_speed(forecast.wind_gust);
+        if (forecast.wind_gust > forecast.wind_speed and
+            wind_gust_text != wind_speed_text) {
+          SetFont(tiny_italic_font.get(), DGRAY);
+          DrawString(bar_center_x - StringWidth(wind_gust_text.c_str()) / 2.0,
+                     this->wind_gust_y, wind_gust_text.c_str());
+        }
       }
     }
 
