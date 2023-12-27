@@ -11,7 +11,7 @@ pkgconfig = '@pwd@/SDK_6.3.0/SDK-B288/usr/bin/pkg-config'
 cpp_args = ['-fsigned-char',
             '-fPIC',
             '-Werror-return-type',
-	    '-Wswitch-enum',
+            '-Wswitch-enum',
             '-march=armv7-a',
             '-mtune=cortex-a8',
             '-mfpu=neon',
@@ -26,7 +26,7 @@ endian = 'little'
 [properties]
 sys_root = '@pwd@/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot'
 pkg_config_libdir = ['@pwd@/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/usr/lib/pkgconfig',
-		     '@pwd@/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/lib/pkgconfig']
+                     '@pwd@/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/lib/pkgconfig']
 needs_exe_wrapper = true
 
 ; Local Variables:

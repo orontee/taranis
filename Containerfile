@@ -34,19 +34,19 @@ RUN mkdir 3rd-parties && \
     wget https://ftp.gnu.org/gnu/gsl/gsl-2.7.1.tar.gz && \
     tar -xzf gsl-2.7.1.tar.gz && \
     cd gsl-2.7.1 && \
-    CROSS=arm-obreey-linux-gnueabi && \
+    export CROSS=arm-obreey-linux-gnueabi \
+           CC=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang \
+           CXX=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang++ \
+           AR=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ar \
+           STRIP=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-strip \
+           RANLIB=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ranlib \
+           PKGCONFIG=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/pkg-config \
+           CFLAGS="-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp" && \
     ./configure --prefix=$PWD/../../SDK_6.3.0/SDK-B288/usr/$CROSS/sysroot \
-               --host=$CROSS \
-               --build=x86_64-pc-linux-gnu \
-               --target=$CROSS \
-      CC=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang \
-      CXX=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang++ \
-      AR=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ar \
-      STRIP=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-strip \
-      RANLIB=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ranlib \
-      PKGCONFIG=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/pkg-config \
-      CFLAGS="-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp" && \
-    make -j4 && \
+                --host=$CROSS \
+                --build=x86_64-pc-linux-gnu \
+                --target=$CROSS && \
+    make -j$(nproc) && \
     make install
 
 ARG MESON_ARGS
