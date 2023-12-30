@@ -3,19 +3,21 @@
 # This file is distributed under the same license as the taranis package.
 # Matthias Meulien <orontee@gmail.com>, 2023.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-29 11:25+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: Czech\n"
+"PO-Revision-Date: 2023-12-30 09:08+0000\n"
+"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/taranis/taranis/cs/"
+">\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: src/about.cc.in:15
 msgid ""
@@ -23,7 +25,7 @@ msgid ""
 "General Public License, version 3 or later"
 msgstr ""
 "Tento program je bez jakékoliv záruky. Další podrobnosti jsou v GNU General "
-"Public License, verze 3 nebo novější."
+"Public License, verze 3 nebo novější"
 
 #: src/about.cc.in:18
 msgid "Credits"
@@ -82,9 +84,8 @@ msgstr "Služba není dostupná"
 
 #: src/app.cc:409 src/config.cc:40 src/version.cc:100 src/version.cc:107
 #: src/version.cc:114 src/version.cc:122 src/version.cc:134
-#, fuzzy
 msgid "Software version"
-msgstr "Nepodporovaná verze programu"
+msgstr "Verze softwaru"
 
 #: src/config.cc:20
 msgid "Standard"
@@ -108,7 +109,7 @@ msgstr "Denní předpověď"
 
 #: src/config.cc:43
 msgid "Check newer version"
-msgstr ""
+msgstr "Zkontrolujte novější verzi"
 
 #: src/config.cc:48
 msgid "Units"
@@ -127,9 +128,8 @@ msgid "Generate shutdown logo"
 msgstr "Vygenerovat logo vypnutí"
 
 #: src/config.cc:63
-#, fuzzy
 msgid "Software"
-msgstr "Nepodporovaná verze programu"
+msgstr "Čeština"
 
 #: src/config.cc:120
 msgid "Parameters"
@@ -168,7 +168,7 @@ msgstr "Služba poskytující data o počasí nepracuje správně Zkuste pozděj
 
 #: src/locationbox.cc:44
 msgid "Enter location"
-msgstr ""
+msgstr "Zadejte umístění"
 
 #: src/locationselector.cc:46 src/menu.cc:74
 msgid "Locations"
@@ -235,21 +235,21 @@ msgid "Tomorrow"
 msgstr "Zítra"
 
 #: src/version.cc:97
-#, fuzzy
 msgid "The service hosting releases isn't working as expected. Retry later."
-msgstr "Služba poskytující data o počasí nepracuje správně Zkuste později."
+msgstr ""
+"Služba hostingové zprávy nejsou v provozu podle očekávání. Opakujte později."
 
 #: src/version.cc:123
 msgid "Latest release already installed"
-msgstr ""
+msgstr "Nejnovější verze již nainstalována"
 
 #: src/version.cc:135
 msgid "Browse"
-msgstr ""
+msgstr "Hledat"
 
 #: src/version.cc:289
 msgid "A new version is available:"
-msgstr ""
+msgstr "K dispozici je nová verze:"
 
 #~ msgid "About"
 #~ msgstr "O aplikaci"

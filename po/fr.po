@@ -3,19 +3,21 @@
 # This file is distributed under the same license as the taranis package.
 # Matthias Meulien <orontee@gmail.com>, 2023.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-29 11:25+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: French\n"
+"PO-Revision-Date: 2023-11-29 20:22+0000\n"
+"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/taranis/taranis/"
+"fr/>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.3-dev\n"
 
 #: src/about.cc.in:15
 msgid ""
@@ -23,7 +25,7 @@ msgid ""
 "General Public License, version 3 or later"
 msgstr ""
 "Ce programme est fourni sans aucune garantie. Pour plus de détails, lisez la "
-"License publique générale GNU, version 3 ou ultérieure."
+"License publique générale GNU, version 3 ou ultérieure"
 
 #: src/about.cc.in:18
 msgid "Credits"
@@ -56,7 +58,7 @@ msgstr ""
 "L'application n'est pas compatible avec la version logicielle de ce matériel."
 
 #: src/app.cc:242 src/app.cc:254 src/app.cc:288 src/app.cc:410
-#: src/version.cc:135
+#: src/version.cc:135 src/version.cc:96
 msgid "Ok"
 msgstr "Ok"
 
@@ -85,7 +87,8 @@ msgid "Service unavailable"
 msgstr "Service indisponible"
 
 #: src/app.cc:409 src/config.cc:40 src/version.cc:100 src/version.cc:107
-#: src/version.cc:114 src/version.cc:122 src/version.cc:134
+#: src/version.cc:114 src/version.cc:122 src/version.cc:134 src/version.cc:61
+#: src/version.cc:68 src/version.cc:75 src/version.cc:83 src/version.cc:95
 msgid "Software version"
 msgstr "Version du logiciel"
 
@@ -147,7 +150,7 @@ msgstr ""
 "Localité inconnue du fournisseur de données météorologiques. Vérifier "
 "l'orthographe."
 
-#: src/errors.h:43 src/version.cc:87
+#: src/errors.h:43 src/version.cc:87 src/version.cc:48
 msgid ""
 "Sorry, an unexpected error was encountered. Report this to the application "
 "author."
@@ -224,7 +227,7 @@ msgstr "Mise à jour en cours…"
 
 #: src/statusbar.h:33
 msgid "Last update:"
-msgstr "Mis à jour : "
+msgstr "Mis à jour :"
 
 #: src/statusbar.h:43
 msgid "Weather data from"
@@ -242,23 +245,26 @@ msgstr "Hier"
 msgid "Tomorrow"
 msgstr "Demain"
 
-#: src/version.cc:97
+#: src/version.cc:97 src/version.cc:58
 msgid "The service hosting releases isn't working as expected. Retry later."
 msgstr ""
 "L'hébergement des différentes versions de l'application est hors-service. "
 "Réessayer plus tard."
 
-#: src/version.cc:123
+#: src/version.cc:123 src/version.cc:84
 msgid "Latest release already installed"
 msgstr "Dernière version déjà installée"
 
-#: src/version.cc:135
+#: src/version.cc:135 src/version.cc:96
 msgid "Browse"
 msgstr "Consulter"
 
 #: src/version.cc:289
-#, fuzzy
 msgid "A new version is available:"
+msgstr "Une nouvelle version est disponible :"
+
+#: src/version.cc:187
+msgid "A new version is available: "
 msgstr "Une nouvelle version est disponible : "
 
 #~ msgid "Automatic check"

@@ -1,7 +1,7 @@
-# taranis translation file.
-# Copyright (C) 2023 Matthias Meulien
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the taranis package.
-# Matthias Meulien <orontee@gmail.com>, 2023.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
@@ -9,53 +9,51 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-29 11:25+0100\n"
 "PO-Revision-Date: 2023-12-30 09:08+0000\n"
-"Last-Translator: Radosław Uliszak <cyfranekblog@protonmail.com>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/taranis/taranis/"
-"pl/>\n"
-"Language: pl\n"
+"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/taranis/"
+"taranis/nb_NO/>\n"
+"Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.4-dev\n"
 
 #: src/about.cc.in:15
 msgid ""
 "This program is provided without any warranty. For more details, read GNU "
 "General Public License, version 3 or later"
-msgstr ""
-"Ta aplikacja jest dostarczona bez żadnej gwarancji. Aby poznać więcej, "
-"zapoznaj się z warunkami GNU General Public License w wersji 3 lub nowszej"
+msgstr "Programmet tilbys uten garanti. Les GPLv3+-lisensen for flere detaljer"
 
 #: src/about.cc.in:18
 msgid "Credits"
-msgstr "Kredyty"
+msgstr "Bidragsytere"
 
 #: src/alerts.cc:120
 msgid "ALERT"
-msgstr "ALERT"
+msgstr "VARSEL"
 
 #: src/alerts.cc:135
 msgid "Start"
-msgstr "Zacznij o"
+msgstr "Start"
 
 #: src/alerts.cc:137
 msgid "Duration"
-msgstr "Przez"
+msgstr "Varighet"
 
 #: src/alerts.cc:142
 msgid "Source"
-msgstr "Źródło"
+msgstr "Kilde"
 
 #: src/app.cc:80
 msgid "Unsupported software version"
-msgstr "Nieobsługiwana wersja oprogramowania"
+msgstr "Ustøttet programvareversjon"
 
 #: src/app.cc:81
 msgid ""
 "The application isn't compatible with the software version of this reader."
-msgstr "Aplikacja nie jest zgodna z oprogramowaniem tego czytnika."
+msgstr ""
+"Programmet er ikke kompatibelt med programvareversjonen til denne leseren."
 
 #: src/app.cc:242 src/app.cc:254 src/app.cc:288 src/app.cc:410
 #: src/version.cc:135
@@ -64,205 +62,191 @@ msgstr "OK"
 
 #: src/app.cc:284
 msgid "Invalid input"
-msgstr "Wprowadzono błędne dane"
+msgstr "Ugyldig inndata"
 
 #: src/app.cc:286
 msgid "Make sure you enter a town then a country separated by a comma."
-msgstr ""
-"Upewnij się, że podano poprawnie nazwę miasta i państwa rozdzielone "
-"przecinkiem."
+msgstr "Sørg for at du skriver inn en by, så et land, inndelt med komma."
 
 #: src/app.cc:351 src/app.cc:360 src/app.cc:435 src/app.cc:443
 msgid "Network error"
-msgstr "Błąd połączenia"
+msgstr "Nettverksfeil"
 
 #: src/app.cc:352 src/app.cc:361 src/app.cc:436 src/app.cc:444
 msgid "Failure while fetching weather data. Check your network connection."
-msgstr ""
-"Wystąpił błąd podczas pobierania danych pogodowych. Sprawdź połączenie "
-"sieciowe."
+msgstr "Kunne ikke hente værdata. Sjekk nettverkstilkoblingen din."
 
 #: src/app.cc:368 src/app.cc:450
 msgid "Service unavailable"
-msgstr "Usługa niedostępna"
+msgstr "Tjeneste utilgjengelig"
 
 #: src/app.cc:409 src/config.cc:40 src/version.cc:100 src/version.cc:107
 #: src/version.cc:114 src/version.cc:122 src/version.cc:134
 msgid "Software version"
-msgstr "Wersja oprogramowania"
+msgstr "Programvareversjon"
 
 #: src/config.cc:20
 msgid "Standard"
-msgstr "SI"
+msgstr "Standard"
 
 #: src/config.cc:21
 msgid "Metric"
-msgstr "Metryczne"
+msgstr "Metrisk"
 
 #: src/config.cc:22
 msgid "Imperial"
-msgstr "Imperialne"
+msgstr "Britiske måleenheter"
 
 #: src/config.cc:27
 msgid "Hourly forecast"
-msgstr "Prognoza godzinowa"
+msgstr "Timevist værvarsel"
 
 #: src/config.cc:28
 msgid "Daily forecast"
-msgstr "Prognoza dzienna"
+msgstr "Daglig værvarsel"
 
 #: src/config.cc:43
 msgid "Check newer version"
-msgstr "Sprawdź aktualizację"
+msgstr "Sjekk om det finnes en ny versjon"
 
 #: src/config.cc:48
 msgid "Units"
-msgstr "Jednostki"
+msgstr "Enheter"
 
 #: src/config.cc:52
 msgid "Start screen"
-msgstr "Ekran startowy"
+msgstr "Startskjerm"
 
 #: src/config.cc:55
 msgid "Custom API key"
-msgstr "Własny klucz API"
+msgstr "Egendefinert API-nøkkel"
 
 #: src/config.cc:59
 msgid "Generate shutdown logo"
-msgstr "Wygeneruj logo zamknięcia"
+msgstr "Generer avstengningslogo"
 
 #: src/config.cc:63
 msgid "Software"
-msgstr "Oprogramowanie"
+msgstr "Programvare"
 
 #: src/config.cc:120
 msgid "Parameters"
-msgstr "Parametry"
+msgstr "Parameter"
 
 #: src/currentconditionbox.h:82
 msgid "Felt"
-msgstr "Temp. odczuwalna"
+msgstr "Felt"
 
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
-msgstr "Lokalizacja nieznana w serwisie pogodowym. Sprawdź pisownię."
+msgstr ""
+"Tjenesten som tilbyr værdata kjenner ikke til dette stedet. Sjekk stavingen."
 
 #: src/errors.h:43 src/version.cc:87
 msgid ""
 "Sorry, an unexpected error was encountered. Report this to the application "
 "author."
-msgstr "Wystąpił błąd aplikacji. Poinformuj autora."
+msgstr "Uventet nettverksfeil. Rapporter dette til programvedlikeholderen."
 
 #: src/errors.h:54
 msgid ""
 "An API key is required to consume weather data. Contact the application "
 "maintainer."
 msgstr ""
-"Do pobierania danych pogodowych wymagany jest klucz API. Skontaktuj się z "
-"autorem aplikacji."
+"En API-nøkkel kreves for å hente værdata. Kontakt programvedlikeholderen."
 
 #: src/errors.h:60
 msgid "Weather data can't be accessed with the provided API key."
-msgstr "Dane pogodowe nie są dostępne przy użyciu tego klucza API."
+msgstr "Værdata kan ikke hentes med angitt API-nøkkel."
 
 #: src/errors.h:71
 msgid ""
 "The service providing weather data isn't working as expected. Retry later."
 msgstr ""
-"Serwis udostępniający dane pogodowe nie działa zgodnie z oczekiwaniami. "
-"Spróbuj później."
+"Tjenesten som tilbyr værdata fungerer ikke som forventet. Prøv igjen senere."
 
 #: src/locationbox.cc:44
 msgid "Enter location"
-msgstr "Wpisz lokalizację"
+msgstr "Skriv inn sted"
 
 #: src/locationselector.cc:46 src/menu.cc:74
 msgid "Locations"
-msgstr "Lokalizacje"
+msgstr "Steder"
 
 #: src/locationselector.cc:57
 msgid "Longitude"
-msgstr "Długość geo"
+msgstr "Lengdegrad"
 
 #: src/locationselector.cc:58
 msgid "Latitude"
-msgstr "Szerokość"
+msgstr "Breddegrad"
 
 #: src/menu.cc:72
 msgid "Refresh"
-msgstr "Odśwież"
+msgstr "Gjenoppfrisk"
 
 #: src/menu.cc:76
 msgid "Parameters…"
-msgstr "Parametry…"
+msgstr "Parameter …"
 
 #: src/menu.cc:78
 msgid "Quit"
-msgstr "Wyjście"
+msgstr "Avslutt"
 
 #: src/menu.cc:92
 msgid "Empty"
-msgstr "Pusty"
+msgstr "Tom"
 
 #: src/menu.cc:105 src/menu.cc:134
 msgid "Add to favorites"
-msgstr "Dodaj do ulubionych"
+msgstr "Legg til som favoritt"
 
 #: src/menu.cc:114 src/menu.cc:160
 msgid "Edit location"
-msgstr "Edytuj lokalizację"
+msgstr "Rediger plassering"
 
 #: src/menu.cc:133
 msgid "Remove from favorites"
-msgstr "Usuń z ulubionych"
+msgstr "Fjern fra favoritter"
 
 #: src/statusbar.h:31
 msgid "Ongoing update…"
-msgstr "Trwa aktualizacja…"
+msgstr "Pågående installasjon av ny versjon …"
 
 #: src/statusbar.h:33
 msgid "Last update:"
-msgstr "Ostatnia aktualizacja:"
+msgstr "Siste oppdatering:"
 
 #: src/statusbar.h:43
 msgid "Weather data from"
-msgstr "Dane pogodowe z"
+msgstr "Værdata fra"
 
 #: src/util.cc:191
 msgid "Today"
-msgstr "Dzisiaj"
+msgstr "I dag"
 
 #: src/util.cc:196
 msgid "Yesterday"
-msgstr "Wczoraj"
+msgstr "I går"
 
 #: src/util.cc:201
 msgid "Tomorrow"
-msgstr "Jutro"
+msgstr "I morgen"
 
 #: src/version.cc:97
 msgid "The service hosting releases isn't working as expected. Retry later."
 msgstr ""
-"Serwis udostępniający wydania aplikacji nie działa zgodnie z oczekiwaniami. "
-"Spróbuj ponownie później."
+"Tjenesten som vertstjener utgivelser fungerer ikke som forventet. Prøv igjen "
+"senere."
 
 #: src/version.cc:123
 msgid "Latest release already installed"
-msgstr "Jest już zainstalowana najnowsza wersja"
+msgstr "Nyeste versjon allerede installert"
 
 #: src/version.cc:135
 msgid "Browse"
-msgstr "Przeglądaj"
+msgstr "Utforsk"
 
 #: src/version.cc:289
 msgid "A new version is available:"
-msgstr "Dostępna jest nowsza wersja:"
-
-#~ msgid "About"
-#~ msgstr "O aplikacji"
-
-#~ msgid "About…"
-#~ msgstr "O aplikacji…"
-
-#~ msgid "Next alert"
-#~ msgstr "Następne powiadomienie"
+msgstr "En ny versjon er tilgjengelig:"
