@@ -96,19 +96,6 @@ Static analysis:
 SCANBUILD=./SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/bin/scan-build ninja -C builddir
 ```
 
-## Translations
-
-Translations are stored in [PO files](./po) which are textual,
-editable files. They are generated using `xgettext`.
-
-To update translation files:
-```sh
-DESTDIR=artifact ninja -C builddir taranis-update-po
-```
-
-A custom target generates a C++ file from all PO files, see
-[generate_l10n_cc.py](./scripts/generate_l10n_cc.py).
-
 ## Screenshots
 
 Screenshots can be performed through the task menu of an e-reader, and conversion can be done
