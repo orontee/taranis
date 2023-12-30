@@ -16,11 +16,28 @@ def extract_language_from(file_path: Path) -> str:
     return found.group(1)
 
 
+def identify_supported_languages(po_files: Path) -> List[str]:
+    linguas_file = po_files / "LINGUAS"
+    with open(linguas_file) as fh:
+        return [lang.strip() for lang in fh.readlines()]
+
+
 def load_translations(po_files: Path) -> Dict[str, Dict[str, str]]:
     translations: Dict[str, Dict[str, str]] = {}
 
+    supported_languages = identify_supported_languages(po_files)
+
     for po_file in po_files.glob("*.po"):
-        language = extract_language_from(po_file)
+        try:
+            language = extract_language_from(po_file)
+        except RuntimeError as error:
+            print(str(error))
+            continue
+
+        if language not in supported_languages:
+            print(f"Skipping translations for language {language!r}")
+            continue
+
         print(f"Loading translations for language {language!r}")
 
         language_translations: Dict[str, str] = {}
