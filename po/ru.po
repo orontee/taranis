@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-29 11:25+0100\n"
-"PO-Revision-Date: 2023-12-11 14:05+0000\n"
-"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
+"PO-Revision-Date: 2024-01-06 09:07+0000\n"
+"Last-Translator: Tancrède <tancrede.meulien@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/taranis/taranis/"
 "ru/>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.3-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: src/about.cc.in:15
 #, fuzzy
@@ -36,191 +36,204 @@ msgstr "Кредиты"
 
 #: src/alerts.cc:120
 msgid "ALERT"
-msgstr ""
+msgstr "ALERT"
 
 #: src/alerts.cc:135
+#, fuzzy
 msgid "Start"
-msgstr ""
+msgstr "Начало"
 
 #: src/alerts.cc:137
+#, fuzzy
 msgid "Duration"
-msgstr ""
+msgstr "Продолжительность"
 
 #: src/alerts.cc:142
+#, fuzzy
 msgid "Source"
-msgstr ""
+msgstr "Источник"
 
 #: src/app.cc:80
+#, fuzzy
 msgid "Unsupported software version"
-msgstr ""
+msgstr "Неподдерживаемая версия программного обеспечения"
 
 #: src/app.cc:81
+#, fuzzy
 msgid ""
 "The application isn't compatible with the software version of this reader."
-msgstr ""
+msgstr "Приложение не совместимо с программной версией этого читателя."
 
 #: src/app.cc:242 src/app.cc:254 src/app.cc:288 src/app.cc:410
 #: src/version.cc:135
 msgid "Ok"
-msgstr ""
+msgstr "Хорошо"
 
 #: src/app.cc:284
 msgid "Invalid input"
-msgstr ""
+msgstr "Инвалидный ввод"
 
 #: src/app.cc:286
 msgid "Make sure you enter a town then a country separated by a comma."
-msgstr ""
+msgstr "Убедитесь, что вы входите в город, а затем в страну, отделенную коммой."
 
 #: src/app.cc:351 src/app.cc:360 src/app.cc:435 src/app.cc:443
 msgid "Network error"
-msgstr ""
+msgstr "Сетевая ошибка"
 
 #: src/app.cc:352 src/app.cc:361 src/app.cc:436 src/app.cc:444
 msgid "Failure while fetching weather data. Check your network connection."
-msgstr ""
+msgstr "Неудача при получении данных о погоде. Проверьте подключение к сети."
 
 #: src/app.cc:368 src/app.cc:450
 msgid "Service unavailable"
-msgstr ""
+msgstr "Сервис недоступен"
 
 #: src/app.cc:409 src/config.cc:40 src/version.cc:100 src/version.cc:107
 #: src/version.cc:114 src/version.cc:122 src/version.cc:134
 msgid "Software version"
-msgstr ""
+msgstr "Программная версия"
 
 #: src/config.cc:20
 msgid "Standard"
-msgstr ""
+msgstr "Стандарт"
 
 #: src/config.cc:21
 msgid "Metric"
-msgstr ""
+msgstr "Метрик"
 
 #: src/config.cc:22
+#, fuzzy
 msgid "Imperial"
-msgstr ""
+msgstr "Императорский"
 
 #: src/config.cc:27
 msgid "Hourly forecast"
-msgstr ""
+msgstr "Часовой прогноз"
 
 #: src/config.cc:28
 msgid "Daily forecast"
-msgstr ""
+msgstr "Ежедневный прогноз"
 
 #: src/config.cc:43
 msgid "Check newer version"
-msgstr ""
+msgstr "Проверка новой версии"
 
 #: src/config.cc:48
 msgid "Units"
-msgstr ""
+msgstr "Подразделения"
 
 #: src/config.cc:52
 msgid "Start screen"
-msgstr ""
+msgstr "Запустить экран"
 
 #: src/config.cc:55
 msgid "Custom API key"
-msgstr ""
+msgstr "Пользовательский ключ API"
 
 #: src/config.cc:59
 msgid "Generate shutdown logo"
-msgstr ""
+msgstr "Создать логотип отключения"
 
 #: src/config.cc:63
 msgid "Software"
-msgstr ""
+msgstr "Программное обеспечение"
 
 #: src/config.cc:120
 msgid "Parameters"
-msgstr ""
+msgstr "Параметры"
 
 #: src/currentconditionbox.h:82
 msgid "Felt"
-msgstr ""
+msgstr "Felt"
 
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
 msgstr ""
+"Местоположение неизвестно службе, предоставляющей данные о погоде. Проверьте "
+"орфографию."
 
 #: src/errors.h:43 src/version.cc:87
 msgid ""
 "Sorry, an unexpected error was encountered. Report this to the application "
 "author."
 msgstr ""
+"Простите, произошла неожиданная ошибка. Сообщите об этом автору заявления."
 
 #: src/errors.h:54
 msgid ""
 "An API key is required to consume weather data. Contact the application "
 "maintainer."
 msgstr ""
+"Ключ API необходим для потребления данных о погоде. Свяжитесь с сервером "
+"приложений."
 
 #: src/errors.h:60
 msgid "Weather data can't be accessed with the provided API key."
-msgstr ""
+msgstr "Данные погоды не могут быть доступны с предоставленным ключом API."
 
 #: src/errors.h:71
 msgid ""
 "The service providing weather data isn't working as expected. Retry later."
 msgstr ""
+"Сервис, предоставляющий данные о погоде, работает не так, как ожидалось. "
+"Вернись позже."
 
 #: src/locationbox.cc:44
 msgid "Enter location"
-msgstr ""
+msgstr "Введите местоположение"
 
 #: src/locationselector.cc:46 src/menu.cc:74
 msgid "Locations"
-msgstr ""
+msgstr "Местоположение"
 
 #: src/locationselector.cc:57
 msgid "Longitude"
-msgstr ""
+msgstr "Долгота"
 
 #: src/locationselector.cc:58
 msgid "Latitude"
-msgstr ""
+msgstr "Широта"
 
 #: src/menu.cc:72
 msgid "Refresh"
-msgstr ""
+msgstr "обновить"
 
 #: src/menu.cc:76
 msgid "Parameters…"
-msgstr ""
+msgstr "Параметры"
 
 #: src/menu.cc:78
 msgid "Quit"
-msgstr ""
+msgstr "Выход"
 
 #: src/menu.cc:92
 msgid "Empty"
-msgstr ""
+msgstr "Пустые"
 
 #: src/menu.cc:105 src/menu.cc:134
 msgid "Add to favorites"
-msgstr ""
+msgstr "Добавить в фавориты"
 
 #: src/menu.cc:114 src/menu.cc:160
 msgid "Edit location"
-msgstr ""
+msgstr "Изменить местоположение"
 
 #: src/menu.cc:133
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Удалить из фаворитов"
 
 #: src/statusbar.h:31
 msgid "Ongoing update…"
-msgstr ""
+msgstr "Текущее обновление.."
 
 #: src/statusbar.h:33
 msgid "Last update:"
-msgstr ""
+msgstr "Последнее обновление:"
 
 #: src/statusbar.h:43
 msgid "Weather data from"
-msgstr ""
+msgstr "Погодные данные"
 
 #: src/util.cc:191
 msgid "Today"
@@ -236,16 +249,16 @@ msgstr "Завтра"
 
 #: src/version.cc:97
 msgid "The service hosting releases isn't working as expected. Retry later."
-msgstr ""
+msgstr "Сервисные хостинг-релизы работают не так, как ожидалось. Вернись позже."
 
 #: src/version.cc:123
 msgid "Latest release already installed"
-msgstr ""
+msgstr "Последний релиз уже установлен"
 
 #: src/version.cc:135
 msgid "Browse"
-msgstr ""
+msgstr "Просмотреть"
 
 #: src/version.cc:289
 msgid "A new version is available:"
-msgstr ""
+msgstr "Доступна новая версия:"
