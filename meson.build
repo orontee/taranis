@@ -32,10 +32,12 @@ subdir('po')
 
 subdir('src')
 
+subdir('packaging')
+
 executable(
   'taranis.app',
   sources,
   dependencies: taranis_deps,
   install: true,
-  install_dir: '/',
+  install_dir: '/sinstall',
 )

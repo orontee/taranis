@@ -23,4 +23,4 @@ icons = files(
   'icon_warning.bmp'
 )
 
-install_data(sources: ['icon_taranis.bmp', 'icon_taranis_f.bmp'], install_dir: '/icons')
+install_data(sources: ['icon_taranis.bmp', 'icon_taranis_f.bmp'], install_dir: '/sinstall/icons')

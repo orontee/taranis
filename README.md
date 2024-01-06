@@ -57,9 +57,14 @@ their APIs is quite clear:
 1. Download the `taranis.zip` archive from the [latest
    release](https://github.com/orontee/taranis/releases/latest).
    
-2. Extract the file `taranis.app` from the archive and copy that file
-   to the `applications` directory of the e-book reader using a USB
-   cable.
+2. Extract the file `taranis.pbi` from the archive and copy that file
+   to the e-book reader.
+   
+3. The downloaded file will appear as a book in the library. Open that
+   book to start the installation process.
+   
+4. After the installation, the "book" can be suppressed from the
+   library and the device.
 
 Optionally, a custom icon can be associated to the application;
 Instructions are given in [Desktop
@@ -74,8 +79,8 @@ for instructions on how to register and generate API keys).
 
 Another parameter allows to enable/disable generation of a shutdown
 logo. Instructions are given in [Desktop
-integration](./docs/desktop_integration.md#shutdown-logo) on how to setup the device
-to effectively display this logo on power off.
+integration](./docs/desktop_integration.md#shutdown-logo) on how to
+setup the device to effectively display this logo on power off.
 
 ## Contributing
 

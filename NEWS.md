@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- CI pipeline generates a ".pbi" installer
+  [#84](https://github.com/orontee/taranis/issues/84)
+
 ### Changed
 
 ### Removed
