@@ -119,6 +119,62 @@ To specify command line arguments rather use a terminal like
 [pbterm](https://github.com/Alastor27/pbterm) or use [Desktop
 integration](./docs/desktop_integration.md).
 
+### SSH connection with device
+
+Use the USB connection (it's the last time you'll use it 🎆) to create
+a file `/mnt/ext1/applications/SSHServer.app` on the device with
+following content where one must adapt the IP address to match the SSH
+client address (a [more complete version](./scripts/SSHServer.app) is
+available from the `scripts` directory):
+
+```sh
+#!/bin/sh
+
+TRUSTED_CLIENT_IP=192.168.1.22
+PORT=8222
+
+dropbear -p ${PORT} -G ${TRUSTED_CLIENT_IP}
+```
+
+Make sure Wifi is enabled on the device, identify its IP address
+(using PBTerm and `ipconfig` for example, let's say that in our case
+it's 192.168.1.34), and start the "SSHServer" application just created.
+
+⚠️ Note that from now on (until a reboot or an explicit kill of the
+dropbear process) the device will be running a SSH server accepting
+unauthenticated connections on port 8222 from the 192.168.1.22 IP
+address.
+
+Then, on the client, create or complete the file `~/.ssh/config`:
+
+```
+Host 192.168.1.34
+     User reader
+     PubkeyAcceptedAlgorithms +ssh-rsa
+     HostkeyAlgorithms +ssh-rsa
+     Port 8222
+```
+
+Finally test the connection from the client with `ssh 192.168.1.34
+ash`. Beware that there's no allocated pseudo-terminal…
+
+Since there's no SFTP server on the device, to copy files from the
+client to the device one must redirect standard input to the target
+file. For example, to copy taranis executable after a build:
+
+```sh
+cat builddir/artifact/taranis.app | \
+  ssh 192.168.1.34 '( cat - > /mnt/ext1/applications/taranis.app )'
+```
+
+(make sure the file isn't opened on the device side).
+
+To track taranis logs:
+
+```sh
+ssh 192.168.1.34 tail -f /mnt/ext1/system/profiles/Matthias/state/taranis.log
+```
+
 ### Remote debugging
 
 One must first start `gdbserver` on the e-reader:
