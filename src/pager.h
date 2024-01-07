@@ -11,6 +11,8 @@ struct Paginated {
 
   Paginated() {}
 
+  virtual ~Paginated() {}
+
   virtual size_t page_count() const = 0;
 
   virtual size_t current_page() const = 0;
