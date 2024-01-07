@@ -1,7 +1,7 @@
 project(
   'taranis',
   'cpp',
-  version: '1.7.0',
+  version: '1.8.0-pre',
   meson_version: '>= 0.61.2',
   default_options : [
     'cpp_std=c++17',
