@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-29 11:25+0100\n"
-"PO-Revision-Date: 2023-12-30 09:08+0000\n"
+"PO-Revision-Date: 2024-02-06 22:01+0000\n"
 "Last-Translator: Radosław Uliszak <cyfranekblog@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/taranis/taranis/"
 "pl/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 
 #: src/about.cc.in:18
 msgid "Credits"
-msgstr "Kredyty"
+msgstr "Podziękowania"
 
 #: src/alerts.cc:120
 msgid "ALERT"
