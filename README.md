@@ -33,8 +33,8 @@ e-book reader.
 Weather data is provided by [OpenWeather](https://openweather.co.uk).
 
 Positive feedback were received for Vivilo Touch HD Plus, PocketBook
-Touch HD 3, InkPad 3, InkPad Color 2 and InkPad Color 3 (The
-application should be compatible with hardware running software
+Touch HD 3, InkPad 3, InkPad Color 2, InkPad Color 3, PocketBook Verse
+(The application should be compatible with hardware running software
 version ≥6).
 
 Consult the [NEWS file](NEWS.md) for notable changes between versions.
