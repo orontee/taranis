@@ -51,7 +51,9 @@ public:
   void generate_logo_maybe() const;
 
 private:
-  static constexpr int alert_icon_size{150};
+  static constexpr int alert_button_icon_size{70};
+  static constexpr int menu_button_icon_size{70};
+  static constexpr int location_selector_icon_size{50};
   static constexpr int button_margin{25};
 
   std::shared_ptr<Config> config;

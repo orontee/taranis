@@ -23,20 +23,28 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
   SetPanelType(PANEL_DISABLED);
   SetOrientation(0);
 
-  this->location_box =
-      std::make_shared<LocationBox>(0, 0, this->model, this->fonts);
+  auto menu_button = std::make_shared<MenuButton>(
+      Ui::menu_button_icon_size, this->model, this->icons, this->fonts);
+  menu_button->set_pos_x(ScreenWidth() - menu_button->get_width() -
+                         Ui::button_margin);
+  menu_button->set_pos_y(Ui::button_margin);
+  menu_button->set_menu_handler(&handle_menu_item_selected);
 
   this->alert_viewer = std::make_shared<AlertViewer>(model, this->fonts);
 
   auto alerts_button = std::make_shared<AlertsButton>(
-      Ui::alert_icon_size, model, this->icons, this->alert_viewer);
-  const auto alerts_button_pos_x =
-      ScreenWidth() - alerts_button->get_width() - Ui::button_margin;
+      Ui::alert_button_icon_size, model, this->icons, this->alert_viewer);
+  alerts_button->set_pos_x(menu_button->get_pos_x() -
+                           alerts_button->get_width() - Ui::button_margin);
+  alerts_button->set_pos_y(Ui::button_margin);
 
-  const auto current_condition_box_width = alerts_button_pos_x;
+  this->location_box =
+      std::make_shared<LocationBox>(0, 0, this->model, this->fonts);
+
   auto current_condition_box = std::make_shared<CurrentConditionBox>(
-      0, this->location_box->get_height(), current_condition_box_width,
-      this->model, this->fonts);
+      0, this->location_box->get_height(), ScreenWidth(), this->model,
+      this->fonts);
+
   auto status_bar = std::make_shared<StatusBar>(this->model, this->fonts);
 
   const auto remaining_height = status_bar->get_pos_y() -
@@ -49,30 +57,15 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
       current_condition_box->get_pos_y() + current_condition_box->get_height(),
       ScreenWidth(), remaining_height, this->model, this->icons, this->fonts);
 
-  auto menu_button =
-      std::make_shared<MenuButton>(this->model, this->icons, this->fonts);
-  menu_button->set_pos_x(ScreenWidth() - menu_button->get_width() -
-                         Ui::button_margin);
-  menu_button->set_pos_y(Ui::button_margin);
-  menu_button->set_menu_handler(&handle_menu_item_selected);
-
-  const auto &current_condition_bounding_box =
-      current_condition_box->get_bounding_box();
-
-  alerts_button->set_pos_x(alerts_button_pos_x);
-  alerts_button->set_pos_y(current_condition_bounding_box.y +
-                           current_condition_bounding_box.h / 2 -
-                           alerts_button->get_height() / 2);
-
-  this->location_selector =
-      std::make_shared<LocationSelector>(50, this->fonts, this->icons);
+  this->location_selector = std::make_shared<LocationSelector>(
+      this->location_selector_icon_size, this->fonts, this->icons);
 
   this->modals.push_back(this->alert_viewer);
 
   this->children.push_back(this->location_box);
+  this->children.push_back(alerts_button);
   this->children.push_back(menu_button);
   this->children.push_back(current_condition_box);
-  this->children.push_back(alerts_button);
   this->children.push_back(this->forecast_stack);
   this->children.push_back(status_bar);
 

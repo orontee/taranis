@@ -6,10 +6,10 @@
 
 namespace taranis {
 
-MenuButton::MenuButton(std::shared_ptr<Model> model,
+MenuButton::MenuButton(int icon_size, std::shared_ptr<Model> model,
                        std::shared_ptr<Icons> icons,
                        std::shared_ptr<Fonts> fonts)
-    : Button{MenuButton::icon_size, icons->get("menu")}, icons{icons},
+    : Button{icon_size, icons->get("menu")}, icons{icons},
       items{imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH, nullptr, nullptr,
                     nullptr, nullptr, nullptr},
             imenuex{ITEM_SUBMENU, taranis::MENU_ITEM_LOCATION_HISTORY, nullptr,

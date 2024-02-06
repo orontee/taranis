@@ -29,8 +29,8 @@ enum menu_item_index {
 
 class MenuButton : public Button {
 public:
-  MenuButton(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
-             std::shared_ptr<Fonts> fonts);
+  MenuButton(int icon_size, std::shared_ptr<Model> model,
+             std::shared_ptr<Icons> icons, std::shared_ptr<Fonts> fonts);
 
   void set_menu_handler(iv_menuhandler handler);
 
@@ -45,7 +45,6 @@ private:
   typedef std::array<imenuex, 5> MenuItems;
 
   static const int padding{5};
-  static const int icon_size{70};
 
   std::shared_ptr<Icons> icons;
 

@@ -15,6 +15,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Alerts button has been resized and moved to free space for current
+  weather box [#86](https://github.com/orontee/taranis/issues/86)
+
 ### Removed
 
 ## [1.7.0 - 2023-12-31]
