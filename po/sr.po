@@ -8,236 +8,245 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-29 11:25+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-02-06 22:01+0000\n"
+"Last-Translator: kakonema <kakonema@gmail.com>\n"
+"Language-Team: Serbian <https://hosted.weblate.org/projects/taranis/taranis/"
+"sr/>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: src/about.cc.in:15
 msgid ""
 "This program is provided without any warranty. For more details, read GNU "
 "General Public License, version 3 or later"
 msgstr ""
+"Ovaj program se nudi bez ikakve garancije. Za više detalja, pročitajte GNU "
+"General Public License, verzija 3 ili novija"
 
 #: src/about.cc.in:18
 msgid "Credits"
-msgstr ""
+msgstr "Zasluge"
 
 #: src/alerts.cc:120
 msgid "ALERT"
-msgstr ""
+msgstr "PAŽNJA"
 
 #: src/alerts.cc:135
 msgid "Start"
-msgstr ""
+msgstr "Početak"
 
 #: src/alerts.cc:137
 msgid "Duration"
-msgstr ""
+msgstr "Trajanje"
 
 #: src/alerts.cc:142
 msgid "Source"
-msgstr ""
+msgstr "Izvor"
 
 #: src/app.cc:80
 msgid "Unsupported software version"
-msgstr ""
+msgstr "Nepodržana verzija softvera"
 
 #: src/app.cc:81
 msgid ""
 "The application isn't compatible with the software version of this reader."
-msgstr ""
+msgstr "Aplikacija nije kompatibilna sa verzijom softvera ovog e-čitača."
 
 #: src/app.cc:242 src/app.cc:254 src/app.cc:288 src/app.cc:410
 #: src/version.cc:135
 msgid "Ok"
-msgstr ""
+msgstr "U redu"
 
 #: src/app.cc:284
 msgid "Invalid input"
-msgstr ""
+msgstr "Nevažeći unos"
 
 #: src/app.cc:286
 msgid "Make sure you enter a town then a country separated by a comma."
-msgstr ""
+msgstr "Proverite da li ste uneli grad a zatim zemlju odvojeno sa zarezom."
 
 #: src/app.cc:351 src/app.cc:360 src/app.cc:435 src/app.cc:443
 msgid "Network error"
-msgstr ""
+msgstr "Greška mreže"
 
 #: src/app.cc:352 src/app.cc:361 src/app.cc:436 src/app.cc:444
 msgid "Failure while fetching weather data. Check your network connection."
-msgstr ""
+msgstr "Greška prilikom pribavljanja podataka. Proverite vašu mrežnu vezu."
 
 #: src/app.cc:368 src/app.cc:450
 msgid "Service unavailable"
-msgstr ""
+msgstr "Servis je nedostupan"
 
 #: src/app.cc:409 src/config.cc:40 src/version.cc:100 src/version.cc:107
 #: src/version.cc:114 src/version.cc:122 src/version.cc:134
 msgid "Software version"
-msgstr ""
+msgstr "Verzija softvera"
 
 #: src/config.cc:20
 msgid "Standard"
-msgstr ""
+msgstr "Standardne"
 
 #: src/config.cc:21
 msgid "Metric"
-msgstr ""
+msgstr "Metričke"
 
 #: src/config.cc:22
 msgid "Imperial"
-msgstr ""
+msgstr "Imperijalne"
 
 #: src/config.cc:27
 msgid "Hourly forecast"
-msgstr ""
+msgstr "Prognoza po satima"
 
 #: src/config.cc:28
 msgid "Daily forecast"
-msgstr ""
+msgstr "Dnevna prognoza"
 
 #: src/config.cc:43
 msgid "Check newer version"
-msgstr ""
+msgstr "Proveri novu verziju"
 
 #: src/config.cc:48
 msgid "Units"
-msgstr ""
+msgstr "Mere"
 
 #: src/config.cc:52
 msgid "Start screen"
-msgstr ""
+msgstr "Početni ekran"
 
 #: src/config.cc:55
 msgid "Custom API key"
-msgstr ""
+msgstr "Drugi API ključ"
 
 #: src/config.cc:59
 msgid "Generate shutdown logo"
-msgstr ""
+msgstr "Generiši logo isključivanja"
 
 #: src/config.cc:63
 msgid "Software"
-msgstr ""
+msgstr "Softver"
 
 #: src/config.cc:120
 msgid "Parameters"
-msgstr ""
+msgstr "Parametri"
 
 #: src/currentconditionbox.h:82
 msgid "Felt"
-msgstr ""
+msgstr "Subjektivni osećaj"
 
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
-msgstr ""
+msgstr "Lokacija je nepoznata servisu vremenske prognoze. Proverite unos."
 
 #: src/errors.h:43 src/version.cc:87
 msgid ""
 "Sorry, an unexpected error was encountered. Report this to the application "
 "author."
-msgstr ""
+msgstr "Iznenadna greška je primećena. Prijavite autoru aplikacije."
 
 #: src/errors.h:54
 msgid ""
 "An API key is required to consume weather data. Contact the application "
 "maintainer."
 msgstr ""
+"API ključ je potreban za dobijanje meteoroloških podataka. Kontaktirajte "
+"autora aplikacije."
 
 #: src/errors.h:60
 msgid "Weather data can't be accessed with the provided API key."
-msgstr ""
+msgstr "Meteorološki podaci se ne mogu pristupiti sa zadatim API ključem."
 
 #: src/errors.h:71
 msgid ""
 "The service providing weather data isn't working as expected. Retry later."
 msgstr ""
+"Servis meteoroloških podataka trenutno ne radi kako treba. Pokušajte kasnije."
 
 #: src/locationbox.cc:44
 msgid "Enter location"
-msgstr ""
+msgstr "Unesite lokaciju"
 
 #: src/locationselector.cc:46 src/menu.cc:74
 msgid "Locations"
-msgstr ""
+msgstr "Lokacije"
 
 #: src/locationselector.cc:57
 msgid "Longitude"
-msgstr ""
+msgstr "Geografska dužina"
 
 #: src/locationselector.cc:58
 msgid "Latitude"
-msgstr ""
+msgstr "Geografska širina"
 
 #: src/menu.cc:72
 msgid "Refresh"
-msgstr ""
+msgstr "Osveži"
 
 #: src/menu.cc:76
 msgid "Parameters…"
-msgstr ""
+msgstr "Parametri…"
 
 #: src/menu.cc:78
 msgid "Quit"
-msgstr ""
+msgstr "Izađi"
 
 #: src/menu.cc:92
 msgid "Empty"
-msgstr ""
+msgstr "Prazno"
 
 #: src/menu.cc:105 src/menu.cc:134
 msgid "Add to favorites"
-msgstr ""
+msgstr "Dodaj u omiljene"
 
 #: src/menu.cc:114 src/menu.cc:160
 msgid "Edit location"
-msgstr ""
+msgstr "Izmeni lokaciju"
 
 #: src/menu.cc:133
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Ukloni iz omiljenih"
 
 #: src/statusbar.h:31
 msgid "Ongoing update…"
-msgstr ""
+msgstr "Ažuriranje u toku…"
 
 #: src/statusbar.h:33
 msgid "Last update:"
-msgstr ""
+msgstr "Poslednje ažuriranje:"
 
 #: src/statusbar.h:43
 msgid "Weather data from"
-msgstr ""
+msgstr "Meteorološki podaci sa"
 
 #: src/util.cc:191
 msgid "Today"
-msgstr ""
+msgstr "Danas"
 
 #: src/util.cc:196
 msgid "Yesterday"
-msgstr ""
+msgstr "Juče"
 
 #: src/util.cc:201
 msgid "Tomorrow"
-msgstr ""
+msgstr "Sutra"
 
 #: src/version.cc:97
 msgid "The service hosting releases isn't working as expected. Retry later."
-msgstr ""
+msgstr "Servis ažuriranja ne radi kako treba. Pokušajte kasnije."
 
 #: src/version.cc:123
 msgid "Latest release already installed"
-msgstr ""
+msgstr "Poslednja verzija je već instalirana"
 
 #: src/version.cc:135
 msgid "Browse"
-msgstr ""
+msgstr "Pretraži"
 
 #: src/version.cc:289
 msgid "A new version is available:"
-msgstr ""
+msgstr "Nova verzija je dostupna:"
