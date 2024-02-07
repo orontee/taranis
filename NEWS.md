@@ -21,6 +21,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Dates in daily forecast box now are smaller to free space and
+  improve readability
+  [#89](https://github.com/orontee/taranis/issues/89)
+
 - Read default font size from theme and deduce other fonts size from
   that size. This has been done to improve the UI layout on small
   screen. [#89](https://github.com/orontee/taranis/issues/89)

@@ -115,7 +115,11 @@ void DailyForecastBox::generate_table_content() {
 std::shared_ptr<ifont> DailyForecastBox::get_font(size_t column_index,
                                                   int line_number) const {
   if (column_index == DailyForecastBox::WeekDayColumn) {
-    return this->fonts->get_small_font();
+    if (line_number == 2) {
+      return this->fonts->get_tiny_font();
+    } else {
+      return this->fonts->get_small_font();
+    }
   } else if (column_index == DailyForecastBox::SunHoursColumn or
              column_index == DailyForecastBox::MinMaxTemperatureColumn or
              column_index == DailyForecastBox::PrecipitationColumn) {
