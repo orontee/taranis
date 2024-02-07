@@ -11,7 +11,7 @@ namespace taranis {
   std::string get_about_content() {
     std::stringstream content;
     content << "Taranis — " << version << "\n\n"
-            << "© Matthias Meulien 2023\n\n"
+            << "© Matthias Meulien 2023-2024\n\n"
             << GetLangText("This program is provided without any warranty. "
                  "For more details, read GNU General Public License,"
                  " version 3 or later") << "\n\n"
