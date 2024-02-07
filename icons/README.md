@@ -3,10 +3,11 @@
 ## Sources
 
 Weather icons come from
-https://openweathermap.org/weather-conditions#How-to-get-icon-URL.
+[OpenWeather](https://openweathermap.org/weather-conditions#How-to-get-icon-URL).
 
-Other icons come from https://fonts.google.com/icons. Use a 200 weight
-for 24px optical size, then export to SVG. 
+Other icons come from [Google
+Fonts](https://fonts.google.com/icons). Use a 200 weight for 24px
+optical size, then export to SVG.
 
 Icons meant to be used in configuration editor are rendered on a 75x75
 canvas that is then enlarged to 100x100.

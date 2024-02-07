@@ -261,6 +261,15 @@ int taranis::passed_hours(const TimePoint &time) {
   return calendar_time->tm_hour;
 }
 
+bool taranis::delay_exhausted_from(const TimePoint &reference, int delay) {
+  const auto milliseconds_since_reference{
+      std::chrono::duration_cast<std::chrono::milliseconds>(
+          std::chrono::system_clock::now() - reference)
+          .count()};
+
+  return milliseconds_since_reference > delay;
+}
+
 std::pair<std::string, std::string>
 taranis::parse_location_description(const std::string &description) {
   BOOST_LOG_TRIVIAL(debug) << "Parsing location description";

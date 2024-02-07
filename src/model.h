@@ -19,6 +19,12 @@ namespace taranis {
 
 enum UnitSystem { standard = 0, metric = 1, imperial = 2 };
 
+enum DataUpdateStrategy {
+  hourly_from_startup = 0,
+  hourly_when_obsolete = 1,
+  manual = 2
+};
+
 struct Location {
 
   Location() : longitude{NAN}, latitude{NAN} {}
@@ -202,6 +208,7 @@ struct Model {
   std::list<HistoryItem> location_history;
 
   bool display_daily_forecast{false};
+  DataUpdateStrategy data_update_strategy{hourly_from_startup};
   std::optional<TimePoint> last_version_check;
 };
 } // namespace taranis

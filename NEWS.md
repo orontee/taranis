@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Data update strategy can be configured
+  [#88](https://github.com/orontee/taranis/issues/88)
+
 - Font have anti-aliasing activated
   [#89](https://github.com/orontee/taranis/issues/89)
 

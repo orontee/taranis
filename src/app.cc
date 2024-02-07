@@ -1,10 +1,11 @@
 #include "app.h"
 
+#include <experimental/optional>
+#include <inkview.h>
+
 #include "config.h"
 #include "errors.h"
 #include "events.h"
-#include "experimental/optional"
-#include "inkview.h"
 #include "model.h"
 #include "state.h"
 #include "units.h"
@@ -170,13 +171,21 @@ void App::load_config() {
     this->model->display_daily_forecast = start_with_daily_forecast_from_config;
   }
 
+  const auto data_update_strategy_from_config =
+      static_cast<DataUpdateStrategy>(this->config->read_int(
+          "data_update_strategy"s, DataUpdateStrategy::hourly_from_startup));
+  const bool is_data_update_strategy_obsolete =
+      (data_update_strategy_from_config != this->model->data_update_strategy);
+  if (is_data_update_strategy_obsolete) {
+    this->model->data_update_strategy = data_update_strategy_from_config;
+  }
+
   const bool is_language_obsolete = this->l10n->is_language_obsolete();
   if (is_language_obsolete) {
     this->l10n->update_translations();
   }
 
-  const bool is_data_obsolete = not this->config_already_loaded or
-                                is_api_key_obsolete or
+  const bool is_data_obsolete = not this->can_keep_data_at_startup() or
                                 is_unit_system_obsolete or is_language_obsolete;
   // temperatures, wind speed and weather description are computed
   // by the backend thus unit system or language change implies that
@@ -200,6 +209,14 @@ void App::load_config() {
     const auto context = this->config_already_loaded
                              ? CallContext::triggered_by_configuration_change
                              : CallContext::triggered_by_application_startup;
+
+    BOOST_LOG_TRIVIAL(debug)
+        << "Data is considered obsolete because of strategy: "
+        << not this->can_keep_data_at_startup()
+        << ", of obsolete unit system: " << is_unit_system_obsolete
+        << ", of obsolete_language: " << is_language_obsolete
+        << " and will be refreshed with context " << context;
+
     SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data, context);
   }
   this->config_already_loaded = true;
@@ -313,30 +330,83 @@ void App::clear_model_weather_conditions() {
   this->model->refresh_date = std::experimental::nullopt;
 }
 
-bool App::must_skip_data_refresh() const {
-  if (IsFlightModeEnabled()) {
+bool App::can_keep_data_at_startup() const {
+  if (this->config_already_loaded) {
+    return true;
+  }
+
+  if (this->model->data_update_strategy ==
+      DataUpdateStrategy::hourly_from_startup) {
+    BOOST_LOG_TRIVIAL(debug) << "Can't keep data due to data update strategy";
+    return false;
+  }
+
+  if (this->model->data_update_strategy ==
+      DataUpdateStrategy::hourly_when_obsolete) {
+    if (this->model->refresh_date == std::experimental::nullopt) {
+      return false;
+    }
+    BOOST_LOG_TRIVIAL(debug)
+        << "Will check whether refresh delay is exhausted or not";
+    if (delay_exhausted_from(*(this->model->refresh_date),
+                             App::refresh_period)) {
+      BOOST_LOG_TRIVIAL(debug)
+          << "Can't keep data considered obsolete for data update strategy";
+      return false;
+    }
+  }
+  if (this->is_data_refresh_periodic()) {
+    this->start_refresh_timer();
+  }
+  return true;
+}
+
+bool App::must_skip_data_refresh(CallContext context) const {
+  const bool should_respect_flight_mode_enabled =
+      (context == CallContext::triggered_by_application_startup or
+       context == CallContext::triggered_by_timer or
+       context == CallContext::triggered_by_user);
+  if (should_respect_flight_mode_enabled and IsFlightModeEnabled()) {
     BOOST_LOG_TRIVIAL(info)
         << "Won't refresh data since device has flight mode enabled";
     return true;
   }
+
+  const bool should_respect_not_connected =
+      (context == CallContext::triggered_by_timer);
+  if (should_respect_not_connected) {
+    iv_netinfo *netinfo = NetInfo();
+    if (netinfo == nullptr or not netinfo->connected) {
+      BOOST_LOG_TRIVIAL(debug) << "Won't refresh data since not connected";
+      return true;
+    }
+  }
   return false;
+}
+
+bool App::is_data_refresh_periodic() const {
+  return (this->model->data_update_strategy ==
+              DataUpdateStrategy::hourly_from_startup or
+          this->model->data_update_strategy ==
+              DataUpdateStrategy::hourly_when_obsolete);
 }
 
 void App::refresh_data(CallContext context) {
   BOOST_LOG_TRIVIAL(debug) << "Refreshing data";
 
+  this->cancel_refresh_timer();
+
   const bool force =
       (context == CallContext::triggered_by_configuration_change or
        context == CallContext::triggered_by_model_change);
-  // At application startup, when refresh timer triggers, or when user
-  // triggered the refresh, one must respect flight mode being enabled
 
-  if (not force and this->must_skip_data_refresh()) {
+  if (this->must_skip_data_refresh(context)) {
+    if (this->is_data_refresh_periodic()) {
+      this->start_refresh_timer();
+    }
     return;
   }
   ShowHourglassForce();
-
-  ClearTimerByName(App::refresh_timer_name);
 
   const auto units = Units{this->model}.to_string();
   bool failed = false;
@@ -407,9 +477,9 @@ void App::refresh_data(CallContext context) {
   // a dialog on device not being connected popup, which doesn't
   // respect the reset implemented in case of a forced refresh…
 
-  SetHardTimer(App::refresh_timer_name, &taranis::App::refresh_data_maybe,
-               App::refresh_period);
-
+  if (this->is_data_refresh_periodic()) {
+    this->start_refresh_timer();
+  }
   HideHourglass();
 }
 
@@ -504,17 +574,18 @@ void App::set_task_parameters() {
   }
 }
 
-void App::refresh_data_maybe() {
-  BOOST_LOG_TRIVIAL(debug) << "Refreshing data maybe";
+void App::start_refresh_timer() const {
+  SetHardTimer(App::refresh_timer_name, &taranis::App::refresh_timer_callback,
+               App::refresh_period);
+}
 
-  iv_netinfo *netinfo = NetInfo();
-  if (netinfo == nullptr or not netinfo->connected) {
-    SetHardTimer(App::refresh_timer_name, &taranis::App::refresh_data_maybe,
-                 App::refresh_period);
+void App::cancel_refresh_timer() const {
+  ClearTimerByName(App::refresh_timer_name);
+}
 
-    BOOST_LOG_TRIVIAL(debug) << "Restarting refresh timer since not connected";
-    return;
-  }
+void App::refresh_timer_callback() {
+  BOOST_LOG_TRIVIAL(debug) << "Data refresh requested by timer";
+
   const auto event_handler = GetEventHandler();
   SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data,
             CallContext::triggered_by_timer);

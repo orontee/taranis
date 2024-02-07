@@ -21,6 +21,7 @@ extern const ibitmap icon_measuring_tape;
 extern const ibitmap icon_menu;
 extern const ibitmap icon_radio_button_checked;
 extern const ibitmap icon_radio_button_unchecked;
+extern const ibitmap icon_refresh;
 extern const ibitmap icon_software_version;
 extern const ibitmap icon_software_version_check;
 extern const ibitmap icon_taranis;
@@ -73,6 +74,9 @@ public:
     }
     if (name == "radio-button-unchecked") {
       return const_cast<ibitmap *>(&icon_radio_button_unchecked);
+    }
+    if (name == "refresh") {
+      return const_cast<ibitmap *>(&icon_refresh);
     }
     if (name == "software-version") {
       return const_cast<ibitmap *>(&icon_software_version);

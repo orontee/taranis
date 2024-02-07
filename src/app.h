@@ -69,7 +69,11 @@ private:
 
   void clear_model_weather_conditions();
 
-  bool must_skip_data_refresh() const;
+  bool can_keep_data_at_startup() const;
+
+  bool must_skip_data_refresh(CallContext context) const;
+
+  bool is_data_refresh_periodic() const;
 
   void refresh_data(CallContext context);
 
@@ -83,6 +87,10 @@ private:
 
   void set_task_parameters();
 
-  static void refresh_data_maybe();
+  void start_refresh_timer() const;
+
+  void cancel_refresh_timer() const;
+
+  static void refresh_timer_callback();
 };
 } // namespace taranis

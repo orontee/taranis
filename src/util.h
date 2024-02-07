@@ -96,6 +96,8 @@ inline std::string format_location(const Location &location,
   return text;
 }
 
+bool delay_exhausted_from(const TimePoint &time, int delay);
+
 std::pair<std::string, std::string>
 parse_location_description(const std::string &description);
 } // namespace taranis
