@@ -34,10 +34,28 @@ subdir('src')
 
 subdir('packaging')
 
-executable(
+application = executable(
   'taranis.app',
   sources,
   dependencies: taranis_deps,
   install: true,
   install_dir: '/sinstall',
+)
+
+installer_tgt = run_target(
+  'installer',
+  command: 'scripts/build_installer.sh',
+  depends: [application]
+)
+
+archive_tgt = run_target(
+  'archive',
+  command: 'scripts/build_archive.sh',
+  depends: [application]
+)
+
+sha_tgt = run_target(
+  'sha',
+  command: 'scripts/compute_sha.sh',
+  depends: [application]
 )

@@ -51,6 +51,7 @@ RUN mkdir 3rd-parties && \
 
 ARG MESON_ARGS
 RUN meson setup builddir . --cross-file crossfile_arm.ini ${MESON_ARGS} && \
-    ninja -C builddir && \
-    DESTDIR=artifact ninja -C builddir install
-RUN cd builddir; zip -r artifact.zip artifact/
+    DESTDIR=artifact meson install -C builddir && \
+    meson compile -C builddir installer && \
+    meson compile -C builddir archive && \
+    meson compile -C builddir sha

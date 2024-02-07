@@ -64,10 +64,11 @@ jobs:
                 --cross-file crossfile_arm.ini \
                 --buildtype=release \
                 --strip
-          DESTDIR=artifact ninja -C builddir install
-          pushd builddir/artifact
-          zip -e  --password ">nD4Ar0CNc(#Gl/87A8q" taranis.pbi _scriptInstall sinstall/taranis.app sinstall/icons/*
-          sha256sum sinstall/taranis.app taranis.pbi > taranis.sha256
+          pushd builddir
+          DESTDIR=artifact meson install
+          meson compile installer
+          meson compile archive
+          meson compile sha
 
       - name: Upload archive
         uses: actions/upload-artifact@v4

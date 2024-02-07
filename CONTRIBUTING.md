@@ -76,12 +76,16 @@ dependencies.
    popd
    ```
 
-4. Finally build the application:
+4. Finally build the application, installer, an archive to
+   install by hand, and compute SHA256 sums:
    ```sh
    meson setup builddir . \
          --cross-file crossfile_arm.ini \
          --buildtype=debug
-   DESTDIR=artifact ninja -C builddir install
+   DESTDIR=artifact meson install -C builddir
+   meson compile -C builddir installer
+   meson compile -C builddir archive
+   meson compile -C builddir sha
    ```
 
 ## Tooling

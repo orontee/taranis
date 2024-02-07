@@ -28,7 +28,7 @@ e-book reader.
 
 * Generation of shutdown logo
 
-* Translations (English, Czech, French, Polish)
+* Translations (English, Czech, French, Polish, Serbian)
 
 Weather data is provided by [OpenWeather](https://openweather.co.uk).
 
