@@ -4,22 +4,10 @@
 #include <memory>
 
 namespace taranis {
-constexpr int FONT_SIZE = 50;
-constexpr int BIG_FONT_SIZE = 150;
-constexpr int SMALL_FONT_SIZE = 40;
-constexpr int TINY_FONT_SIZE = 30;
 
 class Fonts {
 public:
-  Fonts()
-      : normal{OpenFont(DEFAULTFONT, FONT_SIZE, false), &CloseFont},
-        bold{OpenFont(DEFAULTFONTB, FONT_SIZE, false), &CloseFont},
-        big{OpenFont(DEFAULTFONTB, BIG_FONT_SIZE, false), &CloseFont},
-        small{OpenFont(DEFAULTFONT, SMALL_FONT_SIZE, false), &CloseFont},
-        small_bold{OpenFont(DEFAULTFONTB, SMALL_FONT_SIZE, false), &CloseFont},
-        tiny{OpenFont(DEFAULTFONT, TINY_FONT_SIZE, false), &CloseFont},
-        tiny_italic{OpenFont(DEFAULTFONTI, TINY_FONT_SIZE, false), &CloseFont} {
-  }
+  Fonts();
 
   std::shared_ptr<ifont> get_normal_font() const { return this->normal; }
 
@@ -40,6 +28,8 @@ public:
   }
 
 private:
+  constexpr static int reference_dpi{75};
+
   std::shared_ptr<ifont> normal;
   std::shared_ptr<ifont> bold;
   std::shared_ptr<ifont> big;
@@ -47,5 +37,9 @@ private:
   std::shared_ptr<ifont> small_bold;
   std::shared_ptr<ifont> tiny;
   std::shared_ptr<ifont> tiny_italic;
+
+  static int get_big_font_size_from(int font_size);
+  static int get_small_font_size_from(int font_size);
+  static int get_tiny_font_size_from(int font_size);
 };
 } // namespace taranis

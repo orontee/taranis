@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Font have anti-aliasing activated
+  [#89](https://github.com/orontee/taranis/issues/89)
+
 - Serbian translations
   [#22](https://github.com/orontee/taranis/issues/22)
 
@@ -17,6 +20,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   [#84](https://github.com/orontee/taranis/issues/84)
 
 ### Changed
+
+- Read default font size from theme and deduce other fonts size from
+  that size. This has been done to improve the UI layout on small
+  screen. [#89](https://github.com/orontee/taranis/issues/89)
 
 - Alerts button has been resized and moved to free space for current
   weather box [#86](https://github.com/orontee/taranis/issues/86)
