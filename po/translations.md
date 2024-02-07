@@ -55,14 +55,18 @@ The list of contributors to translations is extracted from the Weblate
 project. It doesn't reflect the heavy contributions made by Cyfranek
 and vita5656!
 
-### Russian
-
-* Matthias Meulien <orontee@gmail.com> (2)
-* Tancrède <tancrede.meulien@gmail.com> (3)
-
 ### Czech
 
 * Matthias Meulien <orontee@gmail.com> (11)
+
+### French
+
+* Matthias Meulien <orontee@gmail.com> (3)
+
+### Norwegian Bokmål (work in progress)
+
+* Matthias Meulien <orontee@gmail.com> (5)
+* Allan Nordhøy <epost@anotheragency.no> (58)
 
 ### Polish
 
@@ -70,11 +74,11 @@ and vita5656!
 * Matthias Meulien <orontee@gmail.com> (2)
 * Radosław Uliszak <cyfranekblog@protonmail.com> (7)
 
-### French
+### Russian (work in progress)
 
-* Matthias Meulien <orontee@gmail.com> (3)
+* Matthias Meulien <orontee@gmail.com> (2)
+* Tancrède <tancrede.meulien@gmail.com> (3)
 
-### Norwegian Bokmål
+### Serbian
 
-* Matthias Meulien <orontee@gmail.com> (5)
-* Allan Nordhøy <epost@anotheragency.no> (58)
+* kakonema <kakonema@gmail.com>
