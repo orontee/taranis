@@ -54,19 +54,20 @@ their APIs is quite clear:
 
 ## Install
 
-1. Download the `taranis.zip` archive from the [latest
+1. Download the `taranis.pbi` file from the latest release [latest
    release](https://github.com/orontee/taranis/releases/latest).
    
-2. Extract the file `taranis.pbi` from the archive and copy that file
-   to the e-book reader.
+2. Copy that file to the e-book reader and open the corresponding
+   "book" using the library application to start the installation
+   process.
    
-3. The downloaded file will appear as a book in the library. Open that
-   book to start the installation process.
-   
-4. After the installation, the "book" can be suppressed from the
-   library and the device.
+3. After the installation, the "book" can be safely suppressed from
+   the library and the device.
 
-Optionally, a custom icon can be associated to the application;
+An alternative is to download the `taranis.zip` file and copy the
+extracted files to the `applications` directory on the e-book reader.
+   
+A custom icon can be associated to the application launch button;
 Instructions are given in [Desktop
 integration](./docs/desktop_integration.md#application-icon).
 
