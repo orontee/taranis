@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-08 04:32+0100\n"
+"POT-Creation-Date: 2024-02-08 14:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,6 +146,10 @@ msgstr ""
 msgid "Parameters"
 msgstr ""
 
+#: src/currentconditionbox.cc:86
+msgid "Felt"
+msgstr ""
+
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
 msgstr ""
@@ -213,6 +217,18 @@ msgstr ""
 
 #: src/menu.cc:132
 msgid "Remove from favorites"
+msgstr ""
+
+#: src/statusbar.cc:25
+msgid "Ongoing update…"
+msgstr ""
+
+#: src/statusbar.cc:27 src/statusbar.cc:39
+msgid "Last update:"
+msgstr ""
+
+#: src/statusbar.cc:50
+msgid "Weather data from"
 msgstr ""
 
 #: src/util.cc:191

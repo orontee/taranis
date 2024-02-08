@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-08 04:32+0100\n"
+"POT-Creation-Date: 2024-02-08 14:32+0100\n"
 "PO-Revision-Date: 2024-02-08 03:48+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/taranis/taranis/"
@@ -155,6 +155,10 @@ msgstr "Logiciel"
 msgid "Parameters"
 msgstr "Paramètres"
 
+#: src/currentconditionbox.cc:86
+msgid "Felt"
+msgstr "Ressenti"
+
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
 msgstr ""
@@ -232,6 +236,18 @@ msgstr "Editer le lieu"
 msgid "Remove from favorites"
 msgstr "Retirer des favoris"
 
+#: src/statusbar.cc:25
+msgid "Ongoing update…"
+msgstr "Mise à jour en cours…"
+
+#: src/statusbar.cc:27 src/statusbar.cc:39
+msgid "Last update:"
+msgstr "Mis à jour :"
+
+#: src/statusbar.cc:50
+msgid "Weather data from"
+msgstr "Données météorologiques de"
+
 #: src/util.cc:191
 msgid "Today"
 msgstr "Aujourd'hui"
@@ -261,18 +277,6 @@ msgstr "Consulter"
 #: src/version.cc:289
 msgid "A new version is available:"
 msgstr "Une nouvelle version est disponible :"
-
-#~ msgid "Felt"
-#~ msgstr "Ressenti"
-
-#~ msgid "Ongoing update…"
-#~ msgstr "Mise à jour en cours…"
-
-#~ msgid "Last update:"
-#~ msgstr "Mis à jour :"
-
-#~ msgid "Weather data from"
-#~ msgstr "Données météorologiques de"
 
 #~ msgid "A new version is available: "
 #~ msgstr "Une nouvelle version est disponible : "

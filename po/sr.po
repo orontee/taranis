@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-08 04:32+0100\n"
+"POT-Creation-Date: 2024-02-08 14:32+0100\n"
 "PO-Revision-Date: 2024-02-06 22:01+0000\n"
 "Last-Translator: kakonema <kakonema@gmail.com>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/taranis/taranis/"
@@ -151,6 +151,10 @@ msgstr "Softver"
 msgid "Parameters"
 msgstr "Parametri"
 
+#: src/currentconditionbox.cc:86
+msgid "Felt"
+msgstr "Subjektivni osećaj"
+
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
 msgstr "Lokacija je nepoznata servisu vremenske prognoze. Proverite unos."
@@ -223,6 +227,18 @@ msgstr "Izmeni lokaciju"
 msgid "Remove from favorites"
 msgstr "Ukloni iz omiljenih"
 
+#: src/statusbar.cc:25
+msgid "Ongoing update…"
+msgstr "Ažuriranje u toku…"
+
+#: src/statusbar.cc:27 src/statusbar.cc:39
+msgid "Last update:"
+msgstr "Poslednje ažuriranje:"
+
+#: src/statusbar.cc:50
+msgid "Weather data from"
+msgstr "Meteorološki podaci sa"
+
 #: src/util.cc:191
 msgid "Today"
 msgstr "Danas"
@@ -250,15 +266,3 @@ msgstr "Pretraži"
 #: src/version.cc:289
 msgid "A new version is available:"
 msgstr "Nova verzija je dostupna:"
-
-#~ msgid "Felt"
-#~ msgstr "Subjektivni osećaj"
-
-#~ msgid "Ongoing update…"
-#~ msgstr "Ažuriranje u toku…"
-
-#~ msgid "Last update:"
-#~ msgstr "Poslednje ažuriranje:"
-
-#~ msgid "Weather data from"
-#~ msgstr "Meteorološki podaci sa"

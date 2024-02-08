@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-08 04:32+0100\n"
+"POT-Creation-Date: 2024-02-08 14:32+0100\n"
 "PO-Revision-Date: 2023-12-30 09:08+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/taranis/taranis/cs/"
@@ -151,6 +151,10 @@ msgstr "Čeština"
 msgid "Parameters"
 msgstr "Parametry"
 
+#: src/currentconditionbox.cc:86
+msgid "Felt"
+msgstr "Pocitová teplota"
+
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
 msgstr "Lokalita není známá ve službě počasí. Zkontrolujte zápis."
@@ -222,6 +226,18 @@ msgstr "Upravit lokalita"
 msgid "Remove from favorites"
 msgstr "Odebrat z oblíbených"
 
+#: src/statusbar.cc:25
+msgid "Ongoing update…"
+msgstr "Probíhá aktualizace…"
+
+#: src/statusbar.cc:27 src/statusbar.cc:39
+msgid "Last update:"
+msgstr "Poslední aktualizace:"
+
+#: src/statusbar.cc:50
+msgid "Weather data from"
+msgstr "Data o počasí z"
+
 #: src/util.cc:191
 msgid "Today"
 msgstr "Dnes"
@@ -250,18 +266,6 @@ msgstr "Hledat"
 #: src/version.cc:289
 msgid "A new version is available:"
 msgstr "K dispozici je nová verze:"
-
-#~ msgid "Felt"
-#~ msgstr "Pocitová teplota"
-
-#~ msgid "Ongoing update…"
-#~ msgstr "Probíhá aktualizace…"
-
-#~ msgid "Last update:"
-#~ msgstr "Poslední aktualizace:"
-
-#~ msgid "Weather data from"
-#~ msgstr "Data o počasí z"
 
 #~ msgid "About"
 #~ msgstr "O aplikaci"

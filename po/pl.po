@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-08 04:32+0100\n"
+"POT-Creation-Date: 2024-02-08 14:32+0100\n"
 "PO-Revision-Date: 2024-02-06 22:01+0000\n"
 "Last-Translator: Radosław Uliszak <cyfranekblog@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/taranis/taranis/"
@@ -155,6 +155,10 @@ msgstr "Oprogramowanie"
 msgid "Parameters"
 msgstr "Parametry"
 
+#: src/currentconditionbox.cc:86
+msgid "Felt"
+msgstr "Temp. odczuwalna"
+
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
 msgstr "Lokalizacja nieznana w serwisie pogodowym. Sprawdź pisownię."
@@ -228,6 +232,18 @@ msgstr "Edytuj lokalizację"
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
+#: src/statusbar.cc:25
+msgid "Ongoing update…"
+msgstr "Trwa aktualizacja…"
+
+#: src/statusbar.cc:27 src/statusbar.cc:39
+msgid "Last update:"
+msgstr "Ostatnia aktualizacja:"
+
+#: src/statusbar.cc:50
+msgid "Weather data from"
+msgstr "Dane pogodowe z"
+
 #: src/util.cc:191
 msgid "Today"
 msgstr "Dzisiaj"
@@ -257,18 +273,6 @@ msgstr "Przeglądaj"
 #: src/version.cc:289
 msgid "A new version is available:"
 msgstr "Dostępna jest nowsza wersja:"
-
-#~ msgid "Felt"
-#~ msgstr "Temp. odczuwalna"
-
-#~ msgid "Ongoing update…"
-#~ msgstr "Trwa aktualizacja…"
-
-#~ msgid "Last update:"
-#~ msgstr "Ostatnia aktualizacja:"
-
-#~ msgid "Weather data from"
-#~ msgstr "Dane pogodowe z"
 
 #~ msgid "About"
 #~ msgstr "O aplikacji"

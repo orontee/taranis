@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-08 04:32+0100\n"
+"POT-Creation-Date: 2024-02-08 14:32+0100\n"
 "PO-Revision-Date: 2023-12-30 09:08+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/taranis/"
@@ -149,6 +149,10 @@ msgstr "Programvare"
 msgid "Parameters"
 msgstr "Parameter"
 
+#: src/currentconditionbox.cc:86
+msgid "Felt"
+msgstr "Felt"
+
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
 msgstr ""
@@ -221,6 +225,18 @@ msgstr "Rediger plassering"
 msgid "Remove from favorites"
 msgstr "Fjern fra favoritter"
 
+#: src/statusbar.cc:25
+msgid "Ongoing update…"
+msgstr "Pågående installasjon av ny versjon …"
+
+#: src/statusbar.cc:27 src/statusbar.cc:39
+msgid "Last update:"
+msgstr "Siste oppdatering:"
+
+#: src/statusbar.cc:50
+msgid "Weather data from"
+msgstr "Værdata fra"
+
 #: src/util.cc:191
 msgid "Today"
 msgstr "I dag"
@@ -250,15 +266,3 @@ msgstr "Utforsk"
 #: src/version.cc:289
 msgid "A new version is available:"
 msgstr "En ny versjon er tilgjengelig:"
-
-#~ msgid "Felt"
-#~ msgstr "Felt"
-
-#~ msgid "Ongoing update…"
-#~ msgstr "Pågående installasjon av ny versjon …"
-
-#~ msgid "Last update:"
-#~ msgstr "Siste oppdatering:"
-
-#~ msgid "Weather data from"
-#~ msgstr "Værdata fra"
