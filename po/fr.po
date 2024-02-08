@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-08 04:32+0100\n"
-"PO-Revision-Date: 2023-11-29 20:22+0000\n"
+"PO-Revision-Date: 2024-02-08 03:48+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/taranis/taranis/"
 "fr/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.3-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: src/about.cc.in:15
 msgid ""
@@ -113,15 +113,15 @@ msgstr "Prévision par jour"
 
 #: src/config.cc:31
 msgid "At startup"
-msgstr ""
+msgstr "Au démarrage"
 
 #: src/config.cc:32
 msgid "When obsolete"
-msgstr ""
+msgstr "Si obsolètes"
 
 #: src/config.cc:33
 msgid "Manual"
-msgstr ""
+msgstr "Manuel"
 
 #: src/config.cc:48
 msgid "Check newer version"
@@ -137,7 +137,7 @@ msgstr "Écran de démarrage"
 
 #: src/config.cc:61
 msgid "Data update strategy"
-msgstr ""
+msgstr "Rafraîchissement des données"
 
 #: src/config.cc:64
 msgid "Custom API key"
