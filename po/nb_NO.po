@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-29 11:25+0100\n"
+"POT-Creation-Date: 2024-02-08 04:32+0100\n"
 "PO-Revision-Date: 2023-12-30 09:08+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/taranis/"
@@ -45,42 +45,42 @@ msgstr "Varighet"
 msgid "Source"
 msgstr "Kilde"
 
-#: src/app.cc:80
+#: src/app.cc:93
 msgid "Unsupported software version"
 msgstr "Ustøttet programvareversjon"
 
-#: src/app.cc:81
+#: src/app.cc:94
 msgid ""
 "The application isn't compatible with the software version of this reader."
 msgstr ""
 "Programmet er ikke kompatibelt med programvareversjonen til denne leseren."
 
-#: src/app.cc:242 src/app.cc:254 src/app.cc:288 src/app.cc:410
+#: src/app.cc:270 src/app.cc:282 src/app.cc:316 src/app.cc:491
 #: src/version.cc:135
 msgid "Ok"
 msgstr "OK"
 
-#: src/app.cc:284
+#: src/app.cc:312
 msgid "Invalid input"
 msgstr "Ugyldig inndata"
 
-#: src/app.cc:286
+#: src/app.cc:314
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr "Sørg for at du skriver inn en by, så et land, inndelt med komma."
 
-#: src/app.cc:351 src/app.cc:360 src/app.cc:435 src/app.cc:443
+#: src/app.cc:432 src/app.cc:441 src/app.cc:516 src/app.cc:524
 msgid "Network error"
 msgstr "Nettverksfeil"
 
-#: src/app.cc:352 src/app.cc:361 src/app.cc:436 src/app.cc:444
+#: src/app.cc:433 src/app.cc:442 src/app.cc:517 src/app.cc:525
 msgid "Failure while fetching weather data. Check your network connection."
 msgstr "Kunne ikke hente værdata. Sjekk nettverkstilkoblingen din."
 
-#: src/app.cc:368 src/app.cc:450
+#: src/app.cc:449 src/app.cc:531
 msgid "Service unavailable"
 msgstr "Tjeneste utilgjengelig"
 
-#: src/app.cc:409 src/config.cc:40 src/version.cc:100 src/version.cc:107
+#: src/app.cc:490 src/config.cc:45 src/version.cc:100 src/version.cc:107
 #: src/version.cc:114 src/version.cc:122 src/version.cc:134
 msgid "Software version"
 msgstr "Programvareversjon"
@@ -105,37 +105,49 @@ msgstr "Timevist værvarsel"
 msgid "Daily forecast"
 msgstr "Daglig værvarsel"
 
-#: src/config.cc:43
+#: src/config.cc:31
+msgid "At startup"
+msgstr ""
+
+#: src/config.cc:32
+msgid "When obsolete"
+msgstr ""
+
+#: src/config.cc:33
+msgid "Manual"
+msgstr ""
+
+#: src/config.cc:48
 msgid "Check newer version"
 msgstr "Sjekk om det finnes en ny versjon"
 
-#: src/config.cc:48
+#: src/config.cc:53
 msgid "Units"
 msgstr "Enheter"
 
-#: src/config.cc:52
+#: src/config.cc:57
 msgid "Start screen"
 msgstr "Startskjerm"
 
-#: src/config.cc:55
+#: src/config.cc:61
+msgid "Data update strategy"
+msgstr ""
+
+#: src/config.cc:64
 msgid "Custom API key"
 msgstr "Egendefinert API-nøkkel"
 
-#: src/config.cc:59
+#: src/config.cc:68
 msgid "Generate shutdown logo"
 msgstr "Generer avstengningslogo"
 
-#: src/config.cc:63
+#: src/config.cc:72
 msgid "Software"
 msgstr "Programvare"
 
-#: src/config.cc:120
+#: src/config.cc:129
 msgid "Parameters"
 msgstr "Parameter"
-
-#: src/currentconditionbox.h:82
-msgid "Felt"
-msgstr "Felt"
 
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
@@ -165,7 +177,7 @@ msgid ""
 msgstr ""
 "Tjenesten som tilbyr værdata fungerer ikke som forventet. Prøv igjen senere."
 
-#: src/locationbox.cc:44
+#: src/locationbox.cc:45
 msgid "Enter location"
 msgstr "Skriv inn sted"
 
@@ -197,29 +209,17 @@ msgstr "Avslutt"
 msgid "Empty"
 msgstr "Tom"
 
-#: src/menu.cc:105 src/menu.cc:134
+#: src/menu.cc:105 src/menu.cc:133
 msgid "Add to favorites"
 msgstr "Legg til som favoritt"
 
-#: src/menu.cc:114 src/menu.cc:160
+#: src/menu.cc:114 src/menu.cc:159
 msgid "Edit location"
 msgstr "Rediger plassering"
 
-#: src/menu.cc:133
+#: src/menu.cc:132
 msgid "Remove from favorites"
 msgstr "Fjern fra favoritter"
-
-#: src/statusbar.h:31
-msgid "Ongoing update…"
-msgstr "Pågående installasjon av ny versjon …"
-
-#: src/statusbar.h:33
-msgid "Last update:"
-msgstr "Siste oppdatering:"
-
-#: src/statusbar.h:43
-msgid "Weather data from"
-msgstr "Værdata fra"
 
 #: src/util.cc:191
 msgid "Today"
@@ -250,3 +250,15 @@ msgstr "Utforsk"
 #: src/version.cc:289
 msgid "A new version is available:"
 msgstr "En ny versjon er tilgjengelig:"
+
+#~ msgid "Felt"
+#~ msgstr "Felt"
+
+#~ msgid "Ongoing update…"
+#~ msgstr "Pågående installasjon av ny versjon …"
+
+#~ msgid "Last update:"
+#~ msgstr "Siste oppdatering:"
+
+#~ msgid "Weather data from"
+#~ msgstr "Værdata fra"

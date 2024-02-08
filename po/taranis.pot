@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-29 11:25+0100\n"
+"POT-Creation-Date: 2024-02-08 04:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,41 +43,41 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#: src/app.cc:80
+#: src/app.cc:93
 msgid "Unsupported software version"
 msgstr ""
 
-#: src/app.cc:81
+#: src/app.cc:94
 msgid ""
 "The application isn't compatible with the software version of this reader."
 msgstr ""
 
-#: src/app.cc:242 src/app.cc:254 src/app.cc:288 src/app.cc:410
+#: src/app.cc:270 src/app.cc:282 src/app.cc:316 src/app.cc:491
 #: src/version.cc:135
 msgid "Ok"
 msgstr ""
 
-#: src/app.cc:284
+#: src/app.cc:312
 msgid "Invalid input"
 msgstr ""
 
-#: src/app.cc:286
+#: src/app.cc:314
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr ""
 
-#: src/app.cc:351 src/app.cc:360 src/app.cc:435 src/app.cc:443
+#: src/app.cc:432 src/app.cc:441 src/app.cc:516 src/app.cc:524
 msgid "Network error"
 msgstr ""
 
-#: src/app.cc:352 src/app.cc:361 src/app.cc:436 src/app.cc:444
+#: src/app.cc:433 src/app.cc:442 src/app.cc:517 src/app.cc:525
 msgid "Failure while fetching weather data. Check your network connection."
 msgstr ""
 
-#: src/app.cc:368 src/app.cc:450
+#: src/app.cc:449 src/app.cc:531
 msgid "Service unavailable"
 msgstr ""
 
-#: src/app.cc:409 src/config.cc:40 src/version.cc:100 src/version.cc:107
+#: src/app.cc:490 src/config.cc:45 src/version.cc:100 src/version.cc:107
 #: src/version.cc:114 src/version.cc:122 src/version.cc:134
 msgid "Software version"
 msgstr ""
@@ -102,36 +102,48 @@ msgstr ""
 msgid "Daily forecast"
 msgstr ""
 
-#: src/config.cc:43
-msgid "Check newer version"
+#: src/config.cc:31
+msgid "At startup"
+msgstr ""
+
+#: src/config.cc:32
+msgid "When obsolete"
+msgstr ""
+
+#: src/config.cc:33
+msgid "Manual"
 msgstr ""
 
 #: src/config.cc:48
+msgid "Check newer version"
+msgstr ""
+
+#: src/config.cc:53
 msgid "Units"
 msgstr ""
 
-#: src/config.cc:52
+#: src/config.cc:57
 msgid "Start screen"
 msgstr ""
 
-#: src/config.cc:55
+#: src/config.cc:61
+msgid "Data update strategy"
+msgstr ""
+
+#: src/config.cc:64
 msgid "Custom API key"
 msgstr ""
 
-#: src/config.cc:59
+#: src/config.cc:68
 msgid "Generate shutdown logo"
 msgstr ""
 
-#: src/config.cc:63
+#: src/config.cc:72
 msgid "Software"
 msgstr ""
 
-#: src/config.cc:120
+#: src/config.cc:129
 msgid "Parameters"
-msgstr ""
-
-#: src/currentconditionbox.h:82
-msgid "Felt"
 msgstr ""
 
 #: src/errors.h:37
@@ -159,7 +171,7 @@ msgid ""
 "The service providing weather data isn't working as expected. Retry later."
 msgstr ""
 
-#: src/locationbox.cc:44
+#: src/locationbox.cc:45
 msgid "Enter location"
 msgstr ""
 
@@ -191,28 +203,16 @@ msgstr ""
 msgid "Empty"
 msgstr ""
 
-#: src/menu.cc:105 src/menu.cc:134
+#: src/menu.cc:105 src/menu.cc:133
 msgid "Add to favorites"
 msgstr ""
 
-#: src/menu.cc:114 src/menu.cc:160
+#: src/menu.cc:114 src/menu.cc:159
 msgid "Edit location"
 msgstr ""
 
-#: src/menu.cc:133
+#: src/menu.cc:132
 msgid "Remove from favorites"
-msgstr ""
-
-#: src/statusbar.h:31
-msgid "Ongoing update…"
-msgstr ""
-
-#: src/statusbar.h:33
-msgid "Last update:"
-msgstr ""
-
-#: src/statusbar.h:43
-msgid "Weather data from"
 msgstr ""
 
 #: src/util.cc:191

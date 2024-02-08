@@ -36,13 +36,13 @@ provided by Inkview SDK, but:
   editable files.
 
 * The extraction of translatable strings and updates of PO files is
-  done by the common `xgettext` utility through a `ninja` target.
+  done by the common `xgettext` utility through a `meson` target.
   
   Thus to update the pot file and translation files to match current
   source code, one must run:
   
   ```sh
-  DESTDIR=artifact ninja -C builddir taranis-update-po
+  meson compile -C builddir taranis-update-po
   ```
 
 * The build target has been extended to automatically generate a C++
