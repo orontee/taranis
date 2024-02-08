@@ -13,10 +13,11 @@
 
 namespace taranis {
 
-LocationBox::LocationBox(int pos_x, int pos_y, std::shared_ptr<Model> model,
+LocationBox::LocationBox(int pos_x, int pos_y, int width,
+                         std::shared_ptr<Model> model,
                          std::shared_ptr<Fonts> fonts)
     : Widget{pos_x, pos_y}, model{model}, font{fonts->get_bold_font()} {
-  this->set_width(4 * ScreenWidth() / 5);
+  this->set_width(width);
   this->set_height(this->font->height + this->top_padding +
                    this->bottom_padding);
 }

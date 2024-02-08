@@ -12,7 +12,7 @@ namespace taranis {
 Logo::Logo(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
            std::shared_ptr<Fonts> fonts)
     : Widget{0, 0, ScreenWidth(), ScreenHeight()},
-      location_box{0, 0, model, fonts}, status_bar{model, fonts},
+      location_box{0, 0, ScreenWidth(), model, fonts}, status_bar{model, fonts},
       forecast_box{0,
                    this->location_box.get_height() + Logo::vertical_padding,
                    ScreenWidth(),

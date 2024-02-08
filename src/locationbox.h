@@ -12,7 +12,7 @@ namespace taranis {
 
 class LocationBox : public Widget {
 public:
-  LocationBox(int pos_x, int pos_y, std::shared_ptr<Model> model,
+  LocationBox(int pos_x, int pos_y, int width, std::shared_ptr<Model> model,
               std::shared_ptr<Fonts> fonts);
 
   int handle_pointer_event(int event_type, int pointer_pos_x,

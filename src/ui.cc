@@ -38,8 +38,9 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
                            alerts_button->get_width() - Ui::button_margin);
   alerts_button->set_pos_y(Ui::button_margin);
 
-  this->location_box =
-      std::make_shared<LocationBox>(0, 0, this->model, this->fonts);
+  this->location_box = std::make_shared<LocationBox>(
+      0, 0, alerts_button->get_pos_x() - Ui::button_margin, this->model,
+      this->fonts);
 
   auto current_condition_box = std::make_shared<CurrentConditionBox>(
       0, this->location_box->get_height(), ScreenWidth(), this->model,
