@@ -24,6 +24,8 @@ wide which is not the case as far as I can see). And Inkview
 translation facilities are incomplete (if not broken)... Example, in
 Czech, month names aren't translated.
 
+Inkview SDK support a limited number of languages.
+
 ## Technical considerations
 
 To keep things simple, Taranis uses the custom translation mechanism
