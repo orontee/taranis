@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Display full temperature unit
+  [#91](https://github.com/orontee/taranis/issues/91)
+
 - Data update strategy can be configured
   [#88](https://github.com/orontee/taranis/issues/88)
 

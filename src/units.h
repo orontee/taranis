@@ -16,7 +16,7 @@ public:
   Units(std::shared_ptr<Model> model) : model{model} {}
 
   std::string format_temperature(int temperature,
-                                 bool short_unit = true) const {
+                                 bool short_unit = false) const {
     if (short_unit) {
       return std::to_string(temperature) + "°";
     }
