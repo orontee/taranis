@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-18 20:57+0100\n"
-"PO-Revision-Date: 2023-12-30 09:08+0000\n"
+"PO-Revision-Date: 2024-02-18 20:25+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/taranis/taranis/cs/"
 ">\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
+"X-Generator: Weblate 5.4\n"
 
 #: src/about.cc.in:15
 msgid ""
@@ -109,15 +109,15 @@ msgstr "Denní předpověď"
 
 #: src/config.cc:31
 msgid "At startup"
-msgstr ""
+msgstr "Při spuštění"
 
 #: src/config.cc:32
 msgid "When obsolete"
-msgstr ""
+msgstr "Kdysi zastaralé"
 
 #: src/config.cc:33
 msgid "Manually"
-msgstr ""
+msgstr "Manuálně"
 
 #: src/config.cc:48
 msgid "Check newer version"
@@ -133,7 +133,7 @@ msgstr "Startovací obrazovka"
 
 #: src/config.cc:61
 msgid "Data update strategy"
-msgstr ""
+msgstr "Aktualizace dat"
 
 #: src/config.cc:64
 msgid "Custom API key"

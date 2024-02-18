@@ -8,20 +8,19 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-18 20:57+0100\n"
-"PO-Revision-Date: 2024-01-06 09:07+0000\n"
-"Last-Translator: Tancrède <tancrede.meulien@gmail.com>\n"
+"PO-Revision-Date: 2024-02-18 20:25+0000\n"
+"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/taranis/taranis/"
 "ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.4\n"
 
 #: src/about.cc.in:15
-#, fuzzy
 msgid ""
 "This program is provided without any warranty. For more details, read GNU "
 "General Public License, version 3 or later"
@@ -30,7 +29,6 @@ msgstr ""
 "информации читать GNU General Public License, версия 3 или позже"
 
 #: src/about.cc.in:18
-#, fuzzy
 msgid "Credits"
 msgstr "Кредиты"
 
@@ -39,27 +37,22 @@ msgid "ALERT"
 msgstr "ALERT"
 
 #: src/alerts.cc:135
-#, fuzzy
 msgid "Start"
 msgstr "Начало"
 
 #: src/alerts.cc:137
-#, fuzzy
 msgid "Duration"
 msgstr "Продолжительность"
 
 #: src/alerts.cc:142
-#, fuzzy
 msgid "Source"
 msgstr "Источник"
 
 #: src/app.cc:93
-#, fuzzy
 msgid "Unsupported software version"
 msgstr "Неподдерживаемая версия программного обеспечения"
 
 #: src/app.cc:94
-#, fuzzy
 msgid ""
 "The application isn't compatible with the software version of this reader."
 msgstr "Приложение не совместимо с программной версией этого читателя."
@@ -101,12 +94,11 @@ msgstr "Стандарт"
 
 #: src/config.cc:21
 msgid "Metric"
-msgstr "Метрик"
+msgstr "Метрический"
 
 #: src/config.cc:22
-#, fuzzy
 msgid "Imperial"
-msgstr "Императорский"
+msgstr "Имперский"
 
 #: src/config.cc:27
 msgid "Hourly forecast"
@@ -118,15 +110,15 @@ msgstr "Ежедневный прогноз"
 
 #: src/config.cc:31
 msgid "At startup"
-msgstr ""
+msgstr "При запуске"
 
 #: src/config.cc:32
 msgid "When obsolete"
-msgstr ""
+msgstr "Устарение"
 
 #: src/config.cc:33
 msgid "Manually"
-msgstr ""
+msgstr "Ручной"
 
 #: src/config.cc:48
 msgid "Check newer version"
@@ -142,7 +134,7 @@ msgstr "Запустить экран"
 
 #: src/config.cc:61
 msgid "Data update strategy"
-msgstr ""
+msgstr "Стратегия обновления данных"
 
 #: src/config.cc:64
 msgid "Custom API key"
@@ -162,7 +154,7 @@ msgstr "Параметры"
 
 #: src/currentconditionbox.cc:86
 msgid "Felt"
-msgstr "Felt"
+msgstr "Ощущаемая"
 
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
@@ -218,7 +210,7 @@ msgstr "обновить"
 
 #: src/menu.cc:76
 msgid "Parameters…"
-msgstr "Параметры"
+msgstr "Параметры…"
 
 #: src/menu.cc:78
 msgid "Quit"
@@ -242,7 +234,7 @@ msgstr "Удалить из фаворитов"
 
 #: src/statusbar.cc:25
 msgid "Ongoing update…"
-msgstr "Текущее обновление.."
+msgstr "Текущее обновление…"
 
 #: src/statusbar.cc:27 src/statusbar.cc:39
 msgid "Last update:"
