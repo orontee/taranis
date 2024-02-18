@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-08 14:32+0100\n"
+"POT-Creation-Date: 2024-02-18 20:57+0100\n"
 "PO-Revision-Date: 2024-02-08 03:48+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/taranis/taranis/"
@@ -120,8 +120,8 @@ msgid "When obsolete"
 msgstr "Si obsolètes"
 
 #: src/config.cc:33
-msgid "Manual"
-msgstr "Manuel"
+msgid "Manually"
+msgstr "Manuellement"
 
 #: src/config.cc:48
 msgid "Check newer version"

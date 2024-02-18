@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-08 14:32+0100\n"
+"POT-Creation-Date: 2024-02-18 20:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,7 +111,7 @@ msgid "When obsolete"
 msgstr ""
 
 #: src/config.cc:33
-msgid "Manual"
+msgid "Manually"
 msgstr ""
 
 #: src/config.cc:48

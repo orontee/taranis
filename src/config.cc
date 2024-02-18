@@ -30,7 +30,7 @@ char *start_with_daily_forecast_values[] = {
 char *data_update_strategy_values[] = {
     const_cast<char *>(GetLangText("At startup")),
     const_cast<char *>(GetLangText("When obsolete")),
-    const_cast<char *>(GetLangText("Manual")), nullptr};
+    const_cast<char *>(GetLangText("Manually")), nullptr};
 
 char *custom_api_key_value[] = {const_cast<char *>(""), nullptr};
 
