@@ -26,9 +26,12 @@ App::App()
           task_icon_size, task_icon_size, task_icon_size)} {}
 
 int App::process_event(int event_type, int param_one, int param_two) {
-  BOOST_LOG_TRIVIAL(debug) << "Processing event of type "
-                           << format_event_type(event_type);
+  if (event_type != EVT_MTSYNC) {
+    // No need to log multi touch synchronization events
 
+    BOOST_LOG_TRIVIAL(debug) << "Processing event of type "
+                             << format_event_type(event_type);
+  }
   if (event_type == EVT_INIT) {
     this->setup();
     return 1;
