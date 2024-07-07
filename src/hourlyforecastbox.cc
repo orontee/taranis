@@ -60,6 +60,7 @@ void HourlyForecastBox::do_paint() {
   this->draw_frame_and_values();
   this->draw_precipitation_histogram();
   this->draw_temperature_curve();
+  this->draw_sunrise_sunset_lines();
 }
 
 bool HourlyForecastBox::handle_key_press(int key) {
@@ -394,10 +395,52 @@ void HourlyForecastBox::draw_precipitation_histogram() const {
   }
 }
 
+void HourlyForecastBox::draw_sunrise_sunset_lines() const {
+  BOOST_LOG_TRIVIAL(debug) << "Drawing sunrise and sunset lines";
+  const auto separator_start_y =
+      this->weather_icon_y + this->icon_size + this->vertical_padding;
+  const auto separator_stop_y = this->temperature_y - vertical_padding;
+
+  for (size_t bar_index = 0; bar_index < HourlyForecastBox::visible_bars;
+       ++bar_index) {
+    const auto forecast_index = this->forecast_offset + bar_index;
+    if (forecast_index < this->model->hourly_forecast.size()) {
+      const auto forecast = this->model->hourly_forecast[forecast_index];
+
+      for (const auto daily_forecast : this->model->daily_forecast) {
+        if (not are_same_day(forecast.date, daily_forecast.date)) {
+          continue;
+        }
+
+        const auto minutes_before_sunrise =
+            get_duration_minutes(forecast.date, daily_forecast.sunrise);
+
+        const auto minutes_before_sunset =
+            get_duration_minutes(forecast.date, daily_forecast.sunset);
+
+        if (0 < minutes_before_sunrise and minutes_before_sunrise < 60) {
+          const int separator_x = bar_index * this->bar_width +
+                                  minutes_before_sunrise * this->bar_width / 60;
+          BOOST_LOG_TRIVIAL(debug) << "Drawing sunrise line";
+          DrawDashLine(separator_x, separator_start_y, separator_x,
+                       separator_stop_y, LGRAY, 10, 10);
+        } else if (0 < minutes_before_sunset and minutes_before_sunset < 60) {
+          const int separator_x = bar_index * this->bar_width +
+                                  minutes_before_sunset * this->bar_width / 60;
+          BOOST_LOG_TRIVIAL(debug) << "Drawing sunset line";
+          DrawDashLine(separator_x, separator_start_y, separator_x,
+                       separator_stop_y, LGRAY, 10, 10);
+        }
+      }
+    } else {
+      BOOST_LOG_TRIVIAL(debug) << "Out-of-range bar index";
+    }
+  }
+}
+
 std::map<int, std::vector<unsigned char>> rotated_icons;
 
 const ibitmap *HourlyForecastBox::rotate_direction_icon(int degree) {
-  BOOST_LOG_TRIVIAL(debug) << "Rotating direction icon, " << degree;
   const auto arrow_angle = (180 - degree);
   // The parameter degree is an angle measure in degrees, interpreted
   // as the direction where the wind is blowing FROM (0 means North,
@@ -419,29 +462,19 @@ const ibitmap *HourlyForecastBox::rotate_direction_icon(int degree) {
     cv::warpAffine(image, rotated_image, rotation_matrix, image.size(),
                    cv::INTER_LINEAR, cv::BORDER_CONSTANT, 0xFF);
 
-    BOOST_LOG_TRIVIAL(debug) << "Rotated image has size " << rotated_image.cols
-                             << "×" << rotated_image.rows;
-
     const auto header_size = offsetof(ibitmap, data);
     const auto data_size = icon_to_rotate->scanline * icon_to_rotate->height;
     auto &rotated_bitmap_data = rotated_icons[degree];
     rotated_bitmap_data.resize(header_size + data_size);
-    BOOST_LOG_TRIVIAL(debug) << "Vector data for rotated icon added to cache";
 
-    BOOST_LOG_TRIVIAL(debug)
-        << "Copying " << header_size << " bytes of header data";
     std::memcpy(rotated_bitmap_data.data(), icon_to_rotate, header_size);
     // headers are the same for both bitmap
 
-    BOOST_LOG_TRIVIAL(debug)
-        << "Copying " << data_size << " bytes of image data";
     std::memcpy(rotated_bitmap_data.data() + header_size, rotated_image.data,
                 data_size);
 
     return reinterpret_cast<ibitmap *>(rotated_bitmap_data.data());
   }
-  BOOST_LOG_TRIVIAL(debug) << "Rotated icon data found in cache";
-
   return reinterpret_cast<ibitmap *>(found->second.data());
 }
 } // namespace taranis

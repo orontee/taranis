@@ -223,6 +223,33 @@ std::string taranis::format_full_date(const TimePoint &time) {
          std::string{formatted_time};
 }
 
+bool taranis::are_same_day(const TimePoint &first, const TimePoint &second) {
+  const time_t first_time_since_epoch{static_cast<long>(
+      std::chrono::duration_cast<std::chrono::seconds>(first - TimePoint{})
+          .count())};
+  auto first_calendar_time = std::localtime(&first_time_since_epoch);
+  const time_t second_time_since_epoch{static_cast<long>(
+      std::chrono::duration_cast<std::chrono::seconds>(second - TimePoint{})
+          .count())};
+  auto second_calendar_time = std::localtime(&second_time_since_epoch);
+  if (first_calendar_time and second_calendar_time) {
+    const auto first_time_year = first_calendar_time->tm_year;
+    const auto first_time_year_day = first_calendar_time->tm_yday;
+    const auto second_time_year = second_calendar_time->tm_year;
+    const auto second_time_year_day = second_calendar_time->tm_yday;
+    return first_time_year == second_time_year and
+           first_time_year_day == second_time_year_day;
+  }
+  return false;
+}
+
+int taranis::get_duration_minutes(const TimePoint &start,
+                                  const TimePoint &end) {
+  const auto duration =
+      std::chrono::duration_cast<std::chrono::minutes>((end - start));
+  return static_cast<float>(duration.count());
+}
+
 std::string taranis::format_duration(const TimePoint &start,
                                      const TimePoint &end) {
   const auto duration =
@@ -231,11 +258,7 @@ std::string taranis::format_duration(const TimePoint &start,
     return "<1h";
   }
   std::stringstream duration_text;
-  duration_text << static_cast<int>(
-                       std::chrono::duration_cast<std::chrono::hours>(
-                           (end - start))
-                           .count())
-                << "h";
+  duration_text << static_cast<int>(duration.count()) << "h";
   return duration_text.str();
 }
 

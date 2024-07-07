@@ -69,6 +69,11 @@ std::string format_date(const TimePoint &time, bool shortcut = false);
 // Saturday, 21st October 2023, 17:05
 std::string format_full_date(const TimePoint &time);
 
+bool are_same_day(const TimePoint &first, const TimePoint &second);
+
+int get_duration_minutes(const TimePoint &start, const TimePoint &end);
+
+// <1h, 1h, 2h, etc.
 std::string format_duration(const TimePoint &start, const TimePoint &end);
 
 int remaining_hours(const TimePoint &time);

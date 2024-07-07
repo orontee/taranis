@@ -2,5 +2,6 @@
 --language=c++
 -I/home/matthias/Projets/taranis/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/lib/clang/7.0.0/include
 -I/home/matthias/Projets/taranis/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/include/c++/6.3.0
+-I/home/matthias/Projets/taranis/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/include
 -I/home/matthias/Projets/taranis/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/usr/include
 -I/home/matthias/Projets/taranis/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/usr/local/include

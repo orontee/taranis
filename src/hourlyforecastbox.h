@@ -88,6 +88,8 @@ private:
 
   void draw_precipitation_histogram() const;
 
+  void draw_sunrise_sunset_lines() const;
+
   const ibitmap *rotate_direction_icon(int degree);
 };
 
