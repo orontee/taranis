@@ -58,9 +58,15 @@ HourlyForecastBox::HourlyForecastBox(int pos_x, int pos_y, int width,
 void HourlyForecastBox::do_paint() {
   this->draw_labels();
   this->draw_frame_and_values();
-  this->draw_precipitation_histogram();
-  this->draw_temperature_curve();
+
   this->draw_sunrise_sunset_lines();
+  this->draw_precipitation_histogram();
+  // ⚠️ Draw sunrise and sunset lines before precipitation histogram
+  // otherwise vertical lines related to sun may overlap the histogram
+  // bars… See also draw_precipitation_histogram() implementation for
+  // more ugly stuff related to that!
+
+  this->draw_temperature_curve();
 }
 
 bool HourlyForecastBox::handle_key_press(int key) {
@@ -370,6 +376,12 @@ void HourlyForecastBox::draw_precipitation_histogram() const {
           max_number(forecast.rain, forecast.snow), false);
       // rain and snow are in mm/h but save space with shortest unit
 
+      FillArea(x_screen + 1,
+               y_screen - tiny_font.get()->height - this->vertical_padding,
+               this->bar_width - 2, tiny_font.get()->height - 1, WHITE);
+      // ⚠️ Clear the bottom of a possible vertical line
+      // corresponding to sunrise or sunset
+
       SetFont(tiny_font.get(), DGRAY);
       DrawString(bar_center_x - StringWidth(precipitation_text.c_str()) / 2.0,
                  y_screen - tiny_font.get()->height - 2,
@@ -397,9 +409,8 @@ void HourlyForecastBox::draw_precipitation_histogram() const {
 
 void HourlyForecastBox::draw_sunrise_sunset_lines() const {
   BOOST_LOG_TRIVIAL(debug) << "Drawing sunrise and sunset lines";
-  const auto separator_start_y =
-      this->weather_icon_y + this->icon_size + this->vertical_padding;
-  const auto separator_stop_y = this->temperature_y - vertical_padding;
+  const auto separator_start_y = this->weather_icon_y + this->icon_size;
+  const auto separator_stop_y = this->curve_y_offset;
 
   for (size_t bar_index = 0; bar_index < HourlyForecastBox::visible_bars;
        ++bar_index) {
