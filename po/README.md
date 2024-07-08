@@ -65,18 +65,13 @@ and vita5656!
 
 * Matthias Meulien <orontee@gmail.com> (3)
 
-### Norwegian Bokmål (work in progress)
-
-* Matthias Meulien <orontee@gmail.com> (5)
-* Allan Nordhøy <epost@anotheragency.no> (58)
-
 ### Polish
 
 * Eryk Michalak <gnu.ewm@protonmail.com> (1)
 * Matthias Meulien <orontee@gmail.com> (2)
 * Radosław Uliszak <cyfranekblog@protonmail.com> (7)
 
-### Russian (work in progress)
+### Russian
 
 * Matthias Meulien <orontee@gmail.com> (2)
 * Tancrède <tancrede.meulien@gmail.com> (3)
