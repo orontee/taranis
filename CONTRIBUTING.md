@@ -88,6 +88,14 @@ dependencies.
    meson compile -C builddir sha
    ```
 
+### Build through GitHub action
+
+The GitHub action `build-application` allows to simultaneously build
+the application, its installer, and an archive.
+
+It's mainly used to release the application, see [How-to
+release](./docs/how-to-release.md).
+
 ## Tooling
 
 Format sources:

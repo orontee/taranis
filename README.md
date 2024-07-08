@@ -89,7 +89,7 @@ No developer skills are required to contribute to translations or add
 support for new languages, thanks to the [Weblate
 platform](https://hosted.weblate.org/projects/taranis/taranis/). More
 on this topic in the [translations
-documentation](./po/translations.md).
+documentation](./po/README.md).
 
 Instructions to install an unreleased version, debug, etc. can be
 found in the [CONTRIBUTING guide](./CONTRIBUTING.md).
