@@ -6,7 +6,7 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.9.0 - 2024-07-09]
 
 ### Added
 
@@ -17,8 +17,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Fix precipitation histogram possibly not showing snow due to
   incomplete check [#94](https://github.com/orontee/taranis/issues/94)
-
-### Removed
 
 ## [1.8.0 - 2024-02-21]
 
