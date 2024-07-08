@@ -15,6 +15,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Fix precipitation histogram possibly not showing snow due to
+  incomplete check [#94](https://github.com/orontee/taranis/issues/94)
+
 ### Removed
 
 ## [1.8.0 - 2024-02-21]
