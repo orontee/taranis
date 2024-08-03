@@ -19,6 +19,8 @@ icons = files(
   'icon_refresh.bmp',
   'icon_software_version.bmp',
   'icon_software_version_check.bmp',
+  'icon_sunrise.bmp',
+  'icon_sunset.bmp',
   'icon_taranis.bmp',
   'icon_wallpaper.bmp',
   'icon_warning.bmp'

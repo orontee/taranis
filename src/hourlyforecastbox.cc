@@ -409,7 +409,9 @@ void HourlyForecastBox::draw_precipitation_histogram() const {
 
 void HourlyForecastBox::draw_sunrise_sunset_lines() const {
   BOOST_LOG_TRIVIAL(debug) << "Drawing sunrise and sunset lines";
-  const auto separator_start_y = this->weather_icon_y + this->icon_size;
+
+  const auto icon_start_y = this->weather_icon_y + this->icon_size;
+  const auto separator_start_y = icon_start_y + this->icon_size;
   const auto separator_stop_y = this->curve_y_offset;
 
   for (size_t bar_index = 0; bar_index < HourlyForecastBox::visible_bars;
@@ -435,12 +437,18 @@ void HourlyForecastBox::draw_sunrise_sunset_lines() const {
           BOOST_LOG_TRIVIAL(debug) << "Drawing sunrise line";
           DrawDashLine(separator_x, separator_start_y, separator_x,
                        separator_stop_y, LGRAY, 10, 10);
+
+          DrawBitmap(separator_x - this->icon_size / 2.0, icon_start_y,
+                     this->icons->get("sunrise"));
         } else if (0 < minutes_before_sunset and minutes_before_sunset < 60) {
           const int separator_x = bar_index * this->bar_width +
                                   minutes_before_sunset * this->bar_width / 60;
           BOOST_LOG_TRIVIAL(debug) << "Drawing sunset line";
           DrawDashLine(separator_x, separator_start_y, separator_x,
                        separator_stop_y, LGRAY, 10, 10);
+
+          DrawBitmap(separator_x - this->icon_size / 2.0, icon_start_y,
+                     this->icons->get("sunset"));
         }
       }
     } else {

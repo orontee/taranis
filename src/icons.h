@@ -24,6 +24,8 @@ extern const ibitmap icon_radio_button_unchecked;
 extern const ibitmap icon_refresh;
 extern const ibitmap icon_software_version;
 extern const ibitmap icon_software_version_check;
+extern const ibitmap icon_sunrise;
+extern const ibitmap icon_sunset;
 extern const ibitmap icon_taranis;
 extern const ibitmap icon_wallpaper;
 extern const ibitmap icon_warning;
@@ -83,6 +85,12 @@ public:
     }
     if (name == "software-version-check") {
       return const_cast<ibitmap *>(&icon_software_version_check);
+    }
+    if (name == "sunrise") {
+      return const_cast<ibitmap *>(&icon_sunrise);
+    }
+    if (name == "sunset") {
+      return const_cast<ibitmap *>(&icon_sunset);
     }
     if (name == "wallpaper") {
       return const_cast<ibitmap *>(&icon_wallpaper);

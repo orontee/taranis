@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Add icons to sunrise and sunset lines
+  [#95](https://github.com/orontee/taranis/issues/95)
+
 ### Changed
 
 ### Removed
