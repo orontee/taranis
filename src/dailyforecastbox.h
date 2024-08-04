@@ -18,13 +18,19 @@ using namespace std::string_literals;
 
 namespace taranis {
 
+class DailyForecastViewer;
+
 class DailyForecastBox : public Widget {
 public:
   DailyForecastBox(int pos_x, int pos_y, int width, int height,
                    std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
-                   std::shared_ptr<Fonts> fonts);
+                   std::shared_ptr<Fonts> fonts,
+                   std::shared_ptr<DailyForecastViewer> daily_forecast_viewer);
 
   void do_paint() override;
+
+  int handle_pointer_event(int event_type, int pointer_pos_x,
+                           int pointer_pos_y) override;
 
 private:
   static constexpr size_t row_count{8};
@@ -43,6 +49,8 @@ private:
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
+
+  std::shared_ptr<DailyForecastViewer> viewer;
 
   TableContent table_content;
 
@@ -80,6 +88,7 @@ private:
   void draw_frame() const;
 
   void draw_values();
-};
 
+  void on_clicked_at(int pointer_pos_x, int pointer_pos_y);
+};
 } // namespace taranis

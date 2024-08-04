@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "dailyforecastviewer.h"
 #include "fonts.h"
 #include "hourlyforecastbox.h"
 #include "icons.h"
@@ -14,7 +15,8 @@ namespace taranis {
 struct ForecastStack : Widget, Paginated {
   ForecastStack(int pos_x, int pos_y, int width, int height,
                 std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
-                std::shared_ptr<Fonts> fonts);
+                std::shared_ptr<Fonts> fonts,
+                std::shared_ptr<DailyForecastViewer> daily_forecast_viewer);
 
   void switch_forecast();
 

@@ -1,21 +1,34 @@
 #include "dailyforecastbox.h"
 
+#include <algorithm>
+
+#include "dailyforecastviewer.h"
 #include "units.h"
 #include "util.h"
 
 namespace taranis {
-DailyForecastBox::DailyForecastBox(int pos_x, int pos_y, int width, int height,
-                                   std::shared_ptr<Model> model,
-                                   std::shared_ptr<Icons> icons,
-                                   std::shared_ptr<Fonts> fonts)
+DailyForecastBox::DailyForecastBox(
+    int pos_x, int pos_y, int width, int height, std::shared_ptr<Model> model,
+    std::shared_ptr<Icons> icons, std::shared_ptr<Fonts> fonts,
+    std::shared_ptr<DailyForecastViewer> daily_forecast_viewer)
     : Widget{pos_x, pos_y, width, height}, model{model}, icons{icons},
-      fonts{fonts} {
+      fonts{fonts}, viewer{daily_forecast_viewer} {
   this->row_height = this->bounding_box.h / DailyForecastBox::row_count;
 }
 
 void DailyForecastBox::do_paint() {
   this->draw_values();
   this->draw_frame();
+}
+
+int DailyForecastBox::handle_pointer_event(int event_type, int pointer_pos_x,
+                                           int pointer_pos_y) {
+  // check pos on frame, identify forecast index, set viewer forecast index
+  if (event_type == EVT_POINTERUP) {
+    this->on_clicked_at(pointer_pos_x, pointer_pos_y);
+    return 1;
+  }
+  return 0;
 }
 
 std::pair<std::string, std::string>
@@ -282,6 +295,15 @@ void DailyForecastBox::draw_values() {
         }
       }
     }
+  }
+}
+
+void DailyForecastBox::on_clicked_at(int pointer_pos_x, int pointer_pos_y) {
+  if (this->viewer) {
+    const auto row_index = static_cast<size_t>(
+        std::max(0, pointer_pos_y - this->bounding_box.y) / this->row_height);
+    this->viewer->set_forecast_index(row_index);
+    this->viewer->open();
   }
 }
 } // namespace taranis

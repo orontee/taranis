@@ -7,6 +7,7 @@
 
 #include "alerts.h"
 #include "config.h"
+#include "dailyforecastviewer.h"
 #include "fonts.h"
 #include "forecast.h"
 #include "icons.h"
@@ -63,6 +64,7 @@ private:
 
   std::shared_ptr<LocationBox> location_box;
   std::shared_ptr<AlertViewer> alert_viewer;
+  std::shared_ptr<DailyForecastViewer> daily_forecast_viewer;
 
   std::shared_ptr<ForecastStack> forecast_stack;
 
