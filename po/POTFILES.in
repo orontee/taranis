@@ -13,6 +13,8 @@ src/currentconditionbox.cc
 src/currentconditionbox.h
 src/dailyforecastbox.cc
 src/dailyforecastbox.h
+src/dailyforecastviewer.cc
+src/dailyforecastviewer.h
 src/errors.h
 src/events.cc
 src/events.h

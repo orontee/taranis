@@ -13,6 +13,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Add icons to sunrise and sunset lines
   [#95](https://github.com/orontee/taranis/issues/95)
 
+- Dialog with daily conditions details
+  [#16](https://github.com/orontee/taranis/issues/16)
+
+### Changed
+
 ### Removed
 
 ## [1.9.0 - 2024-07-09]

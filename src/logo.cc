@@ -21,7 +21,8 @@ Logo::Logo(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
                        this->status_bar.get_height(),
                    model,
                    icons,
-                   fonts} {}
+                   fonts,
+                   nullptr} {}
 
 void Logo::do_paint() {
   this->location_box.do_paint();

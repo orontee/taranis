@@ -28,8 +28,9 @@ void AlertViewer::open() {
   }
   this->visible = true;
 
-  const auto &alert = this->model->alerts.at(this->alert_index);
   this->update_title_text();
+
+  const auto &alert = this->model->alerts.at(this->alert_index);
   this->update_alert_title_text(alert);
   this->update_description_text(alert);
 
@@ -69,7 +70,7 @@ void AlertViewer::do_paint() {
 
   const auto alert_title_height = TextRectHeight(
       this->content_width, this->alert_title_text.c_str(), ALIGN_LEFT);
-  DrawTextRect(AlertViewer::horizontal_padding, alert_title_start_y,
+  DrawTextRect(AlertViewer::horizontal_padding, this->alert_title_start_y,
                this->content_width, alert_title_height,
                this->alert_title_text.c_str(), ALIGN_LEFT);
 

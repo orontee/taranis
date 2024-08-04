@@ -7,10 +7,10 @@
 
 namespace taranis {
 
-ForecastStack::ForecastStack(int pos_x, int pos_y, int width, int height,
-                             std::shared_ptr<Model> model,
-                             std::shared_ptr<Icons> icons,
-                             std::shared_ptr<Fonts> fonts)
+ForecastStack::ForecastStack(
+    int pos_x, int pos_y, int width, int height, std::shared_ptr<Model> model,
+    std::shared_ptr<Icons> icons, std::shared_ptr<Fonts> fonts,
+    std::shared_ptr<DailyForecastViewer> daily_forecast_viewer)
     : Widget{pos_x, pos_y, width, height}, model{model},
       pager{std::make_shared<DotPager>(
           pos_x, pos_y + height - ForecastStack::pager_height, width,
@@ -23,7 +23,8 @@ ForecastStack::ForecastStack(int pos_x, int pos_y, int width, int height,
       pos_x, pos_y, width, stack_height, model, icons, fonts);
 
   auto daily_forecast_box = std::make_shared<DailyForecastBox>(
-      pos_x, pos_y, width, stack_height, model, icons, fonts);
+      pos_x, pos_y, width, stack_height, model, icons, fonts,
+      daily_forecast_viewer);
 
   this->stack->add("hourly-forecast", this->hourly_forecast_box);
   this->stack->add("daily-forecast", daily_forecast_box);

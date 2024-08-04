@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "currentconditionbox.h"
+#include "dailyforecastviewer.h"
 #include "events.h"
 #include "history.h"
 #include "keys.h"
@@ -31,6 +32,8 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
   menu_button->set_menu_handler(&handle_menu_item_selected);
 
   this->alert_viewer = std::make_shared<AlertViewer>(model, this->fonts);
+  this->daily_forecast_viewer =
+      std::make_shared<DailyForecastViewer>(model, this->icons, this->fonts);
 
   auto alerts_button = std::make_shared<AlertsButton>(
       Ui::alert_button_icon_size, model, this->icons, this->alert_viewer);
@@ -56,12 +59,14 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
   this->forecast_stack = std::make_shared<ForecastStack>(
       0,
       current_condition_box->get_pos_y() + current_condition_box->get_height(),
-      ScreenWidth(), remaining_height, this->model, this->icons, this->fonts);
+      ScreenWidth(), remaining_height, this->model, this->icons, this->fonts,
+      this->daily_forecast_viewer);
 
   this->location_selector = std::make_shared<LocationSelector>(
       this->location_selector_icon_size, this->fonts, this->icons);
 
   this->modals.push_back(this->alert_viewer);
+  this->modals.push_back(this->daily_forecast_viewer);
 
   this->children.push_back(this->location_box);
   this->children.push_back(alerts_button);
@@ -71,6 +76,7 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
   this->children.push_back(status_bar);
 
   this->register_key_event_consumer(this->alert_viewer);
+  this->register_key_event_consumer(this->daily_forecast_viewer);
   this->register_key_event_consumer(menu_button);
   this->register_key_event_consumer(this->forecast_stack);
 }
@@ -93,6 +99,8 @@ void Ui::paint() {
     }
     if (this->visible_modal) {
       // Not a fullscreen modal!
+      DimArea(0, 0, ScreenWidth(), ScreenHeight(), WHITE);
+
       this->visible_modal->paint();
     }
   }
