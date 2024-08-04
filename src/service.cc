@@ -274,19 +274,17 @@ DailyCondition Service::extract_daily_condition(const Json::Value &value) {
     condition.temperature_day = temp_value.get("day", NAN).asDouble();
     condition.temperature_min = temp_value.get("min", NAN).asDouble();
     condition.temperature_max = temp_value.get("max", NAN).asDouble();
-    condition.temperature_night = temp_value.get("nigth", NAN).asDouble();
+    condition.temperature_night = temp_value.get("night", NAN).asDouble();
     condition.temperature_evening = temp_value.get("eve", NAN).asDouble();
     condition.temperature_morning = temp_value.get("morn", NAN).asDouble();
   }
 
-  if (value.isMember("felt")) {
-    const auto felt_value = value["felt"];
-    condition.temperature_day = felt_value.get("day", NAN).asDouble();
-    condition.temperature_min = felt_value.get("min", NAN).asDouble();
-    condition.temperature_max = felt_value.get("max", NAN).asDouble();
-    condition.temperature_night = felt_value.get("nigth", NAN).asDouble();
-    condition.temperature_evening = felt_value.get("eve", NAN).asDouble();
-    condition.temperature_morning = felt_value.get("morn", NAN).asDouble();
+  if (value.isMember("feels_like")) {
+    const auto felt_value = value["feels_like"];
+    condition.felt_temperature_day = felt_value.get("day", NAN).asDouble();
+    condition.felt_temperature_night = felt_value.get("night", NAN).asDouble();
+    condition.felt_temperature_evening = felt_value.get("eve", NAN).asDouble();
+    condition.felt_temperature_morning = felt_value.get("morn", NAN).asDouble();
   }
   return condition;
 }
