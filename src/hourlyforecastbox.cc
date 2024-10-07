@@ -431,7 +431,9 @@ void HourlyForecastBox::draw_sunrise_sunset_lines() const {
         const auto minutes_before_sunset =
             get_duration_minutes(forecast.date, daily_forecast.sunset);
 
-        if (0 < minutes_before_sunrise and minutes_before_sunrise < 60) {
+        if ((0 <= minutes_before_sunrise and minutes_before_sunrise < 60) or
+            (minutes_before_sunrise == 60 and
+             bar_index + 1 == HourlyForecastBox::visible_bars)) {
           const int separator_x = bar_index * this->bar_width +
                                   minutes_before_sunrise * this->bar_width / 60;
           BOOST_LOG_TRIVIAL(debug) << "Drawing sunrise line";
@@ -440,7 +442,11 @@ void HourlyForecastBox::draw_sunrise_sunset_lines() const {
 
           DrawBitmap(separator_x - this->icon_size / 2.0, icon_start_y,
                      this->icons->get("sunrise"));
-        } else if (0 < minutes_before_sunset and minutes_before_sunset < 60) {
+
+        } else if ((0 <= minutes_before_sunset and
+                    minutes_before_sunset < 60) or
+                   (minutes_before_sunset == 60 and
+                    bar_index + 1 == HourlyForecastBox::visible_bars)) {
           const int separator_x = bar_index * this->bar_width +
                                   minutes_before_sunset * this->bar_width / 60;
           BOOST_LOG_TRIVIAL(debug) << "Drawing sunset line";
