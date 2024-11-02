@@ -69,9 +69,9 @@ private:
   std::shared_ptr<LocationSelector> location_selector;
 
   std::vector<std::shared_ptr<Widget>> children;
-  std::vector<std::shared_ptr<Widget>> modals;
+  std::vector<std::shared_ptr<ModalWidget>> modals;
 
-  std::shared_ptr<Widget> visible_modal{nullptr};
+  std::shared_ptr<ModalWidget> visible_modal{nullptr};
 
   static bool is_on_widget(int pointer_pos_x, int pointer_pos_y,
                            std::shared_ptr<Widget> widget);

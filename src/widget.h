@@ -106,11 +106,17 @@ protected:
 struct ModalWidget : public Widget {
   ModalWidget() : Widget{0, 0, ScreenWidth(), ScreenHeight()} {}
 
+  ModalWidget(int pos_x, int pos_y, int width, int height)
+      : Widget{pos_x, pos_y, width, height}, fullscreen{false} {}
+
   bool is_modal() const override { return true; }
 
   bool is_visible() const override { return this->visible; }
 
+  bool is_fullscreen() const { return this->fullscreen; }
+
 protected:
   bool visible{false};
+  bool fullscreen{true};
 };
 } // namespace taranis

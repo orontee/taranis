@@ -76,19 +76,24 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
 }
 
 void Ui::paint() {
-  ClearScreen();
-  // Will justify to call do_paint() on children and not paint()
-
   this->check_modal_visibility();
 
-  if (this->visible_modal) {
-    BOOST_LOG_TRIVIAL(debug) << "Painting visible modal";
-    this->visible_modal->paint();
+  ClearScreen();
+  // Will justify to call do_paint() on children, not paint() which
+  // fill the bounding box
+
+  if (this->visible_modal and this->visible_modal->is_fullscreen()) {
+    BOOST_LOG_TRIVIAL(debug) << "Painting fullscreen modal";
+    this->visible_modal->do_paint();
   } else {
     for (auto widget : this->children) {
       if (widget->is_visible()) {
         widget->do_paint();
       }
+    }
+    if (this->visible_modal) {
+      // Not a fullscreen modal!
+      this->visible_modal->paint();
     }
   }
   FullUpdate();
