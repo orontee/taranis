@@ -27,9 +27,9 @@ pbres_command = find_program(
 sed_command = find_program('sed', required: true)
 # dependency of convert_resources_command
 
-icons_c = custom_target(
+icons_resources_c = custom_target(
   'generate-icons-resources-c',
-  output: 'icons.c',
+  output: 'icon_resources.c',
   input: icons,
   command: [pbres_command, '-c', '@OUTPUT@', '-8', '@INPUT@']
 )
@@ -37,11 +37,11 @@ icons_c = custom_target(
 convert_resources_command = find_program('../scripts/convert_ressources.sh',
                                          required: true)
 
-icons_cc = custom_target(
+icon_resources_cc = custom_target(
   'convert-resources-cc',
-  output: 'icons.cc',
-  input: icons_c,
-  depends: [icons_c],
+  output: 'icon_resources.cc',
+  input: icons_resources_c,
+  depends: [icons_resources_c],
   command: [convert_resources_command, '@INPUT@', '@OUTPUT@']
 )
 
@@ -59,7 +59,7 @@ l10n_cc = custom_target(
             '@SOURCE_ROOT@/po']
 )
 
-sources = [about_cc, icons_cc, l10n_cc] + files(
+sources = [about_cc, icon_resources_cc, l10n_cc] + files(
   'alerts.cc',
   'app.cc',
   'config.cc',
@@ -71,6 +71,7 @@ sources = [about_cc, icons_cc, l10n_cc] + files(
   'forecast.cc',
   'hourlyforecastbox.cc',
   'http.cc',
+  'icons.cc',
   'locationbox.cc',
   'locationselector.cc',
   'logging.cc',

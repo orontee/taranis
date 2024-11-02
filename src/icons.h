@@ -1,8 +1,10 @@
 #pragma once
 
 #include <boost/log/trivial.hpp>
-#include <inkview.h>
 #include <string>
+#include <vector>
+
+#include <inkview.h>
 
 extern const ibitmap icon_01n_2x;
 extern const ibitmap icon_02n_2x;
@@ -102,5 +104,7 @@ public:
 
     return nullptr;
   }
+
+  std::vector<unsigned char> rotate_icon(ibitmap *icon_to_rotate, int degree);
 };
 } // namespace taranis

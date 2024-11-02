@@ -466,39 +466,12 @@ void HourlyForecastBox::draw_sunrise_sunset_lines() const {
 std::map<int, std::vector<unsigned char>> rotated_icons;
 
 const ibitmap *HourlyForecastBox::rotate_direction_icon(int degree) {
-  const auto arrow_angle = (180 - degree);
-  // The parameter degree is an angle measure in degrees, interpreted
-  // as the direction where the wind is blowing FROM (0 means North,
-  // 90 East), but the icon arrow must show where the wind is blowing
-  // TO. Whats more OpenCV rotation is counter-clockwise for positive
-  // angle values.
   auto found = rotated_icons.find(degree);
   if (found == rotated_icons.end()) {
-    auto *const icon_to_rotate = const_cast<ibitmap *>(this->direction_icon);
-    const cv::Mat image{icon_to_rotate->height, icon_to_rotate->width, CV_8UC1,
-                        icon_to_rotate->data};
-    const cv::Point2f center{
-        static_cast<float>((icon_to_rotate->width - 1) / 2.0),
-        static_cast<float>((icon_to_rotate->height - 1) / 2.0)};
-    const cv::Mat rotation_matrix =
-        cv::getRotationMatrix2D(center, arrow_angle, 1.0);
-    cv::Mat rotated_image{icon_to_rotate->height, icon_to_rotate->width,
-                          CV_8UC1};
-    cv::warpAffine(image, rotated_image, rotation_matrix, image.size(),
-                   cv::INTER_LINEAR, cv::BORDER_CONSTANT, 0xFF);
 
-    const auto header_size = offsetof(ibitmap, data);
-    const auto data_size = icon_to_rotate->scanline * icon_to_rotate->height;
-    auto &rotated_bitmap_data = rotated_icons[degree];
-    rotated_bitmap_data.resize(header_size + data_size);
-
-    std::memcpy(rotated_bitmap_data.data(), icon_to_rotate, header_size);
-    // headers are the same for both bitmap
-
-    std::memcpy(rotated_bitmap_data.data() + header_size, rotated_image.data,
-                data_size);
-
-    return reinterpret_cast<ibitmap *>(rotated_bitmap_data.data());
+    rotated_icons[degree] = this->icons->rotate_icon(
+        const_cast<ibitmap *>(this->direction_icon), degree);
+    return reinterpret_cast<ibitmap *>(rotated_icons[degree].data());
   }
   return reinterpret_cast<ibitmap *>(found->second.data());
 }
