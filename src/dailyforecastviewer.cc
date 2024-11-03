@@ -6,6 +6,8 @@
 
 namespace taranis {
 
+const RowDescription empty_row{"", "", false, "", true};
+
 DailyForecastViewer::DailyForecastViewer(std::shared_ptr<Model> model,
                                          std::shared_ptr<Icons> icons,
                                          std::shared_ptr<Fonts> fonts)
@@ -13,10 +15,7 @@ DailyForecastViewer::DailyForecastViewer(std::shared_ptr<Model> model,
                   ScreenWidth() - 2 * DailyForecastViewer::horizontal_padding,
                   ScreenHeight() - ScreenHeight() / 3 -
                       2 * DailyForecastViewer::vertical_padding},
-      model{model}, icons{icons}, fonts{fonts},
-      direction_icon{BitmapStretchProportionally(
-          icons->get("direction"), fonts->get_small_font()->size,
-          fonts->get_small_font()->size)} {}
+      model{model}, icons{icons}, fonts{fonts} {}
 
 void DailyForecastViewer::open() {
   if (this->forecast_index >= this->model->daily_forecast.size()) {
@@ -53,8 +52,6 @@ void DailyForecastViewer::set_forecast_index(size_t index) {
 }
 
 void DailyForecastViewer::do_paint() {
-  DrawFrameRectCertified(this->bounding_box, THICKNESS_DEF_FOCUSED_FRAME);
-
   const auto default_font = this->fonts->get_small_font();
   const auto bold_font = this->fonts->get_small_bold_font();
 
@@ -105,98 +102,122 @@ void DailyForecastViewer::do_paint() {
   int current_row_start_y = this->scrollable_view_rectangle.y +
                             DailyForecastViewer::vertical_padding +
                             this->scrollable_view_offset;
-  const int second_column_of_two_x =
-      this->scrollable_view_rectangle.x + this->scrollable_view_rectangle.w / 2;
+  const int three_column_width = this->scrollable_view_rectangle.w / 4;
   const int second_column_of_three_x =
-      this->scrollable_view_rectangle.x + this->scrollable_view_rectangle.w / 3;
-  const int third_column_of_three_x = this->scrollable_view_rectangle.x +
-                                      2 * this->scrollable_view_rectangle.w / 3;
+      this->scrollable_view_rectangle.x + this->scrollable_view_rectangle.w / 2;
+  const int third_column_of_three_x = second_column_of_three_x + three_column_width;
 
-  std::string label_text, first_text, second_text, third_text;
-  int degree;
+  for (auto const &row_description : this->description_data) {
+    const auto &row_value_type = row_description.value.type();
+    // better use std::holds_alternative but no equivalent in boost
+    // implementation of variant...
 
-  for (auto const &row_values : this->description_data) {
-    if (row_values.type() == typeid(std::string)) {
+    if (row_description.is_empty) {
+      current_row_start_y += bold_font->height;
+    } else if (row_description.is_header) {
 
       SetFont(bold_font.get(), BLACK);
 
-      label_text = boost::get<std::string>(row_values);
-
+      const auto label_text = row_description.label;
       DrawTextRect(this->get_pos_x() + DailyForecastViewer::horizontal_padding,
-                   current_row_start_y, StringWidth(label_text.c_str()),
+                   current_row_start_y,
+                   this->get_width() -
+                       2 * DailyForecastViewer::horizontal_padding,
                    bold_font.get()->height, label_text.c_str(), ALIGN_LEFT);
 
       current_row_start_y += bold_font->height;
-    } else if (row_values.type() ==
-               typeid(std::pair<std::string, std::string>)) {
+    } else if (row_value_type == typeid(std::string)) {
 
       SetFont(default_font.get(), BLACK);
 
-      std::tie(label_text, first_text) =
-          boost::get<std::pair<std::string, std::string>>(row_values);
+      const auto label_text = row_description.label;
+      const auto first_text = boost::get<std::string>(row_description.value);
+      const auto icon_name = row_description.icon_name;
+      const auto icon_size = std::max(
+          4 * DailyForecastViewer::horizontal_padding, default_font->height);
 
-      DrawTextRect(this->get_pos_x() + DailyForecastViewer::horizontal_padding,
-                   current_row_start_y, StringWidth(label_text.c_str()),
+      const auto &icon_data = this->icons->rotate_icon(icon_name, icon_size, 0);
+      if (not icon_data.empty()) {
+
+        const auto icon = reinterpret_cast<const ibitmap *>(icon_data.data());
+
+        DrawBitmap(this->get_pos_x() + DailyForecastViewer::horizontal_padding,
+                   current_row_start_y, icon);
+      }
+
+      const auto label_start_x = this->get_pos_x() +
+                                 DailyForecastViewer::horizontal_padding +
+                                 (not icon_data.empty() ? icon_size : 0);
+      const auto row_start_y =
+          current_row_start_y + (not icon_data.empty() ? icon_size / 4 : 0);
+      const auto label_width = StringWidth(label_text.c_str());
+      DrawTextRect(label_start_x, row_start_y, label_width,
                    default_font.get()->height, label_text.c_str(), ALIGN_LEFT);
 
       DrawTextRect(this->get_pos_x() + DailyForecastViewer::horizontal_padding +
-                       second_column_of_two_x,
-                   current_row_start_y,
-                   this->get_width() -
-                       2 * DailyForecastViewer::horizontal_padding -
-                       second_column_of_two_x,
+                       label_width,
+                   row_start_y, this->scrollable_view_rectangle.w - label_width,
                    default_font.get()->height, first_text.c_str(), ALIGN_RIGHT);
 
-      current_row_start_y += default_font->height;
-    } else if (row_values.type() ==
-               typeid(std::tuple<std::string, std::string, std::string>)) {
-
-      std::tie(label_text, first_text, second_text) =
-          boost::get<std::tuple<std::string, std::string, std::string>>(
-              row_values);
+      current_row_start_y +=
+          (not icon_data.empty() ? icon_size : default_font->height);
+    } else if (row_value_type == typeid(std::pair<std::string, std::string>)) {
 
       SetFont(default_font.get(), BLACK);
+
+      const auto label_text = row_description.label;
+      std::string first_text, second_text;
+      std::tie(first_text, second_text) =
+          boost::get<std::pair<std::string, std::string>>(
+              row_description.value);
 
       DrawTextRect(this->get_pos_x() + DailyForecastViewer::horizontal_padding,
                    current_row_start_y, StringWidth(label_text.c_str()),
                    default_font.get()->height, label_text.c_str(), ALIGN_LEFT);
 
-      DrawTextRect(this->get_pos_x() + DailyForecastViewer::horizontal_padding +
-                       second_column_of_three_x,
-                   current_row_start_y, StringWidth(first_text.c_str()),
+      DrawTextRect(second_column_of_three_x,
+                   current_row_start_y, three_column_width,
                    default_font.get()->height, first_text.c_str(),
-                   ALIGN_CENTER);
+                   ALIGN_RIGHT);
 
-      DrawTextRect(this->get_pos_x() + DailyForecastViewer::horizontal_padding +
-                       third_column_of_three_x,
-                   current_row_start_y, StringWidth(second_text.c_str()),
+      DrawTextRect(third_column_of_three_x,
+                   current_row_start_y, three_column_width,
                    default_font.get()->height, second_text.c_str(),
-                   ALIGN_CENTER);
+                   ALIGN_RIGHT);
 
       current_row_start_y += default_font->height;
-    } else if (row_values.type() == typeid(std::pair<std::string, int>)) {
-      std::tie(label_text, degree) =
-          boost::get<std::pair<std::string, int>>(row_values);
+    } else if (row_value_type == typeid(std::pair<std::string, int>)) {
+      const auto label_text = row_description.label;
+
+      std::string icon_name;
+      int degree;
+      std::tie(icon_name, degree) =
+          boost::get<std::pair<std::string, int>>(row_description.value);
 
       SetFont(default_font.get(), BLACK);
 
-      DrawTextRect(this->get_pos_x() + DailyForecastViewer::horizontal_padding,
-                   current_row_start_y, StringWidth(label_text.c_str()),
-                   default_font.get()->height, label_text.c_str(), ALIGN_LEFT);
+      const auto &rotated_icon_data =
+          this->icons->rotate_icon(icon_name, default_font->size, degree);
+      if (not rotated_icon_data.empty()) {
+        DrawTextRect(
+            this->get_pos_x() + DailyForecastViewer::horizontal_padding,
+            current_row_start_y, StringWidth(label_text.c_str()),
+            default_font.get()->height, label_text.c_str(), ALIGN_LEFT);
 
-      this->rotated_icon_data = this->icons->rotate_icon(
-          const_cast<ibitmap *>(direction_icon), degree);
-      const auto icon =
-          reinterpret_cast<ibitmap *>(this->rotated_icon_data.data());
-      if (icon) {
+        const auto icon =
+            reinterpret_cast<const ibitmap *>(rotated_icon_data.data());
+
         DrawBitmap(this->get_pos_x() + this->get_width() -
                        DailyForecastViewer::horizontal_padding - icon->width,
                    current_row_start_y, icon);
+
+        current_row_start_y += default_font->height;
       }
-      current_row_start_y += default_font->height;
     }
   }
   SetClip(0, 0, ScreenWidth(), ScreenHeight());
+
+  DrawFrameRectCertified(this->bounding_box, THICKNESS_DEF_FOCUSED_FRAME);
 }
 
 void DailyForecastViewer::identify_scrollable_area() {
@@ -218,7 +239,7 @@ void DailyForecastViewer::identify_scrollable_area() {
 
   const int description_height =
       this->description_data.size() * default_font->height +
-      2 * DailyForecastViewer::vertical_padding;
+      default_font->height + 2 * DailyForecastViewer::vertical_padding;
 
   this->min_scrollable_view_offset =
       -std::max(0, description_height - this->scrollable_view_rectangle.h);
@@ -234,60 +255,68 @@ void DailyForecastViewer::generate_description_data(
   if (not description_text.empty()) {
     description_text[0] = std::toupper(description_text[0]);
   }
-  this->description_data.push_back(std::pair{description_text, std::string{}});
-
-  // TODO Weather icon
+  this->description_data.push_back(
+      RowDescription{description_text, "", false, condition.weather_icon_name});
 
   // TODO Secondary description
 
-  this->description_data.push_back("");
-
-  this->description_data.push_back(std::tuple{std::string{GetLangText("Sun")},
-                                              format_time(condition.sunrise),
-                                              format_time(condition.sunset)});
-
-  this->description_data.push_back(std::tuple{std::string{GetLangText("Moon")},
-                                              format_time(condition.moonrise),
-                                              format_time(condition.moonset)});
+  this->description_data.push_back(empty_row);
 
   this->description_data.push_back(
-      std::pair{std::string{GetLangText("Moon phase")},
-                format_moon_phase(condition.moon_phase)});
+      RowDescription{std::string{GetLangText("Sun")},
+                     std::make_pair(format_time(condition.sunrise),
+                                    format_time(condition.sunset))});
 
-  this->description_data.push_back("");
+  this->description_data.push_back(
+      RowDescription{std::string{GetLangText("Moon")},
+                     std::make_pair(format_time(condition.moonrise),
+                                    format_time(condition.moonset))});
 
-  this->description_data.push_back(GetLangText("Temperatures"));
   this->description_data.push_back(
-      std::tuple{GetLangText("Morning"),
-                 units.format_temperature(condition.temperature_morning),
-                 units.format_temperature(condition.felt_temperature_morning)});
-  this->description_data.push_back(std::tuple{
-      GetLangText("Day"), units.format_temperature(condition.temperature_day),
-      units.format_temperature(condition.felt_temperature_day)});
-  this->description_data.push_back(
-      std::tuple{GetLangText("Evening"),
-                 units.format_temperature(condition.temperature_evening),
-                 units.format_temperature(condition.felt_temperature_evening)});
-  this->description_data.push_back(
-      std::tuple{GetLangText("Night"),
-                 units.format_temperature(condition.temperature_night),
-                 units.format_temperature(condition.felt_temperature_night)});
-  this->description_data.push_back(
-      std::tuple{GetLangText("Min/Max"),
-                 units.format_temperature(condition.temperature_min),
-                 units.format_temperature(condition.temperature_max)});
+      RowDescription{std::string{GetLangText("Moon phase")},
+                     format_moon_phase(condition.moon_phase)});
 
-  this->description_data.push_back("");
+  this->description_data.push_back(empty_row);
+
+  this->description_data.push_back(
+      RowDescription{GetLangText("Temperatures"), "", true});
+  this->description_data.push_back(RowDescription{
+      GetLangText("Morning"),
+      std::make_pair(
+          units.format_temperature(condition.temperature_morning),
+          units.format_temperature(condition.felt_temperature_morning))});
+  this->description_data.push_back(RowDescription{
+      GetLangText("Day"),
+      std::make_pair(
+          units.format_temperature(condition.temperature_day),
+          units.format_temperature(condition.felt_temperature_day))});
+  this->description_data.push_back(RowDescription{
+      GetLangText("Evening"),
+      std::make_pair(
+          units.format_temperature(condition.temperature_evening),
+          units.format_temperature(condition.felt_temperature_evening))});
+  this->description_data.push_back(RowDescription{
+      GetLangText("Night"),
+      std::make_pair(
+          units.format_temperature(condition.temperature_night),
+          units.format_temperature(condition.felt_temperature_night))});
+  this->description_data.push_back(RowDescription{
+      GetLangText("Min/Max"),
+      std::make_pair(units.format_temperature(condition.temperature_min),
+                     units.format_temperature(condition.temperature_max))});
+
+  this->description_data.push_back(empty_row);
 
   if (static_cast<int>(condition.wind_speed) != 0 or
       static_cast<int>(condition.wind_gust) != 0) {
 
-    this->description_data.push_back(std::string{GetLangText("Wind")});
+    this->description_data.push_back(
+        RowDescription{GetLangText("Wind"), "", true});
 
     const auto wind_speed_text = units.format_speed(condition.wind_speed);
     if (static_cast<int>(condition.wind_speed) != 0) {
       this->description_data.push_back(
-          std::pair{GetLangText("Speed"), wind_speed_text});
+          RowDescription{GetLangText("Speed"), wind_speed_text});
     }
 
     if (static_cast<int>(condition.wind_gust) != 0) {
@@ -295,74 +324,85 @@ void DailyForecastViewer::generate_description_data(
       if (condition.wind_gust > condition.wind_speed and
           wind_speed_text != wind_gust_text) {
         this->description_data.push_back(
-            std::pair{GetLangText("Gust"), wind_gust_text});
+            RowDescription{GetLangText("Gust"), wind_gust_text});
       }
     }
 
     if (static_cast<int>(condition.wind_speed) != 0 or
         static_cast<int>(condition.wind_gust) != 0) {
+
+      const auto arrow_angle = (180 - condition.wind_degree);
+      // The parameter degree is an angle measure in degrees, interpreted
+      // as the direction where the wind is blowing FROM (0 means North,
+      // 90 East), but the icon arrow must show where the wind is blowing
+      // TO. Whats more OpenCV rotation is counter-clockwise for positive
+      // angle values.
+
       this->description_data.push_back(
-          std::pair{GetLangText("Direction"), condition.wind_degree});
+          RowDescription{GetLangText("Direction"),
+                         std::make_pair("direction", arrow_angle), false});
     }
 
-    this->description_data.push_back("");
+    this->description_data.push_back(empty_row);
   }
 
   if (not std::isnan(condition.rain) or not std::isnan(condition.snow)) {
 
-    this->description_data.push_back(std::string{GetLangText("Precipitation")});
+    this->description_data.push_back(
+        RowDescription{GetLangText("Precipitation"), "", true});
 
     if (not std::isnan(condition.rain)) {
       this->description_data.push_back(
-          std::pair{GetLangText("Rain"),
-                    units.format_precipitation(condition.rain, true)});
+          RowDescription{GetLangText("Rain"),
+                         units.format_precipitation(condition.rain, true)});
     }
 
     if (not std::isnan(condition.snow)) {
       this->description_data.push_back(
-          std::pair{GetLangText("Snow"),
-                    units.format_precipitation(condition.snow, true)});
+          RowDescription{GetLangText("Snow"),
+                         units.format_precipitation(condition.snow, true)});
     }
     if (not std::isnan(condition.probability_of_precipitation)) {
       this->description_data.push_back(
-          std::pair{GetLangText("Probability"),
-                    std::to_string(static_cast<int>(
-                        condition.probability_of_precipitation * 100)) +
-                        "%"});
+          RowDescription{GetLangText("Probability"),
+                         std::to_string(static_cast<int>(
+                             condition.probability_of_precipitation * 100)) +
+                             "%"});
     }
-    this->description_data.push_back("");
+    this->description_data.push_back(empty_row);
   }
 
-  this->description_data.push_back(std::string{GetLangText("Other metrics")});
+  this->description_data.push_back(
+      RowDescription{GetLangText("Other metrics"), "", true});
 
   this->description_data.push_back(
-      std::pair{std::string{GetLangText("Pressure")},
-                units.format_pressure(condition.pressure)});
+      RowDescription{std::string{GetLangText("Pressure")},
+                     units.format_pressure(condition.pressure)});
 
   this->description_data.push_back(
-      std::pair{std::string{GetLangText("Humidity")},
-                std::to_string(condition.humidity) + "%"});
+      RowDescription{std::string{GetLangText("Humidity")},
+                     std::to_string(condition.humidity) + "%"});
 
   if (not std::isnan(condition.dew_point)) {
     this->description_data.push_back(
-        std::pair{GetLangText("Dew point"),
-                  units.format_temperature(condition.uv_index)});
+        RowDescription{GetLangText("Dew point"),
+                       units.format_temperature(condition.uv_index)});
   }
 
   if (not std::isnan(condition.uv_index)) {
     this->description_data.push_back(
-        std::pair{GetLangText("UV index"),
-                  std::to_string(static_cast<int>(condition.uv_index))});
+        RowDescription{GetLangText("UV index"),
+                       std::to_string(static_cast<int>(condition.uv_index))});
   }
 
   if (not std::isnan(condition.clouds)) {
-    this->description_data.push_back(std::pair{
+    this->description_data.push_back(RowDescription{
         GetLangText("Cloudiness"), std::to_string(condition.clouds) + "%"});
   }
 }
 
 bool DailyForecastViewer::handle_key_release(int key) {
-  if (key == IV_KEY_PREV or key == IV_KEY_NEXT) {
+  if (key == IV_KEY_PREV) {
     this->hide();
   }
   return true;

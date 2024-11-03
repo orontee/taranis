@@ -109,6 +109,7 @@ public:
     return nullptr;
   }
 
-  std::vector<unsigned char> rotate_icon(ibitmap *icon_to_rotate, int degree);
+  const std::vector<unsigned char> &rotate_icon(const std::string &name,
+                                                int size, int degree);
 };
 } // namespace taranis

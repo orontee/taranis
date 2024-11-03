@@ -52,8 +52,6 @@ private:
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
 
-  const ibitmap *const direction_icon;
-
   int bar_width;
 
   int frame_start_x;

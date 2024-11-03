@@ -16,6 +16,22 @@
 
 namespace taranis {
 
+struct RowDescription {
+  typedef boost::variant<std::string,
+                         // a single string
+                         std::pair<std::string, std::string>,
+                         // two column string values
+                         std::pair<std::string, int>>
+      // an icon name and rotation degree
+      Value;
+
+  const std::string label{};
+  const Value value{};
+  const bool is_header{false};
+  const std::string icon_name;
+  const bool is_empty;
+};
+
 class DailyForecastViewer : public ModalWidget {
 public:
   DailyForecastViewer(std::shared_ptr<Model> model,
@@ -47,24 +63,16 @@ private:
 
   size_t forecast_index{0};
 
-  const ibitmap *const direction_icon;
-
   irect scrollable_view_rectangle;
   int scrollable_view_offset{0};
   int min_scrollable_view_offset{0};
 
-  typedef boost::variant<std::string, std::pair<std::string, std::string>,
-                         std::tuple<std::string, std::string, std::string>,
-                         std::pair<std::string, int>>
-      CellContent;
   // one text column, two text columns, three text columns, two mixed
   // columns
 
-  typedef std::vector<CellContent> DescriptionRows;
+  typedef std::vector<RowDescription> DescriptionRows;
 
   DescriptionRows description_data;
-
-  std::vector<unsigned char> rotated_icon_data;
 
   void identify_scrollable_area();
 

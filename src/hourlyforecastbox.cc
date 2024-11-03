@@ -23,10 +23,7 @@ HourlyForecastBox::HourlyForecastBox(int pos_x, int pos_y, int width,
                                      std::shared_ptr<Icons> icons,
                                      std::shared_ptr<Fonts> fonts)
     : Widget{pos_x, pos_y, width, height}, model{model}, icons{icons},
-      fonts{fonts}, direction_icon{BitmapStretchProportionally(
-                        icons->get("direction"),
-                        HourlyForecastBox::wind_direction_icon_size,
-                        HourlyForecastBox::wind_direction_icon_size)} {
+      fonts{fonts} {
   auto normal_font = this->fonts->get_normal_font();
   auto small_bold_font = this->fonts->get_small_bold_font();
   auto tiny_font = this->fonts->get_tiny_font();
@@ -463,16 +460,19 @@ void HourlyForecastBox::draw_sunrise_sunset_lines() const {
   }
 }
 
-std::map<int, std::vector<unsigned char>> rotated_icons;
-
 const ibitmap *HourlyForecastBox::rotate_direction_icon(int degree) {
-  auto found = rotated_icons.find(degree);
-  if (found == rotated_icons.end()) {
+  const auto arrow_angle = (180 - degree);
+  // The parameter degree is an angle measure in degrees, interpreted
+  // as the direction where the wind is blowing FROM (0 means North,
+  // 90 East), but the icon arrow must show where the wind is blowing
+  // TO. Whats more OpenCV rotation is counter-clockwise for positive
+  // angle values.
 
-    rotated_icons[degree] = this->icons->rotate_icon(
-        const_cast<ibitmap *>(this->direction_icon), degree);
-    return reinterpret_cast<ibitmap *>(rotated_icons[degree].data());
+  auto &rotated_icon_data = this->icons->rotate_icon(
+      "direction", HourlyForecastBox::wind_direction_icon_size, arrow_angle);
+  if (not rotated_icon_data.empty()) {
+    return reinterpret_cast<const ibitmap *>(rotated_icon_data.data());
   }
-  return reinterpret_cast<ibitmap *>(found->second.data());
+  return nullptr;
 }
 } // namespace taranis
