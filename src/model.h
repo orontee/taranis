@@ -141,6 +141,7 @@ struct Condition {
   Weather weather;
   std::string weather_description;
   std::string weather_icon_name;
+  std::string weather_secondary_description;
   double rain; // mm/h
   double snow; // mm/h
 };
@@ -153,6 +154,7 @@ struct DailyCondition {
   TimePoint moonrise;
   TimePoint moonset;
   double moon_phase;
+  std::string summary;
   int pressure;
   int humidity;
   double dew_point;
@@ -168,6 +170,7 @@ struct DailyCondition {
   Weather weather{CLEAR_SKY};
   std::string weather_description;
   std::string weather_icon_name;
+  std::string weather_secondary_description;
   double temperature_day;
   double temperature_min;
   double temperature_max;

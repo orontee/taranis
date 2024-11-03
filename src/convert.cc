@@ -52,6 +52,8 @@ Json::Value to_json(const Condition &condition) {
   value["weather"] = condition.weather;
   value["weather_description"] = condition.weather_description;
   value["weather_icon_name"] = condition.weather_icon_name;
+  value["weather_secondary_description"] =
+      condition.weather_secondary_description;
   value["rain"] = condition.rain;
   value["snow"] = condition.snow;
 
@@ -76,6 +78,7 @@ Json::Value to_json(const DailyCondition &condition) {
                          condition.moonset.time_since_epoch())
                          .count();
   value["moon_phase"] = condition.moon_phase;
+  value["summary"] = condition.summary;
   value["pressure"] = condition.pressure;
   value["humidity"] = condition.humidity;
   value["dew_point"] = condition.dew_point;
@@ -91,6 +94,8 @@ Json::Value to_json(const DailyCondition &condition) {
   value["weather"] = condition.weather;
   value["weather_description"] = condition.weather_description;
   value["weather_icon_name"] = condition.weather_icon_name;
+  value["weather_secondary_description"] =
+      condition.weather_secondary_description;
   value["temperature_day"] = condition.temperature_day;
   value["temperature_min"] = condition.temperature_min;
   value["temperature_max"] = condition.temperature_max;
@@ -190,6 +195,8 @@ void update_from_json(Condition &condition, const Json::Value &value) {
   condition.weather_description =
       value.get("weather_description", "").asString();
   condition.weather_icon_name = value.get("weather_icon_name", "").asString();
+  condition.weather_secondary_description =
+      value.get("weather_secondary_description", "").asString();
   condition.rain = deserialize_possible_null(value["rain"]);
   condition.snow = deserialize_possible_null(value["snow"]);
 }
@@ -201,6 +208,7 @@ void update_from_json(DailyCondition &condition, const Json::Value &value) {
   condition.moonrise = TimePoint{value.get("moonrise", 0).asInt64() * 1s};
   condition.moonset = TimePoint{value.get("moonset", 0).asInt64() * 1s};
   condition.moon_phase = deserialize_possible_null(value["moon_phase"]);
+  condition.summary = value.get("summary", "").asString();
   condition.pressure = value.get("pressure", 0).asInt();
   condition.humidity = value.get("humidity", 0).asInt();
   condition.dew_point = deserialize_possible_null(value["dew_point"]);
@@ -218,6 +226,8 @@ void update_from_json(DailyCondition &condition, const Json::Value &value) {
   condition.weather_description =
       value.get("weather_description", "").asString();
   condition.weather_icon_name = value.get("weather_icon_name", "").asString();
+  condition.weather_secondary_description =
+      value.get("weather_secondary_description", "").asString();
   condition.temperature_day =
       deserialize_possible_null(value["temperature_day"]);
   condition.temperature_min =

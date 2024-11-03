@@ -212,6 +212,12 @@ Condition Service::extract_condition(const Json::Value &value) {
     condition.weather_description =
         weather_value.get("description", "").asString();
     condition.weather_icon_name = weather_value.get("icon", "").asString();
+
+    if (value["weather"].isValidIndex(1)) {
+      const auto weather_secondary_value = value["weather"][1];
+      condition.weather_secondary_description =
+          weather_secondary_value.get("description", "").asString();
+    }
   }
 
   if (value.isMember("rain") and value["rain"].isMember("1h")) {
@@ -237,6 +243,7 @@ DailyCondition Service::extract_daily_condition(const Json::Value &value) {
   const TimePoint moonrise{value.get("moonrise", 0).asInt64() * 1s};
   const TimePoint moonset{value.get("moonset", 0).asInt64() * 1s};
   const auto moon_phase = value.get("moon_phase", NAN).asDouble();
+  const auto summary = value.get("summary", "").asString();
   const auto pressure = value.get("pressure", 0).asInt();
   const auto humidity = value.get("humidity", 0).asInt();
   const auto dew_point = value.get("dew_point", NAN).asDouble();
@@ -249,24 +256,28 @@ DailyCondition Service::extract_daily_condition(const Json::Value &value) {
   const auto rain = value.get("rain", NAN).asDouble();
   const auto snow = value.get("snow", NAN).asDouble();
 
-  DailyCondition condition{date,        sunrise,
-                           sunset,      moonrise,
-                           moonset,     moon_phase,
-                           pressure,    humidity,
-                           dew_point,   wind_speed,
-                           wind_degree, wind_gust,
-                           clouds,      probability_of_precipitation,
-                           uv_index,    rain,
-                           snow};
+  DailyCondition condition{date,      sunrise,    sunset,
+                           moonrise,  moonset,    moon_phase,
+                           summary,   pressure,   humidity,
+                           dew_point, wind_speed, wind_degree,
+                           wind_gust, clouds,     probability_of_precipitation,
+                           uv_index,  rain,       snow};
 
   if (value.isMember("weather") and value["weather"].isArray() and
       value["weather"].isValidIndex(0)) {
+
     const auto weather_value = value["weather"][0];
     condition.weather =
         static_cast<Weather>(weather_value.get("id", CLEAR_SKY).asInt());
     condition.weather_description =
         weather_value.get("description", "").asString();
     condition.weather_icon_name = weather_value.get("icon", "").asString();
+
+    if (value["weather"].isValidIndex(1)) {
+      const auto weather_secondary_value = value["weather"][1];
+      condition.weather_secondary_description =
+          weather_secondary_value.get("description", "").asString();
+    }
   }
 
   if (value.isMember("temp")) {

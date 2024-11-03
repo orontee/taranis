@@ -1,6 +1,8 @@
 #include "dailyforecastviewer.h"
 
-#include "inkview.h"
+#include <cstring>
+#include <inkview.h>
+
 #include "units.h"
 #include "util.h"
 
@@ -105,7 +107,8 @@ void DailyForecastViewer::do_paint() {
   const int three_column_width = this->scrollable_view_rectangle.w / 4;
   const int second_column_of_three_x =
       this->scrollable_view_rectangle.x + this->scrollable_view_rectangle.w / 2;
-  const int third_column_of_three_x = second_column_of_three_x + three_column_width;
+  const int third_column_of_three_x =
+      second_column_of_three_x + three_column_width;
 
   for (auto const &row_description : this->description_data) {
     const auto &row_value_type = row_description.value.type();
@@ -175,15 +178,13 @@ void DailyForecastViewer::do_paint() {
                    current_row_start_y, StringWidth(label_text.c_str()),
                    default_font.get()->height, label_text.c_str(), ALIGN_LEFT);
 
-      DrawTextRect(second_column_of_three_x,
-                   current_row_start_y, three_column_width,
-                   default_font.get()->height, first_text.c_str(),
-                   ALIGN_RIGHT);
+      DrawTextRect(second_column_of_three_x, current_row_start_y,
+                   three_column_width, default_font.get()->height,
+                   first_text.c_str(), ALIGN_RIGHT);
 
-      DrawTextRect(third_column_of_three_x,
-                   current_row_start_y, three_column_width,
-                   default_font.get()->height, second_text.c_str(),
-                   ALIGN_RIGHT);
+      DrawTextRect(third_column_of_three_x, current_row_start_y,
+                   three_column_width, default_font.get()->height,
+                   second_text.c_str(), ALIGN_RIGHT);
 
       current_row_start_y += default_font->height;
     } else if (row_value_type == typeid(std::pair<std::string, int>)) {
@@ -258,7 +259,16 @@ void DailyForecastViewer::generate_description_data(
   this->description_data.push_back(
       RowDescription{description_text, "", false, condition.weather_icon_name});
 
-  // TODO Secondary description
+  if (std::strcmp(currentLang(), "en") == 0) {
+    // summary isn't translated right now
+    if (not condition.summary.empty()) {
+      this->description_data.push_back(RowDescription{condition.summary});
+    }
+  }
+  if (not condition.weather_secondary_description.empty()) {
+    this->description_data.push_back(
+        RowDescription{condition.weather_secondary_description});
+  }
 
   this->description_data.push_back(empty_row);
 
