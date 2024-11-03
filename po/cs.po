@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-02 17:32+0100\n"
+"POT-Creation-Date: 2024-11-03 10:07+0100\n"
 "PO-Revision-Date: 2024-02-18 20:25+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/taranis/taranis/cs/"
@@ -155,93 +155,97 @@ msgstr "Parametry"
 msgid "Felt"
 msgstr "Pocitová teplota"
 
-#: src/dailyforecastviewer.cc:230
+#: src/dailyforecastviewer.cc:245
 #, fuzzy
 msgid "Sun"
 msgstr "Západ slunce"
 
-#: src/dailyforecastviewer.cc:234
+#: src/dailyforecastviewer.cc:249
 msgid "Moon"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:241
-msgid "Temperatures"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:243
-msgid "Morning"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:247
-msgid "Day"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:250
-msgid "Evening"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:254
-msgid "Night"
+#: src/dailyforecastviewer.cc:253
+msgid "Moon phase"
 msgstr ""
 
 #: src/dailyforecastviewer.cc:258
-msgid "Min/Max"
+msgid "Temperatures"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:260
+msgid "Morning"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:264
+msgid "Day"
 msgstr ""
 
 #: src/dailyforecastviewer.cc:267
+msgid "Evening"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:271
+msgid "Night"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:275
+msgid "Min/Max"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:284
 msgid "Wind"
 msgstr "Vítr"
 
-#: src/dailyforecastviewer.cc:272
+#: src/dailyforecastviewer.cc:289
 msgid "Speed"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:280
+#: src/dailyforecastviewer.cc:297
 msgid "Gust"
 msgstr "Nárazový vítr"
 
-#: src/dailyforecastviewer.cc:287
+#: src/dailyforecastviewer.cc:304
 #, fuzzy
 msgid "Direction"
 msgstr "Trvá"
 
-#: src/dailyforecastviewer.cc:295
+#: src/dailyforecastviewer.cc:312
 msgid "Precipitation"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:299
+#: src/dailyforecastviewer.cc:316
 msgid "Rain"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:305
+#: src/dailyforecastviewer.cc:322
 msgid "Snow"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:310
+#: src/dailyforecastviewer.cc:327
 msgid "Probability"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:318
+#: src/dailyforecastviewer.cc:335
 msgid "Other metrics"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:321
+#: src/dailyforecastviewer.cc:338
 msgid "Pressure"
 msgstr "Tlak"
 
-#: src/dailyforecastviewer.cc:325
+#: src/dailyforecastviewer.cc:342
 msgid "Humidity"
 msgstr "Vlhkost"
 
-#: src/dailyforecastviewer.cc:330
+#: src/dailyforecastviewer.cc:347
 msgid "Dew point"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:336
+#: src/dailyforecastviewer.cc:353
 msgid "UV index"
 msgstr "Index UV"
 
-#: src/dailyforecastviewer.cc:342
+#: src/dailyforecastviewer.cc:359
 msgid "Cloudiness"
 msgstr ""
 
@@ -339,6 +343,39 @@ msgstr "Včera"
 #: src/util.cc:201
 msgid "Tomorrow"
 msgstr "Zítra"
+
+#: src/util.cc:300 src/util.cc:316
+msgid "New moon"
+msgstr ""
+
+#: src/util.cc:302
+msgid "Waxing crescent"
+msgstr ""
+
+#: src/util.cc:304
+msgid "First quarter moon"
+msgstr ""
+
+#: src/util.cc:306
+msgid "Waxing gibbous"
+msgstr ""
+
+#: src/util.cc:308
+msgid "Full moon"
+msgstr ""
+
+#: src/util.cc:310
+msgid "Wanning gibbous"
+msgstr ""
+
+#: src/util.cc:312
+#, fuzzy
+msgid "Last quarter moon"
+msgstr "Poslední aktualizace:"
+
+#: src/util.cc:314
+msgid "Wanning crescent"
+msgstr ""
 
 #: src/version.cc:97
 msgid "The service hosting releases isn't working as expected. Retry later."

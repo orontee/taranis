@@ -80,6 +80,8 @@ int remaining_hours(const TimePoint &time);
 
 int passed_hours(const TimePoint &time);
 
+std::string format_moon_phase(double moon_phase);
+
 inline std::string format_location(const std::string &town,
                                    const std::string &country) {
   std::string text = town;

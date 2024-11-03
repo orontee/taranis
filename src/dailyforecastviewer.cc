@@ -90,7 +90,8 @@ void DailyForecastViewer::do_paint() {
         std::make_shared<CloseButton>(close_button_icon_size, this->icons);
     this->close_button->set_click_handler(
         std::bind(&DailyForecastViewer::hide, this));
-    this->close_button->set_pos_x(this->get_width() - close_button_icon_size);
+    this->close_button->set_pos_x(this->get_width() - close_button_icon_size -
+                                  DailyForecastViewer::horizontal_padding);
     this->close_button->set_pos_y(this->get_pos_y() +
                                   DailyForecastViewer::vertical_padding / 4);
   }
@@ -248,7 +249,10 @@ void DailyForecastViewer::generate_description_data(
   this->description_data.push_back(std::tuple{std::string{GetLangText("Moon")},
                                               format_time(condition.moonrise),
                                               format_time(condition.moonset)});
-  // TODO Moon phase
+
+  this->description_data.push_back(
+      std::pair{std::string{GetLangText("Moon phase")},
+                format_moon_phase(condition.moon_phase)});
 
   this->description_data.push_back("");
 

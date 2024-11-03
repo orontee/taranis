@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-02 17:32+0100\n"
+"POT-Creation-Date: 2024-11-03 10:07+0100\n"
 "PO-Revision-Date: 2024-02-08 03:48+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/taranis/taranis/"
@@ -159,91 +159,95 @@ msgstr "Paramètres"
 msgid "Felt"
 msgstr "Ressenti"
 
-#: src/dailyforecastviewer.cc:230
+#: src/dailyforecastviewer.cc:245
 msgid "Sun"
 msgstr "Soleil"
 
-#: src/dailyforecastviewer.cc:234
+#: src/dailyforecastviewer.cc:249
 msgid "Moon"
 msgstr "Lune"
 
-#: src/dailyforecastviewer.cc:241
+#: src/dailyforecastviewer.cc:253
+msgid "Moon phase"
+msgstr "Phase de la lune"
+
+#: src/dailyforecastviewer.cc:258
 msgid "Temperatures"
 msgstr "Températures"
 
-#: src/dailyforecastviewer.cc:243
+#: src/dailyforecastviewer.cc:260
 msgid "Morning"
 msgstr "Matin"
 
-#: src/dailyforecastviewer.cc:247
+#: src/dailyforecastviewer.cc:264
 msgid "Day"
 msgstr "Journée"
 
-#: src/dailyforecastviewer.cc:250
+#: src/dailyforecastviewer.cc:267
 msgid "Evening"
 msgstr "Soir"
 
-#: src/dailyforecastviewer.cc:254
+#: src/dailyforecastviewer.cc:271
 msgid "Night"
 msgstr "Nuit"
 
-#: src/dailyforecastviewer.cc:258
+#: src/dailyforecastviewer.cc:275
 msgid "Min/Max"
 msgstr "Min/Max"
 
-#: src/dailyforecastviewer.cc:267
+#: src/dailyforecastviewer.cc:284
 msgid "Wind"
 msgstr "Vent"
 
-#: src/dailyforecastviewer.cc:272
+#: src/dailyforecastviewer.cc:289
 msgid "Speed"
 msgstr "Vitesse"
 
-#: src/dailyforecastviewer.cc:280
+#: src/dailyforecastviewer.cc:297
 msgid "Gust"
 msgstr "Rafale"
 
-#: src/dailyforecastviewer.cc:287
+#: src/dailyforecastviewer.cc:304
 msgid "Direction"
 msgstr "Direction"
 
-#: src/dailyforecastviewer.cc:295
+#: src/dailyforecastviewer.cc:312
 msgid "Precipitation"
 msgstr "Précipitations"
 
-#: src/dailyforecastviewer.cc:299
+#: src/dailyforecastviewer.cc:316
 msgid "Rain"
 msgstr "Pluie"
 
-#: src/dailyforecastviewer.cc:305
+#: src/dailyforecastviewer.cc:322
 msgid "Snow"
 msgstr "Neige"
 
-#: src/dailyforecastviewer.cc:310
+#: src/dailyforecastviewer.cc:327
 msgid "Probability"
 msgstr "Probabilité"
 
-#: src/dailyforecastviewer.cc:318
+#: src/dailyforecastviewer.cc:335
 msgid "Other metrics"
 msgstr "Autres mesures"
 
-#: src/dailyforecastviewer.cc:321
+#: src/dailyforecastviewer.cc:338
 msgid "Pressure"
 msgstr "Pression"
 
-#: src/dailyforecastviewer.cc:325
+#: src/dailyforecastviewer.cc:342
 msgid "Humidity"
 msgstr "Humidité"
 
-#: src/dailyforecastviewer.cc:330
+#: src/dailyforecastviewer.cc:347
 msgid "Dew point"
 msgstr "Point de rosée"
 
-#: src/dailyforecastviewer.cc:336
+#: src/dailyforecastviewer.cc:353
 msgid "UV index"
 msgstr "Index UV"
 
-#: src/dailyforecastviewer.cc:342
+#: src/dailyforecastviewer.cc:359
 msgid "Cloudiness"
 msgstr "Nébulosité"
 
@@ -347,6 +351,38 @@ msgstr "Hier"
 #: src/util.cc:201
 msgid "Tomorrow"
 msgstr "Demain"
+
+#: src/util.cc:300 src/util.cc:316
+msgid "New moon"
+msgstr "Nouvelle lune"
+
+#: src/util.cc:302
+msgid "Waxing crescent"
+msgstr "Premier croissant"
+
+#: src/util.cc:304
+msgid "First quarter moon"
+msgstr "Premier quartier"
+
+#: src/util.cc:306
+msgid "Waxing gibbous"
+msgstr "Lune gibbeuse croissante"
+
+#: src/util.cc:308
+msgid "Full moon"
+msgstr "Pleine lune"
+
+#: src/util.cc:310
+msgid "Wanning gibbous"
+msgstr "Lune gibbeuse décroissante"
+
+#: src/util.cc:312
+msgid "Last quarter moon"
+msgstr "Dernier quartier"
+
+#: src/util.cc:314
+msgid "Wanning crescent"
+msgstr "Dernier croissant"
 
 #: src/version.cc:97
 msgid "The service hosting releases isn't working as expected. Retry later."

@@ -293,6 +293,31 @@ bool taranis::delay_exhausted_from(const TimePoint &reference, int delay) {
   return milliseconds_since_reference > delay;
 }
 
+std::string taranis::format_moon_phase(double moon_phase) {
+  if (moon_phase < 0) {
+    return {};
+  } else if (moon_phase == 0) {
+    return GetLangText("New moon");
+  } else if (moon_phase < 0.25) {
+    return GetLangText("Waxing crescent");
+  } else if (moon_phase == 0.25) {
+    return GetLangText("First quarter moon");
+  } else if (moon_phase < 0.5) {
+    return GetLangText("Waxing gibbous");
+  } else if (moon_phase == 0.5) {
+    return GetLangText("Full moon");
+  } else if (moon_phase < 0.75) {
+    return GetLangText("Wanning gibbous");
+  } else if (moon_phase == 0.75) {
+    return GetLangText("Last quarter moon");
+  } else if (moon_phase < 1) {
+    return GetLangText("Wanning crescent");
+  } else if (moon_phase == 1) {
+    return GetLangText("New moon");
+  }
+  return {};
+}
+
 std::pair<std::string, std::string>
 taranis::parse_location_description(const std::string &description) {
   BOOST_LOG_TRIVIAL(debug) << "Parsing location description";
