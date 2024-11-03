@@ -82,6 +82,20 @@ void DailyForecastViewer::do_paint() {
       this->get_width() - 2 * DailyForecastViewer::horizontal_padding,
       HORIZONTAL_SEPARATOR_SOLID);
 
+  if (!this->close_button) {
+    const auto close_button_icon_size =
+        bold_font->height + DailyForecastViewer::vertical_padding;
+
+    this->close_button =
+        std::make_shared<CloseButton>(close_button_icon_size, this->icons);
+    this->close_button->set_click_handler(
+        std::bind(&DailyForecastViewer::hide, this));
+    this->close_button->set_pos_x(this->get_width() - close_button_icon_size);
+    this->close_button->set_pos_y(this->get_pos_y() +
+                                  DailyForecastViewer::vertical_padding / 4);
+  }
+  this->close_button->do_paint();
+
   // forecast
   SetFont(default_font.get(), BLACK);
 
@@ -371,6 +385,12 @@ int DailyForecastViewer::handle_pointer_event(int event_type, int pointer_pos_x,
 
       return 1;
     }
+  }
+  if (this->close_button and
+      this->close_button->is_in_bouding_box(pointer_pos_x, pointer_pos_y) and
+      this->close_button->is_enabled()) {
+    return this->close_button->handle_pointer_event(event_type, pointer_pos_x,
+                                                    pointer_pos_y);
   }
   return 0;
 }

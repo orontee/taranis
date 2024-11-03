@@ -15,6 +15,7 @@ extern const ibitmap icon_10n_2x;
 extern const ibitmap icon_11n_2x;
 extern const ibitmap icon_13n_2x;
 extern const ibitmap icon_50n_2x;
+extern const ibitmap icon_close;
 extern const ibitmap icon_direction;
 extern const ibitmap icon_display_settings;
 extern const ibitmap icon_favorite;
@@ -63,6 +64,9 @@ public:
     }
     if (name == "50d" or name == "50n") {
       return const_cast<ibitmap *>(&icon_50n_2x);
+    }
+    if (name == "close") {
+      return const_cast<ibitmap *>(&icon_close);
     }
     if (name == "direction") {
       return const_cast<ibitmap *>(&icon_direction);

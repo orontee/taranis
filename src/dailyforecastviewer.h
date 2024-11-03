@@ -1,17 +1,21 @@
 #pragma once
 
 #include <boost/variant.hpp>
+#include <functional>
 #include <inkview.h>
 #include <memory>
 #include <tuple>
 #include <vector>
 
+#include "button.h"
+#include "closebutton.h"
 #include "fonts.h"
 #include "icons.h"
 #include "model.h"
 #include "widget.h"
 
 namespace taranis {
+
 class DailyForecastViewer : public ModalWidget {
 public:
   DailyForecastViewer(std::shared_ptr<Model> model,
@@ -38,6 +42,8 @@ private:
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
+
+  std::shared_ptr<CloseButton> close_button;
 
   size_t forecast_index{0};
 
