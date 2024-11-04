@@ -56,6 +56,7 @@ void DailyForecastViewer::set_forecast_index(size_t index) {
 void DailyForecastViewer::do_paint() {
   const auto default_font = this->fonts->get_small_font();
   const auto bold_font = this->fonts->get_small_bold_font();
+  const auto tiny_font = this->fonts->get_tiny_font();
 
   if (this->forecast_index >= this->model->daily_forecast.size()) {
     BOOST_LOG_TRIVIAL(warning) << "Invalid forecast index";
@@ -104,11 +105,10 @@ void DailyForecastViewer::do_paint() {
   int current_row_start_y = this->scrollable_view_rectangle.y +
                             DailyForecastViewer::vertical_padding +
                             this->scrollable_view_offset;
-  const int three_column_width = this->scrollable_view_rectangle.w / 4;
-  const int second_column_of_three_x =
+  const int two_values_column_width = this->scrollable_view_rectangle.w / 4;
+  const int first_value_column_start_x =
       this->scrollable_view_rectangle.x + this->scrollable_view_rectangle.w / 2;
-  const int third_column_of_three_x =
-      second_column_of_three_x + three_column_width;
+  const int four_values_column_width = this->scrollable_view_rectangle.w / 8;
 
   for (auto const &row_description : this->description_data) {
     const auto &row_value_type = row_description.value.type();
@@ -117,24 +117,15 @@ void DailyForecastViewer::do_paint() {
 
     if (row_description.is_empty) {
       current_row_start_y += bold_font->height;
-    } else if (row_description.is_header) {
+    } else {
 
-      SetFont(bold_font.get(), BLACK);
+      // render label with optional icon
 
-      const auto label_text = row_description.label;
-      DrawTextRect(this->get_pos_x() + DailyForecastViewer::horizontal_padding,
-                   current_row_start_y,
-                   this->get_width() -
-                       2 * DailyForecastViewer::horizontal_padding,
-                   bold_font.get()->height, label_text.c_str(), ALIGN_LEFT);
-
-      current_row_start_y += bold_font->height;
-    } else if (row_value_type == typeid(std::string)) {
-
-      SetFont(default_font.get(), BLACK);
+      const auto font = row_description.is_header ? bold_font : default_font;
+      SetFont(font.get(), BLACK);
 
       const auto label_text = row_description.label;
-      const auto first_text = boost::get<std::string>(row_description.value);
+
       const auto icon_name = row_description.icon_name;
       const auto icon_size = std::max(
           4 * DailyForecastViewer::horizontal_padding, default_font->height);
@@ -154,66 +145,106 @@ void DailyForecastViewer::do_paint() {
       const auto row_start_y =
           current_row_start_y + (not icon_data.empty() ? icon_size / 4 : 0);
       const auto label_width = StringWidth(label_text.c_str());
-      DrawTextRect(label_start_x, row_start_y, label_width,
-                   default_font.get()->height, label_text.c_str(), ALIGN_LEFT);
+      DrawTextRect(label_start_x, row_start_y, label_width, font.get()->height,
+                   label_text.c_str(), ALIGN_LEFT);
 
-      DrawTextRect(this->get_pos_x() + DailyForecastViewer::horizontal_padding +
-                       label_width,
-                   row_start_y, this->scrollable_view_rectangle.w - label_width,
-                   default_font.get()->height, first_text.c_str(), ALIGN_RIGHT);
+      // render a single value (string or icon), two or four values
 
+      if (row_value_type == typeid(std::string)) {
+
+        SetFont(default_font.get(), BLACK);
+
+        const auto first_text = boost::get<std::string>(row_description.value);
+
+        DrawTextRect(
+            this->get_pos_x() + DailyForecastViewer::horizontal_padding +
+                label_width,
+            row_start_y, this->scrollable_view_rectangle.w - label_width,
+            default_font.get()->height, first_text.c_str(), ALIGN_RIGHT);
+
+      } else if (row_value_type ==
+                 typeid(std::pair<std::string, std::string>)) {
+
+        SetFont(default_font.get(), BLACK);
+
+        std::string first_text, second_text;
+        std::tie(first_text, second_text) =
+            boost::get<std::pair<std::string, std::string>>(
+                row_description.value);
+
+        DrawTextRect(first_value_column_start_x, current_row_start_y,
+                     two_values_column_width, default_font.get()->height,
+                     first_text.c_str(), ALIGN_RIGHT);
+
+        const int second_value_column_start_x =
+            first_value_column_start_x + two_values_column_width;
+
+        DrawTextRect(second_value_column_start_x, current_row_start_y,
+                     two_values_column_width, default_font.get()->height,
+                     second_text.c_str(), ALIGN_RIGHT);
+
+      } else if (row_value_type ==
+                 typeid(std::tuple<std::string, std::string, std::string,
+                                   std::string>)) {
+
+        SetFont(tiny_font.get(), BLACK);
+
+        const auto value_alignment =
+            row_description.is_header ? ALIGN_CENTER : ALIGN_RIGHT;
+
+        std::string first_text, second_text, third_text, fourth_text;
+        std::tie(first_text, second_text, third_text, fourth_text) = boost::get<
+            std::tuple<std::string, std::string, std::string, std::string>>(
+            row_description.value);
+
+        DrawTextRect(first_value_column_start_x, current_row_start_y,
+                     four_values_column_width, default_font.get()->height,
+                     first_text.c_str(), value_alignment);
+
+        const int second_value_column_start_x =
+            first_value_column_start_x + four_values_column_width;
+
+        DrawTextRect(second_value_column_start_x, current_row_start_y,
+                     four_values_column_width, default_font.get()->height,
+                     second_text.c_str(), value_alignment);
+
+        const int third_value_column_start_x =
+            first_value_column_start_x + 2 * four_values_column_width;
+
+        DrawTextRect(third_value_column_start_x, current_row_start_y,
+                     four_values_column_width, default_font.get()->height,
+                     third_text.c_str(), value_alignment);
+
+        const int fourth_value_column_start_x =
+            first_value_column_start_x + 3 * four_values_column_width;
+
+        DrawTextRect(fourth_value_column_start_x, current_row_start_y,
+                     four_values_column_width, default_font.get()->height,
+                     fourth_text.c_str(), value_alignment);
+
+      } else if (row_value_type == typeid(std::pair<std::string, int>)) {
+
+        SetFont(default_font.get(), BLACK);
+
+        std::string icon_name;
+        int degree;
+        std::tie(icon_name, degree) =
+            boost::get<std::pair<std::string, int>>(row_description.value);
+
+        const auto &rotated_icon_data =
+            this->icons->rotate_icon(icon_name, default_font->size, degree);
+        if (not rotated_icon_data.empty()) {
+
+          const auto icon =
+              reinterpret_cast<const ibitmap *>(rotated_icon_data.data());
+
+          DrawBitmap(this->get_pos_x() + this->get_width() -
+                         DailyForecastViewer::horizontal_padding - icon->width,
+                     current_row_start_y, icon);
+        }
+      }
       current_row_start_y +=
           (not icon_data.empty() ? icon_size : default_font->height);
-    } else if (row_value_type == typeid(std::pair<std::string, std::string>)) {
-
-      SetFont(default_font.get(), BLACK);
-
-      const auto label_text = row_description.label;
-      std::string first_text, second_text;
-      std::tie(first_text, second_text) =
-          boost::get<std::pair<std::string, std::string>>(
-              row_description.value);
-
-      DrawTextRect(this->get_pos_x() + DailyForecastViewer::horizontal_padding,
-                   current_row_start_y, StringWidth(label_text.c_str()),
-                   default_font.get()->height, label_text.c_str(), ALIGN_LEFT);
-
-      DrawTextRect(second_column_of_three_x, current_row_start_y,
-                   three_column_width, default_font.get()->height,
-                   first_text.c_str(), ALIGN_RIGHT);
-
-      DrawTextRect(third_column_of_three_x, current_row_start_y,
-                   three_column_width, default_font.get()->height,
-                   second_text.c_str(), ALIGN_RIGHT);
-
-      current_row_start_y += default_font->height;
-    } else if (row_value_type == typeid(std::pair<std::string, int>)) {
-      const auto label_text = row_description.label;
-
-      std::string icon_name;
-      int degree;
-      std::tie(icon_name, degree) =
-          boost::get<std::pair<std::string, int>>(row_description.value);
-
-      SetFont(default_font.get(), BLACK);
-
-      const auto &rotated_icon_data =
-          this->icons->rotate_icon(icon_name, default_font->size, degree);
-      if (not rotated_icon_data.empty()) {
-        DrawTextRect(
-            this->get_pos_x() + DailyForecastViewer::horizontal_padding,
-            current_row_start_y, StringWidth(label_text.c_str()),
-            default_font.get()->height, label_text.c_str(), ALIGN_LEFT);
-
-        const auto icon =
-            reinterpret_cast<const ibitmap *>(rotated_icon_data.data());
-
-        DrawBitmap(this->get_pos_x() + this->get_width() -
-                       DailyForecastViewer::horizontal_padding - icon->width,
-                   current_row_start_y, icon);
-
-        current_row_start_y += default_font->height;
-      }
     }
   }
   SetClip(0, 0, ScreenWidth(), ScreenHeight());
@@ -288,32 +319,31 @@ void DailyForecastViewer::generate_description_data(
 
   this->description_data.push_back(empty_row);
 
-  this->description_data.push_back(
-      RowDescription{GetLangText("Temperatures"), "", true});
   this->description_data.push_back(RowDescription{
-      GetLangText("Morning"),
-      std::make_pair(
-          units.format_temperature(condition.temperature_morning),
-          units.format_temperature(condition.felt_temperature_morning))});
+      GetLangText("Temperatures"),
+      std::make_tuple(GetLangText("Morning"), GetLangText("Day"),
+                      GetLangText("Evening"), GetLangText("Night")),
+      true});
+
   this->description_data.push_back(RowDescription{
-      GetLangText("Day"),
-      std::make_pair(
-          units.format_temperature(condition.temperature_day),
-          units.format_temperature(condition.felt_temperature_day))});
+      "",
+      std::make_tuple(units.format_temperature(condition.temperature_morning),
+                      units.format_temperature(condition.temperature_day),
+                      units.format_temperature(condition.temperature_evening),
+                      units.format_temperature(condition.temperature_night))});
+
   this->description_data.push_back(RowDescription{
-      GetLangText("Evening"),
-      std::make_pair(
-          units.format_temperature(condition.temperature_evening),
-          units.format_temperature(condition.felt_temperature_evening))});
-  this->description_data.push_back(RowDescription{
-      GetLangText("Night"),
-      std::make_pair(
-          units.format_temperature(condition.temperature_night),
+      GetLangText("Felt"),
+      std::make_tuple(
+          units.format_temperature(condition.felt_temperature_morning),
+          units.format_temperature(condition.felt_temperature_day),
+          units.format_temperature(condition.felt_temperature_evening),
           units.format_temperature(condition.felt_temperature_night))});
-  this->description_data.push_back(RowDescription{
-      GetLangText("Min/Max"),
-      std::make_pair(units.format_temperature(condition.temperature_min),
-                     units.format_temperature(condition.temperature_max))});
+
+  this->description_data.push_back(
+      RowDescription{GetLangText("Min/Max"),
+                     units.format_temperature(condition.temperature_min) + "/" +
+                         units.format_temperature(condition.temperature_max)});
 
   this->description_data.push_back(empty_row);
 

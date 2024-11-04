@@ -17,12 +17,14 @@
 namespace taranis {
 
 struct RowDescription {
-  typedef boost::variant<std::string,
-                         // a single string
-                         std::pair<std::string, std::string>,
-                         // two column string values
-                         std::pair<std::string, int>>
+  typedef boost::variant< // a single string
+      std::string,
+      // two column string values
+      std::pair<std::string, std::string>,
+      // four column string values
+      std::tuple<std::string, std::string, std::string, std::string>,
       // an icon name and rotation degree
+      std::pair<std::string, int>>
       Value;
 
   const std::string label{};
