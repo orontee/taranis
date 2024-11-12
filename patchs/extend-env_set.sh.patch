@@ -1,0 +1,31 @@
+*** env_set.sh.orig	2023-06-29 10:29:36.000000000 +0200
+--- env_set.sh	2024-07-14 12:07:25.667451149 +0200
+***************
+*** 116,119 ****
+--- 116,129 ----
+  TOOLCHAIN_PREFIX=arm-obreey-linux-gnueabi
+  WORKSPACE=/srv/Jenkins/workspace/fwbuilder-ng-2
++ 
++ # Required to cross-compile projects not using CMake
++ CC=${CMAKE_C_COMPILER}
++ CXX=${CMAKE_CXX_COMPILER}
++ AR=${TOOLCHAIN_PATH}/bin/${TOOLCHAIN_PREFIX}-ar
++ STRIP=${PB_STRIP}
++ RANLIB=${TOOLCHAIN_PATH}/bin/${TOOLCHAIN_PREFIX}-ranlib
++ PKGCONFIG=${TOOLCHAIN_PATH}/bin/pkg-config
++ CFLAGS="-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp"
++ 
+  export BUILD_CFG
+  export PB_CMAKE_FLAGS
+***************
+*** 238,239 ****
+--- 248,256 ----
+  export PB_LCP_DRM
+  export PB_USE_DROPBOX
++ export CC
++ export CXX
++ export AR
++ export STRIP
++ export RANLIB
++ export PKGCONFIG
++ export CFLAGS

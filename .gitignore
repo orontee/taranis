@@ -1,4 +1,5 @@
 /builddir
 /crossfile_arm.ini
-/3rd-parties
 /data*.json
+/SDK_6.8.0
+/SDK-B288-6.8.7z

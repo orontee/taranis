@@ -27,25 +27,19 @@ RUN git checkout ${VERSION} && \
     git submodule init && \
     git submodule update
 
+RUN ./scripts/install_sdk.sh
 RUN ./scripts/generate_cross_compilation_conf.sh
 
-RUN mkdir 3rd-parties && \
+RUN source ./SDK_6.8.0/env_set.sh && \
     cd 3rd-parties && \
     wget https://ftp.gnu.org/gnu/gsl/gsl-2.7.1.tar.gz && \
+    sha256sum -c gsl-2.7.1.tar.gz.sha256 && \
     tar -xzf gsl-2.7.1.tar.gz && \
     cd gsl-2.7.1 && \
-    export CROSS=arm-obreey-linux-gnueabi && \
-    CC=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang \
-           CXX=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang++ \
-           AR=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ar \
-           STRIP=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-strip \
-           RANLIB=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ranlib \
-           PKGCONFIG=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/pkg-config \
-           CFLAGS="-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp" \
-        ./configure --prefix=$PWD/../../SDK_6.3.0/SDK-B288/usr/$CROSS/sysroot \
-                --host=$CROSS \
+    ./configure --prefix=$PWD/../../SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot \
+                --host=arm-obreey-linux-gnueabi \
                 --build=x86_64-pc-linux-gnu \
-                --target=$CROSS && \
+                --target=arm-obreey-linux-gnueabi && \
     make -j$(nproc) && \
     make install
 

@@ -4,7 +4,7 @@
 
 ### PocketBook SDK
 
-The [PocketBook SDK](https://github.com/pocketbook/SDK_6.3.0) is
+The [PocketBook SDK](https://github.com/pocketbook/SDK_6.8.0) is
 hosted on Github and managed as a Git submodule.
 
 ### GNU Scientific Library
@@ -35,14 +35,13 @@ podman run --rm -v ${PWD}:/opt/taranis \
 Read the [Containerfile](./Containerfile) to fix potential missing
 dependencies.
 
-1. First, clone the source repository and populate Git submodules:
+1. First, clone the source repository and populate the `SDK_6.8.0`
+   directory with the PocketBook SDK:
    ```sh
-   git submodule init
-   git submodule update
+   ./scripts/install_sdk.sh
    ```
 
-   This will populate the `SDK_6.3.0` directory with the PocketBook
-   SDK.
+   This will
 
 2. Update SDK paths and generate cross compilation configuration (It
    will generate the file `crossfile_arm.ini` used to build):
@@ -53,23 +52,17 @@ dependencies.
 3. Download, build and install source code of the [GNU Scientific
    Library dependency](https://www.gnu.org/software/gsl/):
    ```sh
+   source ./SDK_6.8.0/env_set.sh
    mkdir 3rd-parties
    pushd 3rd-parties
    wget https://ftp.gnu.org/gnu/gsl/gsl-2.7.1.tar.gz
+   sha256sum -c gsl-2.7.1.tar.gz.sha256
    tar -xzf gsl-2.7.1.tar.gz
    pushd gsl-2.7.1
-   CROSS=arm-obreey-linux-gnueabi
-   CC=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang \
-          CXX=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang++ \
-          AR=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ar \
-          STRIP=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-strip \
-          RANLIB=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ranlib \
-          PKGCONFIG=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/pkg-config \
-          CFLAGS="-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp" \
-       ./configure --prefix=$PWD/../../SDK_6.3.0/SDK-B288/usr/$CROSS/sysroot \
-               --host=$CROSS \
+   ./configure --prefix=$PWD/../../SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot \
+               --host=arm-obreey-linux-gnueabi \
                --build=x86_64-pc-linux-gnu \
-               --target=$CROSS
+               --target=arm-obreey-linux-gnueabi
    make -j4
    make install
    popd
@@ -105,7 +98,7 @@ ninja -C builddir clang-format
 
 Static analysis:
 ```sh
-SCANBUILD=./SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/bin/scan-build ninja -C builddir
+SCANBUILD=./SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/bin/scan-build ninja -C builddir
 ```
 
 ## Screenshots
@@ -206,7 +199,7 @@ automatic poweroff.
 On the host computer, start a shell with current working directory the
 root directory of a Git clone of `taranis` repository. Then start GDB:
 ```shell
-./SDK_6.3.0/SDK-B288/usr/bin/arm-linux-gdb -q taranis.app
+./SDK_6.8.0/SDK-B288/usr/bin/arm-linux-gdb -q taranis.app
 ```
 
 Under GDB, run `target remote 192.168.1.34:10002` where the IP address

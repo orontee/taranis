@@ -1,3 +1,7 @@
-/3rd-parties
+/3rd-parties/gsl-2.7.1/
+/3rd-parties/gsl-2.7.1.tar.gz
 /builddir
-/SDK_6.3.0
+/SDK_6.8.0
+/SDK-B288-6.8.7z
+/patchs
+/crossfile_arm.ini

@@ -1,11 +1,11 @@
 ; -*- mode: ini-generic; -*-
 
 [binaries]
-c = '@pwd@/SDK_6.3.0/SDK-B288/usr/bin/arm-obreey-linux-gnueabi-clang'
-cpp = '@pwd@/SDK_6.3.0/SDK-B288/usr/bin/arm-obreey-linux-gnueabi-clang++'
-ar = '@pwd@/SDK_6.3.0/SDK-B288/usr/bin/arm-obreey-linux-gnueabi-ar'
-strip = '@pwd@/SDK_6.3.0/SDK-B288/usr/bin/arm-obreey-linux-gnueabi-strip'
-pkgconfig = '@pwd@/SDK_6.3.0/SDK-B288/usr/bin/pkg-config'
+c = '@pwd@/SDK_6.8.0/SDK-B288/usr/bin/arm-obreey-linux-gnueabi-clang'
+cpp = '@pwd@/SDK_6.8.0/SDK-B288/usr/bin/arm-obreey-linux-gnueabi-clang++'
+ar = '@pwd@/SDK_6.8.0/SDK-B288/usr/bin/arm-obreey-linux-gnueabi-ar'
+strip = '@pwd@/SDK_6.8.0/SDK-B288/usr/bin/arm-obreey-linux-gnueabi-strip'
+pkgconfig = '@pwd@/SDK_6.8.0/SDK-B288/usr/bin/pkg-config'
 
 [built-in options]
 cpp_args = ['-fsigned-char',
@@ -24,9 +24,9 @@ cpu = 'armv7'
 endian = 'little'
 
 [properties]
-sys_root = '@pwd@/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot'
-pkg_config_libdir = ['@pwd@/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/usr/lib/pkgconfig',
-                     '@pwd@/SDK_6.3.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/lib/pkgconfig']
+sys_root = '@pwd@/SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot'
+pkg_config_libdir = ['@pwd@/SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/usr/lib/pkgconfig',
+                     '@pwd@/SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/lib/pkgconfig']
 needs_exe_wrapper = true
 
 ; Local Variables:

@@ -20,7 +20,7 @@ about_cc = configure_file(
 
 # Generate source with icons
 pbres_command = find_program(
-  '../SDK_6.3.0/SDK-B288/usr/bin/pbres',
+  '../SDK_6.8.0/SDK-B288/usr/bin/pbres',
   required: true
 )
 

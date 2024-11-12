@@ -27,6 +27,10 @@ jobs:
                 python3-jinja2 \
                 wget
 
+      - name: Install PocketBook SDK
+        run: |
+          ./scripts/install_sdk.sh
+
       - name: Generate cross-compilation configuration
         run: |
           ./scripts/generate_cross_compilation_conf.sh
@@ -35,33 +39,26 @@ jobs:
         id: cached-qa-dependencies
         uses: actions/cache@v3
         with:
-          path: SDK_6.3.0
+          path: SDK_6.8.0
           key: qa-${{ runner.os }}-${{ hashFiles('**/meson.build') }}
 
       - name: Optionally build dependencies
         if: steps.cached-qa-dependencies.outputs.cache-hit != 'true'
         run: |
-          mkdir 3rd-parties
+          source ./SDK_6.8.0/env_set.sh
           cd 3rd-parties
           wget https://ftp.gnu.org/gnu/gsl/gsl-2.7.1.tar.gz
           tar -xzf gsl-2.7.1.tar.gz
           cd gsl-2.7.1
-          CROSS=arm-obreey-linux-gnueabi
-          ./configure --prefix=$PWD/../../SDK_6.3.0/SDK-B288/usr/$CROSS/sysroot \
-               --host=$CROSS \
+          ./configure --prefix=$PWD/../../SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot \
+               --host=arm-obreey-linux-gnueabi \
                --build=x86_64-pc-linux-gnu \
-               --target=$CROSS \
-               CC=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang \
-               CXX=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-clang++ \
-               AR=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ar \
-               STRIP=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-strip \
-               RANLIB=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/$CROSS-ranlib \
-               PKGCONFIG=$PWD/../../SDK_6.3.0/SDK-B288/usr/bin/pkg-config \
-               CFLAGS="-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp"
+               --target=arm-obreey-linux-gnueabi
           make -j2
           make install
 
       - name: Run format check
         run: |
+          source ./SDK_6.8.0/env_set.sh
           meson setup builddir . --cross-file crossfile_arm.ini
           ninja -C builddir clang-format-check
