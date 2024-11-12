@@ -187,10 +187,10 @@ void DailyForecastViewer::do_paint() {
                  typeid(std::tuple<std::string, std::string, std::string,
                                    std::string>)) {
 
-        SetFont(tiny_font.get(), BLACK);
+        const auto font = row_description.is_header ? tiny_font : default_font;
+        SetFont(font.get(), BLACK);
 
-        const auto value_alignment =
-            row_description.is_header ? ALIGN_CENTER : ALIGN_RIGHT;
+        const auto value_alignment = ALIGN_RIGHT;
 
         std::string first_text, second_text, third_text, fourth_text;
         std::tie(first_text, second_text, third_text, fourth_text) = boost::get<
@@ -303,14 +303,17 @@ void DailyForecastViewer::generate_description_data(
 
   this->description_data.push_back(empty_row);
 
-  this->description_data.push_back(
-      RowDescription{std::string{GetLangText("Sun")},
-                     std::make_pair(format_time(condition.sunrise),
-                                    format_time(condition.sunset))});
+  this->description_data.push_back(RowDescription{
+      "", std::make_pair(GetLangText("Sun"), GetLangText("Moon")), true});
 
   this->description_data.push_back(
-      RowDescription{std::string{GetLangText("Moon")},
-                     std::make_pair(format_time(condition.moonrise),
+      RowDescription{std::string{GetLangText("Rise")},
+                     std::make_pair(format_time(condition.sunrise),
+                                    format_time(condition.moonrise))});
+
+  this->description_data.push_back(
+      RowDescription{std::string{GetLangText("Set")},
+                     std::make_pair(format_time(condition.sunset),
                                     format_time(condition.moonset))});
 
   this->description_data.push_back(
