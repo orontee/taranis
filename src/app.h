@@ -85,6 +85,10 @@ private:
 
   void update_configured_unit_system(UnitSystem unit_system);
 
+  void check_minimum_supported_firmware();
+
+  void set_app_capabilities();
+
   void set_task_parameters();
 
   void start_refresh_timer() const;

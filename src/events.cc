@@ -344,6 +344,9 @@ std::string taranis::format_event_type(int event_type) {
   if (event_type == EVT_PACKAGE_JOB_CHANGED) {
     return "EVT_PACKAGE_JOB_CHANGED";
   }
+  if (event_type == EVT_SCREEN_INVERSION_MODE_CHANGED) {
+    return "EVT_SCREEN_INVERSION_MODE_CHANGED";
+  }
   if (event_type == EVT_CUSTOM) {
     return "EVT_CUSTOM";
   }

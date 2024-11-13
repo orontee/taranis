@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Enable dark mode depending on device state (expects firmware >=
+  6.8.x) [#98](https://github.com/orontee/taranis/issues/98)
+
 - Add close button to alert dialogs
   [#99](https://github.com/orontee/taranis/issues/99)
 

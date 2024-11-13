@@ -24,15 +24,23 @@ normalize_precipitations(const std::vector<Condition> &conditions,
 
 double max_number(double value_one, double value_two);
 
-inline void check_firmware_version(const std::string &version) {
+inline void firmware_version_greater_than(const std::string &version,
+                                          int major_version,
+                                          int minor_version = 0) {
   // expected form V632.6.7.1405
   std::stringstream to_parse{version};
   std::string token;
   if (std::getline(to_parse, token, '.')) {
     std::getline(to_parse, token, '.');
     try {
-      if (std::stoi(token) >= 6) {
-        return;
+      if (std::stoi(token) >= major_version) {
+        if (minor_version == 0) {
+          return;
+        }
+        std::getline(to_parse, token, '.');
+        if (std::stoi(token) >= minor_version) {
+          return;
+        }
       }
     } catch (const std::invalid_argument &error) {
     }

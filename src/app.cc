@@ -86,20 +86,8 @@ void App::setup() {
   BOOST_LOG_TRIVIAL(info) << "Application setup";
 
   this->l10n->initialize_translations();
-
-  const auto firmware_version = GetSoftwareVersion();
-  try {
-    check_firmware_version(firmware_version);
-  } catch (const UnsupportedFirmwareVersion &error) {
-    BOOST_LOG_TRIVIAL(warning)
-        << "Unsupported firmware version " << firmware_version;
-    Message(ICON_WARNING, GetLangText("Unsupported software version"),
-            GetLangText("The application isn't compatible with the software "
-                        "version of this reader."),
-            error_dialog_delay);
-    this->exit();
-    return;
-  }
+  this->check_minimum_supported_firmware();
+  this->set_app_capabilities();
   this->set_task_parameters();
 
   this->application_state->restore();
@@ -562,6 +550,34 @@ void App::update_configured_unit_system(UnitSystem unit_system) {
   this->config->write_int("unit_system", unit_system);
 
   Config::config_changed();
+}
+
+void App::check_minimum_supported_firmware() {
+  const auto firmware_version = GetSoftwareVersion();
+  try {
+    firmware_version_greater_than(firmware_version, 6);
+  } catch (const UnsupportedFirmwareVersion &error) {
+    BOOST_LOG_TRIVIAL(warning)
+        << "Unsupported firmware version, " << firmware_version;
+    Message(ICON_WARNING, GetLangText("Unsupported software version"),
+            GetLangText("The application isn't compatible with the software "
+                        "version of this reader."),
+            error_dialog_delay);
+    this->exit();
+    return;
+  }
+}
+
+void App::set_app_capabilities() {
+  const auto firmware_version = GetSoftwareVersion();
+  try {
+    firmware_version_greater_than(firmware_version, 6, 8);
+  } catch (const UnsupportedFirmwareVersion &error) {
+    BOOST_LOG_TRIVIAL(warning)
+        << "Firmware version not supporting dark mode, " << firmware_version;
+    return;
+  }
+  IvSetAppCapability(APP_CAPABILITY_SUPPORT_SCREEN_INVERSION);
 }
 
 void App::set_task_parameters() {
