@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "button.h"
+#include "closebutton.h"
 #include "fonts.h"
 #include "icons.h"
 #include "model.h"
@@ -35,7 +36,8 @@ private:
 
 class AlertViewer : public ModalWidget {
 public:
-  AlertViewer(std::shared_ptr<Model> model, std::shared_ptr<Fonts> fonts);
+  AlertViewer(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
+              std::shared_ptr<Fonts> fonts);
 
   void open();
 
@@ -53,7 +55,10 @@ private:
   static constexpr int vertical_padding{25};
 
   std::shared_ptr<Model> model;
+  std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
+
+  std::shared_ptr<CloseButton> close_button;
 
   size_t alert_index{0};
 

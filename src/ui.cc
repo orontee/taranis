@@ -31,7 +31,8 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
   menu_button->set_pos_y(Ui::button_margin);
   menu_button->set_menu_handler(&handle_menu_item_selected);
 
-  this->alert_viewer = std::make_shared<AlertViewer>(model, this->fonts);
+  this->alert_viewer =
+      std::make_shared<AlertViewer>(model, this->icons, this->fonts);
   this->daily_forecast_viewer =
       std::make_shared<DailyForecastViewer>(model, this->icons, this->fonts);
 

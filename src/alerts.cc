@@ -15,8 +15,9 @@ namespace taranis {
 void AlertsButton::on_clicked() { this->viewer->open(); }
 
 AlertViewer::AlertViewer(std::shared_ptr<Model> model,
+                         std::shared_ptr<Icons> icons,
                          std::shared_ptr<Fonts> fonts)
-    : ModalWidget{}, model{model}, fonts{fonts},
+    : ModalWidget{}, model{model}, icons{icons}, fonts{fonts},
       content_width{this->bounding_box.w - 2 * AlertViewer::horizontal_padding},
       title_height{2 * this->fonts->get_small_font()->height},
       alert_title_start_y{this->title_height + AlertViewer::vertical_padding} {}
@@ -60,6 +61,20 @@ void AlertViewer::do_paint() {
   DrawTextRect(AlertViewer::horizontal_padding, AlertViewer::vertical_padding,
                this->content_width, this->title_height,
                this->title_text.c_str(), ALIGN_CENTER);
+
+  if (!this->close_button) {
+    const auto close_button_icon_size =
+        default_font->height + AlertViewer::vertical_padding;
+
+    this->close_button =
+        std::make_shared<CloseButton>(close_button_icon_size, this->icons);
+    this->close_button->set_click_handler(std::bind(&AlertViewer::hide, this));
+    this->close_button->set_pos_x(this->get_width() - close_button_icon_size -
+                                  AlertViewer::horizontal_padding);
+    this->close_button->set_pos_y(this->get_pos_y() +
+                                  AlertViewer::vertical_padding / 4);
+  }
+  this->close_button->do_paint();
 
   DrawHorizontalSeparator(0, this->title_height, ScreenWidth(),
                           HORIZONTAL_SEPARATOR_SOLID);
@@ -209,6 +224,12 @@ int AlertViewer::handle_pointer_event(int event_type, int pointer_pos_x,
 
       return 1;
     }
+  }
+  if (this->close_button and
+      this->close_button->is_in_bouding_box(pointer_pos_x, pointer_pos_y) and
+      this->close_button->is_enabled()) {
+    return this->close_button->handle_pointer_event(event_type, pointer_pos_x,
+                                                    pointer_pos_y);
   }
   return 0;
 }
