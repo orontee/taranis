@@ -75,7 +75,7 @@ void DailyForecastBox::generate_table_content() {
               this->icons->get(forecast.weather_icon_name);
         } else if (column_index == DailyForecastBox::SunHoursColumn) {
           column_content[row_index] = std::pair<std::string, std::string>{
-              format_time(forecast.sunset), format_time(forecast.sunrise)};
+              format_time(forecast.sunrise), format_time(forecast.sunset)};
         } else if (column_index == DailyForecastBox::MorningTemperatureColumn) {
           column_content[row_index] =
               units.format_temperature(forecast.temperature_morning);

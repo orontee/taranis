@@ -21,6 +21,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Sunrise and sunset times have been transposed to match the
+  presentation in new daily conditions details
+  [#16](https://github.com/orontee/taranis/issues/16)
+
 ### Removed
 
 ## [1.9.0 - 2024-07-09]
