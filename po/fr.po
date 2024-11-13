@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-03 10:07+0100\n"
+"POT-Creation-Date: 2024-11-14 00:13+0100\n"
 "PO-Revision-Date: 2024-02-08 03:48+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/taranis/taranis/"
@@ -31,65 +31,65 @@ msgstr ""
 msgid "Credits"
 msgstr "Crédits"
 
-#: src/alerts.cc:121
-msgid "ALERT"
-msgstr "ALERTE"
+#: src/alerts.cc:157
+msgid "Alert"
+msgstr "Alerte"
 
-#: src/alerts.cc:136
+#: src/alerts.cc:172
 msgid "Start"
 msgstr "Début"
 
-#: src/alerts.cc:138
+#: src/alerts.cc:174
 msgid "Duration"
 msgstr "Durée"
 
-#: src/alerts.cc:143
+#: src/alerts.cc:179
 msgid "Source"
 msgstr "Source"
 
-#: src/app.cc:96
-msgid "Unsupported software version"
-msgstr "Logiciel incompatible"
-
-#: src/app.cc:97
-msgid ""
-"The application isn't compatible with the software version of this reader."
-msgstr ""
-"L'application n'est pas compatible avec la version logicielle de ce matériel."
-
-#: src/app.cc:273 src/app.cc:285 src/app.cc:319 src/app.cc:494
+#: src/app.cc:261 src/app.cc:273 src/app.cc:307 src/app.cc:482
 #: src/version.cc:135
 msgid "Ok"
 msgstr "Ok"
 
-#: src/app.cc:315
+#: src/app.cc:303
 msgid "Invalid input"
 msgstr "Saisie invalide"
 
-#: src/app.cc:317
+#: src/app.cc:305
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr ""
 "Assurez-vous d'avoir saisi des noms de ville et de pays séparés par une "
 "virgule."
 
-#: src/app.cc:435 src/app.cc:444 src/app.cc:519 src/app.cc:527
+#: src/app.cc:423 src/app.cc:432 src/app.cc:507 src/app.cc:515
 msgid "Network error"
 msgstr "Erreur réseau"
 
-#: src/app.cc:436 src/app.cc:445 src/app.cc:520 src/app.cc:528
+#: src/app.cc:424 src/app.cc:433 src/app.cc:508 src/app.cc:516
 msgid "Failure while fetching weather data. Check your network connection."
 msgstr ""
 "Échec lors du rapatriement des données météorologiques. Vérifier la "
 "connexion réseau."
 
-#: src/app.cc:452 src/app.cc:534
+#: src/app.cc:440 src/app.cc:522
 msgid "Service unavailable"
 msgstr "Service indisponible"
 
-#: src/app.cc:493 src/config.cc:45 src/version.cc:100 src/version.cc:107
+#: src/app.cc:481 src/config.cc:45 src/version.cc:100 src/version.cc:107
 #: src/version.cc:114 src/version.cc:122 src/version.cc:134
 msgid "Software version"
 msgstr "Version du logiciel"
+
+#: src/app.cc:562
+msgid "Unsupported software version"
+msgstr "Logiciel incompatible"
+
+#: src/app.cc:563
+msgid ""
+"The application isn't compatible with the software version of this reader."
+msgstr ""
+"L'application n'est pas compatible avec la version logicielle de ce matériel."
 
 #: src/config.cc:20
 msgid "Standard"
@@ -155,99 +155,107 @@ msgstr "Logiciel"
 msgid "Parameters"
 msgstr "Paramètres"
 
-#: src/currentconditionbox.cc:86
+#: src/currentconditionbox.cc:86 src/dailyforecastviewer.cc:341
 msgid "Felt"
 msgstr "Ressenti"
 
-#: src/dailyforecastviewer.cc:245
+#: src/dailyforecastviewer.cc:309
 msgid "Sun"
 msgstr "Soleil"
 
-#: src/dailyforecastviewer.cc:249
+#: src/dailyforecastviewer.cc:309
 msgid "Moon"
 msgstr "Lune"
 
-#: src/dailyforecastviewer.cc:253
+#: src/dailyforecastviewer.cc:312
+msgid "Rise"
+msgstr "Lever"
+
+#: src/dailyforecastviewer.cc:317
+msgid "Set"
+msgstr "Coucher"
+
+#: src/dailyforecastviewer.cc:322
 msgid "Moon phase"
 msgstr "Phase de la lune"
 
-#: src/dailyforecastviewer.cc:258
+#: src/dailyforecastviewer.cc:328
 msgid "Temperatures"
 msgstr "Températures"
 
-#: src/dailyforecastviewer.cc:260
+#: src/dailyforecastviewer.cc:329
 msgid "Morning"
 msgstr "Matin"
 
-#: src/dailyforecastviewer.cc:264
+#: src/dailyforecastviewer.cc:329
 msgid "Day"
 msgstr "Journée"
 
-#: src/dailyforecastviewer.cc:267
+#: src/dailyforecastviewer.cc:330
 msgid "Evening"
 msgstr "Soir"
 
-#: src/dailyforecastviewer.cc:271
+#: src/dailyforecastviewer.cc:330
 msgid "Night"
 msgstr "Nuit"
 
-#: src/dailyforecastviewer.cc:275
+#: src/dailyforecastviewer.cc:349
 msgid "Min/Max"
 msgstr "Min/Max"
 
-#: src/dailyforecastviewer.cc:284
+#: src/dailyforecastviewer.cc:359
 msgid "Wind"
 msgstr "Vent"
 
-#: src/dailyforecastviewer.cc:289
+#: src/dailyforecastviewer.cc:364
 msgid "Speed"
 msgstr "Vitesse"
 
-#: src/dailyforecastviewer.cc:297
+#: src/dailyforecastviewer.cc:372
 msgid "Gust"
 msgstr "Rafale"
 
-#: src/dailyforecastviewer.cc:304
+#: src/dailyforecastviewer.cc:387
 msgid "Direction"
 msgstr "Direction"
 
-#: src/dailyforecastviewer.cc:312
+#: src/dailyforecastviewer.cc:397
 msgid "Precipitation"
 msgstr "Précipitations"
 
-#: src/dailyforecastviewer.cc:316
+#: src/dailyforecastviewer.cc:401
 msgid "Rain"
 msgstr "Pluie"
 
-#: src/dailyforecastviewer.cc:322
+#: src/dailyforecastviewer.cc:407
 msgid "Snow"
 msgstr "Neige"
 
-#: src/dailyforecastviewer.cc:327
+#: src/dailyforecastviewer.cc:412
 msgid "Probability"
 msgstr "Probabilité"
 
-#: src/dailyforecastviewer.cc:335
+#: src/dailyforecastviewer.cc:421
 msgid "Other metrics"
 msgstr "Autres mesures"
 
-#: src/dailyforecastviewer.cc:338
+#: src/dailyforecastviewer.cc:424
 msgid "Pressure"
 msgstr "Pression"
 
-#: src/dailyforecastviewer.cc:342
+#: src/dailyforecastviewer.cc:428
 msgid "Humidity"
 msgstr "Humidité"
 
-#: src/dailyforecastviewer.cc:347
+#: src/dailyforecastviewer.cc:433
 msgid "Dew point"
 msgstr "Point de rosée"
 
-#: src/dailyforecastviewer.cc:353
+#: src/dailyforecastviewer.cc:439
 msgid "UV index"
 msgstr "Index UV"
 
-#: src/dailyforecastviewer.cc:359
+#: src/dailyforecastviewer.cc:445
 msgid "Cloudiness"
 msgstr "Nébulosité"
 
@@ -401,6 +409,9 @@ msgstr "Consulter"
 #: src/version.cc:289
 msgid "A new version is available:"
 msgstr "Une nouvelle version est disponible :"
+
+#~ msgid "ALERT"
+#~ msgstr "ALERTE"
 
 #~ msgid "A new version is available: "
 #~ msgstr "Une nouvelle version est disponible : "

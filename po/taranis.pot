@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-03 10:07+0100\n"
+"POT-Creation-Date: 2024-11-14 00:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,59 +27,59 @@ msgstr ""
 msgid "Credits"
 msgstr ""
 
-#: src/alerts.cc:121
-msgid "ALERT"
+#: src/alerts.cc:157
+msgid "Alert"
 msgstr ""
 
-#: src/alerts.cc:136
+#: src/alerts.cc:172
 msgid "Start"
 msgstr ""
 
-#: src/alerts.cc:138
+#: src/alerts.cc:174
 msgid "Duration"
 msgstr ""
 
-#: src/alerts.cc:143
+#: src/alerts.cc:179
 msgid "Source"
 msgstr ""
 
-#: src/app.cc:96
-msgid "Unsupported software version"
-msgstr ""
-
-#: src/app.cc:97
-msgid ""
-"The application isn't compatible with the software version of this reader."
-msgstr ""
-
-#: src/app.cc:273 src/app.cc:285 src/app.cc:319 src/app.cc:494
+#: src/app.cc:261 src/app.cc:273 src/app.cc:307 src/app.cc:482
 #: src/version.cc:135
 msgid "Ok"
 msgstr ""
 
-#: src/app.cc:315
+#: src/app.cc:303
 msgid "Invalid input"
 msgstr ""
 
-#: src/app.cc:317
+#: src/app.cc:305
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr ""
 
-#: src/app.cc:435 src/app.cc:444 src/app.cc:519 src/app.cc:527
+#: src/app.cc:423 src/app.cc:432 src/app.cc:507 src/app.cc:515
 msgid "Network error"
 msgstr ""
 
-#: src/app.cc:436 src/app.cc:445 src/app.cc:520 src/app.cc:528
+#: src/app.cc:424 src/app.cc:433 src/app.cc:508 src/app.cc:516
 msgid "Failure while fetching weather data. Check your network connection."
 msgstr ""
 
-#: src/app.cc:452 src/app.cc:534
+#: src/app.cc:440 src/app.cc:522
 msgid "Service unavailable"
 msgstr ""
 
-#: src/app.cc:493 src/config.cc:45 src/version.cc:100 src/version.cc:107
+#: src/app.cc:481 src/config.cc:45 src/version.cc:100 src/version.cc:107
 #: src/version.cc:114 src/version.cc:122 src/version.cc:134
 msgid "Software version"
+msgstr ""
+
+#: src/app.cc:562
+msgid "Unsupported software version"
+msgstr ""
+
+#: src/app.cc:563
+msgid ""
+"The application isn't compatible with the software version of this reader."
 msgstr ""
 
 #: src/config.cc:20
@@ -146,99 +146,107 @@ msgstr ""
 msgid "Parameters"
 msgstr ""
 
-#: src/currentconditionbox.cc:86
+#: src/currentconditionbox.cc:86 src/dailyforecastviewer.cc:341
 msgid "Felt"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:245
+#: src/dailyforecastviewer.cc:309
 msgid "Sun"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:249
+#: src/dailyforecastviewer.cc:309
 msgid "Moon"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:253
-msgid "Moon phase"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:258
-msgid "Temperatures"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:260
-msgid "Morning"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:264
-msgid "Day"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:267
-msgid "Evening"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:271
-msgid "Night"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:275
-msgid "Min/Max"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:284
-msgid "Wind"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:289
-msgid "Speed"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:297
-msgid "Gust"
-msgstr ""
-
-#: src/dailyforecastviewer.cc:304
-msgid "Direction"
-msgstr ""
-
 #: src/dailyforecastviewer.cc:312
-msgid "Precipitation"
+msgid "Rise"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:316
-msgid "Rain"
+#: src/dailyforecastviewer.cc:317
+msgid "Set"
 msgstr ""
 
 #: src/dailyforecastviewer.cc:322
-msgid "Snow"
+msgid "Moon phase"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:327
-msgid "Probability"
+#: src/dailyforecastviewer.cc:328
+msgid "Temperatures"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:335
-msgid "Other metrics"
+#: src/dailyforecastviewer.cc:329
+msgid "Morning"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:338
-msgid "Pressure"
+#: src/dailyforecastviewer.cc:329
+msgid "Day"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:342
-msgid "Humidity"
+#: src/dailyforecastviewer.cc:330
+msgid "Evening"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:347
-msgid "Dew point"
+#: src/dailyforecastviewer.cc:330
+msgid "Night"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:353
-msgid "UV index"
+#: src/dailyforecastviewer.cc:349
+msgid "Min/Max"
 msgstr ""
 
 #: src/dailyforecastviewer.cc:359
+msgid "Wind"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:364
+msgid "Speed"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:372
+msgid "Gust"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:387
+msgid "Direction"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:397
+msgid "Precipitation"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:401
+msgid "Rain"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:407
+msgid "Snow"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:412
+msgid "Probability"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:421
+msgid "Other metrics"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:424
+msgid "Pressure"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:428
+msgid "Humidity"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:433
+msgid "Dew point"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:439
+msgid "UV index"
+msgstr ""
+
+#: src/dailyforecastviewer.cc:445
 msgid "Cloudiness"
 msgstr ""
 
