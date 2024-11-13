@@ -12,15 +12,13 @@
 
 namespace taranis {
 
-void AlertsButton::on_clicked() { this->viewer->open(); }
-
-AlertViewer::AlertViewer(std::shared_ptr<Model> model,
+AlertViewer::AlertViewer(int pos_y, std::shared_ptr<Model> model,
                          std::shared_ptr<Icons> icons,
                          std::shared_ptr<Fonts> fonts)
-    : ModalWidget{}, model{model}, icons{icons}, fonts{fonts},
-      content_width{this->bounding_box.w - 2 * AlertViewer::horizontal_padding},
-      title_height{2 * this->fonts->get_small_font()->height},
-      alert_title_start_y{this->title_height + AlertViewer::vertical_padding} {}
+    : ModalWidget{AlertViewer::horizontal_padding, pos_y,
+                  ScreenWidth() - 2 * AlertViewer::horizontal_padding,
+                  ScreenHeight() - pos_y - AlertViewer::horizontal_padding},
+      model{model}, icons{icons}, fonts{fonts} {}
 
 void AlertViewer::open() {
   if (this->alert_count() == 0 or this->alert_index >= this->alert_count()) {
@@ -35,8 +33,7 @@ void AlertViewer::open() {
   this->update_alert_title_text(alert);
   this->update_description_text(alert);
 
-  this->update_layout();
-
+  this->identify_scrollable_area();
   AddScrolledArea(&this->scrollable_view_rectangle, true);
 
   const auto event_handler = GetEventHandler();
@@ -54,20 +51,26 @@ void AlertViewer::hide() {
 }
 
 void AlertViewer::do_paint() {
-  // title
   const auto default_font = this->fonts->get_small_font();
-  SetFont(default_font.get(), BLACK);
+  const auto bold_font = this->fonts->get_small_bold_font();
 
-  DrawTextRect(AlertViewer::horizontal_padding, AlertViewer::vertical_padding,
-               this->content_width, this->title_height,
-               this->title_text.c_str(), ALIGN_CENTER);
+  // title
+  SetFont(bold_font.get(), BLACK);
+
+  const auto title_height =
+      bold_font->height + 2 * AlertViewer::vertical_padding;
+
+  DrawTextRect(
+      this->get_pos_x() + AlertViewer::horizontal_padding, this->get_pos_y(),
+      this->get_width() - 2 * AlertViewer::horizontal_padding, title_height,
+      this->title_text.c_str(), ALIGN_LEFT | VALIGN_MIDDLE);
 
   if (!this->close_button) {
     const auto close_button_icon_size =
         default_font->height + AlertViewer::vertical_padding;
 
     this->close_button =
-        std::make_shared<CloseButton>(close_button_icon_size, this->icons);
+        std::make_shared<Button>(close_button_icon_size, "close", this->icons);
     this->close_button->set_click_handler(std::bind(&AlertViewer::hide, this));
     this->close_button->set_pos_x(this->get_width() - close_button_icon_size -
                                   AlertViewer::horizontal_padding);
@@ -76,64 +79,82 @@ void AlertViewer::do_paint() {
   }
   this->close_button->do_paint();
 
-  DrawHorizontalSeparator(0, this->title_height, ScreenWidth(),
+  DrawHorizontalSeparator(this->get_pos_x() + AlertViewer::horizontal_padding,
+                          this->get_pos_y() + title_height,
+                          this->get_width() -
+                              2 * AlertViewer::horizontal_padding,
                           HORIZONTAL_SEPARATOR_SOLID);
 
+  SetClipRect(&this->scrollable_view_rectangle);
+
+  int current_row_start_y = this->scrollable_view_rectangle.y +
+                            AlertViewer::vertical_padding +
+                            this->scrollable_view_offset;
+
   // alert title
-  const auto bold_font = this->fonts->get_small_bold_font();
   SetFont(bold_font.get(), BLACK);
 
-  const auto alert_title_height = TextRectHeight(
-      this->content_width, this->alert_title_text.c_str(), ALIGN_LEFT);
-  DrawTextRect(AlertViewer::horizontal_padding, this->alert_title_start_y,
-               this->content_width, alert_title_height,
-               this->alert_title_text.c_str(), ALIGN_LEFT);
+  const auto alert_title_height =
+      TextRectHeight(this->get_width() - 2 * AlertViewer::horizontal_padding,
+                     this->alert_title_text.c_str(), ALIGN_LEFT);
+  DrawTextRect(this->get_pos_x() + AlertViewer::horizontal_padding,
+               current_row_start_y,
+               this->get_width() - 2 * AlertViewer::horizontal_padding,
+               alert_title_height, this->alert_title_text.c_str(), ALIGN_LEFT);
 
   // alert description
   SetFont(default_font.get(), BLACK);
 
-  SetClipRect(&this->scrollable_view_rectangle);
-
-  const auto description_height = TextRectHeight(
-      this->content_width, this->alert_description_text.c_str(), ALIGN_LEFT);
-  DrawTextRect(AlertViewer::horizontal_padding,
-               this->scrollable_view_rectangle.y + this->scrollable_view_offset,
-               this->content_width, description_height,
-               this->alert_description_text.c_str(), ALIGN_LEFT);
+  const auto description_height =
+      TextRectHeight(this->get_width() - 2 * AlertViewer::horizontal_padding,
+                     this->alert_description_text.c_str(), ALIGN_LEFT);
+  DrawTextRect(this->get_pos_x() + AlertViewer::horizontal_padding,
+               current_row_start_y + alert_title_height,
+               this->get_width() - 2 * AlertViewer::horizontal_padding,
+               description_height, this->alert_description_text.c_str(),
+               ALIGN_LEFT);
 
   SetClip(0, 0, ScreenWidth(), ScreenHeight());
+
+  DrawFrameRectCertified(this->bounding_box, THICKNESS_DEF_FOCUSED_FRAME);
 }
 
-void AlertViewer::update_layout() {
-  const auto bold_font = this->fonts->get_small_bold_font();
+void AlertViewer::identify_scrollable_area() {
   const auto default_font = this->fonts->get_small_font();
+  const auto bold_font = this->fonts->get_small_bold_font();
 
-  SetFont(bold_font.get(), BLACK);
+  const auto scrollable_view_start_x =
+      this->get_pos_x() + AlertViewer::horizontal_padding;
+  const auto title_height =
+      bold_font->height + 2 * AlertViewer::vertical_padding;
+  const auto scrollable_view_start_y = this->get_pos_y() + title_height;
 
-  const auto alert_title_height = TextRectHeight(
-      this->content_width, this->alert_title_text.c_str(), ALIGN_LEFT);
-
-  SetFont(default_font.get(), BLACK);
-
-  const auto scrollable_view_start_y = this->alert_title_start_y +
-                                       alert_title_height +
-                                       AlertViewer::vertical_padding;
-  this->scrollable_view_rectangle = iRect(
-      AlertViewer::horizontal_padding, scrollable_view_start_y,
-      ScreenWidth() - 2 * AlertViewer::horizontal_padding,
-      ScreenHeight() - scrollable_view_start_y - AlertViewer::vertical_padding,
-      0);
+  this->scrollable_view_rectangle =
+      iRect(scrollable_view_start_x, scrollable_view_start_y,
+            this->get_width() - 2 * AlertViewer::horizontal_padding,
+            this->get_height() - title_height, 0);
 
   this->scrollable_view_offset = 0;
 
-  const auto description_height = TextRectHeight(
-      this->content_width, this->alert_description_text.c_str(), ALIGN_LEFT);
+  SetFont(bold_font.get(), BLACK);
+
+  const auto alert_title_height =
+      TextRectHeight(this->get_width() - 2 * AlertViewer::horizontal_padding,
+                     this->alert_title_text.c_str(), ALIGN_LEFT);
+
+  SetFont(default_font.get(), BLACK);
+
+  const auto description_height =
+      TextRectHeight(this->get_width() - 2 * AlertViewer::horizontal_padding,
+                     this->alert_description_text.c_str(), ALIGN_LEFT);
+
   this->min_scrollable_view_offset =
-      -std::max(0, description_height - this->scrollable_view_rectangle.h);
+      -std::max(0, alert_title_height + description_height -
+                       this->scrollable_view_rectangle.h);
 }
 
 void AlertViewer::update_title_text() {
-  this->title_text = std::string{GetLangText("ALERT")};
+  this->title_text = std::string{GetLangText("Alert")};
   if (this->alert_count() > 1) {
     this->title_text += (" " + std::to_string(this->alert_index + 1) + "/" +
                          std::to_string(this->alert_count()));
@@ -169,7 +190,7 @@ void AlertViewer::display_previous_alert_maybe() {
     this->update_alert_title_text(alert);
     this->update_description_text(alert);
 
-    this->update_layout();
+    this->identify_scrollable_area();
 
     this->paint_and_update_screen();
   } else {
@@ -186,7 +207,7 @@ void AlertViewer::display_next_alert_maybe() {
     this->update_alert_title_text(alert);
     this->update_description_text(alert);
 
-    this->update_layout();
+    this->identify_scrollable_area();
 
     this->paint_and_update_screen();
   } else {

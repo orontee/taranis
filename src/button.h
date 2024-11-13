@@ -6,12 +6,17 @@
 #include <vector>
 
 #include "activatable.h"
+#include "icons.h"
 #include "widget.h"
 
 namespace taranis {
 
 class Button : public Widget, Activatable {
 public:
+  Button(const int icon_size, const std::string &icon_name,
+         std::shared_ptr<Icons> icons)
+      : Button(icon_size, icons->get(icon_name)) {}
+
   Button(const int icon_size, const ibitmap *const icon,
          const ibitmap *const icon_disabled = nullptr)
       : Widget{}, Activatable{}, icon{BitmapStretchProportionally(
@@ -65,12 +70,25 @@ public:
     }
   }
 
+  typedef std::function<void()> ClickHandler;
+
+  void set_click_handler(ClickHandler handler) {
+    this->click_handler = handler;
+  }
+
 protected:
-  virtual void on_clicked(){};
+  virtual void on_clicked() {
+    if (!this->click_handler) {
+      return;
+    }
+    this->click_handler();
+  }
 
 private:
   std::unique_ptr<ibitmap> icon;
   std::unique_ptr<ibitmap> icon_disabled;
+
+  ClickHandler click_handler;
 
   void on_activated_changed(bool activated) override {
     if (activated) {

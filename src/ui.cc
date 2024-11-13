@@ -31,11 +31,8 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
   menu_button->set_pos_y(Ui::button_margin);
   menu_button->set_menu_handler(&handle_menu_item_selected);
 
-  this->alert_viewer =
-      std::make_shared<AlertViewer>(model, this->icons, this->fonts);
-
   auto alerts_button = std::make_shared<AlertsButton>(
-      Ui::alert_button_icon_size, model, this->icons, this->alert_viewer);
+      Ui::alert_button_icon_size, model, this->icons);
   alerts_button->set_pos_x(menu_button->get_pos_x() -
                            alerts_button->get_width() - Ui::button_margin);
   alerts_button->set_pos_y(Ui::button_margin);
@@ -48,9 +45,15 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
       0, this->location_box->get_height(), ScreenWidth(), this->model,
       this->fonts);
 
-  this->daily_forecast_viewer =
-    std::make_shared<DailyForecastViewer>(current_condition_box->get_pos_y(),
-                                          model, this->icons, this->fonts);
+  this->alert_viewer = std::make_shared<AlertViewer>(
+      current_condition_box->get_pos_y() + current_condition_box->get_height(),
+      model, this->icons, this->fonts);
+  alerts_button->set_click_handler(
+      std::bind(&AlertViewer::open, this->alert_viewer));
+
+  this->daily_forecast_viewer = std::make_shared<DailyForecastViewer>(
+      current_condition_box->get_pos_y() + current_condition_box->get_height(),
+      model, this->icons, this->fonts);
 
   auto status_bar = std::make_shared<StatusBar>(this->model, this->fonts);
 

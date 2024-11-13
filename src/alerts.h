@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "button.h"
-#include "closebutton.h"
 #include "fonts.h"
 #include "icons.h"
 #include "model.h"
@@ -17,27 +16,21 @@ class AlertViewer;
 class AlertsButton : public Button {
 public:
   AlertsButton(int icon_size, std::shared_ptr<Model> model,
-               std::shared_ptr<Icons> icons,
-               std::shared_ptr<AlertViewer> viewer)
-      : Button{icon_size, icons->get("warning")}, model{model}, viewer{viewer} {
-  }
+               std::shared_ptr<Icons> icons)
+      : Button{icon_size, icons->get("warning")}, model{model} {}
 
   bool is_enabled() const override { return not this->model->alerts.empty(); }
 
   bool is_visible() const override { return not this->model->alerts.empty(); }
 
-protected:
-  void on_clicked() override;
-
 private:
   std::shared_ptr<Model> model;
-  std::shared_ptr<AlertViewer> viewer;
 };
 
 class AlertViewer : public ModalWidget {
 public:
-  AlertViewer(std::shared_ptr<Model> model, std::shared_ptr<Icons> icons,
-              std::shared_ptr<Fonts> fonts);
+  AlertViewer(int pos_y, std::shared_ptr<Model> model,
+              std::shared_ptr<Icons> icons, std::shared_ptr<Fonts> fonts);
 
   void open();
 
@@ -58,13 +51,9 @@ private:
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
 
-  std::shared_ptr<CloseButton> close_button;
+  std::shared_ptr<Button> close_button;
 
   size_t alert_index{0};
-
-  const int content_width;
-  const int title_height;
-  const int alert_title_start_y;
 
   irect scrollable_view_rectangle;
   int scrollable_view_offset{0};
@@ -76,7 +65,7 @@ private:
 
   inline size_t alert_count() const { return this->model->alerts.size(); }
 
-  void update_layout();
+  void identify_scrollable_area();
 
   void update_title_text();
 

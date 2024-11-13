@@ -16,7 +16,8 @@ DailyForecastViewer::DailyForecastViewer(int pos_y,
                                          std::shared_ptr<Fonts> fonts)
     : ModalWidget{DailyForecastViewer::horizontal_padding, pos_y,
                   ScreenWidth() - 2 * DailyForecastViewer::horizontal_padding,
-                  ScreenHeight() - pos_y - DailyForecastViewer::vertical_padding},
+                  ScreenHeight() - pos_y -
+                      DailyForecastViewer::vertical_padding},
       model{model}, icons{icons}, fonts{fonts} {}
 
 void DailyForecastViewer::open() {
@@ -76,18 +77,12 @@ void DailyForecastViewer::do_paint() {
                this->get_width() - 2 * DailyForecastViewer::horizontal_padding,
                title_height, title_text.c_str(), ALIGN_LEFT | VALIGN_MIDDLE);
 
-  DrawHorizontalSeparator(
-      this->get_pos_x() + DailyForecastViewer::horizontal_padding,
-      this->get_pos_y() + title_height,
-      this->get_width() - 2 * DailyForecastViewer::horizontal_padding,
-      HORIZONTAL_SEPARATOR_SOLID);
-
   if (!this->close_button) {
     const auto close_button_icon_size =
         bold_font->height + DailyForecastViewer::vertical_padding;
 
     this->close_button =
-        std::make_shared<CloseButton>(close_button_icon_size, this->icons);
+        std::make_shared<Button>(close_button_icon_size, "close", this->icons);
     this->close_button->set_click_handler(
         std::bind(&DailyForecastViewer::hide, this));
     this->close_button->set_pos_x(this->get_width() - close_button_icon_size -
@@ -96,6 +91,12 @@ void DailyForecastViewer::do_paint() {
                                   DailyForecastViewer::vertical_padding / 4);
   }
   this->close_button->do_paint();
+
+  DrawHorizontalSeparator(
+      this->get_pos_x() + DailyForecastViewer::horizontal_padding,
+      this->get_pos_y() + title_height,
+      this->get_width() - 2 * DailyForecastViewer::horizontal_padding,
+      HORIZONTAL_SEPARATOR_SOLID);
 
   // forecast
   SetFont(default_font.get(), BLACK);

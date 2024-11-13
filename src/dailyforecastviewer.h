@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "button.h"
-#include "closebutton.h"
 #include "fonts.h"
 #include "icons.h"
 #include "model.h"
@@ -36,8 +35,7 @@ struct RowDescription {
 
 class DailyForecastViewer : public ModalWidget {
 public:
-  DailyForecastViewer(int pos_y,
-                      std::shared_ptr<Model> model,
+  DailyForecastViewer(int pos_y, std::shared_ptr<Model> model,
                       std::shared_ptr<Icons> icons,
                       std::shared_ptr<Fonts> fonts);
 
@@ -54,15 +52,15 @@ public:
   int handle_pointer_event(int event_type, int pointer_pos_x,
                            int pointer_pos_y) override;
 
+private:
   static constexpr int horizontal_padding{25};
   static constexpr int vertical_padding{25};
 
-private:
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
   std::shared_ptr<Fonts> fonts;
 
-  std::shared_ptr<CloseButton> close_button;
+  std::shared_ptr<Button> close_button;
 
   size_t forecast_index{0};
 
