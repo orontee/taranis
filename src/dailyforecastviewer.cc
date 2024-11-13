@@ -10,13 +10,13 @@ namespace taranis {
 
 const RowDescription empty_row{"", "", false, "", true};
 
-DailyForecastViewer::DailyForecastViewer(std::shared_ptr<Model> model,
+DailyForecastViewer::DailyForecastViewer(int pos_y,
+                                         std::shared_ptr<Model> model,
                                          std::shared_ptr<Icons> icons,
                                          std::shared_ptr<Fonts> fonts)
-    : ModalWidget{DailyForecastViewer::horizontal_padding, ScreenHeight() / 3,
+    : ModalWidget{DailyForecastViewer::horizontal_padding, pos_y,
                   ScreenWidth() - 2 * DailyForecastViewer::horizontal_padding,
-                  ScreenHeight() - ScreenHeight() / 3 -
-                      2 * DailyForecastViewer::vertical_padding},
+                  ScreenHeight() - pos_y - DailyForecastViewer::vertical_padding},
       model{model}, icons{icons}, fonts{fonts} {}
 
 void DailyForecastViewer::open() {
@@ -165,7 +165,8 @@ void DailyForecastViewer::do_paint() {
       } else if (row_value_type ==
                  typeid(std::pair<std::string, std::string>)) {
 
-        SetFont(default_font.get(), BLACK);
+        const auto font = row_description.is_header ? tiny_font : default_font;
+        SetFont(font.get(), BLACK);
 
         std::string first_text, second_text;
         std::tie(first_text, second_text) =
@@ -173,14 +174,14 @@ void DailyForecastViewer::do_paint() {
                 row_description.value);
 
         DrawTextRect(first_value_column_start_x, current_row_start_y,
-                     two_values_column_width, default_font.get()->height,
+                     two_values_column_width, font.get()->height,
                      first_text.c_str(), ALIGN_RIGHT);
 
         const int second_value_column_start_x =
             first_value_column_start_x + two_values_column_width;
 
         DrawTextRect(second_value_column_start_x, current_row_start_y,
-                     two_values_column_width, default_font.get()->height,
+                     two_values_column_width, font.get()->height,
                      second_text.c_str(), ALIGN_RIGHT);
 
       } else if (row_value_type ==

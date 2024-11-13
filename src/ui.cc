@@ -33,8 +33,6 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
 
   this->alert_viewer =
       std::make_shared<AlertViewer>(model, this->icons, this->fonts);
-  this->daily_forecast_viewer =
-      std::make_shared<DailyForecastViewer>(model, this->icons, this->fonts);
 
   auto alerts_button = std::make_shared<AlertsButton>(
       Ui::alert_button_icon_size, model, this->icons, this->alert_viewer);
@@ -49,6 +47,10 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
   auto current_condition_box = std::make_shared<CurrentConditionBox>(
       0, this->location_box->get_height(), ScreenWidth(), this->model,
       this->fonts);
+
+  this->daily_forecast_viewer =
+    std::make_shared<DailyForecastViewer>(current_condition_box->get_pos_y(),
+                                          model, this->icons, this->fonts);
 
   auto status_bar = std::make_shared<StatusBar>(this->model, this->fonts);
 
