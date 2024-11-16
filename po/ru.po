@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-14 00:13+0100\n"
-"PO-Revision-Date: 2024-11-16 17:52+0000\n"
-"Last-Translator: Tancrède <tancrede.meulien@gmail.com>\n"
+"PO-Revision-Date: 2024-11-16 17:54+0000\n"
+"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/taranis/taranis/"
 "ru/>\n"
 "Language: ru\n"
@@ -34,7 +34,7 @@ msgstr "Кредиты"
 
 #: src/alerts.cc:157
 msgid "Alert"
-msgstr "Alert"
+msgstr "Тревога"
 
 #: src/alerts.cc:172
 msgid "Start"
@@ -246,7 +246,7 @@ msgstr "Огромность"
 
 #: src/dailyforecastviewer.cc:433
 msgid "Dew point"
-msgstr "Dew point"
+msgstr "Точка росы"
 
 #: src/dailyforecastviewer.cc:439
 msgid "UV index"
