@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-14 00:13+0100\n"
-"PO-Revision-Date: 2024-02-18 20:25+0000\n"
+"PO-Revision-Date: 2024-11-16 17:52+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/taranis/taranis/"
 "pl/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.4\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: src/about.cc.in:15
 msgid ""
@@ -34,7 +34,7 @@ msgstr "Podziękowania"
 
 #: src/alerts.cc:157
 msgid "Alert"
-msgstr ""
+msgstr "Alarm"
 
 #: src/alerts.cc:172
 msgid "Start"
@@ -161,104 +161,103 @@ msgstr "Temp. odczuwalna"
 
 #: src/dailyforecastviewer.cc:309
 msgid "Sun"
-msgstr ""
+msgstr "Słoneczny"
 
 #: src/dailyforecastviewer.cc:309
 msgid "Moon"
-msgstr ""
+msgstr "Księżyc"
 
 #: src/dailyforecastviewer.cc:312
 msgid "Rise"
-msgstr ""
+msgstr "Wschód"
 
 #: src/dailyforecastviewer.cc:317
 msgid "Set"
-msgstr ""
+msgstr "Zachód"
 
 #: src/dailyforecastviewer.cc:322
 msgid "Moon phase"
-msgstr ""
+msgstr "Faza księżyca"
 
 #: src/dailyforecastviewer.cc:328
 msgid "Temperatures"
-msgstr ""
+msgstr "Temperatury"
 
 #: src/dailyforecastviewer.cc:329
 msgid "Morning"
-msgstr ""
+msgstr "Poranek"
 
 #: src/dailyforecastviewer.cc:329
 msgid "Day"
-msgstr ""
+msgstr "Dzień"
 
 #: src/dailyforecastviewer.cc:330
 msgid "Evening"
-msgstr ""
+msgstr "Wieczór"
 
 #: src/dailyforecastviewer.cc:330
 msgid "Night"
-msgstr ""
+msgstr "Noc"
 
 #: src/dailyforecastviewer.cc:349
 msgid "Min/Max"
-msgstr ""
+msgstr "Min/Max"
 
 #: src/dailyforecastviewer.cc:359
 msgid "Wind"
-msgstr ""
+msgstr "Wiatr"
 
 #: src/dailyforecastviewer.cc:364
 msgid "Speed"
-msgstr ""
+msgstr "Prędkość"
 
 #: src/dailyforecastviewer.cc:372
 msgid "Gust"
-msgstr ""
+msgstr "Poryw"
 
 #: src/dailyforecastviewer.cc:387
-#, fuzzy
 msgid "Direction"
-msgstr "Przez"
+msgstr "Kierunek"
 
 #: src/dailyforecastviewer.cc:397
 msgid "Precipitation"
-msgstr ""
+msgstr "Opady"
 
 #: src/dailyforecastviewer.cc:401
 msgid "Rain"
-msgstr ""
+msgstr "Deszczu"
 
 #: src/dailyforecastviewer.cc:407
 msgid "Snow"
-msgstr ""
+msgstr "Śnieg"
 
 #: src/dailyforecastviewer.cc:412
 msgid "Probability"
-msgstr ""
+msgstr "Prawdopodobieństwo"
 
 #: src/dailyforecastviewer.cc:421
 msgid "Other metrics"
-msgstr ""
+msgstr "Inne wskaźniki"
 
 #: src/dailyforecastviewer.cc:424
 msgid "Pressure"
-msgstr ""
+msgstr "Ciśnienie"
 
 #: src/dailyforecastviewer.cc:428
 msgid "Humidity"
-msgstr ""
+msgstr "Wilgotność"
 
 #: src/dailyforecastviewer.cc:433
 msgid "Dew point"
-msgstr ""
+msgstr "Punkt rosy"
 
 #: src/dailyforecastviewer.cc:439
 msgid "UV index"
-msgstr ""
+msgstr "Indeks UV"
 
 #: src/dailyforecastviewer.cc:445
 msgid "Cloudiness"
-msgstr ""
+msgstr "Zachmurzenie"
 
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
@@ -359,36 +358,35 @@ msgstr "Jutro"
 
 #: src/util.cc:300 src/util.cc:316
 msgid "New moon"
-msgstr ""
+msgstr "Nówy księżyc"
 
 #: src/util.cc:302
 msgid "Waxing crescent"
-msgstr ""
+msgstr "Przybywający półksiężyc"
 
 #: src/util.cc:304
 msgid "First quarter moon"
-msgstr ""
+msgstr "Pierwsza kwadra księżyca"
 
 #: src/util.cc:306
 msgid "Waxing gibbous"
-msgstr ""
+msgstr "Przybywający garb"
 
 #: src/util.cc:308
 msgid "Full moon"
-msgstr ""
+msgstr "Pełnia księżyca"
 
 #: src/util.cc:310
 msgid "Wanning gibbous"
-msgstr ""
+msgstr "Ubywający garb"
 
 #: src/util.cc:312
-#, fuzzy
 msgid "Last quarter moon"
-msgstr "Ostatnia aktualizacja:"
+msgstr "Ostatnia kwadra księżyca"
 
 #: src/util.cc:314
 msgid "Wanning crescent"
-msgstr ""
+msgstr "Ubywający sierp księżyca"
 
 #: src/version.cc:97
 msgid "The service hosting releases isn't working as expected. Retry later."

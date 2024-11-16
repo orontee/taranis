@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-14 00:13+0100\n"
-"PO-Revision-Date: 2024-02-18 20:25+0000\n"
+"PO-Revision-Date: 2024-11-16 17:52+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/taranis/taranis/"
 "sr/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.4\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: src/about.cc.in:15
 msgid ""
@@ -34,7 +34,7 @@ msgstr "Zasluge"
 
 #: src/alerts.cc:157
 msgid "Alert"
-msgstr ""
+msgstr "Алерт"
 
 #: src/alerts.cc:172
 msgid "Start"
@@ -157,104 +157,103 @@ msgstr "Subjektivni osećaj"
 
 #: src/dailyforecastviewer.cc:309
 msgid "Sun"
-msgstr ""
+msgstr "Сун"
 
 #: src/dailyforecastviewer.cc:309
 msgid "Moon"
-msgstr ""
+msgstr "Месец"
 
 #: src/dailyforecastviewer.cc:312
 msgid "Rise"
-msgstr ""
+msgstr "Рисе"
 
 #: src/dailyforecastviewer.cc:317
 msgid "Set"
-msgstr ""
+msgstr "Залазак"
 
 #: src/dailyforecastviewer.cc:322
 msgid "Moon phase"
-msgstr ""
+msgstr "Фаза месеца"
 
 #: src/dailyforecastviewer.cc:328
 msgid "Temperatures"
-msgstr ""
+msgstr "Температуре"
 
 #: src/dailyforecastviewer.cc:329
 msgid "Morning"
-msgstr ""
+msgstr "Јутро"
 
 #: src/dailyforecastviewer.cc:329
 msgid "Day"
-msgstr ""
+msgstr "Дан"
 
 #: src/dailyforecastviewer.cc:330
 msgid "Evening"
-msgstr ""
+msgstr "вече"
 
 #: src/dailyforecastviewer.cc:330
 msgid "Night"
-msgstr ""
+msgstr "Ноћ"
 
 #: src/dailyforecastviewer.cc:349
 msgid "Min/Max"
-msgstr ""
+msgstr "Min/Max"
 
 #: src/dailyforecastviewer.cc:359
 msgid "Wind"
-msgstr ""
+msgstr "Вент"
 
 #: src/dailyforecastviewer.cc:364
 msgid "Speed"
-msgstr ""
+msgstr "Витессе"
 
 #: src/dailyforecastviewer.cc:372
 msgid "Gust"
-msgstr ""
+msgstr "Густ"
 
 #: src/dailyforecastviewer.cc:387
-#, fuzzy
 msgid "Direction"
-msgstr "Trajanje"
+msgstr "Правац"
 
 #: src/dailyforecastviewer.cc:397
 msgid "Precipitation"
-msgstr ""
+msgstr "Падавине"
 
 #: src/dailyforecastviewer.cc:401
 msgid "Rain"
-msgstr ""
+msgstr "Киша"
 
 #: src/dailyforecastviewer.cc:407
 msgid "Snow"
-msgstr ""
+msgstr "Неиге"
 
 #: src/dailyforecastviewer.cc:412
 msgid "Probability"
-msgstr ""
+msgstr "Вероватноћа"
 
 #: src/dailyforecastviewer.cc:421
 msgid "Other metrics"
-msgstr ""
+msgstr "Друге метрике"
 
 #: src/dailyforecastviewer.cc:424
 msgid "Pressure"
-msgstr ""
+msgstr "Притисак"
 
 #: src/dailyforecastviewer.cc:428
 msgid "Humidity"
-msgstr ""
+msgstr "Влажност"
 
 #: src/dailyforecastviewer.cc:433
 msgid "Dew point"
-msgstr ""
+msgstr "Тачка росе"
 
 #: src/dailyforecastviewer.cc:439
 msgid "UV index"
-msgstr ""
+msgstr "УВ индекс"
 
 #: src/dailyforecastviewer.cc:445
 msgid "Cloudiness"
-msgstr ""
+msgstr "Облачност"
 
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
@@ -354,36 +353,35 @@ msgstr "Sutra"
 
 #: src/util.cc:300 src/util.cc:316
 msgid "New moon"
-msgstr ""
+msgstr "Млад месец"
 
 #: src/util.cc:302
 msgid "Waxing crescent"
-msgstr ""
+msgstr "Растући полумјесец"
 
 #: src/util.cc:304
 msgid "First quarter moon"
-msgstr ""
+msgstr "Прва четвртина месеца"
 
 #: src/util.cc:306
 msgid "Waxing gibbous"
-msgstr ""
+msgstr "Вакинг гиббоус"
 
 #: src/util.cc:308
 msgid "Full moon"
-msgstr ""
+msgstr "Пун месец"
 
 #: src/util.cc:310
 msgid "Wanning gibbous"
-msgstr ""
+msgstr "Ванинг гиббоус"
 
 #: src/util.cc:312
-#, fuzzy
 msgid "Last quarter moon"
-msgstr "Poslednje ažuriranje:"
+msgstr "Последња четврт месеца"
 
 #: src/util.cc:314
 msgid "Wanning crescent"
-msgstr ""
+msgstr "Опадајући полумесец"
 
 #: src/version.cc:97
 msgid "The service hosting releases isn't working as expected. Retry later."
