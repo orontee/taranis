@@ -372,7 +372,7 @@ msgid "Full moon"
 msgstr "Пун месец"
 
 #: src/util.cc:310
-msgid "Wanning gibbous"
+msgid "Waning gibbous"
 msgstr "Ванинг гиббоус"
 
 #: src/util.cc:312
@@ -380,7 +380,7 @@ msgid "Last quarter moon"
 msgstr "Последња четврт месеца"
 
 #: src/util.cc:314
-msgid "Wanning crescent"
+msgid "Waning crescent"
 msgstr "Опадајући полумесец"
 
 #: src/version.cc:97

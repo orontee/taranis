@@ -377,7 +377,7 @@ msgid "Full moon"
 msgstr "Полная Луна"
 
 #: src/util.cc:310
-msgid "Wanning gibbous"
+msgid "Waning gibbous"
 msgstr "Вечеринка"
 
 #: src/util.cc:312
@@ -385,7 +385,7 @@ msgid "Last quarter moon"
 msgstr "Последняя четверть луны"
 
 #: src/util.cc:314
-msgid "Wanning crescent"
+msgid "Waning crescent"
 msgstr "Отзывы к полумесяцу"
 
 #: src/version.cc:97

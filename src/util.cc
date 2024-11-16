@@ -307,11 +307,11 @@ std::string taranis::format_moon_phase(double moon_phase) {
   } else if (moon_phase == 0.5) {
     return GetLangText("Full moon");
   } else if (moon_phase < 0.75) {
-    return GetLangText("Wanning gibbous");
+    return GetLangText("Waning gibbous");
   } else if (moon_phase == 0.75) {
     return GetLangText("Last quarter moon");
   } else if (moon_phase < 1) {
-    return GetLangText("Wanning crescent");
+    return GetLangText("Waning crescent");
   } else if (moon_phase == 1) {
     return GetLangText("New moon");
   }

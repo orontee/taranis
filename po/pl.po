@@ -377,7 +377,7 @@ msgid "Full moon"
 msgstr "Pełnia księżyca"
 
 #: src/util.cc:310
-msgid "Wanning gibbous"
+msgid "Waning gibbous"
 msgstr "Ubywający garb"
 
 #: src/util.cc:312
@@ -385,7 +385,7 @@ msgid "Last quarter moon"
 msgstr "Ostatnia kwadra księżyca"
 
 #: src/util.cc:314
-msgid "Wanning crescent"
+msgid "Waning crescent"
 msgstr "Ubywający sierp księżyca"
 
 #: src/version.cc:97

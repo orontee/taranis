@@ -381,7 +381,7 @@ msgid "Full moon"
 msgstr "Pleine lune"
 
 #: src/util.cc:310
-msgid "Wanning gibbous"
+msgid "Waning gibbous"
 msgstr "Lune gibbeuse décroissante"
 
 #: src/util.cc:312
@@ -389,7 +389,7 @@ msgid "Last quarter moon"
 msgstr "Dernier quartier"
 
 #: src/util.cc:314
-msgid "Wanning crescent"
+msgid "Waning crescent"
 msgstr "Dernier croissant"
 
 #: src/version.cc:97

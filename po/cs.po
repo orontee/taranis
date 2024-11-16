@@ -379,7 +379,7 @@ msgid "Last quarter moon"
 msgstr "Poslední čtvrt měsíce"
 
 #: src/util.cc:314
-msgid "Wanning crescent"
+msgid "Waning crescent"
 msgstr "Ubývající půlměsíc"
 
 #: src/version.cc:97
