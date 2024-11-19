@@ -1,0 +1,416 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the taranis package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: taranis\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-11-14 00:13+0100\n"
+"PO-Revision-Date: 2024-11-19 12:02+0000\n"
+"Last-Translator: breiti-oi <breiti_oi@web.de>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/taranis/taranis/"
+"de/>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.9-dev\n"
+
+#: src/about.cc.in:15
+msgid ""
+"This program is provided without any warranty. For more details, read GNU "
+"General Public License, version 3 or later"
+msgstr ""
+"Dieses Programm wird ohne jegliche Garantie zur Verfügung gestellt. Für "
+"weitere Details lesen Sie bitte GNU General Public License, Version 3 oder "
+"höher"
+
+#: src/about.cc.in:18
+msgid "Credits"
+msgstr "Impressum"
+
+#: src/alerts.cc:157
+msgid "Alert"
+msgstr "Alarm"
+
+#: src/alerts.cc:172
+msgid "Start"
+msgstr "Start"
+
+#: src/alerts.cc:174
+msgid "Duration"
+msgstr "Dauer"
+
+#: src/alerts.cc:179
+msgid "Source"
+msgstr "Quelle"
+
+#: src/app.cc:261 src/app.cc:273 src/app.cc:307 src/app.cc:482
+#: src/version.cc:135
+msgid "Ok"
+msgstr "Ok"
+
+#: src/app.cc:303
+msgid "Invalid input"
+msgstr "Ungültige Eingabe"
+
+#: src/app.cc:305
+msgid "Make sure you enter a town then a country separated by a comma."
+msgstr ""
+"Achten Sie darauf, dass Sie eine Stadt und ein Land getrennt durch ein Komma "
+"eingeben."
+
+#: src/app.cc:423 src/app.cc:432 src/app.cc:507 src/app.cc:515
+msgid "Network error"
+msgstr "Netzwerkfehler"
+
+#: src/app.cc:424 src/app.cc:433 src/app.cc:508 src/app.cc:516
+msgid "Failure while fetching weather data. Check your network connection."
+msgstr ""
+"Fehler beim Abruf der Wetterdaten. Überprüfen Sie Ihre Netzwerkverbindung."
+
+#: src/app.cc:440 src/app.cc:522
+msgid "Service unavailable"
+msgstr "Dienst nicht verfügbar"
+
+#: src/app.cc:481 src/config.cc:45 src/version.cc:100 src/version.cc:107
+#: src/version.cc:114 src/version.cc:122 src/version.cc:134
+msgid "Software version"
+msgstr "Software Version"
+
+#: src/app.cc:562
+msgid "Unsupported software version"
+msgstr "Nicht unterstützte Softwareversion"
+
+#: src/app.cc:563
+msgid ""
+"The application isn't compatible with the software version of this reader."
+msgstr ""
+"Die Anwendung ist nicht mit der Softwareversion dieses E-Readers kompatibel."
+
+#: src/config.cc:20
+msgid "Standard"
+msgstr "Standard"
+
+#: src/config.cc:21
+msgid "Metric"
+msgstr "Metrisches System"
+
+#: src/config.cc:22
+msgid "Imperial"
+msgstr "Imperiales System"
+
+#: src/config.cc:27
+msgid "Hourly forecast"
+msgstr "Stündliche Vorhersage"
+
+#: src/config.cc:28
+msgid "Daily forecast"
+msgstr "Tägliche Vorhersage"
+
+#: src/config.cc:31
+msgid "At startup"
+msgstr "Beim Starten"
+
+#: src/config.cc:32
+msgid "When obsolete"
+msgstr "Wenn veraltet"
+
+#: src/config.cc:33
+msgid "Manually"
+msgstr "Manuell"
+
+#: src/config.cc:48
+msgid "Check newer version"
+msgstr "Auf neue Version überprüfen"
+
+#: src/config.cc:53
+msgid "Units"
+msgstr "Einheiten"
+
+#: src/config.cc:57
+msgid "Start screen"
+msgstr "Startbildschirm"
+
+#: src/config.cc:61
+msgid "Data update strategy"
+msgstr "Strategie zur Datenaktualisierung"
+
+#: src/config.cc:64
+msgid "Custom API key"
+msgstr "Individueller API-Schlüssel"
+
+#: src/config.cc:68
+msgid "Generate shutdown logo"
+msgstr "Abschaltlogo erzeugen"
+
+#: src/config.cc:72
+msgid "Software"
+msgstr "Software"
+
+#: src/config.cc:129
+msgid "Parameters"
+msgstr "Parameter"
+
+#: src/currentconditionbox.cc:86 src/dailyforecastviewer.cc:341
+msgid "Felt"
+msgstr "Gefühlt"
+
+#: src/dailyforecastviewer.cc:309
+msgid "Sun"
+msgstr "Sonne"
+
+#: src/dailyforecastviewer.cc:309
+msgid "Moon"
+msgstr "Mond"
+
+#: src/dailyforecastviewer.cc:312
+msgid "Rise"
+msgstr "Aufgang"
+
+#: src/dailyforecastviewer.cc:317
+msgid "Set"
+msgstr "Untergang"
+
+#: src/dailyforecastviewer.cc:322
+msgid "Moon phase"
+msgstr "Mondphase"
+
+#: src/dailyforecastviewer.cc:328
+msgid "Temperatures"
+msgstr "Temperaturen"
+
+#: src/dailyforecastviewer.cc:329
+msgid "Morning"
+msgstr "Morgen"
+
+#: src/dailyforecastviewer.cc:329
+msgid "Day"
+msgstr "Tag"
+
+#: src/dailyforecastviewer.cc:330
+msgid "Evening"
+msgstr "Abend"
+
+#: src/dailyforecastviewer.cc:330
+msgid "Night"
+msgstr "Nacht"
+
+#: src/dailyforecastviewer.cc:349
+msgid "Min/Max"
+msgstr "Min/Max"
+
+#: src/dailyforecastviewer.cc:359
+msgid "Wind"
+msgstr "Wind"
+
+#: src/dailyforecastviewer.cc:364
+msgid "Speed"
+msgstr "Geschwindigkeit"
+
+#: src/dailyforecastviewer.cc:372
+msgid "Gust"
+msgstr "Böe"
+
+#: src/dailyforecastviewer.cc:387
+msgid "Direction"
+msgstr "Richtung"
+
+#: src/dailyforecastviewer.cc:397
+msgid "Precipitation"
+msgstr "Niederschlag"
+
+#: src/dailyforecastviewer.cc:401
+msgid "Rain"
+msgstr "Regen"
+
+#: src/dailyforecastviewer.cc:407
+msgid "Snow"
+msgstr "Schnee"
+
+#: src/dailyforecastviewer.cc:412
+msgid "Probability"
+msgstr "Wahrscheinlichkeit"
+
+#: src/dailyforecastviewer.cc:421
+msgid "Other metrics"
+msgstr "Andere Messwerte"
+
+#: src/dailyforecastviewer.cc:424
+msgid "Pressure"
+msgstr "Druck"
+
+#: src/dailyforecastviewer.cc:428
+msgid "Humidity"
+msgstr "Luftfeuchtigkeit"
+
+#: src/dailyforecastviewer.cc:433
+msgid "Dew point"
+msgstr "Taupunkt"
+
+#: src/dailyforecastviewer.cc:439
+msgid "UV index"
+msgstr "UV Index"
+
+#: src/dailyforecastviewer.cc:445
+msgid "Cloudiness"
+msgstr "Bewölkung"
+
+#: src/errors.h:37
+msgid "Location unknown to the service providing weather data. Check spelling."
+msgstr ""
+"Der Ort ist dem Wetterdienst unbekannt. Überprüfen Sie die Rechtschreibung."
+
+#: src/errors.h:43 src/version.cc:87
+msgid ""
+"Sorry, an unexpected error was encountered. Report this to the application "
+"author."
+msgstr ""
+"Entschuldigung, es ist ein unerwarteter Fehler aufgetreten. Melden Sie dies "
+"bitte dem Autor der Anwendung."
+
+#: src/errors.h:54
+msgid ""
+"An API key is required to consume weather data. Contact the application "
+"maintainer."
+msgstr ""
+"Zum Abrufen von Wetterdaten ist ein API-Schlüssel erforderlich. Wenden Sie "
+"sich an den Anwendungsbetreuer."
+
+#: src/errors.h:60
+msgid "Weather data can't be accessed with the provided API key."
+msgstr ""
+"Auf die Wetterdaten kann mit dem angegebenen API-Schlüssel nicht zugegriffen "
+"werden."
+
+#: src/errors.h:71
+msgid ""
+"The service providing weather data isn't working as expected. Retry later."
+msgstr ""
+"Der Wetterdienst funktioniert nicht wie erwartet. Versuchen Sie es später "
+"erneut."
+
+#: src/locationbox.cc:45
+msgid "Enter location"
+msgstr "Ort eingeben"
+
+#: src/locationselector.cc:46 src/menu.cc:74
+msgid "Locations"
+msgstr "Orte"
+
+#: src/locationselector.cc:57
+msgid "Longitude"
+msgstr "Längengrad"
+
+#: src/locationselector.cc:58
+msgid "Latitude"
+msgstr "Breitengrad"
+
+#: src/menu.cc:72
+msgid "Refresh"
+msgstr "Aktualisieren"
+
+#: src/menu.cc:76
+msgid "Parameters…"
+msgstr "Parameter…"
+
+#: src/menu.cc:78
+msgid "Quit"
+msgstr "Beenden"
+
+#: src/menu.cc:92
+msgid "Empty"
+msgstr "Leeren"
+
+#: src/menu.cc:105 src/menu.cc:133
+msgid "Add to favorites"
+msgstr "Zu Favoriten hinzufügen"
+
+#: src/menu.cc:114 src/menu.cc:159
+msgid "Edit location"
+msgstr "Standort bearbeiten"
+
+#: src/menu.cc:132
+msgid "Remove from favorites"
+msgstr "Aus den Favoriten entfernen"
+
+#: src/statusbar.cc:25
+msgid "Ongoing update…"
+msgstr "Laufende Aktualisierung…"
+
+#: src/statusbar.cc:27 src/statusbar.cc:39
+msgid "Last update:"
+msgstr "Letzte Aktualisierung:"
+
+#: src/statusbar.cc:50
+msgid "Weather data from"
+msgstr "Wetterdaten von"
+
+#: src/util.cc:191
+msgid "Today"
+msgstr "Heute"
+
+#: src/util.cc:196
+msgid "Yesterday"
+msgstr "Gestern"
+
+#: src/util.cc:201
+msgid "Tomorrow"
+msgstr "Morgen"
+
+#: src/util.cc:300 src/util.cc:316
+msgid "New moon"
+msgstr "Neumond"
+
+#: src/util.cc:302
+#, fuzzy
+msgid "Waxing crescent"
+msgstr "Zunehmender Halbmond"
+
+#: src/util.cc:304
+msgid "First quarter moon"
+msgstr "Erstes Mondviertel"
+
+#: src/util.cc:306
+#, fuzzy
+msgid "Waxing gibbous"
+msgstr "Zunehmender Mond"
+
+#: src/util.cc:308
+msgid "Full moon"
+msgstr "Vollmond"
+
+#: src/util.cc:310
+#, fuzzy
+msgid "Waning gibbous"
+msgstr "Abnehmender Mond"
+
+#: src/util.cc:312
+msgid "Last quarter moon"
+msgstr "Letztes Mondviertel"
+
+#: src/util.cc:314
+#, fuzzy
+msgid "Waning crescent"
+msgstr "Abnehmender Halbmond"
+
+#: src/version.cc:97
+msgid "The service hosting releases isn't working as expected. Retry later."
+msgstr ""
+"Der Dienst, der die Veröffentlichungen herausgibt, funktioniert nicht wie "
+"erwartet. Versuchen Sie es später erneut."
+
+#: src/version.cc:123
+msgid "Latest release already installed"
+msgstr "Neueste Version bereits installiert"
+
+#: src/version.cc:135
+msgid "Browse"
+msgstr "Durchsuchen"
+
+#: src/version.cc:289
+msgid "A new version is available:"
+msgstr "Eine neue Version ist verfügbar:"
