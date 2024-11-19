@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-14 00:13+0100\n"
-"PO-Revision-Date: 2024-11-19 12:02+0000\n"
-"Last-Translator: breiti-oi <breiti_oi@web.de>\n"
+"PO-Revision-Date: 2024-11-19 17:59+0000\n"
+"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/taranis/taranis/"
 "de/>\n"
 "Language: de\n"
@@ -366,7 +366,6 @@ msgid "New moon"
 msgstr "Neumond"
 
 #: src/util.cc:302
-#, fuzzy
 msgid "Waxing crescent"
 msgstr "Zunehmender Halbmond"
 
@@ -375,25 +374,22 @@ msgid "First quarter moon"
 msgstr "Erstes Mondviertel"
 
 #: src/util.cc:306
-#, fuzzy
 msgid "Waxing gibbous"
-msgstr "Zunehmender Mond"
+msgstr "Zunehmender Dreiviertelmond"
 
 #: src/util.cc:308
 msgid "Full moon"
 msgstr "Vollmond"
 
 #: src/util.cc:310
-#, fuzzy
 msgid "Waning gibbous"
-msgstr "Abnehmender Mond"
+msgstr "Abnehmender Dreiviertelmond"
 
 #: src/util.cc:312
 msgid "Last quarter moon"
 msgstr "Letztes Mondviertel"
 
 #: src/util.cc:314
-#, fuzzy
 msgid "Waning crescent"
 msgstr "Abnehmender Halbmond"
 

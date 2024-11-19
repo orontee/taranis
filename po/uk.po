@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-14 00:13+0100\n"
-"PO-Revision-Date: 2024-11-18 11:42+0000\n"
-"Last-Translator: Vitalii <stopchan@gmail.com>\n"
+"PO-Revision-Date: 2024-11-19 17:59+0000\n"
+"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/taranis/"
 "taranis/uk/>\n"
 "Language: uk\n"
@@ -127,7 +127,7 @@ msgstr "Перевірити нову версію"
 
 #: src/config.cc:53
 msgid "Units"
-msgstr "Одиниці"
+msgstr "одиниць"
 
 #: src/config.cc:57
 msgid "Start screen"
