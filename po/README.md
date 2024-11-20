@@ -57,25 +57,31 @@ The list of contributors to translations is extracted from the Weblate
 project. It doesn't reflect the heavy contributions made by Cyfranek
 and vita5656!
 
-### Czech
-
-* Matthias Meulien <orontee@gmail.com> (11)
-
 ### French
 
-* Matthias Meulien <orontee@gmail.com> (3)
+* Matthias Meulien <orontee@gmail.com> - 11
+
+
+### German
+
+* breiti-oi (breiti-oi) <breiti_oi@web.de> - 101
+
 
 ### Polish
 
-* Eryk Michalak <gnu.ewm@protonmail.com> (1)
-* Matthias Meulien <orontee@gmail.com> (2)
-* Radosław Uliszak <cyfranekblog@protonmail.com> (7)
+* Radosław Uliszak (Cyfranek) <cyfranekblog@protonmail.com> - 1
+
 
 ### Russian
 
-* Matthias Meulien <orontee@gmail.com> (2)
-* Tancrède <tancrede.meulien@gmail.com> (3)
+* Tancrède (Tank) <tancrede.meulien@gmail.com> - 76
+
 
 ### Serbian
 
-* kakonema <kakonema@gmail.com>
+* kakonema (kakonema) <kakonema@gmail.com> - 70
+
+
+### Ukrainian
+
+* Vitalii (stopchan) <stopchan@gmail.com> - 115
