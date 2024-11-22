@@ -6,15 +6,15 @@
 
 #include <inkview.h>
 
-extern const ibitmap icon_01n_2x;
-extern const ibitmap icon_02n_2x;
-extern const ibitmap icon_03n_2x;
-extern const ibitmap icon_04n_2x;
-extern const ibitmap icon_09n_2x;
-extern const ibitmap icon_10n_2x;
-extern const ibitmap icon_11n_2x;
-extern const ibitmap icon_13n_2x;
-extern const ibitmap icon_50n_2x;
+extern const ibitmap icon_01d_2x;
+extern const ibitmap icon_02d_2x;
+extern const ibitmap icon_03d_2x;
+extern const ibitmap icon_04d_2x;
+extern const ibitmap icon_09d_2x;
+extern const ibitmap icon_10d_2x;
+extern const ibitmap icon_11d_2x;
+extern const ibitmap icon_13d_2x;
+extern const ibitmap icon_50d_2x;
 extern const ibitmap icon_close;
 extern const ibitmap icon_direction;
 extern const ibitmap icon_display_settings;
@@ -39,31 +39,31 @@ class Icons {
 public:
   ibitmap *get(const std::string &name) {
     if (name == "01d" or name == "01n") {
-      return const_cast<ibitmap *>(&icon_01n_2x);
+      return const_cast<ibitmap *>(&icon_01d_2x);
     }
     if (name == "02d" or name == "02n") {
-      return const_cast<ibitmap *>(&icon_02n_2x);
+      return const_cast<ibitmap *>(&icon_02d_2x);
     }
     if (name == "03d" or name == "03n") {
-      return const_cast<ibitmap *>(&icon_03n_2x);
+      return const_cast<ibitmap *>(&icon_03d_2x);
     }
     if (name == "04d" or name == "04n") {
-      return const_cast<ibitmap *>(&icon_04n_2x);
+      return const_cast<ibitmap *>(&icon_04d_2x);
     }
     if (name == "09d" or name == "09n") {
-      return const_cast<ibitmap *>(&icon_09n_2x);
+      return const_cast<ibitmap *>(&icon_09d_2x);
     }
     if (name == "10d" or name == "10n") {
-      return const_cast<ibitmap *>(&icon_10n_2x);
+      return const_cast<ibitmap *>(&icon_10d_2x);
     }
     if (name == "11d" or name == "11n") {
-      return const_cast<ibitmap *>(&icon_11n_2x);
+      return const_cast<ibitmap *>(&icon_11d_2x);
     }
     if (name == "13d" or name == "13n") {
-      return const_cast<ibitmap *>(&icon_13n_2x);
+      return const_cast<ibitmap *>(&icon_13d_2x);
     }
     if (name == "50d" or name == "50n") {
-      return const_cast<ibitmap *>(&icon_50n_2x);
+      return const_cast<ibitmap *>(&icon_50d_2x);
     }
     if (name == "close") {
       return const_cast<ibitmap *>(&icon_close);
