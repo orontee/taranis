@@ -5,7 +5,9 @@
 ### PocketBook SDK
 
 The [PocketBook SDK](https://github.com/pocketbook/SDK_6.8.0) is
-hosted on Github and managed as a Git submodule.
+hosted on Github and used to be managed as a Git submodule. Recent
+versions are distributed as archive in the Github project release
+artefacts.
 
 ### GNU Scientific Library
 
@@ -35,16 +37,15 @@ podman run --rm -v ${PWD}:/opt/taranis \
 Read the [Containerfile](./Containerfile) to fix potential missing
 dependencies.
 
-1. First, clone the source repository and populate the `SDK_6.8.0`
-   directory with the PocketBook SDK:
+1. First, clone the source repository and run a script to populate the
+   `SDK_6.8.0` directory with the PocketBook SDK:
    ```sh
    ./scripts/install_sdk.sh
    ```
 
-   This will
-
-2. Update SDK paths and generate cross compilation configuration (It
-   will generate the file `crossfile_arm.ini` used to build):
+2. Run a script to update SDK paths and generate cross compilation
+   configuration (It will generate the file `crossfile_arm.ini` used
+   to build):
    ```sh
    ./scripts/generate_cross_compilation_conf.sh
    ```
