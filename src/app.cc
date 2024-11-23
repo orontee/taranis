@@ -78,6 +78,9 @@ int App::process_event(int event_type, int param_one, int param_two) {
     if (ISKEYEVENT(event_type)) {
       return this->ui->handle_key_event(event_type, param_one);
     }
+    if (event_type == EVT_SCREEN_INVERSION_MODE_CHANGED) {
+      this->ui->generate_logo_maybe();
+    }
   }
   return 0;
 }

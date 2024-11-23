@@ -12,6 +12,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Power off logo adapt to screen mode 
+  [#101](https://github.com/orontee/taranis/issues/101)
+
 - Fix wrong computation of alert description height
   [#100](https://github.com/orontee/taranis/issues/100)
 

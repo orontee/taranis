@@ -28,6 +28,11 @@ void Logo::do_paint() {
   this->location_box.do_paint();
   this->status_bar.do_paint();
   this->forecast_box.do_paint();
+
+  const auto screenModeInverted = IvGetScreenModeInversion();
+  if (screenModeInverted) {
+    InvertArea(0, 0, ScreenWidth(), ScreenHeight());
+  }
 }
 
 void LogoGenerator::generate_maybe() const {
