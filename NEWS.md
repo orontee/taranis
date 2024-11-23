@@ -6,6 +6,13 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.1 - 2024-11-23]
+
+### Changed
+
+- Fix wrong computation of alert description height
+  [#100](https://github.com/orontee/taranis/issues/100)
+
 ## [1.10.0 - 2024-11-20]
 
 ### Added
