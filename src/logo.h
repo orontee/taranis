@@ -2,6 +2,7 @@
 
 #include <inkview.h>
 #include <memory>
+#include <string>
 
 #include "config.h"
 #include "dailyforecastbox.h"
@@ -37,6 +38,10 @@ struct LogoGenerator {
 
   void generate_maybe() const;
 
+  static std::string get_logo_path();
+
+  static bool logo_exists();
+
 private:
   std::shared_ptr<Config> config;
   std::shared_ptr<Model> model;
@@ -44,5 +49,6 @@ private:
   std::shared_ptr<Fonts> fonts;
 
   void generate() const;
+  void remove() const;
 };
 } // namespace taranis

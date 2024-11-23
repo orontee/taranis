@@ -185,17 +185,18 @@ void App::load_config() {
   // by the backend thus unit system or language change implies that
   // data are obsolete
 
-  const bool generate_shutdown_logo =
-      this->config->read_bool("generate_shutdown_logo", false);
-  if (generate_shutdown_logo) {
-    if (this->ui) {
-      this->ui->generate_logo_maybe();
+  if (this->ui) {
+    this->ui->generate_logo_maybe();
 
-      // A logo generation must be requested after the config changed
-      // since no model update (which triggers a logo generation) may
-      // happen before user open the device configuration panel for
-      // logos (See issue #28)
-    }
+    // A logo generation must be requested after the config changed
+    // since no model update (which triggers a logo generation) may
+    // happen before user open the device configuration panel for
+    // logos (See issue #28)
+
+    // Also don't bother for the value of the configuration key
+    // generate_shutdown_logo since if it changed to false, one must
+    // remove the logo (handled by generate_logo_maybe(), yeah not
+    // that intuitive...)
   }
 
   const auto event_handler = GetEventHandler();

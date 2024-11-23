@@ -35,6 +35,13 @@ void Logo::do_paint() {
   }
 }
 
+std::string LogoGenerator::get_logo_path() {
+  const auto filename =
+      std::string{USEROFFLOGOPATH} + "/taranis_weather_forecast.bmp";
+
+  return filename;
+}
+
 void LogoGenerator::generate_maybe() const {
   const auto must_generate =
       this->config->read_bool("generate_shutdown_logo", false);
@@ -42,7 +49,21 @@ void LogoGenerator::generate_maybe() const {
     this->generate();
   } else {
     BOOST_LOG_TRIVIAL(debug) << "Skipping logo generation";
+    if (LogoGenerator::logo_exists()) {
+      this->remove();
+    }
   }
+}
+
+bool LogoGenerator::logo_exists() {
+  const auto filename = LogoGenerator::get_logo_path();
+  struct stat buffer;
+  if (iv_stat(filename.c_str(), &buffer) == 0) {
+    BOOST_LOG_TRIVIAL(debug) << "Logo exists";
+    return true;
+  }
+  BOOST_LOG_TRIVIAL(debug) << "Logo doesn't exists";
+  return false;
 }
 
 void LogoGenerator::generate() const {
@@ -71,10 +92,16 @@ void LogoGenerator::generate() const {
 
   const auto bitmap =
       BitmapFromCanvas(0, 0, ScreenWidth(), ScreenHeight(), 0, &canvas);
-  const auto filename =
-      std::string{USEROFFLOGOPATH} + "/taranis_weather_forecast.bmp";
+  const auto filename = LogoGenerator::get_logo_path();
   SaveBitmap(filename.data(), bitmap);
 
   SetCanvas(original_canvas);
+}
+
+void LogoGenerator::remove() const {
+  BOOST_LOG_TRIVIAL(debug) << "Removing logo";
+
+  const auto filename = LogoGenerator::get_logo_path();
+  iv_unlink(filename.c_str());
 }
 } // namespace taranis

@@ -12,6 +12,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Remove power off logo when generation is disabled
+  [#102](https://github.com/orontee/taranis/issues/102)
+
 - Power off logo adapt to screen mode 
   [#101](https://github.com/orontee/taranis/issues/101)
 
