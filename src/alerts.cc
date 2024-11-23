@@ -149,8 +149,8 @@ void AlertViewer::identify_scrollable_area() {
                      this->alert_description_text.c_str(), ALIGN_LEFT);
 
   this->min_scrollable_view_offset =
-      -std::max(0, alert_title_height + description_height -
-                       this->scrollable_view_rectangle.h);
+      -std::max(0, alert_title_height + 2 * AlertViewer::vertical_padding +
+                       description_height - this->scrollable_view_rectangle.h);
 }
 
 void AlertViewer::update_title_text() {

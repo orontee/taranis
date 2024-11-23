@@ -12,6 +12,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Fix wrong computation of alert description height
+  [#100](https://github.com/orontee/taranis/issues/100)
+
 ### Removed
 
 ## [1.10.0 - 2024-11-20]
