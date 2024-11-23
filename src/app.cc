@@ -543,19 +543,6 @@ void App::set_model_location(const Location &location) const {
             CallContext::triggered_by_model_change);
 }
 
-void App::update_configured_unit_system(UnitSystem unit_system) {
-  BOOST_LOG_TRIVIAL(debug) << "Updating configured unit system";
-
-  if (unit_system == this->model->unit_system) {
-    BOOST_LOG_TRIVIAL(debug) << "No need to update configured unit system";
-
-    return;
-  }
-  this->config->write_int("unit_system", unit_system);
-
-  Config::config_changed();
-}
-
 void App::check_minimum_supported_firmware() {
   const auto firmware_version = GetSoftwareVersion();
   try {

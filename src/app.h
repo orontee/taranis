@@ -83,8 +83,6 @@ private:
 
   void set_model_location(const Location &location) const;
 
-  void update_configured_unit_system(UnitSystem unit_system);
-
   void check_minimum_supported_firmware();
 
   void set_app_capabilities();
