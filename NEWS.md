@@ -12,6 +12,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Fix missing translations for German, Russian and Ukrainian
+  [#103](https://github.com/orontee/taranis/issues/103)
+
 ### Removed
 
 ## [1.11.0 - 2024-11-24]

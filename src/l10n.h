@@ -14,6 +14,10 @@ namespace l10n {
 extern const Translations cs_translations;
 extern const Translations fr_translations;
 extern const Translations pl_translations;
+extern const Translations ru_translations;
+extern const Translations uk_translations;
+extern const Translations de_translations;
+
 } // namespace l10n
 
 class L10n {
@@ -66,6 +70,12 @@ private:
       return &(l10n::fr_translations);
     } else if (std::strcmp(language, "pl") == 0) {
       return &(l10n::pl_translations);
+    } else if (std::strcmp(language, "ru") == 0) {
+      return &(l10n::ru_translations);
+    } else if (std::strcmp(language, "uk") == 0) {
+      return &(l10n::uk_translations);
+    } else if (std::strcmp(language, "de") == 0) {
+      return &(l10n::de_translations);
     }
     return nullptr;
   }
