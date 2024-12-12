@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-14 00:13+0100\n"
-"PO-Revision-Date: 2024-11-19 17:59+0000\n"
-"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
+"PO-Revision-Date: 2024-12-12 14:00+0000\n"
+"Last-Translator: Vitalii <stopchan@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/taranis/"
 "taranis/uk/>\n"
 "Language: uk\n"
@@ -78,11 +78,11 @@ msgstr "Послуга недоступна"
 #: src/app.cc:481 src/config.cc:45 src/version.cc:100 src/version.cc:107
 #: src/version.cc:114 src/version.cc:122 src/version.cc:134
 msgid "Software version"
-msgstr "Версія прошивки"
+msgstr "Версія програми"
 
 #: src/app.cc:562
 msgid "Unsupported software version"
-msgstr "Версія прошивки не підтримується"
+msgstr "Версія програми не підтримується"
 
 #: src/app.cc:563
 msgid ""
@@ -115,7 +115,7 @@ msgstr "При запуску"
 
 #: src/config.cc:32
 msgid "When obsolete"
-msgstr "Коли застаріває"
+msgstr "Коли застаріли"
 
 #: src/config.cc:33
 msgid "Manually"
@@ -127,7 +127,7 @@ msgstr "Перевірити нову версію"
 
 #: src/config.cc:53
 msgid "Units"
-msgstr "одиниць"
+msgstr "Одиниці"
 
 #: src/config.cc:57
 msgid "Start screen"
@@ -135,7 +135,7 @@ msgstr "Початковий екран"
 
 #: src/config.cc:61
 msgid "Data update strategy"
-msgstr "Принцип оновлення даних"
+msgstr "Оновлення даних"
 
 #: src/config.cc:64
 msgid "Custom API key"
@@ -147,7 +147,7 @@ msgstr "Створити заставку вимкнення"
 
 #: src/config.cc:72
 msgid "Software"
-msgstr "Прошивка"
+msgstr "Програмне забезпечення"
 
 #: src/config.cc:129
 msgid "Parameters"
@@ -159,7 +159,7 @@ msgstr "Відчувається як"
 
 #: src/dailyforecastviewer.cc:309
 msgid "Sun"
-msgstr "Сонця"
+msgstr "Сонце"
 
 #: src/dailyforecastviewer.cc:309
 msgid "Moon"
@@ -199,7 +199,7 @@ msgstr "Ніч"
 
 #: src/dailyforecastviewer.cc:349
 msgid "Min/Max"
-msgstr "Мін/Макс"
+msgstr "Найнижча/Найвища"
 
 #: src/dailyforecastviewer.cc:359
 msgid "Wind"
