@@ -14,6 +14,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Removed
 
+## [1.11.2 - 2024-12-20]
+
+### Changed
+
+- Update of German and Ukrainian translations
+  [#22](https://github.com/orontee/taranis/issues/22)
+
 ## [1.11.1 - 2024-12-6]
 
 ### Changed
