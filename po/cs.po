@@ -1,5 +1,5 @@
 # taranis translation file.
-# Copyright (C) 2023 Matthias Meulien
+# Copyright (C) 2025 Matthias Meulien <orontee@gmail.com>
 # This file is distributed under the same license as the taranis package.
 # Matthias Meulien <orontee@gmail.com>, 2023.
 #

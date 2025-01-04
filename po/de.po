@@ -1,7 +1,7 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# taranis translation file.
+# Copyright (C) 2025 Matthias Meulien <orontee@gmail.com>
 # This file is distributed under the same license as the taranis package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# breiti-oi <breiti_oi@web.de>, 2024.
 #
 msgid ""
 msgstr ""
