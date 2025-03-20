@@ -1,0 +1,403 @@
+# taranis translation file.
+# Copyright (C) 2025 Matthias Meulien <orontee@gmail.com>
+# This file is distributed under the same license as the taranis package.
+# Matthias Meulien <orontee@gmail.com>>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: taranis\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-11-14 00:13+0100\n"
+"PO-Revision-Date: 2025-03-20 00:07+0000\n"
+"Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
+"Language-Team: Tamil <https://hosted.weblate.org/projects/taranis/taranis/ta/"
+">\n"
+"Language: ta\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.11-dev\n"
+
+#: src/about.cc.in:15
+msgid ""
+"This program is provided without any warranty. For more details, read GNU "
+"General Public License, version 3 or later"
+msgstr ""
+"இந்த நிரல் எந்த உத்தரவாதமும் இல்லாமல் வழங்கப்படுகிறது. மேலும் விவரங்களுக்கு, குனு பொது "
+"பொது உரிமம், பதிப்பு 3 அல்லது அதற்குப் பிறகு படிக்கவும்"
+
+#: src/about.cc.in:18
+msgid "Credits"
+msgstr "வரவு"
+
+#: src/alerts.cc:157
+msgid "Alert"
+msgstr "விழிப்புணர்வு"
+
+#: src/alerts.cc:172
+msgid "Start"
+msgstr "தொடங்கு"
+
+#: src/alerts.cc:174
+msgid "Duration"
+msgstr "காலம்"
+
+#: src/alerts.cc:179
+msgid "Source"
+msgstr "மூலம்"
+
+#: src/app.cc:261 src/app.cc:273 src/app.cc:307 src/app.cc:482
+#: src/version.cc:135
+msgid "Ok"
+msgstr "சரி"
+
+#: src/app.cc:303
+msgid "Invalid input"
+msgstr "தவறான உள்ளீடு"
+
+#: src/app.cc:305
+msgid "Make sure you enter a town then a country separated by a comma."
+msgstr ""
+"கமாவால் பிரிக்கப்பட்ட ஒரு நாட்டிற்கு நீங்கள் ஒரு ஊருக்குள் நுழைகிறீர்கள் என்பதை "
+"உறுதிப்படுத்திக் கொள்ளுங்கள்."
+
+#: src/app.cc:423 src/app.cc:432 src/app.cc:507 src/app.cc:515
+msgid "Network error"
+msgstr "பிணைய பிழை"
+
+#: src/app.cc:424 src/app.cc:433 src/app.cc:508 src/app.cc:516
+msgid "Failure while fetching weather data. Check your network connection."
+msgstr "வானிலை தரவைப் பெறும்போது தோல்வி. உங்கள் பிணைய இணைப்பை சரிபார்க்கவும்."
+
+#: src/app.cc:440 src/app.cc:522
+msgid "Service unavailable"
+msgstr "பணி கிடைக்கவில்லை"
+
+#: src/app.cc:481 src/config.cc:45 src/version.cc:100 src/version.cc:107
+#: src/version.cc:114 src/version.cc:122 src/version.cc:134
+msgid "Software version"
+msgstr "மென்பொருள் பதிப்பு"
+
+#: src/app.cc:562
+msgid "Unsupported software version"
+msgstr "ஆதரிக்கப்படாத மென்பொருள் பதிப்பு"
+
+#: src/app.cc:563
+msgid ""
+"The application isn't compatible with the software version of this reader."
+msgstr "பயன்பாடு இந்த வாசகரின் மென்பொருள் பதிப்போடு பொருந்தாது."
+
+#: src/config.cc:20
+msgid "Standard"
+msgstr "தரநிலை"
+
+#: src/config.cc:21
+msgid "Metric"
+msgstr "மெட்ரிக்"
+
+#: src/config.cc:22
+msgid "Imperial"
+msgstr "ஏகாதிபத்திய"
+
+#: src/config.cc:27
+msgid "Hourly forecast"
+msgstr "மணிநேர முன்னறிவிப்பு"
+
+#: src/config.cc:28
+msgid "Daily forecast"
+msgstr "நாள்தோறும் முன்னறிவிப்பு"
+
+#: src/config.cc:31
+msgid "At startup"
+msgstr "தொடக்கத்தில்"
+
+#: src/config.cc:32
+msgid "When obsolete"
+msgstr "வழக்கற்றுப் போகும்போது"
+
+#: src/config.cc:33
+msgid "Manually"
+msgstr "கைமுறையாக"
+
+#: src/config.cc:48
+msgid "Check newer version"
+msgstr "புதிய பதிப்பை சரிபார்க்கவும்"
+
+#: src/config.cc:53
+msgid "Units"
+msgstr "அலகுகள்"
+
+#: src/config.cc:57
+msgid "Start screen"
+msgstr "திரை தொடக்க"
+
+#: src/config.cc:61
+msgid "Data update strategy"
+msgstr "தரவு புதுப்பிப்பு உத்தி"
+
+#: src/config.cc:64
+msgid "Custom API key"
+msgstr "தனிப்பயன் பநிஇ விசை"
+
+#: src/config.cc:68
+msgid "Generate shutdown logo"
+msgstr "பணிநிறுத்தம் லோகோவை உருவாக்குங்கள்"
+
+#: src/config.cc:72
+msgid "Software"
+msgstr "மென்பொருள்"
+
+#: src/config.cc:129
+msgid "Parameters"
+msgstr "அளவுருக்கள்"
+
+#: src/currentconditionbox.cc:86 src/dailyforecastviewer.cc:341
+msgid "Felt"
+msgstr "உணர்ந்தேன்"
+
+#: src/dailyforecastviewer.cc:309
+msgid "Sun"
+msgstr "சூரியன்"
+
+#: src/dailyforecastviewer.cc:309
+msgid "Moon"
+msgstr "சந்திரன்"
+
+#: src/dailyforecastviewer.cc:312
+msgid "Rise"
+msgstr "எழுச்சி"
+
+#: src/dailyforecastviewer.cc:317
+msgid "Set"
+msgstr "கணம்"
+
+#: src/dailyforecastviewer.cc:322
+msgid "Moon phase"
+msgstr "சந்திரன் கட்டம்"
+
+#: src/dailyforecastviewer.cc:328
+msgid "Temperatures"
+msgstr "வெப்பநிலை"
+
+#: src/dailyforecastviewer.cc:329
+msgid "Morning"
+msgstr "காலை"
+
+#: src/dailyforecastviewer.cc:329
+msgid "Day"
+msgstr "நாள்"
+
+#: src/dailyforecastviewer.cc:330
+msgid "Evening"
+msgstr "மாலை"
+
+#: src/dailyforecastviewer.cc:330
+msgid "Night"
+msgstr "இரவு"
+
+#: src/dailyforecastviewer.cc:349
+msgid "Min/Max"
+msgstr "நிமிடம்/அதிகபட்சம்"
+
+#: src/dailyforecastviewer.cc:359
+msgid "Wind"
+msgstr "காற்று"
+
+#: src/dailyforecastviewer.cc:364
+msgid "Speed"
+msgstr "வேகம்"
+
+#: src/dailyforecastviewer.cc:372
+msgid "Gust"
+msgstr "Vust"
+
+#: src/dailyforecastviewer.cc:387
+msgid "Direction"
+msgstr "திசை"
+
+#: src/dailyforecastviewer.cc:397
+msgid "Precipitation"
+msgstr "மழைப்பொழிவு"
+
+#: src/dailyforecastviewer.cc:401
+msgid "Rain"
+msgstr "மழை"
+
+#: src/dailyforecastviewer.cc:407
+msgid "Snow"
+msgstr "பனி"
+
+#: src/dailyforecastviewer.cc:412
+msgid "Probability"
+msgstr "நிகழ்தகவு"
+
+#: src/dailyforecastviewer.cc:421
+msgid "Other metrics"
+msgstr "பிற அளவீடுகள்"
+
+#: src/dailyforecastviewer.cc:424
+msgid "Pressure"
+msgstr "அழுத்தம்"
+
+#: src/dailyforecastviewer.cc:428
+msgid "Humidity"
+msgstr "ஈரப்பதம்"
+
+#: src/dailyforecastviewer.cc:433
+msgid "Dew point"
+msgstr "பனி புள்ளி"
+
+#: src/dailyforecastviewer.cc:439
+msgid "UV index"
+msgstr "புற ஊதா அட்டவணை"
+
+#: src/dailyforecastviewer.cc:445
+msgid "Cloudiness"
+msgstr "மேகமூட்டம்"
+
+#: src/errors.h:37
+msgid "Location unknown to the service providing weather data. Check spelling."
+msgstr ""
+"வானிலை தரவை வழங்கும் சேவைக்கு தெரியாத இடம். எழுத்துப்பிழை சரிபார்க்கவும்."
+
+#: src/errors.h:43 src/version.cc:87
+msgid ""
+"Sorry, an unexpected error was encountered. Report this to the application "
+"author."
+msgstr ""
+"மன்னிக்கவும், எதிர்பாராத பிழை ஏற்பட்டது. இதை விண்ணப்ப ஆசிரியரிடம் புகாரளிக்கவும்."
+
+#: src/errors.h:54
+msgid ""
+"An API key is required to consume weather data. Contact the application "
+"maintainer."
+msgstr ""
+"வானிலை தரவை உட்கொள்ள ஒரு பநிஇ விசை தேவை. விண்ணப்ப பராமரிப்பாளரைத் தொடர்பு கொள்ளுங்கள்."
+
+#: src/errors.h:60
+msgid "Weather data can't be accessed with the provided API key."
+msgstr "வழங்கப்பட்ட பநிஇ விசையுடன் வானிலை தரவை அணுக முடியாது."
+
+#: src/errors.h:71
+msgid ""
+"The service providing weather data isn't working as expected. Retry later."
+msgstr ""
+"வானிலை தரவை வழங்கும் பணி எதிர்பார்த்தபடி செயல்படவில்லை. பின்னர் மீண்டும் முயற்சிக்கவும்."
+
+#: src/locationbox.cc:45
+msgid "Enter location"
+msgstr "இருப்பிடத்தை உள்ளிடவும்"
+
+#: src/locationselector.cc:46 src/menu.cc:74
+msgid "Locations"
+msgstr "இருப்பிடங்கள்"
+
+#: src/locationselector.cc:57
+msgid "Longitude"
+msgstr "நெட்டாங்கு"
+
+#: src/locationselector.cc:58
+msgid "Latitude"
+msgstr "அகலாங்கு"
+
+#: src/menu.cc:72
+msgid "Refresh"
+msgstr "புதுப்பிப்பு"
+
+#: src/menu.cc:76
+msgid "Parameters…"
+msgstr "அளவுருக்கள்…"
+
+#: src/menu.cc:78
+msgid "Quit"
+msgstr "வெளியேறு"
+
+#: src/menu.cc:92
+msgid "Empty"
+msgstr "காலி"
+
+#: src/menu.cc:105 src/menu.cc:133
+msgid "Add to favorites"
+msgstr "பிடித்தவைகளில் சேர்க்கவும்"
+
+#: src/menu.cc:114 src/menu.cc:159
+msgid "Edit location"
+msgstr "இருப்பிடத்தைத் திருத்தவும்"
+
+#: src/menu.cc:132
+msgid "Remove from favorites"
+msgstr "பிடித்தவைகளிலிருந்து அகற்று"
+
+#: src/statusbar.cc:25
+msgid "Ongoing update…"
+msgstr "நடந்துகொண்டிருக்கும் புதுப்பிப்பு…"
+
+#: src/statusbar.cc:27 src/statusbar.cc:39
+msgid "Last update:"
+msgstr "கடைசி புதுப்பிப்பு:"
+
+#: src/statusbar.cc:50
+msgid "Weather data from"
+msgstr "இருந்து வானிலை தரவு"
+
+#: src/util.cc:191
+msgid "Today"
+msgstr "இன்று"
+
+#: src/util.cc:196
+msgid "Yesterday"
+msgstr "நேற்று"
+
+#: src/util.cc:201
+msgid "Tomorrow"
+msgstr "நாளை"
+
+#: src/util.cc:300 src/util.cc:316
+msgid "New moon"
+msgstr "இல்மதி"
+
+#: src/util.cc:302
+msgid "Waxing crescent"
+msgstr "மெழுகு பிறை"
+
+#: src/util.cc:304
+msgid "First quarter moon"
+msgstr "முதல் காலாண்டு சந்திரன்"
+
+#: src/util.cc:306
+msgid "Waxing gibbous"
+msgstr "மெழுகு கிப்பச்"
+
+#: src/util.cc:308
+msgid "Full moon"
+msgstr "முழு நிலவு"
+
+#: src/util.cc:310
+msgid "Waning gibbous"
+msgstr "கிப்பச் குறைந்து"
+
+#: src/util.cc:312
+msgid "Last quarter moon"
+msgstr "கடைசி காலாண்டு நிலவு"
+
+#: src/util.cc:314
+msgid "Waning crescent"
+msgstr "பிறை குறைதல்"
+
+#: src/version.cc:97
+msgid "The service hosting releases isn't working as expected. Retry later."
+msgstr ""
+"பணி ஓச்டிங் வெளியீடுகள் எதிர்பார்த்தபடி செயல்படவில்லை. பின்னர் மீண்டும் முயற்சிக்கவும்."
+
+#: src/version.cc:123
+msgid "Latest release already installed"
+msgstr "அண்மைக் கால வெளியீடு ஏற்கனவே நிறுவப்பட்டுள்ளது"
+
+#: src/version.cc:135
+msgid "Browse"
+msgstr "உலாவு"
+
+#: src/version.cc:289
+msgid "A new version is available:"
+msgstr "புதிய பதிப்பு கிடைக்கிறது:"
