@@ -6,7 +6,7 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.13.0 - 2025-06-14]
 
 ### Added
 
@@ -15,12 +15,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
--  "Next" and "previous" buttons now allow to browse daily
+- "Next" and "previous" buttons now allow to browse daily
   forecasts. "Previous" button hides the viewer if and only if it
   displays the first forecast.
   [#106](https://github.com/orontee/taranis/issues/106)
-
-### Removed
 
 ## [1.12.0 - 2025-06-14]
 
