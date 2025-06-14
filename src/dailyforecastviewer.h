@@ -11,6 +11,7 @@
 #include "fonts.h"
 #include "icons.h"
 #include "model.h"
+#include "swipe.h"
 #include "widget.h"
 
 namespace taranis {
@@ -75,8 +76,17 @@ private:
 
   DescriptionRows description_data;
 
+  SwipeDetector swipe_detector;
+
   void identify_scrollable_area();
 
   void generate_description_data(const DailyCondition &condition);
+
+  void display_previous_forecast_maybe();
+
+  void display_next_forecast_maybe();
+
+  bool handle_possible_swipe(int event_type, int pointer_pos_x,
+                             int pointer_pos_y);
 };
 } // namespace taranis

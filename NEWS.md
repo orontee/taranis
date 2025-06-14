@@ -10,7 +10,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Daily forecast viewer support swipe to display next or previous
+  forecast [#106](https://github.com/orontee/taranis/issues/106)
+
 ### Changed
+
+-  "Next" and "previous" buttons now allow to browse daily
+  forecasts. "Previous" button hides the viewer if and only if it
+  displays the first forecast.
+  [#106](https://github.com/orontee/taranis/issues/106)
 
 ### Removed
 
@@ -18,7 +26,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- Alert viewer now support swipe to display next or previous alert
+- Alert viewer support swipe to display next or previous alert
   [#105](https://github.com/orontee/taranis/issues/105)
 
 ## [1.11.2 - 2024-12-20]

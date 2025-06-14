@@ -18,7 +18,9 @@ DailyForecastViewer::DailyForecastViewer(int pos_y,
                   ScreenWidth() - 2 * DailyForecastViewer::horizontal_padding,
                   ScreenHeight() - pos_y -
                       DailyForecastViewer::vertical_padding},
-      model{model}, icons{icons}, fonts{fonts} {}
+      model{model}, icons{icons}, fonts{fonts} {
+  this->swipe_detector.set_bounding_box(this->bounding_box);
+}
 
 void DailyForecastViewer::open() {
   if (this->forecast_index >= this->model->daily_forecast.size()) {
@@ -448,13 +450,18 @@ void DailyForecastViewer::generate_description_data(
 
 bool DailyForecastViewer::handle_key_release(int key) {
   if (key == IV_KEY_PREV) {
-    this->hide();
+    this->display_previous_forecast_maybe();
+  } else if (key == IV_KEY_NEXT) {
+    this->display_next_forecast_maybe();
   }
   return true;
 }
 
 int DailyForecastViewer::handle_pointer_event(int event_type, int pointer_pos_x,
                                               int pointer_pos_y) {
+  if (this->handle_possible_swipe(event_type, pointer_pos_x, pointer_pos_y)) {
+    return 1;
+  }
   if (event_type == EVT_SCROLL) {
     auto *const scroll_area = reinterpret_cast<irect *>(pointer_pos_x);
     if (scroll_area == &this->scrollable_view_rectangle) {
@@ -484,4 +491,51 @@ int DailyForecastViewer::handle_pointer_event(int event_type, int pointer_pos_x,
   return 0;
 }
 
+void DailyForecastViewer::display_previous_forecast_maybe() {
+  if (this->forecast_index != 0) {
+    --this->forecast_index;
+
+    const auto &condition =
+        this->model->daily_forecast.at(this->forecast_index);
+    this->generate_description_data(condition);
+
+    this->identify_scrollable_area();
+
+    this->paint_and_update_screen();
+  } else {
+    this->hide();
+  }
+}
+
+void DailyForecastViewer::display_next_forecast_maybe() {
+  if (this->forecast_index + 1 < this->model->daily_forecast.size()) {
+    ++this->forecast_index;
+
+    const auto &condition =
+        this->model->daily_forecast.at(this->forecast_index);
+    this->generate_description_data(condition);
+
+    this->identify_scrollable_area();
+
+    this->paint_and_update_screen();
+  } else {
+    this->hide();
+  }
+}
+
+bool DailyForecastViewer::handle_possible_swipe(int event_type,
+                                                int pointer_pos_x,
+                                                int pointer_pos_y) {
+  const auto swipe = this->swipe_detector.guess_event_swipe_type(
+      event_type, pointer_pos_x, pointer_pos_y);
+  if (swipe != SwipeType::no_swipe) {
+    if (swipe == SwipeType::left_swipe) {
+      this->display_next_forecast_maybe();
+    } else if (swipe == SwipeType::right_swipe) {
+      this->display_previous_forecast_maybe();
+    }
+    return true;
+  }
+  return false;
+}
 } // namespace taranis
