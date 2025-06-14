@@ -37,11 +37,15 @@ Sticky note for maintainers.
    ⚠️ Check the "Set as pre-release" box
 
    Attach the following files:
+   - `artifact.zip`
    - `taranis.pbi`
    - `taranis.sha256`
    - `taranis.zip`
 
    Then save the release draft.
+   
+   ⚠️ Don't skip the `artifiact.zip` otherwise the new release won't be
+   seen by the application!
 
 8. Download installer from release; Install and test.
 
