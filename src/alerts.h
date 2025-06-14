@@ -8,6 +8,7 @@
 #include "fonts.h"
 #include "icons.h"
 #include "model.h"
+#include "swipe.h"
 
 namespace taranis {
 
@@ -63,6 +64,8 @@ private:
   std::string alert_title_text;
   std::string alert_description_text;
 
+  SwipeDetector swipe_detector;
+
   inline size_t alert_count() const { return this->model->alerts.size(); }
 
   void identify_scrollable_area();
@@ -76,5 +79,8 @@ private:
   void display_previous_alert_maybe();
 
   void display_next_alert_maybe();
+
+  bool handle_possible_swipe(int event_type, int pointer_pos_x,
+                             int pointer_pos_y);
 };
 } // namespace taranis

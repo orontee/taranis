@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Alert viewer now support swipe to display next or previous alert
+  [#105](https://github.com/orontee/taranis/issues/105)
+
 ### Changed
 
 ### Removed

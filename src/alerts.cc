@@ -116,6 +116,8 @@ void AlertViewer::do_paint() {
 
   SetClip(0, 0, ScreenWidth(), ScreenHeight());
 
+  this->swipe_detector.set_bounding_box(this->bounding_box);
+
   DrawFrameRectCertified(this->bounding_box, THICKNESS_DEF_FOCUSED_FRAME);
 }
 
@@ -226,6 +228,9 @@ bool AlertViewer::handle_key_release(int key) {
 
 int AlertViewer::handle_pointer_event(int event_type, int pointer_pos_x,
                                       int pointer_pos_y) {
+  if (this->handle_possible_swipe(event_type, pointer_pos_x, pointer_pos_y)) {
+    return 1;
+  }
   if (event_type == EVT_SCROLL) {
     auto *const scroll_area = reinterpret_cast<irect *>(pointer_pos_x);
     if (scroll_area == &this->scrollable_view_rectangle) {
@@ -253,6 +258,21 @@ int AlertViewer::handle_pointer_event(int event_type, int pointer_pos_x,
                                                     pointer_pos_y);
   }
   return 0;
+}
+
+bool AlertViewer::handle_possible_swipe(int event_type, int pointer_pos_x,
+                                        int pointer_pos_y) {
+  const auto swipe = this->swipe_detector.guess_event_swipe_type(
+      event_type, pointer_pos_x, pointer_pos_y);
+  if (swipe != SwipeType::no_swipe) {
+    if (swipe == SwipeType::left_swipe) {
+      this->display_next_alert_maybe();
+    } else if (swipe == SwipeType::right_swipe) {
+      this->display_previous_alert_maybe();
+    }
+    return true;
+  }
+  return false;
 }
 
 } // namespace taranis
