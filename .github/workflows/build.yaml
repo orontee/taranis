@@ -24,6 +24,7 @@ jobs:
         run: |
           sudo apt-get update -
           sudo apt-get install --no-install-recommends -y \
+                7zip \
                 build-essential \
                 ca-certificates \
                 clang \
