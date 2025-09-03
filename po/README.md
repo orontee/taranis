@@ -82,6 +82,11 @@ and vita5656!
 * kakonema (kakonema) <kakonema@gmail.com> - 70
 
 
+### Slovak
+
+* spacad (spacad) <adamspacek@icloud.com> - 95
+
+
 ### Ukrainian
 
 * Vitalii (stopchan) <stopchan@gmail.com> - 115
