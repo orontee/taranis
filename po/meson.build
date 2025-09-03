@@ -6,4 +6,12 @@ i18n.gettext('taranis',
                     '--keyword=GetLangTextPlural'],
              install: false)
 
-po_files = ['cs.po', 'fr.po', 'pl.po', 'sr.po']
+po_files = [
+  'cs.po',
+  'de.po',
+  'fr.po',
+  'pl.po',
+  'ru.po',
+  'sk.po',
+  'uk.po'
+]
