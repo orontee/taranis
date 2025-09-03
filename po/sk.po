@@ -1,0 +1,400 @@
+# taranis translation file.
+# Copyright (C) 2025 Matthias Meulien <orontee@gmail.com>
+# This file is distributed under the same license as the taranis package.
+# Matthias Meulien <orontee@gmail.com>>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: taranis\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-11-14 00:13+0100\n"
+"PO-Revision-Date: 2025-09-03 19:22+0000\n"
+"Last-Translator: spacad <adamspacek@icloud.com>\n"
+"Language-Team: Slovak <https://hosted.weblate.org/projects/taranis/taranis/"
+"sk/>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
+"X-Generator: Weblate 5.13.1-rc\n"
+
+#: src/about.cc.in:15
+msgid ""
+"This program is provided without any warranty. For more details, read GNU "
+"General Public License, version 3 or later"
+msgstr ""
+"Tento program sa poskytuje bez akejkoľvek záruky. Podrobnosti sú uvedené v "
+"GNU General Public License, verzia 3 alebo novšia"
+
+#: src/about.cc.in:18
+msgid "Credits"
+msgstr "Autori"
+
+#: src/alerts.cc:157
+msgid "Alert"
+msgstr "Upozornenie"
+
+#: src/alerts.cc:172
+msgid "Start"
+msgstr "Spustiť"
+
+#: src/alerts.cc:174
+msgid "Duration"
+msgstr "Trvanie"
+
+#: src/alerts.cc:179
+msgid "Source"
+msgstr "Zdroj"
+
+#: src/app.cc:261 src/app.cc:273 src/app.cc:307 src/app.cc:482
+#: src/version.cc:135
+msgid "Ok"
+msgstr "Ok"
+
+#: src/app.cc:303
+msgid "Invalid input"
+msgstr "Neplatné zadanie"
+
+#: src/app.cc:305
+msgid "Make sure you enter a town then a country separated by a comma."
+msgstr "Skontrolujte, či ste zadali mesto a potom krajinu, oddelené čiarkou."
+
+#: src/app.cc:423 src/app.cc:432 src/app.cc:507 src/app.cc:515
+msgid "Network error"
+msgstr "Chyba siete"
+
+#: src/app.cc:424 src/app.cc:433 src/app.cc:508 src/app.cc:516
+msgid "Failure while fetching weather data. Check your network connection."
+msgstr "Nepodarilo sa získať údaje o počasí. Skontrolujte pripojenie na sieť."
+
+#: src/app.cc:440 src/app.cc:522
+msgid "Service unavailable"
+msgstr "Služba nie je dostupná"
+
+#: src/app.cc:481 src/config.cc:45 src/version.cc:100 src/version.cc:107
+#: src/version.cc:114 src/version.cc:122 src/version.cc:134
+msgid "Software version"
+msgstr "Verzia softvéru"
+
+#: src/app.cc:562
+msgid "Unsupported software version"
+msgstr "Nepodporovaná verzia softvéru"
+
+#: src/app.cc:563
+msgid ""
+"The application isn't compatible with the software version of this reader."
+msgstr "Aplikácia nie je kompatibilná s verziou softvéru tejto čítačky."
+
+#: src/config.cc:20
+msgid "Standard"
+msgstr "Štandardné"
+
+#: src/config.cc:21
+msgid "Metric"
+msgstr "Metrické"
+
+#: src/config.cc:22
+msgid "Imperial"
+msgstr "Imperiálne"
+
+#: src/config.cc:27
+msgid "Hourly forecast"
+msgstr "Hodinová predpoveď"
+
+#: src/config.cc:28
+msgid "Daily forecast"
+msgstr "Denná predpoveď"
+
+#: src/config.cc:31
+msgid "At startup"
+msgstr "Pri spustení"
+
+#: src/config.cc:32
+msgid "When obsolete"
+msgstr "Keď sú zastaralé"
+
+#: src/config.cc:33
+msgid "Manually"
+msgstr "Manuálne"
+
+#: src/config.cc:48
+msgid "Check newer version"
+msgstr "Skontrolovať novšiu verziu"
+
+#: src/config.cc:53
+msgid "Units"
+msgstr "Jednotky"
+
+#: src/config.cc:57
+msgid "Start screen"
+msgstr "Úvodná obrazovka"
+
+#: src/config.cc:61
+msgid "Data update strategy"
+msgstr "Spôsob aktualizácie údajov"
+
+#: src/config.cc:64
+msgid "Custom API key"
+msgstr "Vlastný kľúč API"
+
+#: src/config.cc:68
+msgid "Generate shutdown logo"
+msgstr "Vygenerovať logo vypnutia"
+
+#: src/config.cc:72
+msgid "Software"
+msgstr "Softvér"
+
+#: src/config.cc:129
+msgid "Parameters"
+msgstr "Parametre"
+
+#: src/currentconditionbox.cc:86 src/dailyforecastviewer.cc:341
+msgid "Felt"
+msgstr "Pocitová teplota"
+
+#: src/dailyforecastviewer.cc:309
+msgid "Sun"
+msgstr "Slnko"
+
+#: src/dailyforecastviewer.cc:309
+msgid "Moon"
+msgstr "Mesiac"
+
+#: src/dailyforecastviewer.cc:312
+msgid "Rise"
+msgstr "Východ"
+
+#: src/dailyforecastviewer.cc:317
+msgid "Set"
+msgstr "Západ"
+
+#: src/dailyforecastviewer.cc:322
+msgid "Moon phase"
+msgstr "Fáza mesiaca"
+
+#: src/dailyforecastviewer.cc:328
+msgid "Temperatures"
+msgstr "Teplota"
+
+#: src/dailyforecastviewer.cc:329
+msgid "Morning"
+msgstr "Ráno"
+
+#: src/dailyforecastviewer.cc:329
+msgid "Day"
+msgstr "Deň"
+
+#: src/dailyforecastviewer.cc:330
+msgid "Evening"
+msgstr "Večer"
+
+#: src/dailyforecastviewer.cc:330
+msgid "Night"
+msgstr "Noc"
+
+#: src/dailyforecastviewer.cc:349
+msgid "Min/Max"
+msgstr "Min/Max"
+
+#: src/dailyforecastviewer.cc:359
+msgid "Wind"
+msgstr "Vietor"
+
+#: src/dailyforecastviewer.cc:364
+msgid "Speed"
+msgstr "Rýchlosť"
+
+#: src/dailyforecastviewer.cc:372
+msgid "Gust"
+msgstr "Náraz vetra"
+
+#: src/dailyforecastviewer.cc:387
+msgid "Direction"
+msgstr "Smer"
+
+#: src/dailyforecastviewer.cc:397
+msgid "Precipitation"
+msgstr "Zrážky"
+
+#: src/dailyforecastviewer.cc:401
+msgid "Rain"
+msgstr "Dážď"
+
+#: src/dailyforecastviewer.cc:407
+msgid "Snow"
+msgstr "Sneh"
+
+#: src/dailyforecastviewer.cc:412
+msgid "Probability"
+msgstr "Pravdepodobnosť"
+
+#: src/dailyforecastviewer.cc:421
+msgid "Other metrics"
+msgstr "Ostatné metriky"
+
+#: src/dailyforecastviewer.cc:424
+msgid "Pressure"
+msgstr "Tlak"
+
+#: src/dailyforecastviewer.cc:428
+msgid "Humidity"
+msgstr "Vlhkosť"
+
+#: src/dailyforecastviewer.cc:433
+msgid "Dew point"
+msgstr "Rosný bod"
+
+#: src/dailyforecastviewer.cc:439
+msgid "UV index"
+msgstr "UV index"
+
+#: src/dailyforecastviewer.cc:445
+msgid "Cloudiness"
+msgstr "Oblačnosť"
+
+#: src/errors.h:37
+msgid "Location unknown to the service providing weather data. Check spelling."
+msgstr ""
+"Poloha nie je rozpoznaná službou poskytujúcou údaje o počasí. Skontrolujte "
+"správnosť zadania."
+
+#: src/errors.h:43 src/version.cc:87
+msgid ""
+"Sorry, an unexpected error was encountered. Report this to the application "
+"author."
+msgstr "Vyskytla sa neočakávaná chyba. Upozornite na ňu správcu aplikácie."
+
+#: src/errors.h:54
+msgid ""
+"An API key is required to consume weather data. Contact the application "
+"maintainer."
+msgstr ""
+"Na získavanie údajov o počasí je potrebný kľúč API. Kontaktujte správcu "
+"aplikácie."
+
+#: src/errors.h:60
+msgid "Weather data can't be accessed with the provided API key."
+msgstr "Údaje o počasí nie je možné získať s poskytnutým kľúčom API."
+
+#: src/errors.h:71
+msgid ""
+"The service providing weather data isn't working as expected. Retry later."
+msgstr "Služba poskytujúca údaje o počasí nefunguje správne. Skúste to neskôr."
+
+#: src/locationbox.cc:45
+msgid "Enter location"
+msgstr "Zadajte lokalitu"
+
+#: src/locationselector.cc:46 src/menu.cc:74
+msgid "Locations"
+msgstr "Lokality"
+
+#: src/locationselector.cc:57
+msgid "Longitude"
+msgstr "Zemepisná dĺžka"
+
+#: src/locationselector.cc:58
+msgid "Latitude"
+msgstr "Zemepisná šírka"
+
+#: src/menu.cc:72
+msgid "Refresh"
+msgstr "Obnoviť"
+
+#: src/menu.cc:76
+msgid "Parameters…"
+msgstr "Parametre…"
+
+#: src/menu.cc:78
+msgid "Quit"
+msgstr "Ukončiť"
+
+#: src/menu.cc:92
+msgid "Empty"
+msgstr "Prázdne"
+
+#: src/menu.cc:105 src/menu.cc:133
+msgid "Add to favorites"
+msgstr "Pridať k obľúbeným"
+
+#: src/menu.cc:114 src/menu.cc:159
+msgid "Edit location"
+msgstr "Upraviť lokalitu"
+
+#: src/menu.cc:132
+msgid "Remove from favorites"
+msgstr "Odstrániť z obľúbených"
+
+#: src/statusbar.cc:25
+msgid "Ongoing update…"
+msgstr "Prebieha aktualizácia…"
+
+#: src/statusbar.cc:27 src/statusbar.cc:39
+msgid "Last update:"
+msgstr "Posledná aktualizácia:"
+
+#: src/statusbar.cc:50
+msgid "Weather data from"
+msgstr "Údaje o počasí z"
+
+#: src/util.cc:191
+msgid "Today"
+msgstr "Dnes"
+
+#: src/util.cc:196
+msgid "Yesterday"
+msgstr "Včera"
+
+#: src/util.cc:201
+msgid "Tomorrow"
+msgstr "Zajtra"
+
+#: src/util.cc:300 src/util.cc:316
+msgid "New moon"
+msgstr "Nov"
+
+#: src/util.cc:302
+msgid "Waxing crescent"
+msgstr "Dorastajúci kosák"
+
+#: src/util.cc:304
+msgid "First quarter moon"
+msgstr "Prvá štvrť"
+
+#: src/util.cc:306
+msgid "Waxing gibbous"
+msgstr "Dorastajúci polmesiac"
+
+#: src/util.cc:308
+msgid "Full moon"
+msgstr "Spln"
+
+#: src/util.cc:310
+msgid "Waning gibbous"
+msgstr "Ubúdajúci polmesiac"
+
+#: src/util.cc:312
+msgid "Last quarter moon"
+msgstr "Posledná štvrť"
+
+#: src/util.cc:314
+msgid "Waning crescent"
+msgstr "Ubúdajúci kosák"
+
+#: src/version.cc:97
+msgid "The service hosting releases isn't working as expected. Retry later."
+msgstr "Služba poskytujúca aktualizácie nefunguje správne. Skúste to neskôr."
+
+#: src/version.cc:123
+msgid "Latest release already installed"
+msgstr "Najnovšia verzia je už nainštalovaná"
+
+#: src/version.cc:135
+msgid "Browse"
+msgstr "Prehľadávať"
+
+#: src/version.cc:289
+msgid "A new version is available:"
+msgstr "K dispozícii je nová verzia:"
