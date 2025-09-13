@@ -17,22 +17,24 @@ RUN apt-get update -y && apt-get upgrade -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY . /src
-
+RUN mkdir /src
 WORKDIR /src
 
-ARG VERSION
-RUN [ -n "${VERSION}" ]
 
-RUN ls -lh
+# COPY . /src
 
-RUN git checkout ${VERSION} && \
-    git submodule init && \
-    git submodule update
+# WORKDIR /src
 
-RUN ls -lh
+# ARG VERSION
+# RUN [ -n "${VERSION}" ]
 
-RUN ./scripts/install_sdk.sh
+# RUN ls -lh
+
+# RUN git checkout ${VERSION}
+
+# RUN ls -lh
+
+# RUN ./scripts/install_sdk.sh
 # RUN ./scripts/generate_cross_compilation_conf.sh
 
 # RUN source ./SDK_6.8.0/env_set.sh && \

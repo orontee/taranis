@@ -20,22 +20,23 @@ and installed manually, see instructions below.
 
 ### Using a container
 
-To build the application *for a given version*, one can build a Docker
-image and export an archive containing the ELF file from that image. 
-For example, for a debug build of the most recent tagged version:
+The SDK has hidden dependencies (`libtinfo5`); They are quite old and
+it may be difficult to install them on a modern Linux host. To get
+around this problem, one can use a container.
+
+To run a container with the build environment:
 ```sh
-VERSION=$(git tag --list 'v*' | sort --version-sort --reverse | head -n 1)
-buildah bud -t taranis-build:${VERSION} \
-            --build-arg="VERSION=${VERSION}" \
-            --build-arg="MESON_ARGS=--buildtype=debug" .
-podman run --rm -v ${PWD}:/opt/taranis \
-           taranis-build:$VERSION bash -c "cp builddir/artifact.zip /opt/artifact.zip"
+buildah bud --tag taranis-build:$(git rev-parse --short HEAD) .
+podman run --rm -ti \
+           --volume ${PWD}:/src \
+           taranis-build:$(git rev-parse --short HEAD) \
+           bash
 ```
 
 ### Cross-compile on a Debian host
 
 Read the [Containerfile](./Containerfile) to fix potential missing
-dependencies.
+dependencies. 
 
 1. First, clone the source repository and run a script to populate the
    `SDK_6.8.0` directory with the PocketBook SDK:
@@ -89,6 +90,14 @@ the application, its installer, and an archive.
 
 It's mainly used to release the application, see [How-to
 release](./docs/how-to-release.md).
+
+## Integration of new translations
+
+* Weblate commits should extend [po/LINGUAS](./po/LINGUAS) and add a
+  `.po` file in the [po](./po) directory.
+* Support for the new language must be explicitly added to
+  [src/l10n.h](./src/l10n.h)
+* Then rebuild the application
 
 ## Tooling
 
