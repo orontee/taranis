@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-14 00:13+0100\n"
-"PO-Revision-Date: 2025-09-03 19:22+0000\n"
+"PO-Revision-Date: 2025-09-13 20:12+0000\n"
 "Last-Translator: spacad <adamspacek@icloud.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/taranis/taranis/"
 "sk/>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.13.1-rc\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: src/about.cc.in:15
 msgid ""
 "This program is provided without any warranty. For more details, read GNU "
 "General Public License, version 3 or later"
 msgstr ""
-"Tento program sa poskytuje bez akejkoľvek záruky. Podrobnosti sú uvedené v "
-"GNU General Public License, verzia 3 alebo novšia"
+"Tento program sa poskytuje bez záruky. Podrobnosti sú uvedené v GNU General "
+"Public License, verzia 3 alebo novšia"
 
 #: src/about.cc.in:18
 msgid "Credits"
@@ -33,11 +33,11 @@ msgstr "Autori"
 
 #: src/alerts.cc:157
 msgid "Alert"
-msgstr "Upozornenie"
+msgstr "Výstraha"
 
 #: src/alerts.cc:172
 msgid "Start"
-msgstr "Spustiť"
+msgstr "Začiatok"
 
 #: src/alerts.cc:174
 msgid "Duration"
