@@ -23,9 +23,10 @@ int event_handler(int event_type, int param_one, int param_two) {
 }
 
 int main(int argc, char *argv[]) {
-  const bool verbose_log_requested =
-      (argc == 2 and std::strcmp(argv[1], "--verbose") == 0);
-  taranis::initialize_logging(verbose_log_requested);
+  // const bool verbose_log_requested =
+  //     (argc == 2 and std::strcmp(argv[1], "--verbose") == 0);
+  // taranis::initialize_logging(verbose_log_requested);
+  taranis::initialize_logging(true);
 
   InkViewMain(&event_handler);
 
