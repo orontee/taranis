@@ -2,18 +2,19 @@
 
 set -e
 
+SDK_FAMILY=${SDK_FAMILY:=B300}
 SDK_PATH=SDK_6.8.0
-SDK_ARCHIVE=SDK-B288-6.8.7z
+SDK_ARCHIVE=SDK-${SDK_FAMILY}-6.8.7z
 
 _7Z=$(which 7zz || which 7z)
 
 function download_archive() {
-    echo Downloading ${SDK_ARCHIVE}
-    wget -nv -O ${SDK_ARCHIVE} https://github.com/pocketbook/SDK_6.3.0/releases/download/6.8/${SDK_ARCHIVE} > /dev/null
+    echo "Downloading SDK for ${SDK_FAMILY} family (${SDK_ARCHIVE})"
+    wget -nv -O "${SDK_ARCHIVE}" https://github.com/pocketbook/SDK_6.3.0/releases/download/6.8/"${SDK_ARCHIVE}" > /dev/null
 }
 
 function unpack() {
-    sha256sum -c ${SDK_ARCHIVE}.sha256
+    sha256sum -c "${SDK_ARCHIVE}".sha256
 
     # The archive contains dangerous symlinks. Some have relative
     # target path and can be created using 7z options. Others are
@@ -24,7 +25,7 @@ function unpack() {
 	-o${SDK_PATH} \
 	-snld \
 	-xr\!SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/etc/fonts/conf.d/ -- \
-	${SDK_ARCHIVE}
+	"${SDK_ARCHIVE}"
 
     local sysroot_path=${SDK_PATH}/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot
     local symlink_rootpath=${sysroot_path}/etc/fonts/conf.d
@@ -43,7 +44,7 @@ function unpack() {
 }
 
 if [ ! -d ${SDK_PATH} ]; then
-    if [ ! -e ${SDK_ARCHIVE} ]; then
+    if [ ! -e "${SDK_ARCHIVE}" ]; then
 	download_archive
     fi
     unpack
