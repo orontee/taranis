@@ -13,6 +13,6 @@ sed -n \
     -e "s/unsigned char data\[\]/unsigned char data\[10000\]/g;" \
     -e "w ${output}" \
     -e "}" \
-   ${input}
+   "${input}"
 # use of multiple expressions is required since everything that
 # follows the w is part of the filename

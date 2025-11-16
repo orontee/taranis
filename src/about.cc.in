@@ -1,4 +1,4 @@
-// This file is used by Meson to generate the about dialog content
+// Template file used to generate the about dialog content.
 
 #include <inkview.h>
 #include <iomanip>
@@ -6,7 +6,7 @@
 #include <sstream>
 
 namespace taranis {
-  std::string version{"@package_version@"};
+  std::string version{"@taranis_VERSION@ (@VCS_TAG@)"};
 
   std::string get_about_content() {
     std::stringstream content;

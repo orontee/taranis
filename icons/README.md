@@ -26,5 +26,5 @@ icons/icon_menu.bmp BMP 100x100 100x100+0+0 8-bit sRGB 256c 11162B 0.000u 0:00.0
 ```
 
 The icon file name must be a valid C variable name since `pbres` is
-used to convert the icon to a char array named after the file. See
-`icons_c` target in the sources [meson.build](../src/meson.build).
+used to convert the icon to a char array named after the file.  See
+[generate_icons_source.cmake](../cmake/generate_icons_source.cmake).

@@ -1,4 +1,5 @@
 /builddir
+/build
 /crossfile_arm.ini
 /data*.json
 /SDK_6.8.0

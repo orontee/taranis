@@ -1,4 +1,4 @@
 packageName=taranis
-packageVersion=@package_version@
+packageVersion=@taranis_VERSION@
 destDir=/mnt/ext1/applications/
 destAction=install

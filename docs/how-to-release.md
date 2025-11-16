@@ -7,13 +7,13 @@ Sticky note for maintainers.
    [NEWS.md](../NEWS.md) content.
 
 2. On `main` branch, commit "Prepare release of version 1.9.0" with:
-   - Update of version number in [meson.build](../meson.build)
+   - Update of version number in [CMakeLists.txt](../CMakeLists.txt)
    - Rename the "Unreleased" section in [NEWS.md](../NEWS.md).
 
 3. Tag previous commit with `v1.9.0` (or `v1.9.0-rc0`, `v1.9.0-rc1`,
    etc. if release candidates are needed).
 
-4. Push previous commit and tag to GitHub.
+4. Push both commit and tag to GitHub.
 
 5. From GitHub website, run the `build-application` action for the
    `main` branch and the new tag.

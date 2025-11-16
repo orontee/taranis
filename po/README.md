@@ -26,31 +26,6 @@ Czech, month names aren't translated.
 
 Inkview SDK support a limited number of languages.
 
-## Technical considerations
-
-To keep things simple, Taranis uses the custom translation mechanism
-provided by Inkview SDK, but:
-
-* Translatable strings are gathered in the [taranis.pot
-  file](./taranis.pot).
-
-* Translations are stored in [PO files](./) which are textual,
-  editable files.
-
-* The extraction of translatable strings and updates of PO files is
-  done by the common `xgettext` utility through a `meson` target.
-  
-  Thus to update the pot file and translation files to match current
-  source code, one must run:
-  
-  ```sh
-  meson compile -C builddir taranis-update-po
-  ```
-
-* The build target has been extended to automatically generate a C++
-  file (matching the expectations of Inkview SDK) from all PO files, see
-  [generate_l10n_cc.py](../scripts/generate_l10n_cc.py).
-
 ## Credits
 
 The list of contributors to translations is extracted from the Weblate

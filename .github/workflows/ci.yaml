@@ -13,53 +13,17 @@ jobs:
           fetch-depth: 0
           submodules: true
 
-      - name: Install build dependencies
+      - name: Install check dependencies
         run: |
           sudo apt-get update -
           sudo apt-get install --no-install-recommends -y \
-                7zip \
                 build-essential \
                 ca-certificates \
-                clang \
                 clang-format \
-                git \
-                libtinfo5 \
-                meson \
-                python3-jinja2 \
-                wget
-
-      - name: Install PocketBook SDK
-        run: |
-          ./scripts/install_sdk.sh
-
-      - name: Generate cross-compilation configuration
-        run: |
-          ./scripts/generate_cross_compilation_conf.sh
-
-      - name: Load cached dependencies
-        id: cached-qa-dependencies
-        uses: actions/cache@v4
-        with:
-          path: SDK_6.8.0
-          key: qa-${{ runner.os }}-${{ hashFiles('**/meson.build') }}
-
-      - name: Optionally build dependencies
-        if: steps.cached-qa-dependencies.outputs.cache-hit != 'true'
-        run: |
-          source ./SDK_6.8.0/env_set.sh
-          cd 3rd-parties
-          wget https://ftp.gnu.org/gnu/gsl/gsl-2.7.1.tar.gz
-          tar -xzf gsl-2.7.1.tar.gz
-          cd gsl-2.7.1
-          ./configure --prefix=$PWD/../../SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot \
-               --host=arm-obreey-linux-gnueabi \
-               --build=x86_64-pc-linux-gnu \
-               --target=arm-obreey-linux-gnueabi
-          make -j2
-          make install
+                git
 
       - name: Run format check
         run: |
-          source ./SDK_6.8.0/env_set.sh
-          meson setup builddir . --cross-file crossfile_arm.ini
-          ninja -C builddir clang-format-check
+          clang-format --dry-run src/*.cc src/*.h
+          git diff-files --stat
+          git diff-files --quiet

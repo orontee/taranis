@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
+"""Generate C++ files from PO files.
+"""
+
 from pathlib import Path
-from typing import Dict, List
+from typing import Optional
 import argparse
 import re
 
@@ -16,14 +19,14 @@ def extract_language_from(file_path: Path) -> str:
     return found.group(1)
 
 
-def identify_supported_languages(po_files: Path) -> List[str]:
+def identify_supported_languages(po_files: Path) -> list[str]:
     linguas_file = po_files / "LINGUAS"
     with open(linguas_file) as fh:
         return [lang.strip() for lang in fh.readlines()]
 
 
-def load_translations(po_files: Path) -> Dict[str, Dict[str, str]]:
-    translations: Dict[str, Dict[str, str]] = {}
+def load_translations(po_files: Path) -> dict[str, dict[str, str]]:
+    translations: dict[str, dict[str, str]] = {}
 
     supported_languages = identify_supported_languages(po_files)
 
@@ -40,10 +43,10 @@ def load_translations(po_files: Path) -> Dict[str, Dict[str, str]]:
 
         print(f"Loading translations for language {language!r}")
 
-        language_translations: Dict[str, str] = {}
+        language_translations: dict[str, str] = {}
 
-        def store_translation(msgid_tokens: List[str],
-                              msgstr_tokens: List[str]):
+        def store_translation(msgid_tokens: list[str],
+                              msgstr_tokens: list[str]):
             msgid = ("".join(msgid_tokens)
                      .replace('""', "")
                      .replace("\n", "")
@@ -58,8 +61,8 @@ def load_translations(po_files: Path) -> Dict[str, Dict[str, str]]:
             language_translations[msgid] = msgstr
 
         with open(po_file, "r") as fh:
-            msgid_tokens: List[str] = []
-            msgstr_tokens: List[str] = []
+            msgid_tokens: list[str] = []
+            msgstr_tokens: list[str] = []
             defining: Optional[str] = None
             for line in fh:
                 if line.startswith("#"):
@@ -92,7 +95,7 @@ def load_translations(po_files: Path) -> Dict[str, Dict[str, str]]:
     return translations
 
 
-def generate_file(translations: Dict[str, Dict[str, str]], *,
+def generate_file(translations: dict[str, dict[str, str]], *,
                   output_path: Path, template_path: Path):
     keys = sorted(list(set([
         key for language in translations for key in translations[language]

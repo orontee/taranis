@@ -7,9 +7,11 @@ RUN apt-get update -y && apt-get upgrade -y && \
       build-essential \
       ca-certificates \
       clang \
+      cmake \
+      file \
       git \
       libtinfo5 \
-      meson \
+      pkg-config \
       python3-jinja2 \
       wget \
       zip \
@@ -20,39 +22,9 @@ RUN apt-get update -y && apt-get upgrade -y && \
 RUN mkdir /src
 WORKDIR /src
 
+COPY ./scripts/install_sdk.sh ./scripts/
+COPY ./SDK-B288-6.8.7z.sha256 .
+RUN ./scripts/install_sdk.sh
+RUN rm ./SDK-B288-6.8.7z
 
-# COPY . /src
-
-# WORKDIR /src
-
-# ARG VERSION
-# RUN [ -n "${VERSION}" ]
-
-# RUN ls -lh
-
-# RUN git checkout ${VERSION}
-
-# RUN ls -lh
-
-# RUN ./scripts/install_sdk.sh
-# RUN ./scripts/generate_cross_compilation_conf.sh
-
-# RUN source ./SDK_6.8.0/env_set.sh && \
-#     cd 3rd-parties && \
-#     wget https://ftp.gnu.org/gnu/gsl/gsl-2.7.1.tar.gz && \
-#     sha256sum -c gsl-2.7.1.tar.gz.sha256 && \
-#     tar -xzf gsl-2.7.1.tar.gz && \
-#     cd gsl-2.7.1 && \
-#     ./configure --prefix=$PWD/../../SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot \
-#                 --host=arm-obreey-linux-gnueabi \
-#                 --build=x86_64-pc-linux-gnu \
-#                 --target=arm-obreey-linux-gnueabi && \
-#     make -j$(nproc) && \
-#     make install
-
-# ARG MESON_ARGS
-# RUN meson setup builddir . --cross-file crossfile_arm.ini ${MESON_ARGS} && \
-#     DESTDIR=artifact meson install -C builddir && \
-#     meson compile -C builddir installer && \
-#     meson compile -C builddir archive && \
-#     meson compile -C builddir sha
+ENV PKG_CONFIG_PATH=/src/SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/libcurl-nspr/usr/lib/pkgconfig/:/src/SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/usr/lib/pkgconfig:/src/SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/lib/pkgconfig

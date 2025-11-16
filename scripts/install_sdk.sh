@@ -40,6 +40,8 @@ function unpack() {
     for link in ${links}; do
 	ln -s "${symlink_target_rootpath}/${link}" "${symlink_rootpath}/${link}"
     done
+
+    ${SDK_PATH}/SDK-B288/bin/update_path.sh
 }
 
 if [ ! -d ${SDK_PATH} ]; then

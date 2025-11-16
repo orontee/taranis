@@ -24,64 +24,22 @@ The SDK has hidden dependencies (`libtinfo5`); They are quite old and
 it may be difficult to install them on a modern Linux host. To get
 around this problem, one can use a container.
 
-To run a container with the build environment:
+To build in a container:
 ```sh
-buildah bud --tag taranis-build:$(git rev-parse --short HEAD) .
-podman run --rm -ti \
-           --volume ${PWD}:/src \
-           taranis-build:$(git rev-parse --short HEAD) \
-           bash
+$ buildah bud --tag pb-build-env:6.8.0-B288 .
+$ podman run --rm -ti \
+             --volume ${PWD}:/src \
+			 --hostname pb-build-env \
+			 --name pb-build-env-B288 \
+			 localhost/pb-build-env:6.8.0-B288 \
+             bash
+roo@pb-build-env:/src$ cmake -S . -B build \
+                             -DCMAKE_TOOLCHAIN_FILE=/src/SDK_6.8.0/SDK-B288/share/cmake/arm_conf.cmake
+roo@pb-build-env:/src$ cmake --build build
 ```
 
-### Cross-compile on a Debian host
-
-Read the [Containerfile](./Containerfile) to fix potential missing
-dependencies. 
-
-1. First, clone the source repository and run a script to populate the
-   `SDK_6.8.0` directory with the PocketBook SDK:
-   ```sh
-   ./scripts/install_sdk.sh
-   ```
-
-2. Run a script to update SDK paths and generate cross compilation
-   configuration (It will generate the file `crossfile_arm.ini` used
-   to build):
-   ```sh
-   ./scripts/generate_cross_compilation_conf.sh
-   ```
-
-3. Download, build and install source code of the [GNU Scientific
-   Library dependency](https://www.gnu.org/software/gsl/):
-   ```sh
-   source ./SDK_6.8.0/env_set.sh
-   mkdir 3rd-parties
-   pushd 3rd-parties
-   wget https://ftp.gnu.org/gnu/gsl/gsl-2.7.1.tar.gz
-   sha256sum -c gsl-2.7.1.tar.gz.sha256
-   tar -xzf gsl-2.7.1.tar.gz
-   pushd gsl-2.7.1
-   ./configure --prefix=$PWD/../../SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot \
-               --host=arm-obreey-linux-gnueabi \
-               --build=x86_64-pc-linux-gnu \
-               --target=arm-obreey-linux-gnueabi
-   make -j4
-   make install
-   popd
-   popd
-   ```
-
-4. Finally build the application, installer, an archive to
-   install by hand, and compute SHA256 sums:
-   ```sh
-   meson setup builddir . \
-         --cross-file crossfile_arm.ini \
-         --buildtype=debug
-   DESTDIR=artifact meson install -C builddir
-   meson compile -C builddir installer
-   meson compile -C builddir archive
-   meson compile -C builddir sha
-   ```
+Custom targets `installer`, `archive` and `checksum` are provided to
+automate the application packaging.
 
 ### Build through GitHub action
 
@@ -91,7 +49,54 @@ the application, its installer, and an archive.
 It's mainly used to release the application, see [How-to
 release](./docs/how-to-release.md).
 
-## Integration of new translations
+## Translations
+
+See [the dedicated file](./po/README.md) to read about contributing to
+translations.
+
+This section is dedicated to technical considerations.
+
+### Updating PO files
+
+To keep things simple, Taranis uses the custom translation mechanism
+provided by Inkview SDK, but:
+
+* Translatable strings are gathered in the [taranis.pot
+  file](./taranis.pot).
+
+* Translations are stored in [PO files](./) which are textual,
+  editable files.
+
+* The extraction of translatable strings and updates of PO files is
+  done by the common `xgettext` and `msgmerge` utilities.
+  
+  Thus to update the pot file and translation files to match current
+  source code, one must run:
+  
+  ``` bash
+  xgettext --package-name=taranis \
+           --foreign-user \
+           --from-code=UTF-8 \
+           --add-comments \
+           --keyword=GetLangText \
+           --keyword=GetLangTextF \
+           --keyword=GetLangTextPlural \
+           --output-dir=po \
+           --output=taranis.pot \
+           src/*.cc src/*.h
+  ```
+  
+  And:
+  
+  ``` bash
+  cat po/LINGUAS | xargs --replace msgmerge --update po/{}.po po/taranis.pot
+  ```
+  
+* The build target has been extended to automatically generate a C++
+  file (matching the expectations of Inkview SDK) from all PO files, see
+  [generate_l10n_cc.py](../scripts/generate_l10n_cc.py).
+
+### Integration of new language
 
 * Weblate commits should extend [po/LINGUAS](./po/LINGUAS) and add a
   `.po` file in the [po](./po) directory.
@@ -103,12 +108,7 @@ release](./docs/how-to-release.md).
 
 Format sources:
 ```sh
-ninja -C builddir clang-format
-```
-
-Static analysis:
-```sh
-SCANBUILD=./SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/bin/scan-build ninja -C builddir
+clang-format -i src/*.h src/*.cc
 ```
 
 ## Screenshots
@@ -192,7 +192,9 @@ ssh 192.168.1.34 tail -f /mnt/ext1/system/profiles/Matthias/state/taranis.log
 
 ### Remote debugging
 
-One must first start `gdbserver` on the e-reader:
+⚠️ First, make sure `taranis.app` has been build with debug symbols.
+
+One must start `gdbserver` on the e-reader:
 
 1. Install [pbterm](https://github.com/Alastor27/pbterm)
 2. Start `taranis.app`
