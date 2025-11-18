@@ -22,19 +22,20 @@ and installed manually, see instructions below.
 
 The SDK has hidden dependencies (`libtinfo5`); They are quite old and
 it may be difficult to install them on a modern Linux host. To get
-around this problem, one can use a container.
+around this problem, a container image is provided.
 
 To build in a container:
 ```sh
-$ buildah bud --tag pb-build-env:6.8.0-B288 .
+$ buildah build --build-arg DEVICE_FAMILY=B288 --tag pbsdk:6.8-B288 .
 $ podman run --rm -ti \
              --volume ${PWD}:/src \
-			 --hostname pb-build-env \
-			 --name pb-build-env-B288 \
-			 localhost/pb-build-env:6.8.0-B288 \
+			 --hostname pbsdk-B288 \
+			 --name pbsdk-B288 \
+			 localhost/pbsdk:6.8-B288 \
              bash
+roo@pb-build-env:/src$ source /opt/SDK-6.8/build_env.sh
 roo@pb-build-env:/src$ cmake -S . -B build \
-                             -DCMAKE_TOOLCHAIN_FILE=/src/SDK_6.8.0/SDK-B288/share/cmake/arm_conf.cmake
+                             -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
 roo@pb-build-env:/src$ cmake --build build
 ```
 

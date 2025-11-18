@@ -7,6 +7,13 @@ on:
         description: 'Git ref of sources to build'
         required: true
         type: string
+      family:
+        description: 'Device family to build for'
+        required: true
+        type: choice
+        options:
+          - B288
+          - B300
 
 jobs:
   build:
@@ -38,16 +45,18 @@ jobs:
 
       - name: Install PocketBook SDK
         run: |
-          ./scripts/install_sdk.sh
-          rm ./SDK-B288-6.8.7z
+          ./scripts/install_sdk.sh --family ${{ inputs.family }} --path .
+          rm SDK-${{ inputs.family }}-6.8.7z
 
       - name: Build application
         run: |
-          export PKG_CONFIG_PATH=${PWD}/SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/libcurl-nspr/usr/lib/pkgconfig/:${PWD}/SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/usr/lib/pkgconfig:${PWD}/SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/lib/pkgconfig
+          source build_env.sh
+
           cmake -S . -B build \
-                -DCMAKE_TOOLCHAIN_FILE=${PWD}/SDK_6.8.0/SDK-B288/share/cmake/arm_conf.cmake
+                -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
           cmake --build build \
                 --target taranis.app archive installer checksum
+
           mkdir build/artifact
           cp build/taranis.{app,pbi,sha256,zip} build/artifact
 

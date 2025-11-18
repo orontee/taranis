@@ -19,12 +19,17 @@ RUN apt-get update -y && apt-get upgrade -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN mkdir /src
+ARG DEVICE_FAMILY=B288
+
+ENV SDK_PARENT_PATH="/opt/SDK-6.8"
+WORKDIR ${SDK_PARENT_PATH}
+
+COPY ./scripts/install_sdk.sh .
+COPY ./SDK-${DEVICE_FAMILY}-6.8.7z.sha256 .
+RUN ./install_sdk.sh --family ${DEVICE_FAMILY} --path ${SDK_PARENT_PATH}
+
+RUN rm install_sdk.sh \
+       SDK-${DEVICE_FAMILY}-6.8.7z \
+       SDK-${DEVICE_FAMILY}-6.8.7z.sha256
+
 WORKDIR /src
-
-COPY ./scripts/install_sdk.sh ./scripts/
-COPY ./SDK-B288-6.8.7z.sha256 .
-RUN ./scripts/install_sdk.sh
-RUN rm ./SDK-B288-6.8.7z
-
-ENV PKG_CONFIG_PATH=/src/SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/libcurl-nspr/usr/lib/pkgconfig/:/src/SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/usr/lib/pkgconfig:/src/SDK_6.8.0/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/lib/pkgconfig

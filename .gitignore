@@ -4,3 +4,7 @@
 /data*.json
 /SDK_6.8.0
 /SDK-B288-6.8.7z
+/SDK-B288
+/SDK-B300-6.8.7z
+/SDK-B300-6.8
+/build_env.sh
