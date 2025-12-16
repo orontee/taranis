@@ -1,0 +1,4 @@
+CompileFlags:
+  Add: [-I/opt/SDK-6.8/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/usr/local/include,-I/opt/SDK-6.8/SDK-B288/usr/arm-obreey-linux-gnueabi/sysroot/usr/include]
+  Compiler: /opt/SDK-6.8/SDK-B288/usr/bin/arm-obreey-linux-gnueabi-clang++
+  BuiltinHeaders: QueryDriver

@@ -29,15 +29,18 @@ To build in a container:
 $ buildah build --build-arg DEVICE_FAMILY=B288 --tag pbsdk:6.8-B288 .
 $ podman run --rm -ti \
              --volume ${PWD}:/src \
-			 --hostname pbsdk-B288 \
-			 --name pbsdk-B288 \
-			 localhost/pbsdk:6.8-B288 \
+             --hostname pbsdk-B288 \
+             --name pbsdk-B288 \
+             localhost/pbsdk:6.8-B288 \
              bash
-roo@pb-build-env:/src$ source /opt/SDK-6.8/build_env.sh
-roo@pb-build-env:/src$ cmake -S . -B build \
-                             -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
-roo@pb-build-env:/src$ cmake --build build
+root@pbsdk-B288:/src$ source /opt/SDK-6.8/build_env.sh
+root@pbsdk-B288:/src$ cmake -S . -B build \
+                              -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
+root@pbsdk-B288:/src$ cmake --build build
 ```
+
+ℹ️ One may have to customize the environment variable `TMPDIR` since
+   image blobs have large size.
 
 Custom targets `installer`, `archive` and `checksum` are provided to
 automate the application packaging.
@@ -70,10 +73,10 @@ provided by Inkview SDK, but:
 
 * The extraction of translatable strings and updates of PO files is
   done by the common `xgettext` and `msgmerge` utilities.
-  
+
   Thus to update the pot file and translation files to match current
   source code, one must run:
-  
+
   ``` bash
   xgettext --package-name=taranis \
            --foreign-user \
@@ -86,13 +89,13 @@ provided by Inkview SDK, but:
            --output=taranis.pot \
            src/*.cc src/*.h
   ```
-  
+
   And:
-  
+
   ``` bash
   cat po/LINGUAS | xargs --replace msgmerge --update po/{}.po po/taranis.pot
   ```
-  
+
 * The build target has been extended to automatically generate a C++
   file (matching the expectations of Inkview SDK) from all PO files, see
   [generate_l10n_cc.py](../scripts/generate_l10n_cc.py).
@@ -110,6 +113,28 @@ provided by Inkview SDK, but:
 Format sources:
 ```sh
 clang-format -i src/*.h src/*.cc
+```
+
+To use the [clangd](https://clangd.llvm.org/) Language Server Protocol
+embedded in the container image, use something like the following:
+
+``` bash
+#!/usr/bin/bash
+
+PROJECT_PATH="/src/Projets/taranis"
+CONTAINER_NAME="pbsdk-B288"
+IMAGE_NAME="localhost/pbsdk:6.8-B288"
+
+CLANGD_COMMAND="source /opt/SDK-6.8/build_env.sh && clangd --log=verbose --compile-commands-dir=${PROJECT_PATH}/build --query-driver=/opt/SDK-6.8/SDK-B288/usr/bin/arm-obreey-linux-gnueabi-g++"
+
+podman run --rm --interactive \
+       --volume=${PROJECT_PATH}:${PROJECT_PATH} \
+       --hostname=${CONTAINER_NAME} \
+       --replace \
+       --name=${CONTAINER_NAME} \
+       --workdir=${PROJECT_PATH} \
+       ${IMAGE_NAME} \
+       bash -c "${CLANGD_COMMAND}"
 ```
 
 ## Screenshots
