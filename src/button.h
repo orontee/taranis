@@ -19,8 +19,8 @@ public:
 
   Button(const int icon_size, const ibitmap *const icon,
          const ibitmap *const icon_disabled = nullptr)
-      : Widget{}, Activatable{}, icon{BitmapStretchProportionally(
-                                     icon, icon_size, icon_size)},
+      : Widget{}, Activatable{},
+        icon{BitmapStretchProportionally(icon, icon_size, icon_size)},
         icon_disabled{
             BitmapStretchProportionally(icon_disabled, icon_size, icon_size)} {
     this->set_width(icon_size * std::sqrt(2));

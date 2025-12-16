@@ -27,7 +27,7 @@ struct Activatable {
   }
 
 protected:
-  virtual void on_activated_changed(bool activated){};
+  virtual void on_activated_changed(bool activated) {};
 
 private:
   bool activated{false};

@@ -1,4 +1,4 @@
-#include "service.h"
+#include "openweather.h"
 
 #include <boost/log/trivial.hpp>
 #include <chrono>
@@ -17,7 +17,7 @@ const std::string geo_path{"/geo/1.0/direct"};
 const std::string onecall_path{"/data/3.0/onecall"};
 } // namespace openweather
 
-void Service::set_location(const Location &location) {
+void OpenWeatherService::set_location(const Location &location) {
   if (location == this->location) {
     return;
   }
@@ -25,8 +25,9 @@ void Service::set_location(const Location &location) {
   this->returned_value = Json::Value::nullSingleton();
 }
 
-std::vector<Location> Service::search_location(const std::string &town,
-                                               const std::string &country) {
+std::vector<Location>
+OpenWeatherService::search_location(const std::string &town,
+                                    const std::string &country) {
   BOOST_LOG_TRIVIAL(info) << "Searching location "
                           << format_location(town, country);
 
@@ -37,7 +38,6 @@ std::vector<Location> Service::search_location(const std::string &town,
   }
   const auto value = this->request_geocoding_api(town, country);
   std::vector<Location> locations;
-  const std::string language_code = currentLang();
   for (const auto &location_value : value) {
     const auto longitude = location_value.get("lon", NAN).asDouble();
     const auto latitude = location_value.get("lat", NAN).asDouble();
@@ -55,8 +55,12 @@ std::vector<Location> Service::search_location(const std::string &town,
   return locations;
 }
 
-void Service::fetch_data(const std::string &language,
-                         const std::string &units) {
+Condition OpenWeatherService::get_current_condition() const {
+  return extract_condition(this->returned_value["current"]);
+}
+
+void OpenWeatherService::fetch_data(const std::string &language,
+                                    const std::string &units) {
   BOOST_LOG_TRIVIAL(debug) << "Fetching weather data";
 
   if (std::isnan(this->location.longitude) or
@@ -82,42 +86,43 @@ void Service::fetch_data(const std::string &language,
   }
 }
 
-std::vector<Condition> Service::get_hourly_forecast() const {
+std::vector<Condition> OpenWeatherService::get_hourly_forecast() const {
   std::vector<Condition> conditions;
-  conditions.reserve(Service::max_hourly_forecasts);
+  conditions.reserve(OpenWeatherService::max_hourly_forecasts);
   for (auto &value : this->returned_value["hourly"]) {
-    conditions.push_back(Service::extract_condition(value));
+    conditions.push_back(OpenWeatherService::extract_condition(value));
 
-    if (conditions.size() == Service::max_hourly_forecasts) {
+    if (conditions.size() == OpenWeatherService::max_hourly_forecasts) {
       break;
     }
   }
   return conditions;
 }
 
-std::vector<DailyCondition> Service::get_daily_forecast() const {
+std::vector<DailyCondition> OpenWeatherService::get_daily_forecast() const {
   std::vector<DailyCondition> conditions;
-  conditions.reserve(Service::max_daily_forecasts);
+  conditions.reserve(OpenWeatherService::max_daily_forecasts);
   for (auto &value : this->returned_value["daily"]) {
-    conditions.push_back(Service::extract_daily_condition(value));
+    conditions.push_back(OpenWeatherService::extract_daily_condition(value));
 
-    if (conditions.size() == Service::max_daily_forecasts) {
+    if (conditions.size() == OpenWeatherService::max_daily_forecasts) {
       break;
     }
   }
   return conditions;
 }
 
-std::vector<Alert> Service::get_alerts() const {
+std::vector<Alert> OpenWeatherService::get_alerts() const {
   if (not this->returned_value.isMember("alerts") or
       not this->returned_value["alerts"].isArray()) {
     return {};
   }
-  return Service::extract_alerts(this->returned_value["alerts"]);
+  return OpenWeatherService::extract_alerts(this->returned_value["alerts"]);
 }
 
-std::string Service::encode_location(const std::string &town,
-                                     const std::string &country) const {
+std::string
+OpenWeatherService::encode_location(const std::string &town,
+                                    const std::string &country) const {
   std::string location = this->client->encode_query_parameter(town);
   if (not country.empty()) {
     location += "," + this->client->encode_query_parameter(country);
@@ -127,8 +132,9 @@ std::string Service::encode_location(const std::string &town,
   return location;
 }
 
-Json::Value Service::request_geocoding_api(const std::string &town,
-                                           const std::string &country) {
+Json::Value
+OpenWeatherService::request_geocoding_api(const std::string &town,
+                                          const std::string &country) {
   BOOST_LOG_TRIVIAL(debug) << "Requesting Geocoding API";
 
   std::stringstream url;
@@ -145,8 +151,8 @@ Json::Value Service::request_geocoding_api(const std::string &town,
   return value;
 }
 
-Json::Value Service::request_onecall_api(const std::string &language,
-                                         const std::string &units) {
+Json::Value OpenWeatherService::request_onecall_api(const std::string &language,
+                                                    const std::string &units) {
   BOOST_LOG_TRIVIAL(debug) << "Requesting Onecall API";
 
   std::stringstream url;
@@ -163,17 +169,7 @@ Json::Value Service::request_onecall_api(const std::string &language,
   return returned_value;
 }
 
-Json::Value Service::send_get_request(const std::string &url) {
-  try {
-    return this->client->get(url);
-  } catch (const HttpError &error) {
-    throw ServiceError::from_http_error(error);
-  } catch (const JsonParseError &error) {
-    throw ServiceError::get_unexpected_error();
-  }
-}
-
-Condition Service::extract_condition(const Json::Value &value) {
+Condition OpenWeatherService::extract_condition(const Json::Value &value) {
   const TimePoint date{value.get("dt", 0).asInt64() * 1s};
   const TimePoint sunrise{value.get("sunrise", 0).asInt64() * 1s};
   const TimePoint sunset{value.get("sunset", 0).asInt64() * 1s};
@@ -236,7 +232,8 @@ Condition Service::extract_condition(const Json::Value &value) {
   return condition;
 }
 
-DailyCondition Service::extract_daily_condition(const Json::Value &value) {
+DailyCondition
+OpenWeatherService::extract_daily_condition(const Json::Value &value) {
   const TimePoint date{value.get("dt", 0).asInt64() * 1s};
   const TimePoint sunrise{value.get("sunrise", 0).asInt64() * 1s};
   const TimePoint sunset{value.get("sunset", 0).asInt64() * 1s};
@@ -300,7 +297,8 @@ DailyCondition Service::extract_daily_condition(const Json::Value &value) {
   return condition;
 }
 
-std::vector<Alert> Service::extract_alerts(const Json::Value &value) {
+std::vector<Alert>
+OpenWeatherService::extract_alerts(const Json::Value &value) {
   std::vector<Alert> alerts;
 
   for (auto &alert_value : value) {

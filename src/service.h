@@ -10,6 +10,7 @@
 #include <string>
 #include <utility>
 
+#include "errors.h"
 #include "http.h"
 #include "model.h"
 
@@ -19,59 +20,53 @@ namespace taranis {
 
 class Service {
 public:
-  Service(std::shared_ptr<HttpClient> client) : client{client} {}
+  Service(std::shared_ptr<HttpClient> client, std::string api_key)
+      : client{client}, api_key{api_key} {}
+
+  virtual ~Service() {}
 
   std::string get_api_key() const { return this->api_key; }
 
   void set_api_key(const std::string &api_key) { this->api_key = api_key; }
 
-  std::vector<Location> search_location(const std::string &town,
-                                        const std::string &country);
+  virtual std::vector<Location> search_location(const std::string &town,
+                                                const std::string &country) = 0;
 
   Location get_location() const { return this->location; }
 
-  void set_location(const Location &location);
+  virtual void set_location(const Location &location) = 0;
 
-  void fetch_data(const std::string &language, const std::string &units);
+  virtual void fetch_data(const std::string &language,
+                          const std::string &units) = 0;
 
-  Condition get_current_condition() const {
-    return Service::extract_condition(this->returned_value["current"]);
-  }
+  virtual Condition get_current_condition() const = 0;
 
-  std::vector<Condition> get_hourly_forecast() const;
+  virtual std::vector<Condition> get_hourly_forecast() const = 0;
 
-  std::vector<DailyCondition> get_daily_forecast() const;
+  virtual std::vector<DailyCondition> get_daily_forecast() const = 0;
 
-  std::vector<Alert> get_alerts() const;
+  virtual std::vector<Alert> get_alerts() const = 0;
 
-private:
+protected:
   static constexpr int max_hourly_forecasts = 48;
   static constexpr int max_daily_forecasts = 8;
 
-  std::string api_key{"4620ad6f20069b66bc36b1e88ceb4541"};
-  // API key associated to rate limited plan
+  std::string api_key;
 
   std::shared_ptr<HttpClient> client;
 
   Location location;
 
-  Json::Value returned_value;
+  Json::Value send_get_request(const std::string &url) {
+  try {
+    return this->client->get(url);
+  } catch (const HttpError &error) {
+    throw ServiceError::from_http_error(error);
+  } catch (const JsonParseError &error) {
+    throw ServiceError::get_unexpected_error();
+  }
+}
 
-  std::string encode_location(const std::string &town,
-                              const std::string &country) const;
 
-  Json::Value request_geocoding_api(const std::string &town,
-                                    const std::string &country);
-
-  Json::Value request_onecall_api(const std::string &language,
-                                  const std::string &units);
-
-  Json::Value send_get_request(const std::string &url);
-
-  static Condition extract_condition(const Json::Value &value);
-
-  static DailyCondition extract_daily_condition(const Json::Value &value);
-
-  static std::vector<Alert> extract_alerts(const Json::Value &value);
 };
 } // namespace taranis

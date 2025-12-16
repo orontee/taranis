@@ -7,6 +7,7 @@
 #include "errors.h"
 #include "events.h"
 #include "model.h"
+#include "openweather.h"
 #include "state.h"
 #include "units.h"
 #include "util.h"
@@ -15,7 +16,7 @@ namespace taranis {
 App::App()
     : client{std::make_shared<HttpClient>()}, model{std::make_shared<Model>()},
       config{std::make_shared<Config>()}, l10n{std::make_unique<L10n>()},
-      service{std::make_unique<Service>(this->client)},
+      service{std::make_unique<OpenWeatherService>(this->client)},
       version_checker{std::make_unique<VersionChecker>(
           this->config, this->client, this->model)},
       history{std::make_unique<LocationHistoryProxy>(this->model)},
