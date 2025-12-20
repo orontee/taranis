@@ -62,6 +62,7 @@ add_executable(taranis.app
   src/logo.cc
   src/main.cc
   src/menu.cc
+  src/openmeteo.cc
   src/openweather.cc
   src/pager.cc
   src/stack.cc

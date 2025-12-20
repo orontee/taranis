@@ -18,14 +18,9 @@ using namespace std::string_literals;
 
 namespace taranis {
 
-class OpenWeatherService : public Service {
+class OpenMeteoService : public Service {
 public:
-  OpenWeatherService(std::shared_ptr<HttpClient> client)
-      : Service{
-            client,
-            "4620ad6f20069b66bc36b1e88ceb4541" // API key associated to rate
-                                               // limited plan
-        } {}
+  OpenMeteoService(std::shared_ptr<HttpClient> client) : Service{client, ""} {}
 
   std::vector<Location> search_location(const std::string &town,
                                         const std::string &country) override;
@@ -54,10 +49,10 @@ private:
   Json::Value request_geocoding_api(const std::string &town,
                                     const std::string &country);
 
-  Json::Value request_onecall_api(const std::string &language,
-                                  const std::string &units);
+  Json::Value request_weather_forecast_api(const std::string &language,
+                                           const std::string &units);
 
-  static Condition extract_condition(const Json::Value &value);
+  static Condition extract_hourly_condition(const Json::Value &value);
 
   static DailyCondition extract_daily_condition(const Json::Value &value);
 

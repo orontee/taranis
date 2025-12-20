@@ -62,6 +62,12 @@ inline void rtrim(std::string &s) {
       s.end());
 }
 
+TimePoint from_iso8601(const std::string &timestamp_string);
+
+std::string now_as_iso8601_with_hour(int delta_hours = 0);
+
+std::string now_as_iso8601(int delta_days = 0);
+
 // 17:05
 std::string format_time(const TimePoint &time, bool round = false);
 

@@ -6,7 +6,13 @@
 #include <chrono>
 #include <cmath>
 #include <cstring>
+#include <ctime>
 #include <inkview.h>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+
+#include "util.h"
 
 using namespace std::chrono_literals;
 
@@ -105,6 +111,44 @@ double taranis::max_number(double value_one, double value_two) {
     return value_two;
   }
   return NAN;
+}
+
+TimePoint taranis::from_iso8601(const std::string &timestamp_string) {
+  std::tm tm = {};
+  std::istringstream ss(timestamp_string);
+
+  if (timestamp_string.size() >= 11 &&
+      !(timestamp_string.find("T") != std::string::npos)) {
+    ss >> std::get_time(&tm, "%Y-%m-%d");
+  } else if (timestamp_string.size() >= 20 &&
+             timestamp_string.find("T") != std::string::npos) {
+    ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
+  } else {
+    throw std::runtime_error("Invalid ISO 8601 date");
+  }
+
+  return std::chrono::system_clock::from_time_t(std::mktime(&tm));
+}
+
+std::string taranis::now_as_iso8601_with_hour(int delta_hours) {
+  auto now = std::chrono::system_clock::now() + delta_hours * 1h;
+  auto now_time_t = std::chrono::system_clock::to_time_t(now);
+  auto now_tm = *std::gmtime(&now_time_t);
+
+  std::ostringstream oss;
+  oss << std::put_time(&now_tm, "%Y-%m-%dT%H:00");
+  // override %M:%ZS
+  return oss.str();
+}
+
+std::string taranis::now_as_iso8601(int delta_days) {
+  auto now = std::chrono::system_clock::now() + delta_days * 24h;
+  auto now_time_t = std::chrono::system_clock::to_time_t(now);
+  auto now_tm = *std::gmtime(&now_time_t);
+
+  std::ostringstream oss;
+  oss << std::put_time(&now_tm, "%Y-%m-%d");
+  return oss.str();
 }
 
 constexpr char time_format[] = "%H:%M";

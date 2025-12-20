@@ -58,15 +58,13 @@ protected:
   Location location;
 
   Json::Value send_get_request(const std::string &url) {
-  try {
-    return this->client->get(url);
-  } catch (const HttpError &error) {
-    throw ServiceError::from_http_error(error);
-  } catch (const JsonParseError &error) {
-    throw ServiceError::get_unexpected_error();
+    try {
+      return this->client->get(url);
+    } catch (const HttpError &error) {
+      throw ServiceError::from_http_error(error);
+    } catch (const JsonParseError &error) {
+      throw ServiceError::get_unexpected_error();
+    }
   }
-}
-
-
 };
 } // namespace taranis
