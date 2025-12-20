@@ -17,6 +17,8 @@ using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
 
 namespace taranis {
 
+enum DataProvider { openweather = 0, openmeteo = 1 };
+
 enum UnitSystem { standard = 0, metric = 1, imperial = 2 };
 
 enum DataUpdateStrategy {
@@ -197,7 +199,7 @@ struct HistoryItem {
 };
 
 struct Model {
-  std::string source{"OpenWeather"};
+  DataProvider data_provider{openweather};
   UnitSystem unit_system{standard};
   std::optional<TimePoint> refresh_date;
   Location location;

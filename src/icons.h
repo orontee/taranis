@@ -25,6 +25,7 @@ extern const ibitmap icon_menu;
 extern const ibitmap icon_radio_button_checked;
 extern const ibitmap icon_radio_button_unchecked;
 extern const ibitmap icon_refresh;
+extern const ibitmap icon_service;
 extern const ibitmap icon_software_version;
 extern const ibitmap icon_software_version_check;
 extern const ibitmap icon_sunrise;

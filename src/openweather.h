@@ -27,6 +27,10 @@ public:
                                                // limited plan
         } {}
 
+  DataProvider get_data_provider() override {
+    return DataProvider::openweather;
+  };
+
   std::vector<Location> search_location(const std::string &town,
                                         const std::string &country) override;
 

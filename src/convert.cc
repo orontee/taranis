@@ -134,7 +134,7 @@ Json::Value to_json(const HistoryItem &item) {
 
 Json::Value to_json(const Model &model) {
   Json::Value value;
-  value["source"] = model.source;
+  value["data_provider"] = model.data_provider;
   value["unit_system"] = model.unit_system;
   if (model.refresh_date == std::experimental::nullopt) {
     value["refresh_date"] = Json::Value::null;
@@ -267,7 +267,8 @@ void update_from_json(HistoryItem &item, const Json::Value &value) {
 }
 
 void update_from_json(Model &model, const Json::Value &value) {
-  model.source = value.get("source", "OpenWeather").asString();
+  model.data_provider = static_cast<DataProvider>(
+      value.get("data_provider", openweather).asInt());
   model.unit_system =
       static_cast<UnitSystem>(value.get("unit_system", standard).asInt());
   model.refresh_date = TimePoint{value.get("refresh_date", 0).asInt64() * 1s};

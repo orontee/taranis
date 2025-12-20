@@ -22,6 +22,8 @@ class OpenMeteoService : public Service {
 public:
   OpenMeteoService(std::shared_ptr<HttpClient> client) : Service{client, ""} {}
 
+  DataProvider get_data_provider() override { return DataProvider::openmeteo; };
+
   std::vector<Location> search_location(const std::string &town,
                                         const std::string &country) override;
 

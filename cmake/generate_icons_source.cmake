@@ -20,6 +20,7 @@ set(ICONS
   ${CMAKE_SOURCE_DIR}/icons/icon_radio_button_checked.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_radio_button_unchecked.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_refresh.bmp
+  ${CMAKE_SOURCE_DIR}/icons/icon_service.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_software_version.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_software_version_check.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_sunrise.bmp

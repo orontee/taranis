@@ -7,7 +7,6 @@
 #include "errors.h"
 #include "events.h"
 #include "model.h"
-#include "openweather.h"
 #include "state.h"
 #include "units.h"
 #include "util.h"
@@ -16,7 +15,6 @@ namespace taranis {
 App::App()
     : client{std::make_shared<HttpClient>()}, model{std::make_shared<Model>()},
       config{std::make_shared<Config>()}, l10n{std::make_unique<L10n>()},
-      service{std::make_unique<OpenWeatherService>(this->client)},
       version_checker{std::make_unique<VersionChecker>(
           this->config, this->client, this->model)},
       history{std::make_unique<LocationHistoryProxy>(this->model)},
@@ -144,6 +142,18 @@ void App::load_config() {
     BOOST_LOG_TRIVIAL(debug) << "Rereading configuration";
   }
 
+  const auto data_provider_from_config = static_cast<DataProvider>(
+      this->config->read_int("data_provider", DataProvider::openweather));
+  this->model->data_provider = data_provider_from_config;
+  const auto has_data_provider_changed =
+      (this->service and
+       this->service->get_data_provider() != data_provider_from_config);
+
+  if (not this->service or has_data_provider_changed) {
+    this->service = Service::by_name(data_provider_from_config, client);
+  }
+  assert(this->service);
+
   const auto api_key_from_config = this->config->read_string("api_key", "");
   const auto is_api_key_obsolete =
       (not api_key_from_config.empty() and
@@ -153,7 +163,7 @@ void App::load_config() {
   }
 
   const auto unit_system_from_config = static_cast<UnitSystem>(
-      this->config->read_int("unit_system"s, UnitSystem::metric));
+      this->config->read_int("unit_system", UnitSystem::metric));
   const bool is_unit_system_obsolete =
       (unit_system_from_config != this->model->unit_system);
   if (is_unit_system_obsolete) {
@@ -181,6 +191,7 @@ void App::load_config() {
   }
 
   const bool is_data_obsolete = not this->can_keep_data_at_startup() or
+                                has_data_provider_changed or
                                 is_unit_system_obsolete or is_language_obsolete;
   // temperatures, wind speed and weather description are computed
   // by the backend thus unit system or language change implies that
@@ -209,6 +220,7 @@ void App::load_config() {
     BOOST_LOG_TRIVIAL(debug)
         << "Data is considered obsolete because of strategy: "
         << not this->can_keep_data_at_startup()
+        << ", of changed data provider: " << has_data_provider_changed
         << ", of obsolete unit system: " << is_unit_system_obsolete
         << ", of obsolete_language: " << is_language_obsolete
         << " and will be refreshed with context " << context;

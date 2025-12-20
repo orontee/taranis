@@ -10,7 +10,7 @@ template <class T> using optional = std::experimental::optional<T>;
 
 namespace taranis {
 
-namespace openmeteo {
+namespace openmeteo_helpers {
 const std::string forecast_url{"https://api.open-meteo.com/v1/forecast"};
 const std::string geocoding_url{
     "https://geocoding-api.open-meteo.com/v1/search"};
@@ -200,7 +200,7 @@ std::string convert_units_to_query_units(const std::string &units) {
   BOOST_LOG_TRIVIAL(warning) << "Unexpected units " << units;
   return {};
 }
-} // namespace openmeteo
+} // namespace openmeteo_helpers
 
 namespace {
 bool is_transposable_json_object(const Json::Value &input) {
@@ -360,7 +360,7 @@ OpenMeteoService::request_geocoding_api(const std::string &town,
 
   std::stringstream url;
   const std::string language_code = currentLang();
-  url << openmeteo::geocoding_url << "?"
+  url << openmeteo_helpers::geocoding_url << "?"
       << "name=" << this->client->encode_query_parameter(town) << "&"
       << "language=" << language_code << "&"
       << "limit=5";
@@ -383,7 +383,7 @@ OpenMeteoService::request_weather_forecast_api(const std::string &language,
   BOOST_LOG_TRIVIAL(debug) << "Requesting Weather Forcast API";
 
   std::stringstream url;
-  url << openmeteo::forecast_url << "?"
+  url << openmeteo_helpers::forecast_url << "?"
       << "longitude=" << this->location.longitude << "&"
       << "latitude=" << this->location.latitude << "&"
       << "daily="
@@ -410,7 +410,7 @@ OpenMeteoService::request_weather_forecast_api(const std::string &language,
       << "&"
       << "start_date=" << now_as_iso8601() << "&"
       << "end_date=" << now_as_iso8601(Service::max_daily_forecasts) << "&"
-      << openmeteo::convert_units_to_query_units(units);
+      << openmeteo_helpers::convert_units_to_query_units(units);
 
   const auto returned_value = this->send_get_request(url.str());
   return returned_value;
@@ -451,11 +451,11 @@ Condition OpenMeteoService::extract_hourly_condition(const Json::Value &value) {
 
   const auto openmeteo_weather_code = value.get("weather_code", 0).asInt();
   condition.weather =
-      openmeteo::convert_to_weather_code(openmeteo_weather_code);
+      openmeteo_helpers::convert_to_weather_code(openmeteo_weather_code);
   condition.weather_description =
-      openmeteo::convert_to_description(openmeteo_weather_code);
+      openmeteo_helpers::convert_to_description(openmeteo_weather_code);
   condition.weather_icon_name =
-      openmeteo::convert_to_weather_icon_name(openmeteo_weather_code);
+      openmeteo_helpers::convert_to_weather_icon_name(openmeteo_weather_code);
 
   condition.rain = value.get("rain", NAN).asDouble();
   condition.snow = value.get("snowfall", NAN).asDouble();
@@ -498,11 +498,11 @@ OpenMeteoService::extract_daily_condition(const Json::Value &value) {
 
   const auto openmeteo_weather_code = value.get("weather_code", 0).asInt();
   condition.weather =
-      openmeteo::convert_to_weather_code(openmeteo_weather_code);
+      openmeteo_helpers::convert_to_weather_code(openmeteo_weather_code);
   condition.weather_description =
-      openmeteo::convert_to_description(openmeteo_weather_code);
+      openmeteo_helpers::convert_to_description(openmeteo_weather_code);
   condition.weather_icon_name =
-      openmeteo::convert_to_weather_icon_name(openmeteo_weather_code);
+      openmeteo_helpers::convert_to_weather_icon_name(openmeteo_weather_code);
 
   return condition;
 }

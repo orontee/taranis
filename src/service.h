@@ -20,10 +20,12 @@ namespace taranis {
 
 class Service {
 public:
-  Service(std::shared_ptr<HttpClient> client, std::string api_key)
-      : client{client}, api_key{api_key} {}
+  static std::unique_ptr<Service> by_name(DataProvider data_provider,
+                                          std::shared_ptr<HttpClient> client);
 
   virtual ~Service() {}
+
+  virtual DataProvider get_data_provider() = 0;
 
   std::string get_api_key() const { return this->api_key; }
 
@@ -56,6 +58,9 @@ protected:
   std::shared_ptr<HttpClient> client;
 
   Location location;
+
+  Service(std::shared_ptr<HttpClient> client, std::string api_key)
+      : client{client}, api_key{api_key} {}
 
   Json::Value send_get_request(const std::string &url) {
     try {

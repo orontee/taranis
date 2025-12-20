@@ -6,6 +6,17 @@
 
 #include "util.h"
 
+namespace {
+std::string to_string(taranis::DataProvider data_provider) {
+  if (data_provider == taranis::openmeteo) {
+    return "Open-Meteo";
+  } else if (data_provider == taranis::openweather) {
+    return "OpenWeather";
+  }
+  return "";
+}
+} // namespace
+
 namespace taranis {
 StatusBar::StatusBar(std::shared_ptr<Model> model, std::shared_ptr<Fonts> fonts)
     : model{model}, font{fonts->get_tiny_font()} {
@@ -47,9 +58,11 @@ void StatusBar::do_paint() {
   DrawString(first_row_x, first_row_y, first_row_text.str().c_str());
 
   std::stringstream second_row_text;
-  second_row_text << GetLangText("Weather data from") << " "
-                  << this->model->source;
-
+  const auto data_provider_name = to_string(this->model->data_provider);
+  if (not data_provider_name.empty()) {
+    second_row_text << GetLangText("Weather data from") << " "
+                    << data_provider_name;
+  }
   SetFont(this->font.get(), DGRAY);
   const auto second_row_x = this->left_padding;
   const auto second_row_y = first_row_y + this->font->height;

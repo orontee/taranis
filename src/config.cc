@@ -32,6 +32,9 @@ char *data_update_strategy_values[] = {
     const_cast<char *>(GetLangText("When obsolete")),
     const_cast<char *>(GetLangText("Manually")), nullptr};
 
+char *service_values[] = {const_cast<char *>("OpenWeather"),
+                          const_cast<char *>("Open-Meteo"), nullptr};
+
 char *custom_api_key_value[] = {const_cast<char *>(""), nullptr};
 
 char *no_yes_values[] = {const_cast<char *>("@No"), const_cast<char *>("@Yes"),
@@ -61,6 +64,9 @@ static iconfigedit main_config_template[] = {
      const_cast<char *>(GetLangText("Data update strategy")), nullptr,
      const_cast<char *>("data_update_strategy"), const_cast<char *>("0"),
      data_update_strategy_values, nullptr},
+    {CFG_INDEX, &icon_service, const_cast<char *>(GetLangText("Data provider")),
+     nullptr, const_cast<char *>("data_provider"), const_cast<char *>("0"),
+     service_values, nullptr},
     {CFG_TEXT, &icon_key, const_cast<char *>(GetLangText("Custom API key")),
      nullptr, const_cast<char *>("api_key"), const_cast<char *>(""),
      custom_api_key_value, nullptr},
