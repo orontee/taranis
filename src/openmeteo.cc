@@ -1,7 +1,7 @@
 #include "openmeteo.h"
 
-#include "experimental/optional"
 #include <boost/log/trivial.hpp>
+#include <experimental/optional>
 
 #include "util.h"
 
@@ -388,8 +388,9 @@ OpenMeteoService::request_weather_forecast_api(const std::string &language,
       << "latitude=" << this->location.latitude << "&"
       << "daily="
       << ("weather_code,temperature_2m_max,temperature_2m_min,apparent_"
-          "temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_"
-          "max,rain_sum,snowfall_sum,precipitation_probability_mean,wind_speed_"
+          "temperature_max,apparent_temperature_min,temperature_2m_mean,"
+          "apparent_temperature_mean,sunrise,sunset,uv_index_max,"
+          "rain_sum,snowfall_sum,precipitation_probability_mean,wind_speed_"
           "10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,dew_point_2m_"
           "mean,pressure_msl_mean,visibility_mean,relative_humidity_2m_mean,"
           "cloud_cover_mean")
@@ -409,7 +410,7 @@ OpenMeteoService::request_weather_forecast_api(const std::string &language,
       << "end_hour=" << now_as_iso8601_with_hour(Service::max_hourly_forecasts)
       << "&"
       << "start_date=" << now_as_iso8601() << "&"
-      << "end_date=" << now_as_iso8601(Service::max_daily_forecasts) << "&"
+      << "end_date=" << now_as_iso8601(Service::max_daily_forecasts)
       << openmeteo_helpers::convert_units_to_query_units(units);
 
   const auto returned_value = this->send_get_request(url.str());
@@ -481,9 +482,9 @@ OpenMeteoService::extract_daily_condition(const Json::Value &value) {
   const auto clouds = value.get("cloud_cover_mean", 0).asInt();
   const auto humidity = value.get("relative_humidity_2m_mean", 0).asInt();
 
-  const TimePoint moonrise{0s};
-  const TimePoint moonset{0s};
-  const double moon_phase{NAN};
+  const std::optional<TimePoint> moonrise;
+  const std::optional<TimePoint> moonset;
+  const std::optional<double> moon_phase;
   const std::string summary{};
 
   DailyCondition condition{date,      sunrise,    sunset,
@@ -495,6 +496,10 @@ OpenMeteoService::extract_daily_condition(const Json::Value &value) {
 
   condition.temperature_min = value.get("temperature_2m_min", NAN).asDouble();
   condition.temperature_max = value.get("temperature_2m_max", NAN).asDouble();
+
+  condition.temperature_day = value.get("temperature_2m_mean", NAN).asDouble();
+  condition.felt_temperature_day =
+      value.get("apparent_temperature_mean", NAN).asDouble();
 
   const auto openmeteo_weather_code = value.get("weather_code", 0).asInt();
   condition.weather =

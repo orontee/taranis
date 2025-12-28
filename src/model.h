@@ -153,9 +153,9 @@ struct DailyCondition {
   TimePoint date;
   TimePoint sunrise;
   TimePoint sunset;
-  TimePoint moonrise;
-  TimePoint moonset;
-  double moon_phase;
+  std::optional<TimePoint> moonrise;
+  std::optional<TimePoint> moonset;
+  std::optional<double> moon_phase;
   std::string summary;
   int pressure;
   int humidity;
@@ -176,13 +176,13 @@ struct DailyCondition {
   double temperature_day;
   double temperature_min;
   double temperature_max;
-  double temperature_night;
-  double temperature_evening;
-  double temperature_morning;
+  std::optional<double> temperature_night;
+  std::optional<double> temperature_evening;
+  std::optional<double> temperature_morning;
   double felt_temperature_day;
-  double felt_temperature_night;
-  double felt_temperature_evening;
-  double felt_temperature_morning;
+  std::optional<double> felt_temperature_night;
+  std::optional<double> felt_temperature_evening;
+  std::optional<double> felt_temperature_morning;
 };
 
 struct Alert {

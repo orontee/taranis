@@ -2,9 +2,11 @@
 
 #include <boost/log/trivial.hpp>
 #include <chrono>
+#include <experimental/optional>
 
 #include "errors.h"
 #include "inkview.h"
+#include "model.h"
 #include "util.h"
 
 using namespace std::chrono_literals;
@@ -238,9 +240,18 @@ OpenWeatherService::extract_daily_condition(const Json::Value &value) {
   const TimePoint date{value.get("dt", 0).asInt64() * 1s};
   const TimePoint sunrise{value.get("sunrise", 0).asInt64() * 1s};
   const TimePoint sunset{value.get("sunset", 0).asInt64() * 1s};
-  const TimePoint moonrise{value.get("moonrise", 0).asInt64() * 1s};
-  const TimePoint moonset{value.get("moonset", 0).asInt64() * 1s};
-  const auto moon_phase = value.get("moon_phase", NAN).asDouble();
+  std::optional<TimePoint> moonrise;
+  if (value.isMember("moonrise") and value["moonrise"].isInt64()) {
+    moonrise = TimePoint{value["moonrise"].asInt64() * 1s};
+  }
+  std::optional<TimePoint> moonset;
+  if (value.isMember("moonset") and value["moonset"].isInt64()) {
+    moonset = TimePoint{value["moonset"].asInt64() * 1s};
+  }
+  std::optional<double> moon_phase;
+  if (value.isMember("moon_phase") and value["moon_phase"].isDouble()) {
+    moon_phase = value["moon_phase"].asDouble();
+  }
   const auto summary = value.get("summary", "").asString();
   const auto pressure = value.get("pressure", 0).asInt();
   const auto humidity = value.get("humidity", 0).asInt();
@@ -283,17 +294,32 @@ OpenWeatherService::extract_daily_condition(const Json::Value &value) {
     condition.temperature_day = temp_value.get("day", NAN).asDouble();
     condition.temperature_min = temp_value.get("min", NAN).asDouble();
     condition.temperature_max = temp_value.get("max", NAN).asDouble();
-    condition.temperature_night = temp_value.get("night", NAN).asDouble();
-    condition.temperature_evening = temp_value.get("eve", NAN).asDouble();
-    condition.temperature_morning = temp_value.get("morn", NAN).asDouble();
+    if (temp_value.isMember("night")) {
+      condition.temperature_night = temp_value.get("night", NAN).asDouble();
+    }
+    if (temp_value.isMember("eve")) {
+      condition.temperature_evening = temp_value.get("eve", NAN).asDouble();
+    }
+    if (temp_value.isMember("morn")) {
+      condition.temperature_morning = temp_value.get("morn", NAN).asDouble();
+    }
   }
 
   if (value.isMember("feels_like")) {
     const auto felt_value = value["feels_like"];
     condition.felt_temperature_day = felt_value.get("day", NAN).asDouble();
-    condition.felt_temperature_night = felt_value.get("night", NAN).asDouble();
-    condition.felt_temperature_evening = felt_value.get("eve", NAN).asDouble();
-    condition.felt_temperature_morning = felt_value.get("morn", NAN).asDouble();
+    if (felt_value.isMember("night")) {
+      condition.felt_temperature_night =
+          felt_value.get("night", NAN).asDouble();
+    }
+    if (felt_value.isMember("eve")) {
+      condition.felt_temperature_evening =
+          felt_value.get("eve", NAN).asDouble();
+    }
+    if (felt_value.isMember("morn")) {
+      condition.felt_temperature_morning =
+          felt_value.get("morn", NAN).asDouble();
+    }
   }
   return condition;
 }

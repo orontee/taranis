@@ -218,7 +218,9 @@ ssh 192.168.1.34 tail -f /mnt/ext1/system/profiles/Matthias/state/taranis.log
 
 ### Remote debugging
 
-⚠️ First, make sure `taranis.app` has been build with debug symbols.
+⚠️ First, make sure `taranis.app` has been build with debug symbols (eg
+add `-DCMAKE_BUILD_TYPE=Debug` to the CMake command that populates the
+build directory).
 
 One must start `gdbserver` on the e-reader:
 
@@ -227,20 +229,26 @@ One must start `gdbserver` on the e-reader:
 3. Press the "Home" key to go back to the "desktop"
 4. Start `pbterm`
 4. Run `TARANIS_PID=$(pgrep taranis.app)` to identify the process running
-   `taranis.app`, say 1423
+   `taranis.app`
 5. Run `gdbserver --attach :10002 ${TARANIS_PID}`
+
+(If there's no running instance of `taranis.app` remove the `--attach`
+parameter and specify the path of the executable in place of the
+process identifier).
 
 The e-reader must be connected to Internet and its IP address must be
 known (eg start `ipconfig` in `pbterm`). It is recommended to disable
-automatic poweroff.
+automatic poweroff. 
 
-On the host computer, start a shell with current working directory the
-root directory of a Git clone of `taranis` repository. Then start GDB:
+On the host computer, start a shell within the container image (eg
+`podman exec -ti pbsdk-B288` if the container is already
+running). Then start GDB:
+
 ```shell
-./SDK_6.8.0/SDK-B288/usr/bin/arm-linux-gdb -q taranis.app
+/opt/SDK-6.8/SDK-B288/usr/bin/arm-linux-gdb -q taranis.app
 ```
 
-Under GDB, run `target remote 192.168.1.34:10002` where the IP address
+Under GDB, run `target remote 192.168.1.54:10002` where the IP address
 must be updated to the address of the e-reader.
 
 ## References

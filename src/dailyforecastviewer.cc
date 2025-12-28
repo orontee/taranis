@@ -1,6 +1,7 @@
 #include "dailyforecastviewer.h"
 
 #include <cstring>
+#include <experimental/optional>
 #include <inkview.h>
 
 #include "units.h"
@@ -307,46 +308,79 @@ void DailyForecastViewer::generate_description_data(
 
   this->description_data.push_back(empty_row);
 
-  this->description_data.push_back(RowDescription{
-      "", std::make_pair(GetLangText("Sun"), GetLangText("Moon")), true});
+  const bool with_moon_data =
+      (condition.moonrise != std::experimental::nullopt and
+       condition.moonset != std::experimental::nullopt and
+       condition.moon_phase != std::experimental::nullopt);
 
-  this->description_data.push_back(
-      RowDescription{std::string{GetLangText("Rise")},
-                     std::make_pair(format_time(condition.sunrise),
-                                    format_time(condition.moonrise))});
+  if (with_moon_data) {
+    this->description_data.push_back(RowDescription{
+        "", std::make_pair(GetLangText("Sun"), GetLangText("Moon")), true});
 
-  this->description_data.push_back(
-      RowDescription{std::string{GetLangText("Set")},
-                     std::make_pair(format_time(condition.sunset),
-                                    format_time(condition.moonset))});
+    this->description_data.push_back(
+        RowDescription{std::string{GetLangText("Rise")},
+                       std::make_pair(format_time(condition.sunrise),
+                                      format_time(*condition.moonrise))});
 
-  this->description_data.push_back(
-      RowDescription{std::string{GetLangText("Moon phase")},
-                     format_moon_phase(condition.moon_phase)});
+    this->description_data.push_back(
+        RowDescription{std::string{GetLangText("Set")},
+                       std::make_pair(format_time(condition.sunset),
+                                      format_time(*condition.moonset))});
 
+    this->description_data.push_back(
+        RowDescription{std::string{GetLangText("Moon phase")},
+                       format_moon_phase(*condition.moon_phase)});
+  } else {
+    this->description_data.push_back(
+        RowDescription{GetLangText("Sun"), "", true});
+
+    this->description_data.push_back(RowDescription{
+        std::string{GetLangText("Rise")}, format_time(condition.sunrise)});
+
+    this->description_data.push_back(RowDescription{
+        std::string{GetLangText("Set")}, format_time(condition.sunset)});
+  }
   this->description_data.push_back(empty_row);
 
-  this->description_data.push_back(RowDescription{
-      GetLangText("Temperatures"),
-      std::make_tuple(GetLangText("Morning"), GetLangText("Day"),
-                      GetLangText("Evening"), GetLangText("Night")),
-      true});
+  const bool with_multiple_temperature_data =
+      (condition.temperature_morning != std::experimental::nullopt and
+       condition.temperature_evening != std::experimental::nullopt and
+       condition.temperature_night != std::experimental::nullopt and
+       condition.felt_temperature_morning != std::experimental::nullopt and
+       condition.felt_temperature_evening != std::experimental::nullopt and
+       condition.felt_temperature_night != std::experimental::nullopt);
+  if (with_multiple_temperature_data) {
+    this->description_data.push_back(RowDescription{
+        GetLangText("Temperatures"),
+        std::make_tuple(GetLangText("Morning"), GetLangText("Day"),
+                        GetLangText("Evening"), GetLangText("Night")),
+        true});
 
-  this->description_data.push_back(RowDescription{
-      "",
-      std::make_tuple(units.format_temperature(condition.temperature_morning),
-                      units.format_temperature(condition.temperature_day),
-                      units.format_temperature(condition.temperature_evening),
-                      units.format_temperature(condition.temperature_night))});
+    this->description_data.push_back(RowDescription{
+        "", std::make_tuple(
+                units.format_temperature(*condition.temperature_morning),
+                units.format_temperature(condition.temperature_day),
+                units.format_temperature(*condition.temperature_evening),
+                units.format_temperature(*condition.temperature_night))});
 
-  this->description_data.push_back(RowDescription{
-      GetLangText("Felt"),
-      std::make_tuple(
-          units.format_temperature(condition.felt_temperature_morning),
-          units.format_temperature(condition.felt_temperature_day),
-          units.format_temperature(condition.felt_temperature_evening),
-          units.format_temperature(condition.felt_temperature_night))});
+    this->description_data.push_back(RowDescription{
+        GetLangText("Felt"),
+        std::make_tuple(
+            units.format_temperature(*condition.felt_temperature_morning),
+            units.format_temperature(condition.felt_temperature_day),
+            units.format_temperature(*condition.felt_temperature_evening),
+            units.format_temperature(*condition.felt_temperature_night))});
+  } else {
+    this->description_data.push_back(
+        RowDescription{GetLangText("Temperatures"), "", true});
 
+    this->description_data.push_back(
+        RowDescription{GetLangText("Mean"),
+                       units.format_temperature(condition.temperature_day)});
+    this->description_data.push_back(RowDescription{
+        GetLangText("Felt"),
+        units.format_temperature(condition.felt_temperature_day)});
+  }
   this->description_data.push_back(
       RowDescription{GetLangText("Min/Max"),
                      units.format_temperature(condition.temperature_min) + "/" +

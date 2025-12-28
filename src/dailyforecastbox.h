@@ -34,7 +34,6 @@ public:
 
 private:
   static constexpr size_t row_count{8};
-  static constexpr size_t column_count{9};
   static constexpr int horizontal_padding{25};
 
   typedef boost::variant<std::string, std::pair<std::string, std::string>,
@@ -43,8 +42,20 @@ private:
   // one text line, two text lines or an icon
 
   typedef std::array<CellContent, DailyForecastBox::row_count> ColumnContent;
-  typedef std::array<ColumnContent, DailyForecastBox::column_count>
-      TableContent;
+  typedef std::vector<ColumnContent> TableContent;
+
+  enum ColumnType {
+    WeekDayColumn,
+    IconColumn,
+    SunHoursColumn,
+    MorningTemperatureColumn,
+    DayTemperatureColumn,
+    DayFeltTemperatureColumn,
+    EveningTemperatureColumn,
+    MinMaxTemperatureColumn,
+    WindColumn,
+    PrecipitationColumn,
+  };
 
   std::shared_ptr<Model> model;
   std::shared_ptr<Icons> icons;
@@ -52,27 +63,13 @@ private:
 
   std::shared_ptr<DailyForecastViewer> viewer;
 
+  size_t column_count;
   TableContent table_content;
-
   int row_height;
 
-  std::array<size_t, DailyForecastBox::column_count> column_widths;
-  std::array<size_t, DailyForecastBox::column_count> column_starts;
-
-  static constexpr size_t WeekDayColumn{0};
-  static constexpr size_t IconColumn{1};
-  static constexpr size_t SunHoursColumn{2};
-  static constexpr size_t MorningTemperatureColumn{3};
-  static constexpr size_t DayTemperatureColumn{4};
-  static constexpr size_t EveningTemperatureColumn{5};
-  static constexpr size_t MinMaxTemperatureColumn{6};
-  static constexpr size_t WindColumn{7};
-  static constexpr size_t PrecipitationColumn{8};
-
-  static constexpr std::array<int, DailyForecastBox::column_count>
-      column_text_flags{ALIGN_LEFT,  ALIGN_CENTER, ALIGN_RIGHT,
-                        ALIGN_RIGHT, ALIGN_RIGHT,  ALIGN_RIGHT,
-                        ALIGN_RIGHT, ALIGN_RIGHT,  ALIGN_RIGHT};
+  std::vector<size_t> column_widths;
+  std::vector<size_t> column_starts;
+  std::vector<ColumnType> column_types;
 
   std::pair<std::string, std::string>
   generate_precipitation_column_content(const DailyCondition &forecast) const;
@@ -90,5 +87,7 @@ private:
   void draw_values();
 
   void on_clicked_at(int pointer_pos_x, int pointer_pos_y);
+
+  static int column_text_flags(ColumnType type);
 };
 } // namespace taranis
