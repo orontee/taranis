@@ -10,6 +10,7 @@
 #include <string>
 #include <utility>
 
+#include "boost/log/trivial.hpp"
 #include "http.h"
 #include "model.h"
 #include "service.h"
@@ -20,9 +21,11 @@ namespace taranis {
 
 class OpenMeteoService : public Service {
 public:
-  OpenMeteoService(std::shared_ptr<HttpClient> client) : Service{client, ""} {}
+  OpenMeteoService(std::shared_ptr<HttpClient> client,
+                   const DataProvider &data_provider)
+      : Service{client, ""}, data_provider{data_provider} {}
 
-  DataProvider get_data_provider() override { return DataProvider::openmeteo; };
+  DataProvider get_data_provider() override { return this->data_provider; };
 
   std::vector<Location> search_location(const std::string &town,
                                         const std::string &country) override;
@@ -43,6 +46,8 @@ public:
   std::vector<Alert> get_alerts() const override;
 
 private:
+  const DataProvider data_provider;
+
   Json::Value returned_value;
 
   std::string encode_location(const std::string &town,

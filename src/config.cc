@@ -32,8 +32,22 @@ char *data_update_strategy_values[] = {
     const_cast<char *>(GetLangText("When obsolete")),
     const_cast<char *>(GetLangText("Manually")), nullptr};
 
-char *service_values[] = {const_cast<char *>("OpenWeather"),
-                          const_cast<char *>("Open-Meteo"), nullptr};
+char *service_values[] = {
+    const_cast<char *>("OpenWeather"),
+    const_cast<char *>("Open-Meteo"),
+    const_cast<char *>("KMA Korea"),
+    const_cast<char *>("Météo-France"),
+    const_cast<char *>("KNMI"),
+    const_cast<char *>("DMI"),
+    const_cast<char *>("UK Met Office"),
+    const_cast<char *>("MeteoSwiss"),
+    const_cast<char *>("Canadian Weather Service"),
+    const_cast<char *>("MET Norway"),
+    const_cast<char *>("ItaliaMeteo"),
+    const_cast<char *>("China Meteorological Administration"),
+    const_cast<char *>("JMA"),
+    const_cast<char *>("Australian Bureau of Meteorology"),
+    nullptr};
 
 char *custom_api_key_value[] = {const_cast<char *>(""), nullptr};
 

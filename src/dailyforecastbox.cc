@@ -39,7 +39,7 @@ DailyForecastBox::generate_precipitation_column_content(
   const Units units{this->model};
 
   const auto precipitation = max_number(forecast.rain, forecast.snow);
-  if (std::isnan(precipitation)) {
+  if (std::isnan(precipitation) or precipitation == 0) {
     return {"", ""};
   }
   const auto precipitation_text =
@@ -47,7 +47,7 @@ DailyForecastBox::generate_precipitation_column_content(
 
   const auto probability_of_precipitation =
       forecast.probability_of_precipitation;
-  if (std::isnan(probability_of_precipitation)) {
+  if (std::isnan(probability_of_precipitation) or probability_of_precipitation == 0) {
     return {precipitation_text, ""};
   }
   const auto probability_of_precipitation_text =
@@ -61,8 +61,7 @@ void DailyForecastBox::generate_table_content() {
       std::begin(this->model->daily_forecast),
       std::end(this->model->daily_forecast), [](const auto &forecast) {
         return (forecast.temperature_morning and
-                forecast.temperature_evening and
-                forecast.temperature_night);
+                forecast.temperature_evening and forecast.temperature_night);
       });
   if (has_day_periods_temperatures) {
     this->column_count = 9;

@@ -17,7 +17,22 @@ using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
 
 namespace taranis {
 
-enum DataProvider { openweather = 0, openmeteo = 1 };
+enum DataProvider {
+  openweather = 0,
+  openmeteo_best_match = 1,
+  openmeteo_kma_seamless = 2,
+  openmeteo_meteofrance_seamless = 3,
+  openmeteo_knmi_seamless = 4,
+  openmeteo_dmi_seamless = 5,
+  openmeteo_ukmo_seamless = 6,
+  openmeteo_meteoswiss_icon_seamless = 7,
+  openmeteo_gem_seamless = 8,
+  openmeteo_metno_seamless = 9,
+  openmeteo_italia_meteo_arpae_icon_2i = 10,
+  openmeteo_gfs_seamless = 11,
+  openmeteo_jma_seamless = 12,
+  openmeteo_bom_access_global = 13,
+};
 
 enum UnitSystem { standard = 0, metric = 1, imperial = 2 };
 

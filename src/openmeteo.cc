@@ -3,6 +3,7 @@
 #include <boost/log/trivial.hpp>
 #include <experimental/optional>
 
+#include "model.h"
 #include "util.h"
 
 using namespace std::chrono_literals;
@@ -200,6 +201,42 @@ std::string convert_units_to_query_units(const std::string &units) {
   BOOST_LOG_TRIVIAL(warning) << "Unexpected units " << units;
   return {};
 }
+
+std::string convert_data_provider_to_model(DataProvider provider) {
+  switch (provider) {
+  case openmeteo_best_match:
+    return "best_match";
+  case openmeteo_kma_seamless:
+    return "kma_seamless";
+  case openmeteo_meteofrance_seamless:
+    return "meteofrance_seamless";
+  case openmeteo_knmi_seamless:
+    return "knmi_seamless";
+  case openmeteo_dmi_seamless:
+    return "dmi_seamless";
+  case openmeteo_ukmo_seamless:
+    return "ukmo_seamless";
+  case openmeteo_meteoswiss_icon_seamless:
+    return "meteoswiss_icon_seamless";
+  case openmeteo_gem_seamless:
+    return "gem_seamless";
+  case openmeteo_metno_seamless:
+    return "metno_seamless";
+  case openmeteo_italia_meteo_arpae_icon_2i:
+    return "italia_meteo_arpae_icon_2i";
+  case openmeteo_gfs_seamless:
+    return "gfs_seamless";
+  case openmeteo_jma_seamless:
+    return "jma_seamless";
+  case openmeteo_bom_access_global:
+    return "bom_access_global";
+  case openweather:
+    break;
+  }
+  BOOST_LOG_TRIVIAL(error)
+      << "Unexepected data provider for Open-Meteo service, " << provider;
+  throw ServiceError::get_unexpected_error();
+}
 } // namespace openmeteo_helpers
 
 namespace {
@@ -382,10 +419,13 @@ OpenMeteoService::request_weather_forecast_api(const std::string &language,
                                                const std::string &units) {
   BOOST_LOG_TRIVIAL(debug) << "Requesting Weather Forcast API";
 
+  const auto model =
+      openmeteo_helpers::convert_data_provider_to_model(this->data_provider);
   std::stringstream url;
   url << openmeteo_helpers::forecast_url << "?"
       << "longitude=" << this->location.longitude << "&"
       << "latitude=" << this->location.latitude << "&"
+      << "models=" << model << "&"
       << "daily="
       << ("weather_code,temperature_2m_max,temperature_2m_min,apparent_"
           "temperature_max,apparent_temperature_min,temperature_2m_mean,"

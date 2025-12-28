@@ -8,12 +8,36 @@
 
 namespace {
 std::string to_string(taranis::DataProvider data_provider) {
-  if (data_provider == taranis::openmeteo) {
+  switch (data_provider) {
+  case taranis::DataProvider::openmeteo_best_match:
     return "Open-Meteo";
-  } else if (data_provider == taranis::openweather) {
+  case taranis::DataProvider::openmeteo_kma_seamless:
+    return "Open-Meteo (KMA Korea)";
+  case taranis::DataProvider::openmeteo_meteofrance_seamless:
+    return "Open-Meteo (Météo-France)";
+  case taranis::DataProvider::openmeteo_knmi_seamless:
+    return "Open-Meteo (KNMI)";
+  case taranis::DataProvider::openmeteo_dmi_seamless:
+    return "Open-Meteo (DMI)";
+  case taranis::DataProvider::openmeteo_ukmo_seamless:
+    return "Open-Meteo (UK Met Office)";
+  case taranis::DataProvider::openmeteo_meteoswiss_icon_seamless:
+    return "Open-Meteo (MeteoSwiss)";
+  case taranis::DataProvider::openmeteo_gem_seamless:
+    return "Open-Meteo (Canadian Weather Service)";
+  case taranis::DataProvider::openmeteo_metno_seamless:
+    return "Open-Meteo (MET Norway)";
+  case taranis::DataProvider::openmeteo_italia_meteo_arpae_icon_2i:
+    return "Open-Meteo (ItaliaMeteo)";
+  case taranis::DataProvider::openmeteo_gfs_seamless:
+    return "Open-Meteo (China Meteorological Administration)";
+  case taranis::DataProvider::openmeteo_jma_seamless:
+    return "Open-Meteo (JMA)";
+  case taranis::DataProvider::openmeteo_bom_access_global:
+    return "Open-Meteo (Australian Bureau of Meteorology)";
+  case taranis::DataProvider::openweather:
     return "OpenWeather";
   }
-  return "";
 }
 } // namespace
 
