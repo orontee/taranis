@@ -6,7 +6,7 @@
 #include <sstream>
 
 namespace taranis {
-  std::string version{"@taranis_VERSION@ (@VCS_TAG@)"};
+  std::string version{"@ABOUT_PROJECT_VERSION@"};
 
   std::string get_about_content() {
     std::stringstream content;
