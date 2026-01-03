@@ -191,9 +191,7 @@ std::string convert_to_weather_icon_name(int weather_code) {
 }
 
 std::string convert_units_to_query_units(const std::string &units) {
-  if (units == "standard") {
-    return "&wind_speed_unit=ms";
-  } else if (units == "metric") {
+  if (units == "metric") {
     return "&wind_speed_unit=ms";
   } else if (units == "imperial") {
     return "&wind_speed_unit=mph&temperature_unit=fahrenheit";

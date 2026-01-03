@@ -17,11 +17,11 @@ namespace taranis {
 
 static iconfig *config = nullptr;
 
-char *unit_system_values[] = {const_cast<char *>(GetLangText("Standard")),
-                              const_cast<char *>(GetLangText("Metric")),
-                              const_cast<char *>(GetLangText("Imperial")),
-                              nullptr};
-// ☠️ index must match UnitSystem enum values…
+char *unit_system_values[] = { // const_cast<char *>(GetLangText("Standard")),
+    const_cast<char *>(GetLangText("Metric")),
+    const_cast<char *>(GetLangText("Imperial")), nullptr};
+// ☠️ index doesn't match UnitSystem enum values since support for
+// standard units is not exposed to end users anymore…
 
 char *start_with_daily_forecast_values[] = {
     const_cast<char *>(GetLangText("Hourly forecast")),
@@ -114,10 +114,27 @@ void Config::write_bool(const std::string &name, bool value) {
 }
 
 int Config::read_int(const std::string &name, int default_value) {
+  if (name == "unit_system") {
+    constexpr int fake_default_value = -1;
+    auto value = ReadInt(config, name.c_str(), fake_default_value);
+    if (value == fake_default_value) {
+      return default_value;
+    }
+    return value + 1;
+    // Horrible hack to keep the model unchanged but hide
+    // UnitSystem::standard (represented by 0)
+  }
   return ReadInt(config, name.c_str(), default_value);
 }
 
 void Config::write_int(const std::string &name, int value) {
+  if (name == "unit_system") {
+    WriteInt(config, name.c_str(), std::max(0, value - 1));
+    // Horrible hack to keep the model unchanged but hide
+    // UnitSystem::standard (represented by 0)
+
+    return;
+  }
   WriteInt(config, name.c_str(), value);
 }
 

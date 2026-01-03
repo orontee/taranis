@@ -21,6 +21,14 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Removed
 
+- Support for "standard" unit system has been removed; Default is to
+  use metric system.
+  [#113](https://github.com/orontee/taranis/issues/113)
+  
+  Expressing temperatures in absolute values (Kelvin) for weather
+  forecasts doesn't look that useful and it's not supported by
+  Open-Meto API service.
+
 ## [1.14.0 - 2025-09-11]
 
 ### Added

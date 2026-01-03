@@ -1,8 +1,11 @@
 #include "convert.h"
-#include "experimental/optional"
-#include "model.h"
-#include "json/value.h"
+
+#include <boost/log/trivial.hpp>
 #include <exception>
+#include <experimental/optional>
+#include <json/value.h>
+
+#include "model.h"
 
 using namespace std::chrono_literals;
 
@@ -347,7 +350,13 @@ void update_from_json(Model &model, const Json::Value &value) {
   model.data_provider = static_cast<DataProvider>(
       value.get("data_provider", openweather).asInt());
   model.unit_system =
-      static_cast<UnitSystem>(value.get("unit_system", standard).asInt());
+    static_cast<UnitSystem>(value.get("unit_system", UnitSystem::metric).asInt());
+  if (model.unit_system == UnitSystem::standard) {
+    model.unit_system = UnitSystem::metric;
+
+    BOOST_LOG_TRIVIAL(warning)
+        << "Unit system forced to metric after standard was deprecated.";
+  }
   model.refresh_date = TimePoint{value.get("refresh_date", 0).asInt64() * 1s};
 
   auto &location = model.location;
