@@ -14,23 +14,22 @@ e-book reader.
 
 * Current weather
 
-* 8 daily forecasts with sunrise/sunset hour, morning, day and evening
-  temperatures, wind speed, wind gust and precipitations.
+* Up to 8 daily forecasts with sunrise/sunset hour, morning, day and
+  evening temperatures, wind speed, wind gust and precipitations.
 
-* 24 hourly forecasts with temperature, wind direction, wind speed,
-  wind gust, temperature curve and precipitations histogram
-  
-* Government weather alerts
-  
+* 48 hourly forecasts with temperature, wind direction, wind speed,
+  wind gust, temperature curve and precipitations histogram.
+
+* Choice of data provider: [OpenWeather](https://openweather.co.uk) or
+  [Open-Meteo](https://open-meteo.com/).
+
 * Configuration editor for system of units, custom API key, etc.
 
-* History of locations, favorite locations
+* History of locations, favorite locations.
 
-* Generation of shutdown logo
+* Generation of shutdown logo.
 
 * Translations (Czech, French, German, Polish, Ukrainian, etc.)
-
-Weather data is provided by [OpenWeather](https://openweather.co.uk).
 
 Positive feedback were received for Vivilo Touch HD Plus, PocketBook
 Touch HD 3, InkPad 3, InkPad Color 2, InkPad Color 3, PocketBook Verse
@@ -41,16 +40,12 @@ Consult the [NEWS file](NEWS.md) for notable changes between versions.
 
 ## Privacy policy
 
-Note that the only external service called by Taranis is provided by
-[OpenWeather](https://openweather.co.uk) and [their privacy
-policy](https://openweather.co.uk/privacy-policy) when one is using
-their APIs is quite clear:
+The two external services that can be called by Taranis are respectful
+of privacy. Those policies can be checked on:
 
->  Please note, that we do not collect or store any parameters from
->  your API requests, such as locations/ZIP-codes/city names, units
->  measurements, data format, etc. When you make API requests, we also
->  do not collect or store your IP address, user agent and other API
->  request parameters.
+* [OpenWeather privacy policy](https://openweather.co.uk/privacy-policy).
+
+* [Open-Meteo](https://open-meteo.com/en/terms#privacy)
 
 ## Install
 
@@ -77,6 +72,10 @@ Note that the Openweather API key distributed with the application is
 rate limited. A custom API key can be specified through the
 "Parameters…" menu item (See [OpenWeather](https://openweathermap.org)
 for instructions on how to register and generate API keys).
+
+There's no need for an API key to consume
+[Open-Meteo](https://open-meteo.com) since Taranis uses their free
+non-commercial API service.
 
 Another parameter allows to enable/disable generation of a shutdown
 logo. Instructions are given in [Desktop
