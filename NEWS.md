@@ -10,12 +10,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- Support of free non-commercial Open-Meteo API service
+- Support for free non-commercial Open-Meteo API service
   [#113](https://github.com/orontee/taranis/issues/113)
   
-  Users have the choice between multiple models. Note depending on the
-  model, the number of daily forecasts may vary and alerts aren't
-  supported by Open-Meteo.
+  Users now have the choice between multiple models. Note that
+  depending on the model, the number of daily forecasts may vary; Also
+  alerts and moon data aren't supported by Open-Meteo.
 
 ### Changed
 
