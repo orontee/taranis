@@ -11,6 +11,8 @@ std::string to_string(taranis::DataProvider data_provider) {
   switch (data_provider) {
   case taranis::DataProvider::openmeteo_best_match:
     return "Open-Meteo";
+  case taranis::DataProvider::openmeteo_ecmwf_ifs_hres:
+    return "ECMWF";
   case taranis::DataProvider::openmeteo_kma_seamless:
     return "Open-Meteo (KMA Korea)";
   case taranis::DataProvider::openmeteo_meteofrance_seamless:

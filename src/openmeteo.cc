@@ -204,6 +204,8 @@ std::string convert_data_provider_to_model(DataProvider provider) {
   switch (provider) {
   case openmeteo_best_match:
     return "best_match";
+  case openmeteo_ecmwf_ifs_hres:
+    return "ecmwf_ifs";
   case openmeteo_kma_seamless:
     return "kma_seamless";
   case openmeteo_meteofrance_seamless:
@@ -275,6 +277,7 @@ int OpenMeteoService::get_max_hourly_forecasts() const { return 48; }
 int OpenMeteoService::get_max_daily_forecasts() const {
   switch (this->data_provider) {
   case taranis::DataProvider::openmeteo_best_match:
+  case taranis::DataProvider::openmeteo_ecmwf_ifs_hres:
   case taranis::DataProvider::openmeteo_kma_seamless:
   case taranis::DataProvider::openmeteo_gem_seamless:
   case taranis::DataProvider::openmeteo_gfs_seamless:
