@@ -31,6 +31,10 @@ public:
     return DataProvider::openweather;
   };
 
+  int get_max_hourly_forecasts() const override { return 48; }
+
+  int get_max_daily_forecasts() const override { return 8; }
+
   std::vector<Location> search_location(const std::string &town,
                                         const std::string &country) override;
 

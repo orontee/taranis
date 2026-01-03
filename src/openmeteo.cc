@@ -272,6 +272,39 @@ Json::Value transpose_json_object(const Json::Value &input) {
 }
 } // namespace
 
+int OpenMeteoService::get_max_hourly_forecasts() const { return 48; }
+
+int OpenMeteoService::get_max_daily_forecasts() const {
+  switch (this->data_provider) {
+  case taranis::DataProvider::openmeteo_best_match:
+  case taranis::DataProvider::openmeteo_kma_seamless:
+  case taranis::DataProvider::openmeteo_gem_seamless:
+  case taranis::DataProvider::openmeteo_gfs_seamless:
+  case taranis::DataProvider::openmeteo_jma_seamless:
+  case taranis::DataProvider::openmeteo_bom_access_global:
+    return 8;
+  case taranis::DataProvider::openmeteo_ukmo_seamless:
+    return 7;
+  case taranis::DataProvider::openmeteo_meteoswiss_icon_seamless:
+    return 5;
+  case taranis::DataProvider::openmeteo_meteofrance_seamless:
+    return 4;
+  case taranis::DataProvider::openmeteo_italia_meteo_arpae_icon_2i:
+    return 3;
+  case taranis::DataProvider::openmeteo_knmi_seamless:
+  case taranis::DataProvider::openmeteo_dmi_seamless:
+  case taranis::DataProvider::openmeteo_metno_seamless:
+    return 2;
+    return 2;
+  case taranis::DataProvider::openweather:
+    break;
+  }
+  BOOST_LOG_TRIVIAL(error)
+      << "Unexepected data provider for Open-Meteo service, "
+      << this->data_provider;
+  throw ServiceError::get_unexpected_error();
+}
+
 void OpenMeteoService::set_location(const Location &location) {
   if (location == this->location) {
     return;
@@ -350,13 +383,13 @@ std::vector<Condition> OpenMeteoService::get_hourly_forecast() const {
   if (not is_transposable_json_object(this->returned_value["hourly"])) {
     return conditions;
   }
-  conditions.reserve(Service::max_hourly_forecasts);
+  conditions.reserve(this->get_max_hourly_forecasts());
   const auto hourly_data =
       transpose_json_object(this->returned_value["hourly"]);
   for (auto &value : hourly_data) {
     conditions.push_back(OpenMeteoService::extract_hourly_condition(value));
 
-    if (conditions.size() == OpenMeteoService::max_hourly_forecasts) {
+    if (conditions.size() == this->get_max_hourly_forecasts()) {
       break;
     }
   }
@@ -369,12 +402,12 @@ std::vector<DailyCondition> OpenMeteoService::get_daily_forecast() const {
   if (not is_transposable_json_object(this->returned_value["daily"])) {
     return conditions;
   }
-  conditions.reserve(Service::max_daily_forecasts);
+  conditions.reserve(this->get_max_daily_forecasts());
   const auto daily_data = transpose_json_object(this->returned_value["daily"]);
   for (auto &value : daily_data) {
     conditions.push_back(OpenMeteoService::extract_daily_condition(value));
 
-    if (conditions.size() == OpenMeteoService::max_daily_forecasts) {
+    if (conditions.size() == this->get_max_daily_forecasts()) {
       break;
     }
   }
@@ -447,10 +480,10 @@ OpenMeteoService::request_weather_forecast_api(const std::string &language,
       << "&"
       << "timeformat=unixtime" << "&"
       << "start_hour=" << now_as_iso8601_with_hour() << "&"
-      << "end_hour=" << now_as_iso8601_with_hour(Service::max_hourly_forecasts)
-      << "&"
+      << "end_hour="
+      << now_as_iso8601_with_hour(this->get_max_hourly_forecasts()) << "&"
       << "start_date=" << now_as_iso8601() << "&"
-      << "end_date=" << now_as_iso8601(Service::max_daily_forecasts)
+      << "end_date=" << now_as_iso8601(this->get_max_daily_forecasts())
       << openmeteo_helpers::convert_units_to_query_units(units);
 
   const auto returned_value = this->send_get_request(url.str());

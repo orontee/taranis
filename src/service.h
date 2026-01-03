@@ -31,6 +31,10 @@ public:
 
   void set_api_key(const std::string &api_key) { this->api_key = api_key; }
 
+  virtual int get_max_hourly_forecasts() const = 0;
+
+  virtual int get_max_daily_forecasts() const = 0;
+
   virtual std::vector<Location> search_location(const std::string &town,
                                                 const std::string &country) = 0;
 
@@ -50,9 +54,6 @@ public:
   virtual std::vector<Alert> get_alerts() const = 0;
 
 protected:
-  static constexpr int max_hourly_forecasts = 48;
-  static constexpr int max_daily_forecasts = 8;
-
   std::string api_key;
 
   std::shared_ptr<HttpClient> client;

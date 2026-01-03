@@ -27,6 +27,10 @@ public:
 
   DataProvider get_data_provider() override { return this->data_provider; };
 
+  int get_max_hourly_forecasts() const override;
+
+  int get_max_daily_forecasts() const override;
+
   std::vector<Location> search_location(const std::string &town,
                                         const std::string &country) override;
 

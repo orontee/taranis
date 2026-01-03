@@ -15,7 +15,7 @@ DailyForecastBox::DailyForecastBox(
     std::shared_ptr<DailyForecastViewer> daily_forecast_viewer)
     : Widget{pos_x, pos_y, width, height}, model{model}, icons{icons},
       fonts{fonts}, viewer{daily_forecast_viewer} {
-  this->row_height = this->bounding_box.h / DailyForecastBox::row_count;
+  this->row_height = this->bounding_box.h / DailyForecastBox::max_row_count;
 }
 
 void DailyForecastBox::do_paint() {
@@ -47,7 +47,8 @@ DailyForecastBox::generate_precipitation_column_content(
 
   const auto probability_of_precipitation =
       forecast.probability_of_precipitation;
-  if (std::isnan(probability_of_precipitation) or probability_of_precipitation == 0) {
+  if (std::isnan(probability_of_precipitation) or
+      probability_of_precipitation == 0) {
     return {precipitation_text, ""};
   }
   const auto probability_of_precipitation_text =
@@ -57,6 +58,9 @@ DailyForecastBox::generate_precipitation_column_content(
 }
 
 void DailyForecastBox::generate_table_content() {
+  const auto row_count = std::min(DailyForecastBox::max_row_count,
+                                  this->model->daily_forecast.size());
+
   const bool has_day_periods_temperatures = std::all_of(
       std::begin(this->model->daily_forecast),
       std::end(this->model->daily_forecast), [](const auto &forecast) {
@@ -94,74 +98,66 @@ void DailyForecastBox::generate_table_content() {
   for (size_t column_index = 0; column_index < this->column_count;
        ++column_index) {
     auto &column_content = this->table_content.at(column_index);
+    column_content.resize(row_count);
     const auto column_type = this->column_types.at(column_index);
 
-    for (size_t row_index = 0; row_index < DailyForecastBox::row_count;
-         ++row_index) {
-      if (row_index < this->model->daily_forecast.size()) {
-        const auto &forecast = this->model->daily_forecast[row_index];
+    for (size_t row_index = 0; row_index < column_content.size(); ++row_index) {
+      assert(row_index < this->model->daily_forecast.size());
 
-        if (column_type == DailyForecastBox::WeekDayColumn) {
-          column_content[row_index] = std::pair<std::string, std::string>{
-              format_short_day(forecast.date),
-              format_short_date(forecast.date)};
-        } else if (column_type == DailyForecastBox::IconColumn) {
+      const auto &forecast = this->model->daily_forecast[row_index];
+
+      if (column_type == DailyForecastBox::WeekDayColumn) {
+        column_content[row_index] = std::pair<std::string, std::string>{
+            format_short_day(forecast.date), format_short_date(forecast.date)};
+      } else if (column_type == DailyForecastBox::IconColumn) {
+        column_content[row_index] =
+            this->icons->get(forecast.weather_icon_name);
+      } else if (column_type == DailyForecastBox::SunHoursColumn) {
+        column_content[row_index] = std::pair<std::string, std::string>{
+            format_time(forecast.sunrise), format_time(forecast.sunset)};
+      } else if (column_type == DailyForecastBox::MorningTemperatureColumn) {
+        if (forecast.temperature_morning != std::experimental::nullopt) {
           column_content[row_index] =
-              this->icons->get(forecast.weather_icon_name);
-        } else if (column_type == DailyForecastBox::SunHoursColumn) {
-          column_content[row_index] = std::pair<std::string, std::string>{
-              format_time(forecast.sunrise), format_time(forecast.sunset)};
-        } else if (column_type == DailyForecastBox::MorningTemperatureColumn) {
-          if (forecast.temperature_morning != std::experimental::nullopt) {
-            column_content[row_index] =
-                units.format_temperature(*forecast.temperature_morning);
-          }
-        } else if (column_type == DailyForecastBox::DayTemperatureColumn) {
-          column_content[row_index] =
-              units.format_temperature(forecast.temperature_day);
-        } else if (column_type == DailyForecastBox::DayFeltTemperatureColumn) {
-          column_content[row_index] =
-              units.format_temperature(forecast.felt_temperature_day);
-        } else if (column_type == DailyForecastBox::EveningTemperatureColumn) {
-          if (forecast.temperature_evening != std::experimental::nullopt) {
-            column_content[row_index] =
-                units.format_temperature(*forecast.temperature_evening);
-          }
-        } else if (column_type == DailyForecastBox::MinMaxTemperatureColumn) {
-          column_content[row_index] = std::pair<std::string, std::string>{
-              units.format_temperature(forecast.temperature_max),
-              units.format_temperature(forecast.temperature_min)};
-        } else if (column_type == DailyForecastBox::WindColumn) {
-          if (static_cast<int>(forecast.wind_speed) == 0 and
-              static_cast<int>(forecast.wind_gust) == 0) {
-            column_content[row_index] =
-                std::pair<std::string, std::string>{"", ""};
-          } else {
-            const auto wind_speed_text =
-                units.format_speed(forecast.wind_speed);
-            const auto wind_gust_text = units.format_speed(forecast.wind_gust);
-            if (static_cast<int>(forecast.wind_speed) == 0) {
-              column_content[row_index] =
-                  std::pair<std::string, std::string>{"", wind_gust_text};
-            } else if (forecast.wind_gust > forecast.wind_speed and
-                       wind_gust_text != wind_speed_text) {
-              column_content[row_index] = std::pair<std::string, std::string>{
-                  wind_speed_text, wind_gust_text};
-            } else {
-              column_content[row_index] =
-                  std::pair<std::string, std::string>{wind_speed_text, ""};
-            }
-          }
-        } else if (column_type == DailyForecastBox::PrecipitationColumn) {
-          column_content[row_index] =
-              this->generate_precipitation_column_content(forecast);
+              units.format_temperature(*forecast.temperature_morning);
         }
-      } else {
-        if (column_type == DailyForecastBox::IconColumn) {
-          column_content[row_index] = static_cast<ibitmap *>(nullptr);
+      } else if (column_type == DailyForecastBox::DayTemperatureColumn) {
+        column_content[row_index] =
+            units.format_temperature(forecast.temperature_day);
+      } else if (column_type == DailyForecastBox::DayFeltTemperatureColumn) {
+        column_content[row_index] =
+            units.format_temperature(forecast.felt_temperature_day);
+      } else if (column_type == DailyForecastBox::EveningTemperatureColumn) {
+        if (forecast.temperature_evening != std::experimental::nullopt) {
+          column_content[row_index] =
+              units.format_temperature(*forecast.temperature_evening);
+        }
+      } else if (column_type == DailyForecastBox::MinMaxTemperatureColumn) {
+        column_content[row_index] = std::pair<std::string, std::string>{
+            units.format_temperature(forecast.temperature_max),
+            units.format_temperature(forecast.temperature_min)};
+      } else if (column_type == DailyForecastBox::WindColumn) {
+        if (static_cast<int>(forecast.wind_speed) == 0 and
+            static_cast<int>(forecast.wind_gust) == 0) {
+          column_content[row_index] =
+              std::pair<std::string, std::string>{"", ""};
         } else {
-          column_content[row_index] = "";
+          const auto wind_speed_text = units.format_speed(forecast.wind_speed);
+          const auto wind_gust_text = units.format_speed(forecast.wind_gust);
+          if (static_cast<int>(forecast.wind_speed) == 0) {
+            column_content[row_index] =
+                std::pair<std::string, std::string>{"", wind_gust_text};
+          } else if (forecast.wind_gust > forecast.wind_speed and
+                     wind_gust_text != wind_speed_text) {
+            column_content[row_index] = std::pair<std::string, std::string>{
+                wind_speed_text, wind_gust_text};
+          } else {
+            column_content[row_index] =
+                std::pair<std::string, std::string>{wind_speed_text, ""};
+          }
         }
+      } else if (column_type == DailyForecastBox::PrecipitationColumn) {
+        column_content[row_index] =
+            this->generate_precipitation_column_content(forecast);
       }
     }
   }
@@ -214,7 +210,8 @@ int DailyForecastBox::estimate_max_content_width(size_t column_index) const {
   const auto second_line_font = this->get_font(column_index, 2);
 
   auto &column_content = this->table_content.at(column_index);
-  std::array<int, DailyForecastBox::row_count> widths;
+  std::vector<int> widths;
+  widths.resize(column_content.size());
   std::transform(
       std::begin(column_content), std::end(column_content), std::begin(widths),
       [first_line_font, second_line_font](const CellContent &content) {
@@ -268,13 +265,21 @@ void DailyForecastBox::compute_columns_layout() {
 void DailyForecastBox::draw_frame() const {
   const auto separator_start_x = this->bounding_box.x;
   const auto separator_stop_x = this->bounding_box.w;
+  const auto row_count =
+      (this->table_content.size() > 0 ? this->table_content.at(0).size() : 0);
 
-  for (size_t row_index = 0; row_index <= DailyForecastBox::row_count;
-       ++row_index) {
+  for (size_t row_index = 0; row_index <= row_count; ++row_index) {
     const auto separator_start_y =
-        (row_index < DailyForecastBox::row_count
+        (row_index < DailyForecastBox::max_row_count
              ? this->bounding_box.y + row_index * this->row_height
              : this->bounding_box.y + this->bounding_box.h);
+    const auto separator_stop_y = separator_start_y;
+
+    DrawLine(separator_start_x, separator_start_y, separator_stop_x,
+             separator_stop_y, LGRAY);
+  }
+  if (row_count < DailyForecastBox::max_row_count) {
+    const auto separator_start_y = this->bounding_box.y + this->bounding_box.h;
     const auto separator_stop_y = separator_start_y;
 
     DrawLine(separator_start_x, separator_start_y, separator_stop_x,
@@ -285,6 +290,8 @@ void DailyForecastBox::draw_frame() const {
 void DailyForecastBox::draw_values() {
   this->generate_table_content();
   this->compute_columns_layout();
+  const auto row_count =
+      (this->table_content.size() > 0 ? this->table_content.at(0).size() : 0);
 
   for (size_t column_index = 0; column_index < this->column_count;
        ++column_index) {
@@ -293,8 +300,7 @@ void DailyForecastBox::draw_values() {
     const auto column_type = this->column_types[column_index];
 
     if (column_type == DailyForecastBox::IconColumn) {
-      for (size_t row_index = 0; row_index < DailyForecastBox::row_count;
-           ++row_index) {
+      for (size_t row_index = 0; row_index < row_count; ++row_index) {
         const auto icon = boost::get<ibitmap *>(column_content[row_index]);
         if (icon) {
           const int icon_offset_y = (this->row_height - icon->height) / 2;
@@ -309,8 +315,7 @@ void DailyForecastBox::draw_values() {
       const auto first_line_font = this->get_font(column_index, 1);
       const auto second_line_font = this->get_font(column_index, 2);
 
-      for (size_t row_index = 0; row_index < DailyForecastBox::row_count;
-           ++row_index) {
+      for (size_t row_index = 0; row_index < row_count; ++row_index) {
         const int row_start_y =
             this->bounding_box.y + row_index * this->row_height;
         const auto &cell_value = column_content[row_index];
@@ -347,8 +352,15 @@ void DailyForecastBox::draw_values() {
 
 void DailyForecastBox::on_clicked_at(int pointer_pos_x, int pointer_pos_y) {
   if (this->viewer) {
+    const auto row_count = std::min(DailyForecastBox::max_row_count,
+                                    this->model->daily_forecast.size());
     const auto row_index = static_cast<size_t>(
         std::max(0, pointer_pos_y - this->bounding_box.y) / this->row_height);
+
+    if (row_index >= row_count) {
+      return;
+    }
+
     this->viewer->set_forecast_index(row_index);
     this->viewer->open();
   }

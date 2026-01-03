@@ -33,7 +33,7 @@ public:
                            int pointer_pos_y) override;
 
 private:
-  static constexpr size_t row_count{8};
+  static constexpr size_t max_row_count{8};
   static constexpr int horizontal_padding{25};
 
   typedef boost::variant<std::string, std::pair<std::string, std::string>,
@@ -41,7 +41,7 @@ private:
       CellContent;
   // one text line, two text lines or an icon
 
-  typedef std::array<CellContent, DailyForecastBox::row_count> ColumnContent;
+  typedef std::vector<CellContent> ColumnContent;
   typedef std::vector<ColumnContent> TableContent;
 
   enum ColumnType {

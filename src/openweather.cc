@@ -90,11 +90,11 @@ void OpenWeatherService::fetch_data(const std::string &language,
 
 std::vector<Condition> OpenWeatherService::get_hourly_forecast() const {
   std::vector<Condition> conditions;
-  conditions.reserve(OpenWeatherService::max_hourly_forecasts);
+  conditions.reserve(this->get_max_hourly_forecasts());
   for (auto &value : this->returned_value["hourly"]) {
     conditions.push_back(OpenWeatherService::extract_condition(value));
 
-    if (conditions.size() == OpenWeatherService::max_hourly_forecasts) {
+    if (conditions.size() == this->get_max_hourly_forecasts()) {
       break;
     }
   }
@@ -103,11 +103,11 @@ std::vector<Condition> OpenWeatherService::get_hourly_forecast() const {
 
 std::vector<DailyCondition> OpenWeatherService::get_daily_forecast() const {
   std::vector<DailyCondition> conditions;
-  conditions.reserve(OpenWeatherService::max_daily_forecasts);
+  conditions.reserve(this->get_max_daily_forecasts());
   for (auto &value : this->returned_value["daily"]) {
     conditions.push_back(OpenWeatherService::extract_daily_condition(value));
 
-    if (conditions.size() == OpenWeatherService::max_daily_forecasts) {
+    if (conditions.size() == this->get_max_daily_forecasts()) {
       break;
     }
   }
