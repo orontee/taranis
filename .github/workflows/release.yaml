@@ -1,0 +1,131 @@
+name: Create release
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
+  
+      - name: Collect VCS data
+        id: get_tag
+        run: |
+          echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      - name: Determine release type
+        id: determine_release_type
+        run: |
+          if [[ "${{ env.TAG_NAME }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "PRERELEASE=false" >> $GITHUB_ENV
+            echo "RELEASE_NAME=Release ${{ env.VERSION }}" >> $GITHUB_ENV
+          else
+            echo "PRERELEASE=true" >> $GITHUB_ENV
+            echo "RELEASE_NAME=Pre-release ${{ env.VERSION }}" >> $GITHUB_ENV
+          fi
+  
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          release_name: ${{ env.RELEASE_NAME }}
+          draft: true
+          prerelease: ${{ env.PRERELEASE }}
+          body: |
+           See [News file](https://github.com/orontee/taranis/blob/${{ env.TAG_NAME }}/NEWS.md) for release content.
+
+           ## How to install
+
+
+           Install by copying the taranis.pbi file to the e-book reader, then open the corresponding "book" using the library application.
+
+           An alternative is to manually copy the files from the taranis.zip archive to the applications directory of the e-book reader.
+  
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -
+          sudo apt-get install --no-install-recommends -y \
+                7zip \
+                build-essential \
+                ca-certificates \
+                clang \
+                cmake \
+                git \
+                libtinfo5 \
+                pkg-config \
+                python3-jinja2 \
+                wget \
+                zip
+  
+      - name: Install PocketBook SDK
+        run: |
+          ./scripts/install_sdk.sh --family B288 --path .
+          rm SDK-B288-6.8.7z
+  
+      - name: Build application
+        run: |
+          source build_env.sh
+  
+          cmake -S . -B build \
+                -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
+          cmake --build build \
+                --target taranis.app archive installer checksum
+  
+          mkdir build/artifact
+          cp build/taranis.{app,pbi,sha256,zip} build/artifact
+
+          pushd build/artifact
+          zip artifact.zip taranis.{app,pbi,sha256,zip}
+  
+      - name: Upload pbi artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/artifact/taranis.pbi
+          asset_name: taranis.pbi
+          asset_content_type: application/zip
+  
+      - name: Upload zip artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/artifact/taranis.zip
+          asset_name: taranis.zip
+          asset_content_type: application/zip
+  
+      - name: Upload SHA256 artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/artifact/taranis.sha256
+          asset_name: taranis.sha256
+          asset_content_type: text/plain
+
+      - name: Upload archive artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/artifact/artifact.zip
+          asset_name: artifact.zip
+          asset_content_type: application/zip
+  
