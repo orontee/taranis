@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-03 17:46+0100\n"
-"PO-Revision-Date: 2024-12-12 14:00+0000\n"
+"PO-Revision-Date: 2026-01-04 18:05+0000\n"
 "Last-Translator: Vitalii <stopchan@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/taranis/"
 "taranis/uk/>\n"
@@ -16,9 +16,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.9-dev\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: src/alerts.cc:159
 msgid "Alert"
@@ -124,7 +124,7 @@ msgstr "Оновлення даних"
 
 #: src/config.cc:81
 msgid "Data provider"
-msgstr ""
+msgstr "Джерело даних"
 
 #: src/config.cc:84
 msgid "Custom API key"
@@ -189,7 +189,7 @@ msgstr "Ніч"
 
 #: src/dailyforecastviewer.cc:378
 msgid "Mean"
-msgstr ""
+msgstr "Середня"
 
 #: src/dailyforecastviewer.cc:385
 msgid "Min/Max"
@@ -297,115 +297,115 @@ msgstr "Вилучити з обраних"
 
 #: src/openmeteo.cc:85
 msgid "Clear sky"
-msgstr ""
+msgstr "Безхмарно"
 
 #: src/openmeteo.cc:87
 msgid "Mainly clear sky"
-msgstr ""
+msgstr "Переважно безхмарно"
 
 #: src/openmeteo.cc:89
 msgid "Partly cloudy sky"
-msgstr ""
+msgstr "Часткова хмарність"
 
 #: src/openmeteo.cc:91
 msgid "Overcast sky"
-msgstr ""
+msgstr "Сильна хмарність"
 
 #: src/openmeteo.cc:93
 msgid "Fog"
-msgstr ""
+msgstr "Туман"
 
 #: src/openmeteo.cc:95
 msgid "Depositing rime fog"
-msgstr ""
+msgstr "Інеєвий туман"
 
 #: src/openmeteo.cc:97
 msgid "Light drizzle"
-msgstr ""
+msgstr "Легка мряка"
 
 #: src/openmeteo.cc:99
 msgid "Moderate drizzle"
-msgstr ""
+msgstr "Помірна мряка"
 
 #: src/openmeteo.cc:101
 msgid "Dense drizzle"
-msgstr ""
+msgstr "Густа мряка"
 
 #: src/openmeteo.cc:103
 msgid "Light freezing drizzle"
-msgstr ""
+msgstr "Слабка крижана мряка"
 
 #: src/openmeteo.cc:105
 msgid "Dense freezing drizzle"
-msgstr ""
+msgstr "Густа крижана мряка"
 
 #: src/openmeteo.cc:107
 msgid "Slight rain"
-msgstr ""
+msgstr "Слабкий дощ"
 
 #: src/openmeteo.cc:109
 msgid "Moderate rain"
-msgstr ""
+msgstr "Помірний дощ"
 
 #: src/openmeteo.cc:111
 msgid "Heavy rain"
-msgstr ""
+msgstr "Сильний дощ"
 
 #: src/openmeteo.cc:113
 msgid "Light freezing rain"
-msgstr ""
+msgstr "Слабкий крижаний дощ"
 
 #: src/openmeteo.cc:115
 msgid "Heavy freezing rain"
-msgstr ""
+msgstr "Сильний крижаний дощ"
 
 #: src/openmeteo.cc:117
 msgid "Slight snow fall"
-msgstr ""
+msgstr "Слабкий снігопад"
 
 #: src/openmeteo.cc:119
 msgid "Moderate snow fall"
-msgstr ""
+msgstr "Помірний снігопад"
 
 #: src/openmeteo.cc:121
 msgid "Heavy snow fall"
-msgstr ""
+msgstr "Сильний снігопад"
 
 #: src/openmeteo.cc:123
 msgid "Snow grains"
-msgstr ""
+msgstr "Снігові крупинки"
 
 #: src/openmeteo.cc:125
 msgid "Slight rain showers"
-msgstr ""
+msgstr "Слабкі короткочасні дощі"
 
 #: src/openmeteo.cc:127
 msgid "Moderate rain showers"
-msgstr ""
+msgstr "Помірні короткочасні дощі"
 
 #: src/openmeteo.cc:129
 msgid "Violent rain showers"
-msgstr ""
+msgstr "Сильні короткочасні дощі"
 
 #: src/openmeteo.cc:131
 msgid "Slight snow showers"
-msgstr ""
+msgstr "Слабкі короткочасні снігопади"
 
 #: src/openmeteo.cc:133
 msgid "Heavy snow showers"
-msgstr ""
+msgstr "Сильні короткочасні снігопади"
 
 #: src/openmeteo.cc:135
 msgid "Slight thunderstorm"
-msgstr ""
+msgstr "Слабка гроза"
 
 #: src/openmeteo.cc:137
 msgid "Moderate thunderstorm"
-msgstr ""
+msgstr "Помірна гроза"
 
 #: src/openmeteo.cc:139
 msgid "Thunderstorm with slight and heavy hail"
-msgstr ""
+msgstr "Гроза з слабким і сильним градом"
 
 #: src/statusbar.cc:60
 msgid "Ongoing update…"
