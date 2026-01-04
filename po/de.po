@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-03 17:46+0100\n"
-"PO-Revision-Date: 2024-11-21 21:00+0000\n"
+"PO-Revision-Date: 2026-01-04 18:05+0000\n"
 "Last-Translator: breiti-oi <breiti_oi@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/taranis/taranis/"
 "de/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: src/alerts.cc:159
 msgid "Alert"
@@ -125,7 +125,7 @@ msgstr "Strategie zur Datenaktualisierung"
 
 #: src/config.cc:81
 msgid "Data provider"
-msgstr ""
+msgstr "Datenanbieter"
 
 #: src/config.cc:84
 msgid "Custom API key"
@@ -190,7 +190,7 @@ msgstr "Nacht"
 
 #: src/dailyforecastviewer.cc:378
 msgid "Mean"
-msgstr ""
+msgstr "Mittelwert"
 
 #: src/dailyforecastviewer.cc:385
 msgid "Min/Max"
@@ -298,115 +298,115 @@ msgstr "Aus den Favoriten entfernen"
 
 #: src/openmeteo.cc:85
 msgid "Clear sky"
-msgstr ""
+msgstr "Klarer Himmel"
 
 #: src/openmeteo.cc:87
 msgid "Mainly clear sky"
-msgstr ""
+msgstr "Überwiegend klarer Himmel"
 
 #: src/openmeteo.cc:89
 msgid "Partly cloudy sky"
-msgstr ""
+msgstr "Teilweise bewölkter Himmel"
 
 #: src/openmeteo.cc:91
 msgid "Overcast sky"
-msgstr ""
+msgstr "Bewölkter Himmel"
 
 #: src/openmeteo.cc:93
 msgid "Fog"
-msgstr ""
+msgstr "Nebel"
 
 #: src/openmeteo.cc:95
 msgid "Depositing rime fog"
-msgstr ""
+msgstr "Gefrierender Reifnebel"
 
 #: src/openmeteo.cc:97
 msgid "Light drizzle"
-msgstr ""
+msgstr "Leichter Nieselregen"
 
 #: src/openmeteo.cc:99
 msgid "Moderate drizzle"
-msgstr ""
+msgstr "Mäßiger Nieselregen"
 
 #: src/openmeteo.cc:101
 msgid "Dense drizzle"
-msgstr ""
+msgstr "Dichter Nieselregen"
 
 #: src/openmeteo.cc:103
 msgid "Light freezing drizzle"
-msgstr ""
+msgstr "Leichter, überfrierender Nieselregen"
 
 #: src/openmeteo.cc:105
 msgid "Dense freezing drizzle"
-msgstr ""
+msgstr "Dichter, überfrierender Nieselregen"
 
 #: src/openmeteo.cc:107
 msgid "Slight rain"
-msgstr ""
+msgstr "Leichter Regen"
 
 #: src/openmeteo.cc:109
 msgid "Moderate rain"
-msgstr ""
+msgstr "Mäßiger Regen"
 
 #: src/openmeteo.cc:111
 msgid "Heavy rain"
-msgstr ""
+msgstr "Starkregen"
 
 #: src/openmeteo.cc:113
 msgid "Light freezing rain"
-msgstr ""
+msgstr "Leichter Eisregen"
 
 #: src/openmeteo.cc:115
 msgid "Heavy freezing rain"
-msgstr ""
+msgstr "Starker Eisregen"
 
 #: src/openmeteo.cc:117
 msgid "Slight snow fall"
-msgstr ""
+msgstr "Leichter Schneefall"
 
 #: src/openmeteo.cc:119
 msgid "Moderate snow fall"
-msgstr ""
+msgstr "Mäßiger Schneefall"
 
 #: src/openmeteo.cc:121
 msgid "Heavy snow fall"
-msgstr ""
+msgstr "Starker Schneefall"
 
 #: src/openmeteo.cc:123
 msgid "Snow grains"
-msgstr ""
+msgstr "Schneegriesel"
 
 #: src/openmeteo.cc:125
 msgid "Slight rain showers"
-msgstr ""
+msgstr "Leichte Regenschauer"
 
 #: src/openmeteo.cc:127
 msgid "Moderate rain showers"
-msgstr ""
+msgstr "Mäßige Regenschauer"
 
 #: src/openmeteo.cc:129
 msgid "Violent rain showers"
-msgstr ""
+msgstr "Heftige Regenschauer"
 
 #: src/openmeteo.cc:131
 msgid "Slight snow showers"
-msgstr ""
+msgstr "Leichte Schneeschauer"
 
 #: src/openmeteo.cc:133
 msgid "Heavy snow showers"
-msgstr ""
+msgstr "Starke Schneeschauer"
 
 #: src/openmeteo.cc:135
 msgid "Slight thunderstorm"
-msgstr ""
+msgstr "Leichte Gewitter"
 
 #: src/openmeteo.cc:137
 msgid "Moderate thunderstorm"
-msgstr ""
+msgstr "Mäßige Gewitter"
 
 #: src/openmeteo.cc:139
 msgid "Thunderstorm with slight and heavy hail"
-msgstr ""
+msgstr "Gewitter mit leichtem und starkem Hagel"
 
 #: src/statusbar.cc:60
 msgid "Ongoing update…"
