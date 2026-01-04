@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-03 17:46+0100\n"
-"PO-Revision-Date: 2024-11-16 17:52+0000\n"
-"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
+"PO-Revision-Date: 2026-01-04 08:57+0000\n"
+"Last-Translator: Radosław Uliszak <cyfranekblog@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/taranis/taranis/"
 "pl/>\n"
 "Language: pl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.9-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: src/alerts.cc:159
 msgid "Alert"
@@ -26,7 +26,7 @@ msgstr "Alarm"
 
 #: src/alerts.cc:174
 msgid "Start"
-msgstr "Zacznij o"
+msgstr "Start"
 
 #: src/alerts.cc:176
 msgid "Duration"
@@ -102,7 +102,7 @@ msgstr "Na początku"
 
 #: src/config.cc:32
 msgid "When obsolete"
-msgstr "Kiedy przestarzały"
+msgstr "Kiedy nieaktualne"
 
 #: src/config.cc:33
 msgid "Manually"
@@ -126,7 +126,7 @@ msgstr "Odświeżanie danych"
 
 #: src/config.cc:81
 msgid "Data provider"
-msgstr ""
+msgstr "Dostawca danych"
 
 #: src/config.cc:84
 msgid "Custom API key"
@@ -151,7 +151,7 @@ msgstr "Temp. odczuwalna"
 
 #: src/dailyforecastviewer.cc:318 src/dailyforecastviewer.cc:335
 msgid "Sun"
-msgstr "Słoneczny"
+msgstr "Słońce"
 
 #: src/dailyforecastviewer.cc:318
 msgid "Moon"
@@ -191,7 +191,7 @@ msgstr "Noc"
 
 #: src/dailyforecastviewer.cc:378
 msgid "Mean"
-msgstr ""
+msgstr "Średnia"
 
 #: src/dailyforecastviewer.cc:385
 msgid "Min/Max"
@@ -207,7 +207,7 @@ msgstr "Prędkość"
 
 #: src/dailyforecastviewer.cc:408
 msgid "Gust"
-msgstr "Poryw"
+msgstr "Porywy"
 
 #: src/dailyforecastviewer.cc:423
 msgid "Direction"
@@ -219,7 +219,7 @@ msgstr "Opady"
 
 #: src/dailyforecastviewer.cc:437
 msgid "Rain"
-msgstr "Deszczu"
+msgstr "Deszcz"
 
 #: src/dailyforecastviewer.cc:443
 msgid "Snow"
@@ -263,11 +263,11 @@ msgstr "Lokalizacje"
 
 #: src/locationselector.cc:57
 msgid "Longitude"
-msgstr "Długość geo"
+msgstr "Długość geograficzna"
 
 #: src/locationselector.cc:58
 msgid "Latitude"
-msgstr "Szerokość"
+msgstr "Szerokość geograficzna"
 
 #: src/menu.cc:72
 msgid "Refresh"
@@ -299,115 +299,115 @@ msgstr "Usuń z ulubionych"
 
 #: src/openmeteo.cc:85
 msgid "Clear sky"
-msgstr ""
+msgstr "Bezchmurnie"
 
 #: src/openmeteo.cc:87
 msgid "Mainly clear sky"
-msgstr ""
+msgstr "Małe zachmurzenie"
 
 #: src/openmeteo.cc:89
 msgid "Partly cloudy sky"
-msgstr ""
+msgstr "Częściowe zachmurzenie"
 
 #: src/openmeteo.cc:91
 msgid "Overcast sky"
-msgstr ""
+msgstr "Zachmurzenie całkowite"
 
 #: src/openmeteo.cc:93
 msgid "Fog"
-msgstr ""
+msgstr "Mgła"
 
 #: src/openmeteo.cc:95
 msgid "Depositing rime fog"
-msgstr ""
+msgstr "Szadź"
 
 #: src/openmeteo.cc:97
 msgid "Light drizzle"
-msgstr ""
+msgstr "Lekka mżawka"
 
 #: src/openmeteo.cc:99
 msgid "Moderate drizzle"
-msgstr ""
+msgstr "Mżawka"
 
 #: src/openmeteo.cc:101
 msgid "Dense drizzle"
-msgstr ""
+msgstr "Gęsta mżawka"
 
 #: src/openmeteo.cc:103
 msgid "Light freezing drizzle"
-msgstr ""
+msgstr "Marznąca lekka mżawka"
 
 #: src/openmeteo.cc:105
 msgid "Dense freezing drizzle"
-msgstr ""
+msgstr "Marznąca mżawka"
 
 #: src/openmeteo.cc:107
 msgid "Slight rain"
-msgstr ""
+msgstr "Kapuśniaczek"
 
 #: src/openmeteo.cc:109
 msgid "Moderate rain"
-msgstr ""
+msgstr "Umiarkowany deszcz"
 
 #: src/openmeteo.cc:111
 msgid "Heavy rain"
-msgstr ""
+msgstr "Ulewny deszcz"
 
 #: src/openmeteo.cc:113
 msgid "Light freezing rain"
-msgstr ""
+msgstr "Marznący kapuśniaczek"
 
 #: src/openmeteo.cc:115
 msgid "Heavy freezing rain"
-msgstr ""
+msgstr "Marznący deszcz"
 
 #: src/openmeteo.cc:117
 msgid "Slight snow fall"
-msgstr ""
+msgstr "Drobny śnieg"
 
 #: src/openmeteo.cc:119
 msgid "Moderate snow fall"
-msgstr ""
+msgstr "Umiarkowany śnieg"
 
 #: src/openmeteo.cc:121
 msgid "Heavy snow fall"
-msgstr ""
+msgstr "Śnieżyca"
 
 #: src/openmeteo.cc:123
 msgid "Snow grains"
-msgstr ""
+msgstr "Śnieg ziarnisty"
 
 #: src/openmeteo.cc:125
 msgid "Slight rain showers"
-msgstr ""
+msgstr "Przelotny słaby deszcz"
 
 #: src/openmeteo.cc:127
 msgid "Moderate rain showers"
-msgstr ""
+msgstr "Przelotny umiarkowany deszcz"
 
 #: src/openmeteo.cc:129
 msgid "Violent rain showers"
-msgstr ""
+msgstr "Ulewny przelotny deszcz"
 
 #: src/openmeteo.cc:131
 msgid "Slight snow showers"
-msgstr ""
+msgstr "Lekki przelotny śnieg"
 
 #: src/openmeteo.cc:133
 msgid "Heavy snow showers"
-msgstr ""
+msgstr "Przelotna śnieżyca"
 
 #: src/openmeteo.cc:135
 msgid "Slight thunderstorm"
-msgstr ""
+msgstr "Lekka burza"
 
 #: src/openmeteo.cc:137
 msgid "Moderate thunderstorm"
-msgstr ""
+msgstr "Umiarkowana burza"
 
 #: src/openmeteo.cc:139
 msgid "Thunderstorm with slight and heavy hail"
-msgstr ""
+msgstr "Burza z lekkim i silnym gradobiciem"
 
 #: src/statusbar.cc:60
 msgid "Ongoing update…"
@@ -435,11 +435,11 @@ msgstr "Jutro"
 
 #: src/util.cc:344 src/util.cc:360
 msgid "New moon"
-msgstr "Nówy księżyc"
+msgstr "Nów"
 
 #: src/util.cc:346
 msgid "Waxing crescent"
-msgstr "Przybywający półksiężyc"
+msgstr "Półksiężyc przybywający"
 
 #: src/util.cc:348
 msgid "First quarter moon"
@@ -447,7 +447,7 @@ msgstr "Pierwsza kwadra księżyca"
 
 #: src/util.cc:350
 msgid "Waxing gibbous"
-msgstr "Przybywający garb"
+msgstr "Księżyc garbaty przybywający"
 
 #: src/util.cc:352
 msgid "Full moon"
@@ -455,7 +455,7 @@ msgstr "Pełnia księżyca"
 
 #: src/util.cc:354
 msgid "Waning gibbous"
-msgstr "Ubywający garb"
+msgstr "Księżyc garbaty ubywający"
 
 #: src/util.cc:356
 msgid "Last quarter moon"
@@ -463,13 +463,13 @@ msgstr "Ostatnia kwadra księżyca"
 
 #: src/util.cc:358
 msgid "Waning crescent"
-msgstr "Ubywający sierp księżyca"
+msgstr "Półksiężyc ubywający"
 
 #: src/version.cc:87 src/errors.h:43
 msgid ""
 "Sorry, an unexpected error was encountered. Report this to the application "
 "author."
-msgstr "Wystąpił błąd aplikacji. Poinformuj autora."
+msgstr "Przepraszam, wystąpił błąd aplikacji. Poinformuj autora."
 
 #: src/version.cc:97
 msgid "The service hosting releases isn't working as expected. Retry later."
