@@ -15,42 +15,17 @@ Sticky note for maintainers.
 
 4. Push both commit and tag to GitHub.
 
-5. From GitHub website, run the `build-application` action for the
-   `main` branch and the new tag.
-
-6. Download generated artefact and unzip the downloaded file.
-
-7. [Draft a new
-   release](https://github.com/orontee/taranis/releases/new) named
-   "Release 1.9.0" with content:
-
-        See [News file](https://github.com/orontee/taranis/blob/v1.9.0/NEWS.md) for release content.
-
-        **Full Changelog**: https://github.com/orontee/taranis/compare/v1.8.0...v1.9.0
-
-        ## How to install
-
-        Install by copying the `taranis.pbi` file to the e-book reader, then open the corresponding "book" using the library application.
-
-        An alternative is to manually copy the files from the `taranis.zip` archive to the `applications` directory of the e-book reader.
-
-   ⚠️ Check the "Set as pre-release" box
-
-   Attach the following files:
-   - `artifact.zip`
-   - `taranis.pbi`
-   - `taranis.sha256`
-   - `taranis.zip`
-
-   Then save the release draft.
+5. A Github action workflow is automatically created when new tags are
+   pushed. It creates a Github draft release (or pre-release depending
+   on the Git tag format).
    
-   ⚠️ Don't skip the `artifiact.zip` otherwise the new release won't be
-   seen by the application!
+6. Once the workflow is finished, download the generated artefact,
+   install and test.
 
-8. Download installer from release; Install and test.
+7. If everything is ok, edit release to uncheck the "Set as draft" box
+   and, in case of a release, check the "Set as the latest release"
+   box.
 
-9. If everything is ok, edit release to uncheck the "Set as
-   pre-release" box and check the "Set as the latest release" box.
-
-10. Advertise new release on [MobileRead forum dedicated to
-    PocketBook](https://www.mobileread.com/forums/forumdisplay.php?f=206) 🎆
+10. For a release, post a message on [MobileRead forum dedicated to
+    PocketBook](https://www.mobileread.com/forums/forumdisplay.php?f=206)
+    🎆
