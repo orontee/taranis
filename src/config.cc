@@ -35,6 +35,7 @@ char *data_update_strategy_values[] = {
 char *service_values[] = {
     const_cast<char *>("OpenWeather"),
     const_cast<char *>("Open-Meteo"),
+    const_cast<char *>("ECMWF"),
     const_cast<char *>("KMA Korea"),
     const_cast<char *>("Météo-France"),
     const_cast<char *>("KNMI"),
@@ -48,6 +49,7 @@ char *service_values[] = {
     const_cast<char *>("JMA"),
     const_cast<char *>("Australian Bureau of Meteorology"),
     nullptr};
+// ☠️ index must match DataProvider enum values…
 
 char *custom_api_key_value[] = {const_cast<char *>(""), nullptr};
 
