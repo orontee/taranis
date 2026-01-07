@@ -359,7 +359,9 @@ void HourlyForecastBox::draw_precipitation_histogram() const {
     const auto forecast_index = this->forecast_offset + bar_index;
     if (forecast_index < this->model->hourly_forecast.size()) {
       const auto forecast = this->model->hourly_forecast[forecast_index];
-      if (std::isnan(forecast.rain) and std::isnan(forecast.snow)) {
+      const auto precipitation = max_number(forecast.rain, forecast.snow);
+      if ((std::isnan(forecast.rain) and std::isnan(forecast.snow) or
+          precipitation == 0)) {
         continue;
       }
       const auto bar_center_x = (bar_index + 1.0 / 2) * this->bar_width;
