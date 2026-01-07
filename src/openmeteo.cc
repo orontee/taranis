@@ -471,7 +471,7 @@ OpenMeteoService::request_weather_forecast_api(const std::string &language,
       << "&"
       << "hourly="
       << ("temperature_2m,apparent_temperature,cloud_cover,precipitation_"
-          "probability,precipitation,pressure_msl,relative_humidity_2m,uv_"
+          "probability,pressure_msl,rain,relative_humidity_2m,snowfall,uv_"
           "index,visibility,weather_code,wind_speed_10m,wind_direction_10m,"
           "wind_gusts_10m")
       << "&"
@@ -508,6 +508,15 @@ Condition OpenMeteoService::extract_hourly_condition(const Json::Value &value) {
   const auto wind_speed = value.get("wind_speed_10m", NAN).asDouble();
   const auto wind_degree = value.get("wind_direction_10m", 0).asInt();
   const auto wind_gust = value.get("wind_gusts_10m", NAN).asDouble();
+  const auto openmeteo_weather_code = value.get("weather_code", 0).asInt();
+  const auto weather_code =
+      openmeteo_helpers::convert_to_weather_code(openmeteo_weather_code);
+  const auto weather_description =
+      openmeteo_helpers::convert_to_description(openmeteo_weather_code);
+  const auto weather_icon_name =
+      openmeteo_helpers::convert_to_weather_icon_name(openmeteo_weather_code);
+  const auto rain = value.get("rain", NAN).asDouble();
+  const auto snow = value.get("snowfall", NAN).asDouble();
 
   Condition condition{date,
                       sunrise,
@@ -522,19 +531,13 @@ Condition OpenMeteoService::extract_hourly_condition(const Json::Value &value) {
                       probability_of_precipitation,
                       wind_speed,
                       wind_degree,
-                      wind_gust};
-
-  const auto openmeteo_weather_code = value.get("weather_code", 0).asInt();
-  condition.weather =
-      openmeteo_helpers::convert_to_weather_code(openmeteo_weather_code);
-  condition.weather_description =
-      openmeteo_helpers::convert_to_description(openmeteo_weather_code);
-  condition.weather_icon_name =
-      openmeteo_helpers::convert_to_weather_icon_name(openmeteo_weather_code);
-
-  condition.rain = value.get("rain", NAN).asDouble();
-  condition.snow = value.get("snowfall", NAN).asDouble();
-
+                      wind_gust,
+                      weather_code,
+                      weather_description,
+                      weather_icon_name,
+                      "",
+                      rain,
+                      snow};
   return condition;
 }
 

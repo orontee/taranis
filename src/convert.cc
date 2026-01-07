@@ -349,8 +349,8 @@ void update_from_json(HistoryItem &item, const Json::Value &value) {
 void update_from_json(Model &model, const Json::Value &value) {
   model.data_provider = static_cast<DataProvider>(
       value.get("data_provider", openweather).asInt());
-  model.unit_system =
-    static_cast<UnitSystem>(value.get("unit_system", UnitSystem::metric).asInt());
+  model.unit_system = static_cast<UnitSystem>(
+      value.get("unit_system", UnitSystem::metric).asInt());
   if (model.unit_system == UnitSystem::standard) {
     model.unit_system = UnitSystem::metric;
 
