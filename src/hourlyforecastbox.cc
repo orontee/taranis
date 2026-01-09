@@ -360,7 +360,7 @@ void HourlyForecastBox::draw_precipitation_histogram() const {
     if (forecast_index < this->model->hourly_forecast.size()) {
       const auto forecast = this->model->hourly_forecast[forecast_index];
       const auto precipitation = max_number(forecast.rain, forecast.snow);
-      if ((std::isnan(forecast.rain) and std::isnan(forecast.snow) or
+      if (((std::isnan(forecast.rain) and std::isnan(forecast.snow)) or
           precipitation == 0)) {
         continue;
       }
