@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-03 17:46+0100\n"
-"PO-Revision-Date: 2024-11-16 17:54+0000\n"
-"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
+"PO-Revision-Date: 2026-01-12 13:01+0000\n"
+"Last-Translator: Tancrède <tancrede.meulien@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/taranis/taranis/"
 "ru/>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.9-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: src/alerts.cc:159
 msgid "Alert"
@@ -123,7 +123,7 @@ msgstr "Стратегия обновления данных"
 
 #: src/config.cc:81
 msgid "Data provider"
-msgstr ""
+msgstr "Поставщик данных"
 
 #: src/config.cc:84
 msgid "Custom API key"
@@ -188,7 +188,7 @@ msgstr "Ночь"
 
 #: src/dailyforecastviewer.cc:378
 msgid "Mean"
-msgstr ""
+msgstr "Среднее"
 
 #: src/dailyforecastviewer.cc:385
 msgid "Min/Max"
@@ -296,115 +296,115 @@ msgstr "Удалить из фаворитов"
 
 #: src/openmeteo.cc:85
 msgid "Clear sky"
-msgstr ""
+msgstr "Ясное небо"
 
 #: src/openmeteo.cc:87
 msgid "Mainly clear sky"
-msgstr ""
+msgstr "В основном чистое небо"
 
 #: src/openmeteo.cc:89
 msgid "Partly cloudy sky"
-msgstr ""
+msgstr "Частично облачное небо"
 
 #: src/openmeteo.cc:91
 msgid "Overcast sky"
-msgstr ""
+msgstr "Над небом"
 
 #: src/openmeteo.cc:93
 msgid "Fog"
-msgstr ""
+msgstr "туман"
 
 #: src/openmeteo.cc:95
 msgid "Depositing rime fog"
-msgstr ""
+msgstr "морозный туман"
 
 #: src/openmeteo.cc:97
 msgid "Light drizzle"
-msgstr ""
+msgstr "Легкий морось"
 
 #: src/openmeteo.cc:99
 msgid "Moderate drizzle"
-msgstr ""
+msgstr "Умеренный морось"
 
 #: src/openmeteo.cc:101
 msgid "Dense drizzle"
-msgstr ""
+msgstr "густой туман"
 
 #: src/openmeteo.cc:103
 msgid "Light freezing drizzle"
-msgstr ""
+msgstr "Легкий ледяной морось"
 
 #: src/openmeteo.cc:105
 msgid "Dense freezing drizzle"
-msgstr ""
+msgstr "сильный моросящий дождь"
 
 #: src/openmeteo.cc:107
 msgid "Slight rain"
-msgstr ""
+msgstr "легкий дождь"
 
 #: src/openmeteo.cc:109
 msgid "Moderate rain"
-msgstr ""
+msgstr "умеренный дождь"
 
 #: src/openmeteo.cc:111
 msgid "Heavy rain"
-msgstr ""
+msgstr "сильный дождь"
 
 #: src/openmeteo.cc:113
 msgid "Light freezing rain"
-msgstr ""
+msgstr "Легкий моросящий дождь"
 
 #: src/openmeteo.cc:115
 msgid "Heavy freezing rain"
-msgstr ""
+msgstr "сильный ледяной дождь"
 
 #: src/openmeteo.cc:117
 msgid "Slight snow fall"
-msgstr ""
+msgstr "Небольшой снегопад"
 
 #: src/openmeteo.cc:119
 msgid "Moderate snow fall"
-msgstr ""
+msgstr "Умеренный снегопад"
 
 #: src/openmeteo.cc:121
 msgid "Heavy snow fall"
-msgstr ""
+msgstr "сильный снегопад"
 
 #: src/openmeteo.cc:123
 msgid "Snow grains"
-msgstr ""
+msgstr "Снежные зерна"
 
 #: src/openmeteo.cc:125
 msgid "Slight rain showers"
-msgstr ""
+msgstr "небольшие дожди"
 
 #: src/openmeteo.cc:127
 msgid "Moderate rain showers"
-msgstr ""
+msgstr "Умеренные дожди"
 
 #: src/openmeteo.cc:129
 msgid "Violent rain showers"
-msgstr ""
+msgstr "Сильные ливни"
 
 #: src/openmeteo.cc:131
 msgid "Slight snow showers"
-msgstr ""
+msgstr "Небольшие снегопады"
 
 #: src/openmeteo.cc:133
 msgid "Heavy snow showers"
-msgstr ""
+msgstr "Сильные снегопады"
 
 #: src/openmeteo.cc:135
 msgid "Slight thunderstorm"
-msgstr ""
+msgstr "Легкая гроза"
 
 #: src/openmeteo.cc:137
 msgid "Moderate thunderstorm"
-msgstr ""
+msgstr "Умеренная гроза"
 
 #: src/openmeteo.cc:139
 msgid "Thunderstorm with slight and heavy hail"
-msgstr ""
+msgstr "Гроза с градом"
 
 #: src/statusbar.cc:60
 msgid "Ongoing update…"
