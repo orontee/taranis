@@ -464,7 +464,7 @@ const ibitmap *HourlyForecastBox::rotate_direction_icon(int degree) {
   // The parameter degree is an angle measure in degrees, interpreted
   // as the direction where the wind is blowing FROM (0 means North,
   // 90 East), but the icon arrow must show where the wind is blowing
-  // TO. Whats more OpenCV rotation is counter-clockwise for positive
+  // to. Whats more OpenCV rotation is counter-clockwise for positive
   // angle values.
 
   auto &rotated_icon_data = this->icons->rotate_icon(
