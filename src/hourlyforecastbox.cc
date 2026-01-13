@@ -8,9 +8,6 @@
 #include <inkview.h>
 #include <map>
 #include <memory>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/opencv.hpp>
 #include <sstream>
 
 #include "units.h"
