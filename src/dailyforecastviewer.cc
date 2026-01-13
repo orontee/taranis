@@ -413,11 +413,11 @@ void DailyForecastViewer::generate_description_data(
         static_cast<int>(condition.wind_gust) != 0) {
 
       const auto arrow_angle = (180 - condition.wind_degree);
-      // The parameter degree is an angle measure in degrees, interpreted
-      // as the direction where the wind is blowing FROM (0 means North,
-      // 90 East), but the icon arrow must show where the wind is blowing
-      // TO. Whats more OpenCV rotation is counter-clockwise for positive
-      // angle values.
+      // The parameter degree is an angle measure in degrees,
+      // interpreted as the direction where the wind is blowing FROM
+      // (0 means North, 90 East), but the icon arrow must show where
+      // the wind is blowing to. Whats more OpenCV rotation is
+      // counter-clockwise for positive angle values.
 
       this->description_data.push_back(
           RowDescription{GetLangText("Direction"),
