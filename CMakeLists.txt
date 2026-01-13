@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(taranis VERSION 1.15.0 LANGUAGES CXX)
+project(taranis VERSION 1.16.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
