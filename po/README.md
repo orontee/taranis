@@ -29,39 +29,41 @@ Inkview SDK support a limited number of languages.
 ## Credits
 
 The list of contributors to translations is extracted from the Weblate
-project. It doesn't reflect the heavy contributions made by Cyfranek
-and vita5656!
+project.
 
 ### French
 
-* Matthias Meulien <orontee@gmail.com> - 11
+* Matthias Meulien [orontee](https://hosted.weblate.org/user/orontee/)
 
 
 ### German
 
-* breiti-oi (breiti-oi) <breiti_oi@web.de> - 101
+* [breiti-oi](https://hosted.weblate.org/user/breiti-oi/)
 
+### Italian
+
+* Marco [RodoMa92](https://hosted.weblate.org/user/RodoMa92/)
 
 ### Polish
 
-* Radosław Uliszak (Cyfranek) <cyfranekblog@protonmail.com> - 1
+* Radosław Uliszak [Cyfranek](https://hosted.weblate.org/user/Cyfranek/)
 
 
 ### Russian
 
-* Tancrède (Tank) <tancrede.meulien@gmail.com> - 76
+* Tancrède [Tank](https://hosted.weblate.org/user/Tank/)
 
 
 ### Serbian
 
-* kakonema (kakonema) <kakonema@gmail.com> - 70
+* [kakonema](https://hosted.weblate.org/user/kakonema/)
 
 
 ### Slovak
 
-* spacad (spacad) <adamspacek@icloud.com> - 95
+* [spacad](https://hosted.weblate.org/user/spacad/)
 
 
 ### Ukrainian
 
-* Vitalii (stopchan) <stopchan@gmail.com> - 115
+* Vitalii [stopchan](https://hosted.weblate.org/user/stopchan/)

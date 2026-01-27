@@ -10,6 +10,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Add Italian translations
+  [#115](https://github.com/orontee/taranis/issues/115)
+
 ### Changed
 
 ### Removed
