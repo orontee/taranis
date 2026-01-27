@@ -1,0 +1,513 @@
+# SOME DESCRIPTIVE TITLE.
+# This file is put in the public domain.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: taranis\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-03 17:46+0100\n"
+"PO-Revision-Date: 2026-01-27 19:20+0000\n"
+"Last-Translator: Marco <16669146+RodoMa92@users.noreply.github.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/taranis/taranis/"
+"it/>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.16-dev\n"
+
+#: src/alerts.cc:159
+msgid "Alert"
+msgstr "Allerta"
+
+#: src/alerts.cc:174
+msgid "Start"
+msgstr "Inizio"
+
+#: src/alerts.cc:176
+msgid "Duration"
+msgstr "Durata"
+
+#: src/alerts.cc:181
+msgid "Source"
+msgstr "Sorgente"
+
+#: src/app.cc:278 src/app.cc:290 src/app.cc:324 src/app.cc:499
+#: src/version.cc:135
+msgid "Ok"
+msgstr "Ok"
+
+#: src/app.cc:320
+msgid "Invalid input"
+msgstr "Input non valido"
+
+#: src/app.cc:322
+msgid "Make sure you enter a town then a country separated by a comma."
+msgstr "Assicurati di inserire una città e un paese separato da una virgola."
+
+#: src/app.cc:440 src/app.cc:449 src/app.cc:524 src/app.cc:532
+msgid "Network error"
+msgstr "Errore di rete"
+
+#: src/app.cc:441 src/app.cc:450 src/app.cc:525 src/app.cc:533
+msgid "Failure while fetching weather data. Check your network connection."
+msgstr ""
+"Impossibile recuperare i dati meteo. Controlla la tua connessione ad "
+"internet."
+
+#: src/app.cc:457 src/app.cc:539
+msgid "Service unavailable"
+msgstr "Servizio non disponibile"
+
+#: src/app.cc:498 src/config.cc:62 src/version.cc:100 src/version.cc:107
+#: src/version.cc:114 src/version.cc:122 src/version.cc:134
+msgid "Software version"
+msgstr "Versione software"
+
+#: src/app.cc:566
+msgid "Unsupported software version"
+msgstr "Versione software non supportata"
+
+#: src/app.cc:567
+msgid ""
+"The application isn't compatible with the software version of this reader."
+msgstr ""
+"L'applicazione non è compatibile con la versione software di questo ereader."
+
+#. const_cast<char *>(GetLangText("Standard")),
+#: src/config.cc:21
+msgid "Metric"
+msgstr "Metrico"
+
+#: src/config.cc:22
+msgid "Imperial"
+msgstr "Imperiale"
+
+#: src/config.cc:27
+msgid "Hourly forecast"
+msgstr "Previsioni orarie"
+
+#: src/config.cc:28
+msgid "Daily forecast"
+msgstr "Previsioni giornaliere"
+
+#: src/config.cc:31
+msgid "At startup"
+msgstr "All'avvio"
+
+#: src/config.cc:32
+msgid "When obsolete"
+msgstr "Quando vecchie"
+
+#: src/config.cc:33
+msgid "Manually"
+msgstr "Manualmente"
+
+#: src/config.cc:65
+msgid "Check newer version"
+msgstr "Controlla versione nuova"
+
+#: src/config.cc:70
+msgid "Units"
+msgstr "Unità"
+
+#: src/config.cc:74
+msgid "Start screen"
+msgstr "Schermata di avvio"
+
+#: src/config.cc:78
+msgid "Data update strategy"
+msgstr "Strategia di aggiornamento dati"
+
+#: src/config.cc:81
+msgid "Data provider"
+msgstr "Fornitore dati"
+
+#: src/config.cc:84
+msgid "Custom API key"
+msgstr "Chiave API personalizzata"
+
+#: src/config.cc:88
+msgid "Generate shutdown logo"
+msgstr "Genera logo di spegnimento"
+
+#: src/config.cc:92
+msgid "Software"
+msgstr "Software"
+
+#: src/config.cc:166
+msgid "Parameters"
+msgstr "Parametri"
+
+#: src/currentconditionbox.cc:86 src/dailyforecastviewer.cc:367
+#: src/dailyforecastviewer.cc:381
+msgid "Felt"
+msgstr "Sembra"
+
+#: src/dailyforecastviewer.cc:318 src/dailyforecastviewer.cc:335
+msgid "Sun"
+msgstr "Sole"
+
+#: src/dailyforecastviewer.cc:318
+msgid "Moon"
+msgstr "Luna"
+
+#: src/dailyforecastviewer.cc:321 src/dailyforecastviewer.cc:338
+msgid "Rise"
+msgstr "Sale"
+
+#: src/dailyforecastviewer.cc:326 src/dailyforecastviewer.cc:341
+msgid "Set"
+msgstr "Scende"
+
+#: src/dailyforecastviewer.cc:331
+msgid "Moon phase"
+msgstr "Fase lunare"
+
+#: src/dailyforecastviewer.cc:354 src/dailyforecastviewer.cc:375
+msgid "Temperatures"
+msgstr "Temperature"
+
+#: src/dailyforecastviewer.cc:355
+msgid "Morning"
+msgstr "Mattina"
+
+#: src/dailyforecastviewer.cc:355
+msgid "Day"
+msgstr "Giorno"
+
+#: src/dailyforecastviewer.cc:356
+msgid "Evening"
+msgstr "Sera"
+
+#: src/dailyforecastviewer.cc:356
+msgid "Night"
+msgstr "Notte"
+
+#: src/dailyforecastviewer.cc:378
+msgid "Mean"
+msgstr "Media"
+
+#: src/dailyforecastviewer.cc:385
+msgid "Min/Max"
+msgstr "Min/Mass"
+
+#: src/dailyforecastviewer.cc:395
+msgid "Wind"
+msgstr "Vento"
+
+#: src/dailyforecastviewer.cc:400
+msgid "Speed"
+msgstr "Velocità"
+
+#: src/dailyforecastviewer.cc:408
+msgid "Gust"
+msgstr "Soffio"
+
+#: src/dailyforecastviewer.cc:423
+msgid "Direction"
+msgstr "Direzione"
+
+#: src/dailyforecastviewer.cc:433
+msgid "Precipitation"
+msgstr "Precipitazione"
+
+#: src/dailyforecastviewer.cc:437
+msgid "Rain"
+msgstr "Pioggia"
+
+#: src/dailyforecastviewer.cc:443
+msgid "Snow"
+msgstr "Neve"
+
+#: src/dailyforecastviewer.cc:448
+msgid "Probability"
+msgstr "Probabilità"
+
+#: src/dailyforecastviewer.cc:457
+msgid "Other metrics"
+msgstr "Altre metriche"
+
+#: src/dailyforecastviewer.cc:460
+msgid "Pressure"
+msgstr "Pressione"
+
+#: src/dailyforecastviewer.cc:464
+msgid "Humidity"
+msgstr "Umidità"
+
+#: src/dailyforecastviewer.cc:469
+msgid "Dew point"
+msgstr "Punto di rugiada"
+
+#: src/dailyforecastviewer.cc:475
+msgid "UV index"
+msgstr "Indice UV"
+
+#: src/dailyforecastviewer.cc:481
+msgid "Cloudiness"
+msgstr "Nuvolosità"
+
+#: src/locationbox.cc:45
+msgid "Enter location"
+msgstr "Inserisci posizione"
+
+#: src/locationselector.cc:46 src/menu.cc:74
+msgid "Locations"
+msgstr "Posizioni"
+
+#: src/locationselector.cc:57
+msgid "Longitude"
+msgstr "Longitudine"
+
+#: src/locationselector.cc:58
+msgid "Latitude"
+msgstr "Latitudine"
+
+#: src/menu.cc:72
+msgid "Refresh"
+msgstr "Aggiorna"
+
+#: src/menu.cc:76
+msgid "Parameters…"
+msgstr "Parametri…"
+
+#: src/menu.cc:78
+msgid "Quit"
+msgstr "Esci"
+
+#: src/menu.cc:92
+msgid "Empty"
+msgstr "Vuoto"
+
+#: src/menu.cc:105 src/menu.cc:133
+msgid "Add to favorites"
+msgstr "Aggiungi ai preferiti"
+
+#: src/menu.cc:114 src/menu.cc:159
+msgid "Edit location"
+msgstr "Modifica posizione"
+
+#: src/menu.cc:132
+msgid "Remove from favorites"
+msgstr "Rimuovi dai preferiti"
+
+#: src/openmeteo.cc:85
+msgid "Clear sky"
+msgstr "Cielo limpido"
+
+#: src/openmeteo.cc:87
+msgid "Mainly clear sky"
+msgstr "Principalmente cielo limpido"
+
+#: src/openmeteo.cc:89
+msgid "Partly cloudy sky"
+msgstr "Cielo parzialmente nuvoloso"
+
+#: src/openmeteo.cc:91
+msgid "Overcast sky"
+msgstr "Cielo coperto"
+
+#: src/openmeteo.cc:93
+msgid "Fog"
+msgstr "Nebbia"
+
+#: src/openmeteo.cc:95
+msgid "Depositing rime fog"
+msgstr "Tempo di deposizione della nebbia"
+
+#: src/openmeteo.cc:97
+msgid "Light drizzle"
+msgstr "Pioggerella leggera"
+
+#: src/openmeteo.cc:99
+msgid "Moderate drizzle"
+msgstr "Pioggerella moderata"
+
+#: src/openmeteo.cc:101
+msgid "Dense drizzle"
+msgstr "Pioggerella pesante"
+
+#: src/openmeteo.cc:103
+msgid "Light freezing drizzle"
+msgstr "Pioggerella leggera gelata"
+
+#: src/openmeteo.cc:105
+msgid "Dense freezing drizzle"
+msgstr "Pioggerella pesante gelata"
+
+#: src/openmeteo.cc:107
+msgid "Slight rain"
+msgstr "Pioggia leggera"
+
+#: src/openmeteo.cc:109
+msgid "Moderate rain"
+msgstr "Pioggia moderata"
+
+#: src/openmeteo.cc:111
+msgid "Heavy rain"
+msgstr "Pioggia pesante"
+
+#: src/openmeteo.cc:113
+msgid "Light freezing rain"
+msgstr "Pioggia leggera gelata"
+
+#: src/openmeteo.cc:115
+msgid "Heavy freezing rain"
+msgstr "Pioggia pesante gelata"
+
+#: src/openmeteo.cc:117
+msgid "Slight snow fall"
+msgstr "Nevicata leggera"
+
+#: src/openmeteo.cc:119
+msgid "Moderate snow fall"
+msgstr "Nevicata moderata"
+
+#: src/openmeteo.cc:121
+msgid "Heavy snow fall"
+msgstr "Nevicata pesante"
+
+#: src/openmeteo.cc:123
+msgid "Snow grains"
+msgstr "Grani di neve"
+
+#: src/openmeteo.cc:125
+msgid "Slight rain showers"
+msgstr "Acquazzoni leggeri"
+
+#: src/openmeteo.cc:127
+msgid "Moderate rain showers"
+msgstr "Acquazzoni moderati"
+
+#: src/openmeteo.cc:129
+msgid "Violent rain showers"
+msgstr "Acquazzoni violenti"
+
+#: src/openmeteo.cc:131
+msgid "Slight snow showers"
+msgstr "Nevicate leggere"
+
+#: src/openmeteo.cc:133
+msgid "Heavy snow showers"
+msgstr "Nevicate pesanti"
+
+#: src/openmeteo.cc:135
+msgid "Slight thunderstorm"
+msgstr "Temporale leggero"
+
+#: src/openmeteo.cc:137
+msgid "Moderate thunderstorm"
+msgstr "Temporale moderato"
+
+#: src/openmeteo.cc:139
+msgid "Thunderstorm with slight and heavy hail"
+msgstr "Temporale con grandine leggera e pesante"
+
+#: src/statusbar.cc:60
+msgid "Ongoing update…"
+msgstr "In aggiornamento…"
+
+#: src/statusbar.cc:62 src/statusbar.cc:74
+msgid "Last update:"
+msgstr "Ultimo aggiornamento:"
+
+#: src/statusbar.cc:87
+msgid "Weather data from"
+msgstr "Dati meteo da"
+
+#: src/util.cc:235
+msgid "Today"
+msgstr "Oggi"
+
+#: src/util.cc:240
+msgid "Yesterday"
+msgstr "Ieri"
+
+#: src/util.cc:245
+msgid "Tomorrow"
+msgstr "Domani"
+
+#: src/util.cc:344 src/util.cc:360
+msgid "New moon"
+msgstr "Luna nuova"
+
+#: src/util.cc:346
+msgid "Waxing crescent"
+msgstr "Luna crescente"
+
+#: src/util.cc:348
+msgid "First quarter moon"
+msgstr "Primo quarto di luna"
+
+#: src/util.cc:350
+msgid "Waxing gibbous"
+msgstr "Gibbosa crescente"
+
+#: src/util.cc:352
+msgid "Full moon"
+msgstr "Luna piena"
+
+#: src/util.cc:354
+msgid "Waning gibbous"
+msgstr "Gibbosa calante"
+
+#: src/util.cc:356
+msgid "Last quarter moon"
+msgstr "Ultimo quarto di luna"
+
+#: src/util.cc:358
+msgid "Waning crescent"
+msgstr "Luna calante"
+
+#: src/version.cc:87 src/errors.h:43
+msgid ""
+"Sorry, an unexpected error was encountered. Report this to the application "
+"author."
+msgstr ""
+"Si è verificato un errore imprevisto. Segnalalo all'autore dell'applicazione."
+
+#: src/version.cc:97
+msgid "The service hosting releases isn't working as expected. Retry later."
+msgstr ""
+"Il servizio che gestisce le release non funziona come previsto. Riprova più "
+"tardi."
+
+#: src/version.cc:123
+msgid "Latest release already installed"
+msgstr "Ultima release già installata"
+
+#: src/version.cc:135
+msgid "Browse"
+msgstr "Naviga"
+
+#: src/version.cc:289
+msgid "A new version is available:"
+msgstr "Una nuova versione è disponibile:"
+
+#: src/errors.h:37
+msgid "Location unknown to the service providing weather data. Check spelling."
+msgstr ""
+"Posizione sconosciuta da parte del servizio che fornisce dati meteo. "
+"Controlla i dati inseriti."
+
+#: src/errors.h:54
+msgid ""
+"An API key is required to consume weather data. Contact the application "
+"maintainer."
+msgstr ""
+"Una chiave API è richiesta per ottenere dati meteo. Contatta lo sviluppatore "
+"dell'applicazione."
+
+#: src/errors.h:60
+msgid "Weather data can't be accessed with the provided API key."
+msgstr "I dati meteo non sono accessibili con la chiave API fornita."
+
+#: src/errors.h:71
+msgid ""
+"The service providing weather data isn't working as expected. Retry later."
+msgstr ""
+"Il servizio che fornisce dati meteo non funziona come previsto. Riprova più "
+"tardi."
