@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-03 17:46+0100\n"
-"PO-Revision-Date: 2026-01-27 19:20+0000\n"
+"PO-Revision-Date: 2026-01-29 18:58+0000\n"
 "Last-Translator: Marco <16669146+RodoMa92@users.noreply.github.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/taranis/taranis/"
 "it/>\n"
@@ -107,7 +107,7 @@ msgstr "Manualmente"
 
 #: src/config.cc:65
 msgid "Check newer version"
-msgstr "Controlla versione nuova"
+msgstr "Controlla aggiornamenti"
 
 #: src/config.cc:70
 msgid "Units"
@@ -139,12 +139,12 @@ msgstr "Software"
 
 #: src/config.cc:166
 msgid "Parameters"
-msgstr "Parametri"
+msgstr "Impostazioni"
 
 #: src/currentconditionbox.cc:86 src/dailyforecastviewer.cc:367
 #: src/dailyforecastviewer.cc:381
 msgid "Felt"
-msgstr "Sembra"
+msgstr "Sembrano"
 
 #: src/dailyforecastviewer.cc:318 src/dailyforecastviewer.cc:335
 msgid "Sun"
@@ -176,7 +176,7 @@ msgstr "Mattina"
 
 #: src/dailyforecastviewer.cc:355
 msgid "Day"
-msgstr "Giorno"
+msgstr "Mezzogiorno"
 
 #: src/dailyforecastviewer.cc:356
 msgid "Evening"
@@ -204,7 +204,7 @@ msgstr "Velocità"
 
 #: src/dailyforecastviewer.cc:408
 msgid "Gust"
-msgstr "Soffio"
+msgstr "Raffica"
 
 #: src/dailyforecastviewer.cc:423
 msgid "Direction"
@@ -272,7 +272,7 @@ msgstr "Aggiorna"
 
 #: src/menu.cc:76
 msgid "Parameters…"
-msgstr "Parametri…"
+msgstr "Impostazioni…"
 
 #: src/menu.cc:78
 msgid "Quit"
