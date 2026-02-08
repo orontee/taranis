@@ -16,9 +16,9 @@ find_package(Boost 1.55.0
   COMPONENTS filesystem date_time log log_setup system thread
 )
 
-find_library(Curl NAMES curl REQUIRED)
+pkg_check_modules(Curl REQUIRED libcurl)
+pkg_check_modules(JsonCpp REQUIRED jsoncpp)
 find_library(Inkview NAMES inkview REQUIRED)
-find_library(Jsoncpp NAMES jsoncpp REQUIRED)
 
 # pkg_check_modules(Opencv REQUIRED opencv)
 
@@ -91,9 +91,9 @@ target_link_libraries(taranis.app
   Boost::log_setup
   Boost::system
   Boost::thread
-  ${Curl}
+  ${Curl_STATIC_LIBRARIES}
   ${Inkview}
-  ${Jsoncpp}
+  ${JsonCpp_STATIC_LIBRARIES}
   # "-L${CMAKE_FIND_ROOT_PATH}/usr/lib -lopencv_core -lopencv_highgui -lopencv_imgproc"
   # Don't use ${Opencv_LINK_LIBRARIES} since it adds a dependency to
   # opencv_objdetect, opencv_photo, etc. which aren't installed on the
