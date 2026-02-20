@@ -44,6 +44,7 @@ project.
 
 * Marco [RodoMa92](https://hosted.weblate.org/user/RodoMa92/)
 
+
 ### Polish
 
 * Radosław Uliszak [Cyfranek](https://hosted.weblate.org/user/Cyfranek/)

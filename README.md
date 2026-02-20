@@ -29,7 +29,7 @@ e-book reader.
 
 * Generation of shutdown logo.
 
-* Translations (Czech, French, German, Polish, Ukrainian, etc.)
+* Translations (See [supported langages](./po/README.md))
 
 Positive feedback were received for Vivilo Touch HD Plus, PocketBook
 Touch HD 3, InkPad 3, InkPad Color 2, InkPad Color 3, PocketBook Verse
