@@ -1,6 +1,6 @@
 #include "app.h"
 
-#include <experimental/optional>
+#include <optional>
 #include <inkview.h>
 
 #include "config.h"
@@ -331,11 +331,11 @@ int App::handle_custom_event(int param_one, int param_two) {
 void App::clear_model_weather_conditions() {
   BOOST_LOG_TRIVIAL(debug) << "Clearing weather conditions stored in model";
 
-  this->model->current_condition = std::experimental::nullopt;
+  this->model->current_condition = std::nullopt;
   this->model->hourly_forecast.clear();
   this->model->daily_forecast.clear();
   this->model->alerts.clear();
-  this->model->refresh_date = std::experimental::nullopt;
+  this->model->refresh_date = std::nullopt;
 }
 
 bool App::can_keep_data_at_startup() const {
@@ -351,7 +351,7 @@ bool App::can_keep_data_at_startup() const {
 
   if (this->model->data_update_strategy ==
       DataUpdateStrategy::hourly_when_obsolete) {
-    if (this->model->refresh_date == std::experimental::nullopt) {
+    if (this->model->refresh_date == std::nullopt) {
       return false;
     }
     BOOST_LOG_TRIVIAL(debug)

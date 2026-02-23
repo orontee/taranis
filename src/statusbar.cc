@@ -1,6 +1,6 @@
 #include "statusbar.h"
 
-#include <experimental/optional>
+#include <optional>
 #include <inkview.h>
 #include <sstream>
 
@@ -58,7 +58,7 @@ void StatusBar::do_paint() {
   SetFont(this->font.get(), BLACK);
 
   std::stringstream first_row_text;
-  if (this->model->refresh_date == std::experimental::nullopt) {
+  if (this->model->refresh_date == std::nullopt) {
     first_row_text << GetLangText("Ongoing update…");
   } else {
     first_row_text << GetLangText("Last update:") << " "

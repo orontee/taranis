@@ -1,7 +1,7 @@
 #include "dailyforecastbox.h"
 
 #include <algorithm>
-#include <experimental/optional>
+#include <optional>
 
 #include "dailyforecastviewer.h"
 #include "inkview.h"
@@ -116,7 +116,7 @@ void DailyForecastBox::generate_table_content() {
         column_content[row_index] = std::pair<std::string, std::string>{
             format_time(forecast.sunrise), format_time(forecast.sunset)};
       } else if (column_type == DailyForecastBox::MorningTemperatureColumn) {
-        if (forecast.temperature_morning != std::experimental::nullopt) {
+        if (forecast.temperature_morning != std::nullopt) {
           column_content[row_index] =
               units.format_temperature(*forecast.temperature_morning);
         }
@@ -127,7 +127,7 @@ void DailyForecastBox::generate_table_content() {
         column_content[row_index] =
             units.format_temperature(forecast.felt_temperature_day);
       } else if (column_type == DailyForecastBox::EveningTemperatureColumn) {
-        if (forecast.temperature_evening != std::experimental::nullopt) {
+        if (forecast.temperature_evening != std::nullopt) {
           column_content[row_index] =
               units.format_temperature(*forecast.temperature_evening);
         }

@@ -1,13 +1,12 @@
 #include "openmeteo.h"
 
 #include <boost/log/trivial.hpp>
-#include <experimental/optional>
+#include <optional>
 
 #include "model.h"
 #include "util.h"
 
 using namespace std::chrono_literals;
-template <class T> using optional = std::experimental::optional<T>;
 
 namespace taranis {
 
@@ -246,7 +245,7 @@ bool is_transposable_json_object(const Json::Value &input) {
     if (not it->isArray()) {
       return false;
     }
-    if (common_size == std::experimental::nullopt) {
+    if (common_size == std::nullopt) {
       common_size = it->size();
     } else {
       if (*common_size != it->size()) {

@@ -2,16 +2,12 @@
 
 #include <algorithm>
 #include <boost/log/trivial.hpp>
-#include <experimental/optional>
+#include <optional>
 #include <fstream>
 #include <inkview.h>
 #include <memory>
 
 #include "model.h"
-
-namespace std {
-template <class T> using optional = std::experimental::optional<T>;
-}
 
 namespace taranis {
 class LocationHistoryProxy {

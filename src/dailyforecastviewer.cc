@@ -1,7 +1,7 @@
 #include "dailyforecastviewer.h"
 
 #include <cstring>
-#include <experimental/optional>
+#include <optional>
 #include <inkview.h>
 
 #include "units.h"
@@ -309,9 +309,9 @@ void DailyForecastViewer::generate_description_data(
   this->description_data.push_back(empty_row);
 
   const bool with_moon_data =
-      (condition.moonrise != std::experimental::nullopt and
-       condition.moonset != std::experimental::nullopt and
-       condition.moon_phase != std::experimental::nullopt);
+      (condition.moonrise != std::nullopt and
+       condition.moonset != std::nullopt and
+       condition.moon_phase != std::nullopt);
 
   if (with_moon_data) {
     this->description_data.push_back(RowDescription{
@@ -343,12 +343,12 @@ void DailyForecastViewer::generate_description_data(
   this->description_data.push_back(empty_row);
 
   const bool with_multiple_temperature_data =
-      (condition.temperature_morning != std::experimental::nullopt and
-       condition.temperature_evening != std::experimental::nullopt and
-       condition.temperature_night != std::experimental::nullopt and
-       condition.felt_temperature_morning != std::experimental::nullopt and
-       condition.felt_temperature_evening != std::experimental::nullopt and
-       condition.felt_temperature_night != std::experimental::nullopt);
+      (condition.temperature_morning != std::nullopt and
+       condition.temperature_evening != std::nullopt and
+       condition.temperature_night != std::nullopt and
+       condition.felt_temperature_morning != std::nullopt and
+       condition.felt_temperature_evening != std::nullopt and
+       condition.felt_temperature_night != std::nullopt);
   if (with_multiple_temperature_data) {
     this->description_data.push_back(RowDescription{
         GetLangText("Temperatures"),

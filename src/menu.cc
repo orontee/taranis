@@ -180,7 +180,7 @@ void MenuButton::open_menu() {
   if (not this->menu_handler) {
     return;
   }
-  if (this->model->refresh_date == std::experimental::nullopt) {
+  if (this->model->refresh_date == std::nullopt) {
     // don't popup menu while refreshing due to display update bug
     // after menu dialog is hidden... See issue #51
     return;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <experimental/optional>
+#include <optional>
 #include <inkview.h>
 #include <memory>
 #include <vector>
@@ -15,10 +15,6 @@
 #include "locationbox.h"
 #include "locationselector.h"
 #include "model.h"
-
-namespace std {
-template <class T> using optional = std::experimental::optional<T>;
-}
 
 namespace taranis {
 
