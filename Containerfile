@@ -1,37 +1,157 @@
 # -*- mode: dockerfile-ts; -*-
 
-FROM ubuntu:22.04 AS build
+FROM debian:bookworm AS build
 
 RUN apt-get update -y && apt-get upgrade -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-      build-essential \
-      ca-certificates \
-      clang \
-      clangd \
-      clang-format \
-      clang-tidy \
-      cmake \
-      file \
-      git \
-      libtinfo5 \
-      pkg-config \
-      python3-jinja2 \
-      wget \
-      zip \
-      7zip && \
+        bc \
+        binutils-i686-gnu \
+        binutils-i686-linux-gnu \
+        bison \
+        bzip2 \
+        ccache \
+        chrpath \
+        clang-15 \
+        curl \
+        libclang-15-dev \
+        cpio \
+        file \
+        flex \
+        g++ \
+        g++-multilib \
+        gcc \
+        gdb-multiarch gdb \
+        gettext \
+        git \
+        gperf \
+        gyp \
+        expect-dev \
+        imagemagick \
+        libasound2-dev \
+        libavcodec-dev \
+        libavfilter-dev \
+        libavformat-dev \
+        libavutil-dev \
+        libboost-context-dev \
+        libboost-coroutine-dev \
+        libboost-dev \
+        libboost-program-options-dev \
+        libboost-regex-dev \
+        libboost-system-dev \
+        libboost-test-dev \
+        libbz2-dev \
+        libc++-15-dev \
+        libcap-dev \
+        libcurl4-openssl-dev \
+        libdata-dump-perl \
+        libdbus-1-dev \
+        libdrm-dev \
+        libdw-dev \
+        libegl1-mesa-dev \
+        libevent-dev \
+        libexif-dev \
+        libfontconfig1-dev \
+        libfreetype6-dev \
+        libgif-dev \
+        libgmock-dev \
+        libgtest-dev \
+        libgtk2.0-dev \
+        libicu-dev \
+        libjpeg-dev \
+        libjs-jquery \
+        libjson-c-dev \
+        libjson-perl \
+        libjsoncpp-dev \
+        libkf5syntaxhighlighting-dev \
+        libncurses-dev \
+        libnss3-dev \
+        libopencv-dev \
+        libopus-dev \
+        libpci-dev \
+        libpng-dev \
+        libpulse-dev \
+        libre2-dev \
+        libsnappy-dev \
+        libsqlite3-dev \
+        libssl-dev \
+        libtag1-dev \
+        libtiff-dev \
+        libvpx-dev \
+        libwebp-dev \
+        libxml2-dev \
+        libxkbcommon-dev \
+        libyaml-cpp-dev \
+        libzstd-dev \
+        llvm-15-dev \
+        locales \
+        make \
+        mercurial \
+        ninja-build \
+        nodejs \
+        openssh-server \
+        p7zip-full \
+        patchelf \
+        pkg-config \
+        python3-cryptography \
+        iputils-ping \
+        python3-full \
+        python3-git \
+        python3-html5lib \
+        python3-numpy \
+        python3-pip \
+        python3-requests \
+        python-is-python3 \
+        qemu-user-static \
+        qml-module-qtquick-controls \
+        qml-module-qtquick2 \
+        rhino \
+        rsync \
+        sqlite3 \
+        squashfs-tools \
+        texi2html \
+        texinfo \
+        time \
+        unzip \
+        vim \
+        wget \
+        xterm \
+        zlib1g-dev \
+        xvfb \
+        libxtst-dev \
+        build-essential libsqlite3-dev zlib1g-dev libncurses5-dev libgdbm-dev libbz2-dev libssl-dev libdb-dev \
+        ca-certificates \
+        clang \
+        clangd \
+        clang-format \
+        clang-tidy \
+        cmake \
+        file \
+        python3-jinja2 \
+        zip \
+        7zip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-ARG DEVICE_FAMILY=B288
+RUN update-alternatives --install /usr/bin/js js /usr/bin/rhino 999 && \
+    update-alternatives --install /usr/bin/clang clang /usr/bin/clang-15 999 && \
+    update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-15 999 && \
+    update-alternatives --install /usr/bin/llvm-ar llvm-ar /usr/bin/llvm-ar-15 999 && \
+    locale-gen
 
-ENV SDK_PARENT_PATH="/opt/SDK-6.8"
+
+ARG DEVICE_FAMILY=B288
+ARG SDK_VERSION=6.8
+
+ENV SDK_PARENT_PATH="/opt/SDK-${SDK_VERSION}"
 WORKDIR ${SDK_PARENT_PATH}
 
 COPY ./scripts/install_sdk.sh .
-COPY ./SDK-${DEVICE_FAMILY}-6.8.7z.sha256 .
-RUN ./install_sdk.sh --family ${DEVICE_FAMILY} --path ${SDK_PARENT_PATH} && \
+COPY ./SDK-${DEVICE_FAMILY}-${SDK_VERSION}.7z.sha256 .
+RUN ./install_sdk.sh --family ${DEVICE_FAMILY} \
+                     --sdk-version ${SDK_VERSION} \
+                     --path ${SDK_PARENT_PATH} && \
     rm install_sdk.sh \
-       SDK-${DEVICE_FAMILY}-6.8.7z \
-       SDK-${DEVICE_FAMILY}-6.8.7z.sha256
+       SDK-${DEVICE_FAMILY}-${SDK_VERSION}.7z \
+       SDK-${DEVICE_FAMILY}-${SDK_VERSION}.7z.sha256
 
 WORKDIR /src

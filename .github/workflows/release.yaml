@@ -71,7 +71,9 @@ jobs:
   
       - name: Install PocketBook SDK
         run: |
-          ./scripts/install_sdk.sh --family B288 --path .
+          ./scripts/install_sdk.sh --family B288 \
+                                   --sdk-version 6.8 \
+                                   --path .
           rm SDK-B288-6.8.7z
   
       - name: Build application

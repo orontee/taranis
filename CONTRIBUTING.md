@@ -4,10 +4,13 @@
 
 ### PocketBook SDK
 
-The [PocketBook SDK](https://github.com/pocketbook/SDK_6.8.0) is
-hosted on Github and used to be managed as a Git submodule. Recent
+The PocketBook SDK is hosted on Github by various accounts; Recent
 versions are distributed as archive in the Github project release
 artefacts.
+
+See "Releases" of:
+- https://github.com/pocketbook/SDK_6.8.0
+- https://github.com/Sean-on-Git/PocketBook-SDK for version ≥6.8.
 
 ### GNU Scientific Library
 
@@ -26,7 +29,9 @@ around this problem, a container image is provided.
 
 To build in a container:
 ```sh
-$ buildah build --build-arg DEVICE_FAMILY=B288 --tag pbsdk:6.8-B288 .
+$ buildah build --build-arg DEVICE_FAMILY=B288 \
+                --build-arg SDK_VERSION=6.8 \
+                --tag pbsdk:6.8-B288 .
 $ podman run --rm -ti \
              --volume ${PWD}:/src \
              --hostname pbsdk-B288 \
