@@ -30,8 +30,8 @@ around this problem, a container image is provided.
 To build in a container:
 ```sh
 $ buildah build --build-arg DEVICE_FAMILY=B288 \
-                --build-arg SDK_VERSION=6.8 \
-                --tag pbsdk:6.8-B288 .
+                --tag pbsdk:6.8-B288 \
+				--file Containerfile-6.8
 $ podman run --rm -ti \
              --volume ${PWD}:/src \
              --hostname pbsdk-B288 \

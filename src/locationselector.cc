@@ -28,7 +28,7 @@ std::optional<Location> LocationSelector::get_location(size_t index) const {
   if (index < this->locations.size()) {
     return this->locations.at(index);
   }
-  return std::experimental::nullopt;
+  return std::nullopt;
 }
 
 void LocationSelector::set_locations(const std::vector<Location> &locations) {

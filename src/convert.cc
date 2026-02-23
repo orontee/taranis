@@ -2,11 +2,24 @@
 
 #include <boost/log/trivial.hpp>
 #include <exception>
+#ifdef WITH_SDK_6_8
 #include <experimental/optional>
+#else
+#include <optional>
+#endif
 #include <json/value.h>
 
 #include "model.h"
 
+#ifdef WITH_SDK_6_8
+namespace std {
+using experimental::bad_optional_access;
+using experimental::make_optional;
+using experimental::nullopt;
+using experimental::nullopt_t;
+using experimental::optional;
+} // namespace std
+#endif
 using namespace std::chrono_literals;
 
 namespace taranis {
@@ -76,21 +89,21 @@ Json::Value to_json(const DailyCondition &condition) {
   value["sunset"] = std::chrono::duration_cast<std::chrono::seconds>(
                         condition.sunset.time_since_epoch())
                         .count();
-  if (condition.moonrise == std::experimental::nullopt) {
+  if (condition.moonrise == std::nullopt) {
     value["moonrise"] = Json::Value::null;
   } else {
     value["moonrise"] = std::chrono::duration_cast<std::chrono::seconds>(
                             condition.moonrise->time_since_epoch())
                             .count();
   }
-  if (condition.moonset == std::experimental::nullopt) {
+  if (condition.moonset == std::nullopt) {
     value["moonset"] = Json::Value::null;
   } else {
     value["moonset"] = std::chrono::duration_cast<std::chrono::seconds>(
                            condition.moonset->time_since_epoch())
                            .count();
   }
-  if (condition.moon_phase == std::experimental::nullopt) {
+  if (condition.moon_phase == std::nullopt) {
     value["moon_phase"] = Json::Value::null;
   } else {
     value["moon_phase"] = *condition.moon_phase;
@@ -116,33 +129,33 @@ Json::Value to_json(const DailyCondition &condition) {
   value["temperature_day"] = condition.temperature_day;
   value["temperature_min"] = condition.temperature_min;
   value["temperature_max"] = condition.temperature_max;
-  if (condition.temperature_night == std::experimental::nullopt) {
+  if (condition.temperature_night == std::nullopt) {
     value["temperature_night"] = Json::Value::null;
   } else {
     value["temperature_night"] = *condition.temperature_night;
   }
-  if (condition.temperature_evening == std::experimental::nullopt) {
+  if (condition.temperature_evening == std::nullopt) {
     value["temperature_evening"] = Json::Value::null;
   } else {
     value["temperature_evening"] = *condition.temperature_evening;
   }
-  if (condition.temperature_morning == std::experimental::nullopt) {
+  if (condition.temperature_morning == std::nullopt) {
     value["temperature_morning"] = Json::Value::null;
   } else {
     value["temperature_morning"] = *condition.temperature_morning;
   }
   value["felt_temperature_day"] = condition.felt_temperature_day;
-  if (condition.felt_temperature_night == std::experimental::nullopt) {
+  if (condition.felt_temperature_night == std::nullopt) {
     value["felt_temperature_night"] = Json::Value::null;
   } else {
     value["felt_temperature_night"] = *condition.felt_temperature_night;
   }
-  if (condition.felt_temperature_evening == std::experimental::nullopt) {
+  if (condition.felt_temperature_evening == std::nullopt) {
     value["felt_temperature_evening"] = Json::Value::null;
   } else {
     value["felt_temperature_evening"] = *condition.felt_temperature_evening;
   }
-  if (condition.felt_temperature_morning == std::experimental::nullopt) {
+  if (condition.felt_temperature_morning == std::nullopt) {
     value["felt_temperature_morning"] = Json::Value::null;
   } else {
     value["felt_temperature_morning"] = *condition.felt_temperature_morning;
@@ -177,7 +190,7 @@ Json::Value to_json(const Model &model) {
   Json::Value value;
   value["data_provider"] = model.data_provider;
   value["unit_system"] = model.unit_system;
-  if (model.refresh_date == std::experimental::nullopt) {
+  if (model.refresh_date == std::nullopt) {
     value["refresh_date"] = Json::Value::null;
   } else {
     value["refresh_date"] = std::chrono::duration_cast<std::chrono::seconds>(
@@ -247,17 +260,17 @@ void update_from_json(DailyCondition &condition, const Json::Value &value) {
   condition.sunrise = TimePoint{value.get("sunrise", 0).asInt64() * 1s};
   condition.sunset = TimePoint{value.get("sunset", 0).asInt64() * 1s};
   if (not value.isMember("moonrise") or value["moonrise"].isNull()) {
-    condition.moonrise = std::experimental::nullopt;
+    condition.moonrise = std::nullopt;
   } else {
     condition.moonrise = TimePoint{value["moonrise"].asInt64() * 1s};
   }
   if (not value.isMember("moonset") or value["moonset"].isNull()) {
-    condition.moonset = std::experimental::nullopt;
+    condition.moonset = std::nullopt;
   } else {
     condition.moonset = TimePoint{value["moonset"].asInt64() * 1s};
   }
   if (not value.isMember("moon_phase") or value["moon_phase"].isNull()) {
-    condition.moon_phase = std::experimental::nullopt;
+    condition.moon_phase = std::nullopt;
   } else {
     condition.moon_phase = deserialize_possible_null(value["moon_phase"]);
   }
@@ -289,19 +302,19 @@ void update_from_json(DailyCondition &condition, const Json::Value &value) {
       deserialize_possible_null(value["temperature_max"]);
   if (not value.isMember("temperature_night") or
       value["temperature_night"].isNull()) {
-    condition.temperature_night = std::experimental::nullopt;
+    condition.temperature_night = std::nullopt;
   } else {
     condition.temperature_night = value["temperature_night"].asDouble();
   }
   if (not value.isMember("temperature_evening") or
       value["temperature_evening"].isNull()) {
-    condition.temperature_evening = std::experimental::nullopt;
+    condition.temperature_evening = std::nullopt;
   } else {
     condition.temperature_evening = value["temperature_evening"].asDouble();
   }
   if (not value.isMember("temperature_morning") or
       value["temperature_morning"].isNull()) {
-    condition.temperature_morning = std::experimental::nullopt;
+    condition.temperature_morning = std::nullopt;
   } else {
     condition.temperature_morning = value["temperature_morning"].asDouble();
   }
@@ -309,21 +322,21 @@ void update_from_json(DailyCondition &condition, const Json::Value &value) {
       deserialize_possible_null(value["felt_temperature_day"]);
   if (not value.isMember("felt_temperature_night") or
       value["felt_temperature_night"].isNull()) {
-    condition.felt_temperature_night = std::experimental::nullopt;
+    condition.felt_temperature_night = std::nullopt;
   } else {
     condition.felt_temperature_night =
         value["felt_temperature_night"].asDouble();
   }
   if (not value.isMember("felt_temperature_evening") or
       value["felt_temperature_evening"].isNull()) {
-    condition.felt_temperature_evening = std::experimental::nullopt;
+    condition.felt_temperature_evening = std::nullopt;
   } else {
     condition.felt_temperature_evening =
         value["felt_temperature_evening"].asDouble();
   }
   if (not value.isMember("felt_temperature_morning") or
       value["felt_temperature_morning"].isNull()) {
-    condition.felt_temperature_morning = std::experimental::nullopt;
+    condition.felt_temperature_morning = std::nullopt;
   } else {
     condition.felt_temperature_morning =
         value["felt_temperature_morning"].asDouble();
@@ -364,7 +377,7 @@ void update_from_json(Model &model, const Json::Value &value) {
   update_from_json(location, location_value);
 
   if (value["current_condition"].isNull()) {
-    model.current_condition = std::experimental::nullopt;
+    model.current_condition = std::nullopt;
   } else {
     Condition current_condition{};
     const auto &current_condition_value = value["current_condition"];

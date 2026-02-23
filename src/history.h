@@ -2,16 +2,26 @@
 
 #include <algorithm>
 #include <boost/log/trivial.hpp>
+#ifdef WITH_SDK_6_8
 #include <experimental/optional>
+#else
+#include <optional>
+#endif
 #include <fstream>
 #include <inkview.h>
 #include <memory>
 
 #include "model.h"
 
+#ifdef WITH_SDK_6_8
 namespace std {
-template <class T> using optional = std::experimental::optional<T>;
+    using experimental::optional;
+    using experimental::nullopt;
+    using experimental::nullopt_t;
+    using experimental::bad_optional_access;
+    using experimental::make_optional;
 }
+#endif
 
 namespace taranis {
 class LocationHistoryProxy {

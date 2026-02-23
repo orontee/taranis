@@ -3,13 +3,23 @@
 #include <algorithm>
 #include <chrono>
 #include <ctime>
+#ifdef WITH_SDK_6_8
 #include <experimental/optional>
+#else
+#include <optional>
+#endif
 #include <inkview.h>
 #include <string>
 
+#ifdef WITH_SDK_6_8
 namespace std {
-template <class T> using optional = std::experimental::optional<T>;
+    using experimental::optional;
+    using experimental::nullopt;
+    using experimental::nullopt_t;
+    using experimental::bad_optional_access;
+    using experimental::make_optional;
 }
+#endif
 
 namespace taranis {
 
@@ -80,9 +90,9 @@ private:
                             pointer_pos_y};
   }
 
-  void cancel_tracking() { this->track = std::experimental::nullopt; }
+  void cancel_tracking() { this->track = std::nullopt; }
 
-  bool is_tracking() const { return this->track != std::experimental::nullopt; }
+  bool is_tracking() const { return this->track != std::nullopt; }
 
   bool is_false_positive_track_start(int pointer_pos_x,
                                      int pointer_pos_y) const {

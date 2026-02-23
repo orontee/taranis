@@ -1,8 +1,22 @@
 #include "menu.h"
 
-#include "experimental/optional"
+#ifdef WITH_SDK_6_8
+#include <experimental/optional>
+#else
+#include <optional>
+#endif
 #include "inkview.h"
 #include "util.h"
+
+#ifdef WITH_SDK_6_8
+namespace std {
+using experimental::bad_optional_access;
+using experimental::make_optional;
+using experimental::nullopt;
+using experimental::nullopt_t;
+using experimental::optional;
+} // namespace std
+#endif
 
 namespace taranis {
 
@@ -180,7 +194,7 @@ void MenuButton::open_menu() {
   if (not this->menu_handler) {
     return;
   }
-  if (this->model->refresh_date == std::experimental::nullopt) {
+  if (this->model->refresh_date == std::nullopt) {
     // don't popup menu while refreshing due to display update bug
     // after menu dialog is hidden... See issue #51
     return;

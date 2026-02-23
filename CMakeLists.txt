@@ -4,6 +4,9 @@ project(taranis VERSION 1.17.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_FLAGS "-fPIC")
+set(BUILD_SHARED_LIBS OFF)
+set(SDK_VERSION $ENV{SDK_VERSION})
 
 include(ExternalProject)
 include(FeatureSummary)
@@ -11,16 +14,37 @@ include(FindPkgConfig)
 
 set(Boost_USE_MULTITHREADED OFF)
 set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.55.0
-  REQUIRED
-  COMPONENTS filesystem date_time log log_setup system thread
-)
+
+if(SDK_VERSION STREQUAL "6.8")
+  message(STATUS "Will use Boost version packaged with SDK")
+  find_package(Boost 1.55.0
+    REQUIRED
+    COMPONENTS filesystem date_time log log_setup system thread
+  )
+else()
+  message(STATUS "Will build Boost from sources")
+  include(FetchContent)
+  set(BOOST_ENABLE_CMAKE ON)
+  set(
+    BOOST_INCLUDE_LIBRARIES
+    filesystem date_time log system thread
+  )
+  set(BOOST_ENABLE_CMAKE ON)
+  FetchContent_Declare(
+    Boost
+    GIT_REPOSITORY https://github.com/boostorg/boost.git
+    GIT_TAG boost-1.83.0
+    GIT_SHALLOW ON
+    GIT_PROGRESS ON
+  )
+  FetchContent_MakeAvailable(boost)
+endif()
 
 find_library(Curl NAMES curl REQUIRED)
 find_library(Inkview NAMES inkview REQUIRED)
 find_library(Jsoncpp NAMES jsoncpp REQUIRED)
 
-pkg_check_modules(Opencv REQUIRED opencv4)
+pkg_search_module(Opencv REQUIRED opencv4 opencv)
 
 set(GSL_DIR "${CMAKE_CURRENT_BINARY_DIR}/gsl")
 ExternalProject_Add(
@@ -81,6 +105,13 @@ add_dependencies(taranis.app gsl)
 target_include_directories(taranis.app
   PRIVATE
   ${GSL_DIR}/src/gsl
+  ${Opencv_INCLUDE_DIRS}
+  Boost::filesystem
+  Boost::date_time
+  Boost::log
+  Boost::log_setup
+  Boost::system
+  Boost::thread
 )
 
 target_link_libraries(taranis.app
@@ -95,12 +126,16 @@ target_link_libraries(taranis.app
   ${Inkview}
   ${Jsoncpp}
   "-L${CMAKE_FIND_ROOT_PATH}/usr/lib -lopencv_core -lopencv_highgui -lopencv_imgproc"
-  # Don't use ${Opencv_LINK_LIBRARIES} since it adds a dependency to
-  # opencv_objdetect, opencv_photo, etc. which aren't installed on the
-  # devices
+  # # Don't use ${Opencv_LINK_LIBRARIES} since it adds a dependency to
+  # # opencv_objdetect, opencv_photo, etc. which aren't installed on the
+  # # devices
   ${GSL_DIR}/src/gsl/.libs/libgsl.a
   ${GSL_DIR}/src/gsl/cblas/.libs/libgslcblas.a
 )
+
+if(SDK_VERSION STREQUAL "6.8")
+  target_compile_definitions(taranis.app PRIVATE WITH_SDK_6_8)
+endif()
 
 # Installer, archive and checksum targets
 

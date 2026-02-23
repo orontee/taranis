@@ -1,10 +1,24 @@
 #include "statusbar.h"
 
+#ifdef WITH_SDK_6_8
 #include <experimental/optional>
+#else
+#include <optional>
+#endif
 #include <inkview.h>
 #include <sstream>
 
 #include "util.h"
+
+#ifdef WITH_SDK_6_8
+namespace std {
+using experimental::bad_optional_access;
+using experimental::make_optional;
+using experimental::nullopt;
+using experimental::nullopt_t;
+using experimental::optional;
+} // namespace std
+#endif
 
 namespace {
 std::string to_string(taranis::DataProvider data_provider) {
@@ -58,7 +72,7 @@ void StatusBar::do_paint() {
   SetFont(this->font.get(), BLACK);
 
   std::stringstream first_row_text;
-  if (this->model->refresh_date == std::experimental::nullopt) {
+  if (this->model->refresh_date == std::nullopt) {
     first_row_text << GetLangText("Ongoing update…");
   } else {
     first_row_text << GetLangText("Last update:") << " "

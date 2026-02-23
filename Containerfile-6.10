@@ -140,7 +140,7 @@ RUN update-alternatives --install /usr/bin/js js /usr/bin/rhino 999 && \
 
 
 ARG DEVICE_FAMILY=B288
-ARG SDK_VERSION=6.8
+ARG SDK_VERSION=6.10
 
 ENV SDK_PARENT_PATH="/opt/SDK-${SDK_VERSION}"
 WORKDIR ${SDK_PARENT_PATH}

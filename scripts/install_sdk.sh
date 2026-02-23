@@ -134,18 +134,28 @@ function generate_env_script() {
     cat > "${env_script_path}" << EOF
 DEVICE_FAMILY=${DEVICE_FAMILY}
 SDK_ROOT_PATH=${SDK_ROOT_PATH}
+SDK_VERSION=${SDK_VERSION}
 PKG_CONFIG_PATH="${SDK_ROOT_PATH}/usr/arm-obreey-linux-gnueabi/sysroot/libcurl-nspr/usr/lib/pkgconfig/"
 PKG_CONFIG_PATH+=":${SDK_ROOT_PATH}/usr/arm-obreey-linux-gnueabi/sysroot/usr/lib/pkgconfig"
 PKG_CONFIG_PATH+=":${SDK_ROOT_PATH}/usr/arm-obreey-linux-gnueabi/sysroot/lib/pkgconfig"
 
 export DEVICE_FAMILY
 export SDK_ROOT_PATH
+export SDK_VERSION
 export PKG_CONFIG_PATH
 
 echo "SDK ${SDK_VERSION} for ${DEVICE_FAMILY} devices is configured. Enjoy!"
 
 EOF
     echo "Source ${SDK_PARENT_PATH}/build_env.sh to use SDK"
+}
+
+function relocate_sdk() {
+    if [ "${SDK_VERSION}" = "6.8" ]; then
+	"${SDK_ROOT_PATH}/bin/update_path.sh"
+    else
+	"${SDK_ROOT_PATH}/usr/relocate-sdk.sh"
+    fi
 }
 
 cd "${SDK_PARENT_PATH}"
@@ -156,7 +166,6 @@ if [ ! -d "${SDK_ROOT_PATH}" ]; then
     fi
     unpack
     fix_links
-    ${SDK_ROOT_PATH}/usr/relocate-sdk.sh
+    relocate_sdk
     generate_env_script
-
 fi

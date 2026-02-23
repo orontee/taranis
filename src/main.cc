@@ -27,8 +27,8 @@ int event_handler(int event_type, int param_one, int param_two) {
 
 int main(int argc, char *argv[]) {
   const bool verbose_log_requested =
-    ((argc == 2 and std::strcmp(argv[1], "--verbose") == 0)
-     or (config->read_bool("debug_logs", false)));
+      ((argc == 2 and std::strcmp(argv[1], "--verbose") == 0) or
+       (config->read_bool("debug_logs", false)));
 
   taranis::initialize_logging(verbose_log_requested);
 

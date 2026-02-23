@@ -1,6 +1,10 @@
 #include "app.h"
 
+#ifdef WITH_SDK_6_8
 #include <experimental/optional>
+#else
+#include <optional>
+#endif
 #include <inkview.h>
 
 #include "config.h"
@@ -11,8 +15,18 @@
 #include "units.h"
 #include "util.h"
 
+#ifdef WITH_SDK_6_8
+namespace std {
+using experimental::bad_optional_access;
+using experimental::make_optional;
+using experimental::nullopt;
+using experimental::nullopt_t;
+using experimental::optional;
+} // namespace std
+#endif
+
 namespace taranis {
-  App::App(std::shared_ptr<Config> config)
+App::App(std::shared_ptr<Config> config)
     : client{std::make_shared<HttpClient>()}, model{std::make_shared<Model>()},
       config{config}, l10n{std::make_unique<L10n>()},
       version_checker{std::make_unique<VersionChecker>(
@@ -331,11 +345,11 @@ int App::handle_custom_event(int param_one, int param_two) {
 void App::clear_model_weather_conditions() {
   BOOST_LOG_TRIVIAL(debug) << "Clearing weather conditions stored in model";
 
-  this->model->current_condition = std::experimental::nullopt;
+  this->model->current_condition = std::nullopt;
   this->model->hourly_forecast.clear();
   this->model->daily_forecast.clear();
   this->model->alerts.clear();
-  this->model->refresh_date = std::experimental::nullopt;
+  this->model->refresh_date = std::nullopt;
 }
 
 bool App::can_keep_data_at_startup() const {
@@ -351,7 +365,7 @@ bool App::can_keep_data_at_startup() const {
 
   if (this->model->data_update_strategy ==
       DataUpdateStrategy::hourly_when_obsolete) {
-    if (this->model->refresh_date == std::experimental::nullopt) {
+    if (this->model->refresh_date == std::nullopt) {
       return false;
     }
     BOOST_LOG_TRIVIAL(debug)

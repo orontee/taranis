@@ -1,11 +1,25 @@
 #include "dailyforecastviewer.h"
 
 #include <cstring>
+#ifdef WITH_SDK_6_8
 #include <experimental/optional>
+#else
+#include <optional>
+#endif
 #include <inkview.h>
 
 #include "units.h"
 #include "util.h"
+
+#ifdef WITH_SDK_6_8
+namespace std {
+using experimental::bad_optional_access;
+using experimental::make_optional;
+using experimental::nullopt;
+using experimental::nullopt_t;
+using experimental::optional;
+} // namespace std
+#endif
 
 namespace taranis {
 
@@ -308,10 +322,9 @@ void DailyForecastViewer::generate_description_data(
 
   this->description_data.push_back(empty_row);
 
-  const bool with_moon_data =
-      (condition.moonrise != std::experimental::nullopt and
-       condition.moonset != std::experimental::nullopt and
-       condition.moon_phase != std::experimental::nullopt);
+  const bool with_moon_data = (condition.moonrise != std::nullopt and
+                               condition.moonset != std::nullopt and
+                               condition.moon_phase != std::nullopt);
 
   if (with_moon_data) {
     this->description_data.push_back(RowDescription{
@@ -343,12 +356,12 @@ void DailyForecastViewer::generate_description_data(
   this->description_data.push_back(empty_row);
 
   const bool with_multiple_temperature_data =
-      (condition.temperature_morning != std::experimental::nullopt and
-       condition.temperature_evening != std::experimental::nullopt and
-       condition.temperature_night != std::experimental::nullopt and
-       condition.felt_temperature_morning != std::experimental::nullopt and
-       condition.felt_temperature_evening != std::experimental::nullopt and
-       condition.felt_temperature_night != std::experimental::nullopt);
+      (condition.temperature_morning != std::nullopt and
+       condition.temperature_evening != std::nullopt and
+       condition.temperature_night != std::nullopt and
+       condition.felt_temperature_morning != std::nullopt and
+       condition.felt_temperature_evening != std::nullopt and
+       condition.felt_temperature_night != std::nullopt);
   if (with_multiple_temperature_data) {
     this->description_data.push_back(RowDescription{
         GetLangText("Temperatures"),

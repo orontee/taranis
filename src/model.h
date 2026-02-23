@@ -4,15 +4,24 @@
 #include <chrono>
 #include <cmath>
 #include <ctime>
+#ifdef WITH_SDK_6_8
 #include <experimental/optional>
+#else
+#include <optional>
+#endif
 #include <list>
 #include <string>
 #include <vector>
 
+#ifdef WITH_SDK_6_8
 namespace std {
-template <class T> using optional = std::experimental::optional<T>;
+    using experimental::optional;
+    using experimental::nullopt;
+    using experimental::nullopt_t;
+    using experimental::bad_optional_access;
+    using experimental::make_optional;
 }
-
+#endif
 using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
 
 namespace taranis {
@@ -220,7 +229,7 @@ struct Model {
   std::optional<TimePoint> refresh_date;
   Location location;
 
-  std::optional<Condition> current_condition = std::experimental::nullopt;
+  std::optional<Condition> current_condition = std::nullopt;
   std::vector<Condition> hourly_forecast;
   std::vector<DailyCondition> daily_forecast;
 

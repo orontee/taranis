@@ -1,13 +1,25 @@
 #include "openmeteo.h"
 
 #include <boost/log/trivial.hpp>
+#ifdef WITH_SDK_6_8
 #include <experimental/optional>
+#else
+#include <optional>
+#endif
 
 #include "model.h"
 #include "util.h"
 
+#ifdef WITH_SDK_6_8
+namespace std {
+using experimental::bad_optional_access;
+using experimental::make_optional;
+using experimental::nullopt;
+using experimental::nullopt_t;
+using experimental::optional;
+} // namespace std
+#endif
 using namespace std::chrono_literals;
-template <class T> using optional = std::experimental::optional<T>;
 
 namespace taranis {
 
@@ -246,7 +258,7 @@ bool is_transposable_json_object(const Json::Value &input) {
     if (not it->isArray()) {
       return false;
     }
-    if (common_size == std::experimental::nullopt) {
+    if (common_size == std::nullopt) {
       common_size = it->size();
     } else {
       if (*common_size != it->size()) {

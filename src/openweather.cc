@@ -2,13 +2,26 @@
 
 #include <boost/log/trivial.hpp>
 #include <chrono>
+#ifdef WITH_SDK_6_8
 #include <experimental/optional>
+#else
+#include <optional>
+#endif
 
 #include "errors.h"
 #include "inkview.h"
 #include "model.h"
 #include "util.h"
 
+#ifdef WITH_SDK_6_8
+namespace std {
+using experimental::bad_optional_access;
+using experimental::make_optional;
+using experimental::nullopt;
+using experimental::nullopt_t;
+using experimental::optional;
+} // namespace std
+#endif
 using namespace std::chrono_literals;
 
 namespace taranis {
