@@ -2,9 +2,11 @@
 /build
 /crossfile_arm.ini
 /data*.json
-/SDK_6.8.0
+/SDK-B288-6.10.7z
+/SDK-B288-6.10/
 /SDK-B288-6.8.7z
-/SDK-B288
+/SDK-B288/
 /SDK-B300-6.8.7z
-/SDK-B300-6.8
+/SDK-B300-6.8/
+/SDK_6.8.0/
 /build_env.sh

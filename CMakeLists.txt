@@ -20,7 +20,7 @@ find_library(Curl NAMES curl REQUIRED)
 find_library(Inkview NAMES inkview REQUIRED)
 find_library(Jsoncpp NAMES jsoncpp REQUIRED)
 
-pkg_check_modules(Opencv REQUIRED opencv)
+pkg_check_modules(Opencv REQUIRED opencv4)
 
 set(GSL_DIR "${CMAKE_CURRENT_BINARY_DIR}/gsl")
 ExternalProject_Add(
