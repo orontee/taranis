@@ -4,17 +4,29 @@ project(taranis VERSION 1.16.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_FLAGS "-fPIC")
+set(BUILD_SHARED_LIBS OFF)
 
 include(ExternalProject)
 include(FeatureSummary)
+include(FetchContent)
 include(FindPkgConfig)
 
+set(
+  BOOST_INCLUDE_LIBRARIES
+  filesystem date_time log log_setup system thread
+)
 set(Boost_USE_MULTITHREADED OFF)
 set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.55.0
-  REQUIRED
-  COMPONENTS filesystem date_time log log_setup system thread
+set(BOOST_ENABLE_CMAKE ON)
+FetchContent_Declare(
+  Boost
+  GIT_REPOSITORY https://github.com/boostorg/boost.git
+  GIT_TAG boost-1.83.0
+  GIT_SHALLOW ON
+  GIT_PROGRESS ON
 )
+FetchContent_MakeAvailable(boost)
 
 find_library(Curl NAMES curl REQUIRED)
 find_library(Inkview NAMES inkview REQUIRED)
@@ -81,13 +93,20 @@ add_dependencies(taranis.app gsl)
 target_include_directories(taranis.app
   PRIVATE
   ${GSL_DIR}/src/gsl
+  ${CMAKE_FIND_ROOT_PATH}/usr/include/opencv4 
+  Boost::filesystem
+  Boost::date_time
+  Boost::log 
+  Boost::log_setup
+  Boost::system
+  Boost::thread
 )
 
 target_link_libraries(taranis.app
   PRIVATE
   Boost::filesystem
   Boost::date_time
-  Boost::log
+  Boost::log 
   Boost::log_setup
   Boost::system
   Boost::thread
@@ -95,9 +114,9 @@ target_link_libraries(taranis.app
   ${Inkview}
   ${Jsoncpp}
   "-L${CMAKE_FIND_ROOT_PATH}/usr/lib -lopencv_core -lopencv_highgui -lopencv_imgproc"
-  # Don't use ${Opencv_LINK_LIBRARIES} since it adds a dependency to
-  # opencv_objdetect, opencv_photo, etc. which aren't installed on the
-  # devices
+  # # Don't use ${Opencv_LINK_LIBRARIES} since it adds a dependency to
+  # # opencv_objdetect, opencv_photo, etc. which aren't installed on the
+  # # devices
   ${GSL_DIR}/src/gsl/.libs/libgsl.a
   ${GSL_DIR}/src/gsl/cblas/.libs/libgslcblas.a
 )
