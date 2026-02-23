@@ -15,6 +15,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - New configuration to enable debug logs
   [#119](https://github.com/orontee/taranis/issues/119)
+  
+- Support for 6.10 firmware
+  [#111](https://github.com/orontee/taranis/issues/111)
 
 ### Changed
 

@@ -1,0 +1,73 @@
+name: Build application
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Git ref of sources to build'
+        required: true
+        type: string
+      family:
+        description: 'Device family to build for'
+        required: true
+        type: choice
+        options:
+          - B288
+          - B300
+
+env:
+  SDK_VERSION: "6.10"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version }}
+          fetch-depth: 0
+          submodules: true
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -
+          sudo apt-get install --no-install-recommends -y \
+                7zip \
+                build-essential \
+                ca-certificates \
+                clang-15 \
+                cmake \
+                git \
+                pkg-config \
+                python3-jinja2 \
+                wget \
+                zip
+
+      - name: Install PocketBook SDK
+        run: |
+          ./scripts/install_sdk.sh --family ${{ inputs.family }} \
+                                   --sdk-version ${SDK_VERSION} \
+                                   --path .
+          rm SDK-${{ inputs.family }}-${SDK_VERSION}.7z
+
+      - name: Build application
+        run: |
+          source build_env.sh
+
+          cmake -S . -B build \
+                -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
+          cmake --build build \
+                --target taranis.app archive installer checksum
+
+          mkdir build/artifact
+          cp build/taranis.{app,pbi,sha256,zip} build/artifact
+ 
+      - name: Upload archive
+        uses: actions/upload-artifact@v4
+        with:
+          path: build/artifact
+          if-no-files-found: error
+

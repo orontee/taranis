@@ -5,10 +5,11 @@ on:
       - '*'
 
 jobs:
-  release:
-
-    runs-on: ubuntu-22.04
-
+  create-release:
+    runs-on: ubuntu-24.04
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      version: ${{ steps.collect_vcs_data.outputs.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -17,20 +18,20 @@ jobs:
           submodules: true
   
       - name: Collect VCS data
-        id: get_tag
+        id: collect_vcs_data
         run: |
           echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-          echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+          echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
       - name: Determine release type
         id: determine_release_type
         run: |
           if [[ "${{ env.TAG_NAME }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "PRERELEASE=false" >> $GITHUB_ENV
-            echo "RELEASE_NAME=Release ${{ env.VERSION }}" >> $GITHUB_ENV
+            echo "RELEASE_NAME=Release ${{ steps.collect_vcs_data.outputs.version }}" >> $GITHUB_ENV
           else
             echo "PRERELEASE=true" >> $GITHUB_ENV
-            echo "RELEASE_NAME=Pre-release ${{ env.VERSION }}" >> $GITHUB_ENV
+            echo "RELEASE_NAME=Pre-release ${{ steps.collect_vcs_data.outputs.version }}" >> $GITHUB_ENV
           fi
   
       - name: Create release
@@ -49,10 +50,108 @@ jobs:
            ## How to install
 
 
-           Install by copying the taranis.pbi file to the e-book reader, then open the corresponding "book" using the library application.
+           Copy the `taranis.pbi` file to the device, then open the corresponding "book" using the library application.
 
-           An alternative is to manually copy the files from the taranis.zip archive to the applications directory of the e-book reader.
+           An alternative is to manually copy the files from the `taranis.zip` archive to the `applications` directory of the device.
+
+           💡 Make sure to install artifacts corresponding to the device firmware (6.8 or 6.10).
+
+
+  build-with-sdk-6-10:
+    runs-on: ubuntu-24.04
+    needs: create-release
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -
+          sudo apt-get install --no-install-recommends -y \
+                7zip \
+                build-essential \
+                ca-certificates \
+                clang-15 \
+                cmake \
+                git \
+                pkg-config \
+                python3-jinja2 \
+                wget \
+                zip
+
+      - name: Install PocketBook SDK
+        run: |
+          ./scripts/install_sdk.sh --family B288 \
+                                   --sdk-version 6.10 \
+                                   --path .
+          rm SDK-B288-6.10.7z
+
+      - name: Build application
+        run: |
+          source build_env.sh
+
+          cmake -S . -B build \
+                -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
+          cmake --build build \
+                --target taranis.app archive installer checksum
+
+          mkdir build/artifact
+          cp build/taranis.{app,pbi,sha256,zip} build/artifact
+
+          pushd build/artifact
+          zip artifact.zip taranis.{app,pbi,sha256,zip}
+
+      - name: Upload pbi artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: build/artifact/taranis.pbi
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-B288.pbi
+          asset_content_type: application/zip
   
+      - name: Upload zip artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: build/artifact/taranis.zip
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-B288.zip
+          asset_content_type: application/zip
+  
+      - name: Upload SHA256 artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: build/artifact/taranis.sha256
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-B288.sha256
+          asset_content_type: text/plain
+
+      - name: Upload archive artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: build/artifact/artifact.zip
+          asset_name: artifact-${{ needs.create-release.outputs.version }}_firmware-6.10-B288.zip
+          asset_content_type: application/zip
+
+  build-with-sdk-6-8:
+    runs-on: ubuntu-22.04
+    needs: create-release
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
       - name: Install build dependencies
         run: |
           sudo apt-get update -
@@ -96,9 +195,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.pbi
-          asset_name: taranis.pbi
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.8-B288.pbi
           asset_content_type: application/zip
   
       - name: Upload zip artifact
@@ -106,9 +205,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.zip
-          asset_name: taranis.zip
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.8-B288.zip
           asset_content_type: application/zip
   
       - name: Upload SHA256 artifact
@@ -116,9 +215,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.sha256
-          asset_name: taranis.sha256
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.8-B288.sha256
           asset_content_type: text/plain
 
       - name: Upload archive artifact
@@ -126,8 +225,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/artifact.zip
-          asset_name: artifact.zip
+          asset_name: artifact-${{ needs.create-release.outputs.version }}_firmware-6.8-B288.zip
           asset_content_type: application/zip
   

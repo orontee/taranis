@@ -14,13 +14,9 @@ on:
         options:
           - B288
           - B300
-      sdk_version:
-        description: 'Version of the SDK'
-        required: true
-        type: choice
-        options:
-          - "6.8"
-          - "6.10"
+
+env:
+  SDK_VERSION: "6.8"
 
 jobs:
   build:
@@ -54,9 +50,9 @@ jobs:
       - name: Install PocketBook SDK
         run: |
           ./scripts/install_sdk.sh --family ${{ inputs.family }} \
-                                   --sdk-version ${{ inputs.sdk_version }} \
+                                   --sdk-version ${SDK_VERSION} \
                                    --path .
-          rm SDK-${{ inputs.family }}-${{ inputs.sdk_version }}.7z
+          rm SDK-${{ inputs.family }}-${SDK_VERSION}.7z
 
       - name: Build application
         run: |
