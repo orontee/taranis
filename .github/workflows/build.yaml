@@ -25,7 +25,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -42,10 +42,9 @@ jobs:
                 7zip \
                 build-essential \
                 ca-certificates \
-                clang \
+                clang-15 \
                 cmake \
                 git \
-                libtinfo5 \
                 pkg-config \
                 python3-jinja2 \
                 wget \
