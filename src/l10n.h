@@ -14,7 +14,9 @@ namespace l10n {
 extern const Translations cs_translations;
 extern const Translations de_translations;
 extern const Translations fr_translations;
+extern const Translations hu_translations;
 extern const Translations it_translations;
+extern const Translations nl_translations;
 extern const Translations pl_translations;
 extern const Translations ru_translations;
 extern const Translations sk_translations;
@@ -72,8 +74,12 @@ private:
       return &(l10n::de_translations);
     } else if (std::strcmp(language, "fr") == 0) {
       return &(l10n::fr_translations);
+    } else if (std::strcmp(language, "hu") == 0) {
+      return &(l10n::de_translations);
     } else if (std::strcmp(language, "it") == 0) {
       return &(l10n::it_translations);
+    } else if (std::strcmp(language, "nl") == 0) {
+      return &(l10n::de_translations);
     } else if (std::strcmp(language, "pl") == 0) {
       return &(l10n::pl_translations);
     } else if (std::strcmp(language, "ru") == 0) {

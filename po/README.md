@@ -31,6 +31,11 @@ Inkview SDK support a limited number of languages.
 The list of contributors to translations is extracted from the Weblate
 project.
 
+### Dutch
+
+* Hans Hasert [hans.hasert](https://hosted.weblate.org/user/hans.hasert)
+
+
 ### French
 
 * Matthias Meulien [orontee](https://hosted.weblate.org/user/orontee/)
@@ -39,6 +44,14 @@ project.
 ### German
 
 * [breiti-oi](https://hosted.weblate.org/user/breiti-oi/)
+
+
+### Hungarian
+
+* Tokes Krisztian [tokesk](https://hosted.weblate.org/user/tokesk)
+
+* Xeon The Protogen [Xeon](https://hosted.weblate.org/user/Xeon)
+
 
 ### Italian
 
