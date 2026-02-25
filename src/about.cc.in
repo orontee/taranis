@@ -16,7 +16,7 @@ namespace taranis {
                  "For more details, read GNU General Public License,"
                  " version 3 or later") << "\n\n"
             << GetLangText("Credits") << "\n"
-            << "breiti-oi - Cyfranek - hans.hasert - kakonema -"
+            << "breiti-oi - Cyfranek - hans.hasert - kakonema - "
                "neilswann80 - orontee - RodoMa92 - spacad - Tank - "
                "tokesk - stopchan - xeon"
             << std::endl;
