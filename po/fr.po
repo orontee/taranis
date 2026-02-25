@@ -129,8 +129,8 @@ msgid "Data provider"
 msgstr "Fournisseur de données"
 
 #: src/config.cc:84
-msgid "Custom API key"
-msgstr "Clé d'API personnalisée"
+msgid "One Call API key"
+msgstr "Clé d'API One Call"
 
 #: src/config.cc:88
 msgid "Generate shutdown logo"

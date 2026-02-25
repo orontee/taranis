@@ -87,7 +87,7 @@ static iconfigedit main_config_template[] = {
     {CFG_INDEX, &icon_service, const_cast<char *>(GetLangText("Data provider")),
      nullptr, const_cast<char *>("data_provider"), const_cast<char *>("0"),
      service_values, nullptr},
-    {CFG_TEXT, &icon_key, const_cast<char *>(GetLangText("Custom API key")),
+    {CFG_TEXT, &icon_key, const_cast<char *>(GetLangText("One Call API key")),
      nullptr, const_cast<char *>("api_key"), const_cast<char *>(""),
      custom_api_key_value, nullptr},
     {CFG_INDEX, &icon_wallpaper,

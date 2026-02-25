@@ -124,8 +124,8 @@ msgid "Data provider"
 msgstr ""
 
 #: src/config.cc:84
-msgid "Custom API key"
-msgstr "Vlastný kľúč API"
+msgid "One Call API key"
+msgstr "One Call API kľúč"
 
 #: src/config.cc:88
 msgid "Generate shutdown logo"

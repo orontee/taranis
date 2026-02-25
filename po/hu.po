@@ -125,8 +125,8 @@ msgid "Data provider"
 msgstr "Adatszolgáltató"
 
 #: src/config.cc:84
-msgid "Custom API key"
-msgstr "Egyéni API-kulcs"
+msgid "One Call API key"
+msgstr "One Call API-kulcs"
 
 #: src/config.cc:88
 msgid "Generate shutdown logo"

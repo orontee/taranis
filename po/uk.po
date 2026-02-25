@@ -127,8 +127,8 @@ msgid "Data provider"
 msgstr "Джерело даних"
 
 #: src/config.cc:84
-msgid "Custom API key"
-msgstr "Власний ключ API"
+msgid "One Call API key"
+msgstr "One Call ключ API"
 
 #: src/config.cc:88
 msgid "Generate shutdown logo"

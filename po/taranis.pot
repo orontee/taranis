@@ -121,7 +121,7 @@ msgid "Data provider"
 msgstr ""
 
 #: src/config.cc:84
-msgid "Custom API key"
+msgid "One Call API key"
 msgstr ""
 
 #: src/config.cc:88
