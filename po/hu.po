@@ -1,0 +1,511 @@
+# SOME DESCRIPTIVE TITLE.
+# This file is put in the public domain.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: taranis\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-03 17:46+0100\n"
+"PO-Revision-Date: 2026-02-25 08:22+0000\n"
+"Last-Translator: Tokes Krisztian <tokesk@gmail.com>\n"
+"Language-Team: Hungarian <https://hosted.weblate.org/projects/taranis/"
+"taranis/hu/>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.16.1-dev\n"
+
+#: src/alerts.cc:159
+msgid "Alert"
+msgstr "Riasztás"
+
+#: src/alerts.cc:174
+msgid "Start"
+msgstr "Indítás"
+
+#: src/alerts.cc:176
+msgid "Duration"
+msgstr "Időtartam"
+
+#: src/alerts.cc:181
+msgid "Source"
+msgstr "Forrás"
+
+#: src/app.cc:278 src/app.cc:290 src/app.cc:324 src/app.cc:499
+#: src/version.cc:135
+msgid "Ok"
+msgstr "Ok"
+
+#: src/app.cc:320
+msgid "Invalid input"
+msgstr "Érvénytelen bevitel"
+
+#: src/app.cc:322
+msgid "Make sure you enter a town then a country separated by a comma."
+msgstr "Először a várost, majd az országot kell megadni, vesszővel elválasztva."
+
+#: src/app.cc:440 src/app.cc:449 src/app.cc:524 src/app.cc:532
+msgid "Network error"
+msgstr "Hálózati hiba"
+
+#: src/app.cc:441 src/app.cc:450 src/app.cc:525 src/app.cc:533
+msgid "Failure while fetching weather data. Check your network connection."
+msgstr ""
+"Hiba történt az időjárási adatok lekérésekor. Ellenőrizze a hálózati "
+"kapcsolatot."
+
+#: src/app.cc:457 src/app.cc:539
+msgid "Service unavailable"
+msgstr "A szolgáltatás nem elérhető"
+
+#: src/app.cc:498 src/config.cc:62 src/version.cc:100 src/version.cc:107
+#: src/version.cc:114 src/version.cc:122 src/version.cc:134
+msgid "Software version"
+msgstr "Szoftver verzió"
+
+#: src/app.cc:566
+msgid "Unsupported software version"
+msgstr "Nem támogatott szoftververzió"
+
+#: src/app.cc:567
+msgid ""
+"The application isn't compatible with the software version of this reader."
+msgstr "Az alkalmazás nem kompatibilis az olvasó szoftververziójával."
+
+#. const_cast<char *>(GetLangText("Standard")),
+#: src/config.cc:21
+msgid "Metric"
+msgstr "Metrikus"
+
+#: src/config.cc:22
+msgid "Imperial"
+msgstr "Birodalmi"
+
+#: src/config.cc:27
+msgid "Hourly forecast"
+msgstr "Óránkénti előrejelzés"
+
+#: src/config.cc:28
+msgid "Daily forecast"
+msgstr "Napi előrejelzés"
+
+#: src/config.cc:31
+msgid "At startup"
+msgstr "Indításkor"
+
+#: src/config.cc:32
+msgid "When obsolete"
+msgstr "Amikor elavult"
+
+#: src/config.cc:33
+msgid "Manually"
+msgstr "Kézzel"
+
+#: src/config.cc:65
+msgid "Check newer version"
+msgstr "Újabb verzió ellenőrzése"
+
+#: src/config.cc:70
+msgid "Units"
+msgstr "Mértékegységek"
+
+#: src/config.cc:74
+msgid "Start screen"
+msgstr "Kezdőképernyő"
+
+#: src/config.cc:78
+msgid "Data update strategy"
+msgstr "Adatfrissítési stratégia"
+
+#: src/config.cc:81
+msgid "Data provider"
+msgstr "Adatszolgáltató"
+
+#: src/config.cc:84
+msgid "Custom API key"
+msgstr "Egyéni API-kulcs"
+
+#: src/config.cc:88
+msgid "Generate shutdown logo"
+msgstr "Leállítási logó generálása"
+
+#: src/config.cc:92
+msgid "Software"
+msgstr "Szoftver"
+
+#: src/config.cc:166
+msgid "Parameters"
+msgstr "Paraméterek"
+
+#: src/currentconditionbox.cc:86 src/dailyforecastviewer.cc:367
+#: src/dailyforecastviewer.cc:381
+msgid "Felt"
+msgstr "Érzett"
+
+#: src/dailyforecastviewer.cc:318 src/dailyforecastviewer.cc:335
+msgid "Sun"
+msgstr "Nap"
+
+#: src/dailyforecastviewer.cc:318
+msgid "Moon"
+msgstr "Hold"
+
+#: src/dailyforecastviewer.cc:321 src/dailyforecastviewer.cc:338
+msgid "Rise"
+msgstr "Kelte"
+
+#: src/dailyforecastviewer.cc:326 src/dailyforecastviewer.cc:341
+msgid "Set"
+msgstr "Lemente"
+
+#: src/dailyforecastviewer.cc:331
+msgid "Moon phase"
+msgstr "Holdfázis"
+
+#: src/dailyforecastviewer.cc:354 src/dailyforecastviewer.cc:375
+msgid "Temperatures"
+msgstr "Hőmérsékletek"
+
+#: src/dailyforecastviewer.cc:355
+msgid "Morning"
+msgstr "Reggel"
+
+#: src/dailyforecastviewer.cc:355
+msgid "Day"
+msgstr "Nappal"
+
+#: src/dailyforecastviewer.cc:356
+msgid "Evening"
+msgstr "Este"
+
+#: src/dailyforecastviewer.cc:356
+msgid "Night"
+msgstr "Éjjel"
+
+#: src/dailyforecastviewer.cc:378
+msgid "Mean"
+msgstr "Átlag"
+
+#: src/dailyforecastviewer.cc:385
+msgid "Min/Max"
+msgstr "Min/Max"
+
+#: src/dailyforecastviewer.cc:395
+msgid "Wind"
+msgstr "Szél"
+
+#: src/dailyforecastviewer.cc:400
+msgid "Speed"
+msgstr "Sebesség"
+
+#: src/dailyforecastviewer.cc:408
+msgid "Gust"
+msgstr "Széllökés"
+
+#: src/dailyforecastviewer.cc:423
+msgid "Direction"
+msgstr "Irány"
+
+#: src/dailyforecastviewer.cc:433
+msgid "Precipitation"
+msgstr "Csapadék"
+
+#: src/dailyforecastviewer.cc:437
+msgid "Rain"
+msgstr "Eső"
+
+#: src/dailyforecastviewer.cc:443
+msgid "Snow"
+msgstr "Hó"
+
+#: src/dailyforecastviewer.cc:448
+msgid "Probability"
+msgstr "Valószínűség"
+
+#: src/dailyforecastviewer.cc:457
+msgid "Other metrics"
+msgstr "Egyéb mutatók"
+
+#: src/dailyforecastviewer.cc:460
+msgid "Pressure"
+msgstr "Nyomás"
+
+#: src/dailyforecastviewer.cc:464
+msgid "Humidity"
+msgstr "Páratartalom"
+
+#: src/dailyforecastviewer.cc:469
+msgid "Dew point"
+msgstr "Harmatpont"
+
+#: src/dailyforecastviewer.cc:475
+msgid "UV index"
+msgstr "UV index"
+
+#: src/dailyforecastviewer.cc:481
+msgid "Cloudiness"
+msgstr "Felhősség"
+
+#: src/locationbox.cc:45
+msgid "Enter location"
+msgstr "Helyszín megadása"
+
+#: src/locationselector.cc:46 src/menu.cc:74
+msgid "Locations"
+msgstr "Helyszínek"
+
+#: src/locationselector.cc:57
+msgid "Longitude"
+msgstr "Hosszúság"
+
+#: src/locationselector.cc:58
+msgid "Latitude"
+msgstr "Szélesség"
+
+#: src/menu.cc:72
+msgid "Refresh"
+msgstr "Frissítés"
+
+#: src/menu.cc:76
+msgid "Parameters…"
+msgstr "Paraméterek…"
+
+#: src/menu.cc:78
+msgid "Quit"
+msgstr "Kilépés"
+
+#: src/menu.cc:92
+msgid "Empty"
+msgstr "Üres"
+
+#: src/menu.cc:105 src/menu.cc:133
+msgid "Add to favorites"
+msgstr "Hozzáadás a kedvencekhez"
+
+#: src/menu.cc:114 src/menu.cc:159
+msgid "Edit location"
+msgstr "Helyszín szerkesztése"
+
+#: src/menu.cc:132
+msgid "Remove from favorites"
+msgstr "Eltávolítás a kedvencek közül"
+
+#: src/openmeteo.cc:85
+msgid "Clear sky"
+msgstr "Tiszta égbolt"
+
+#: src/openmeteo.cc:87
+msgid "Mainly clear sky"
+msgstr "Főként tiszta égbolt"
+
+#: src/openmeteo.cc:89
+msgid "Partly cloudy sky"
+msgstr "Részben felhős égbolt"
+
+#: src/openmeteo.cc:91
+msgid "Overcast sky"
+msgstr "Borús égbolt"
+
+#: src/openmeteo.cc:93
+msgid "Fog"
+msgstr "Köd"
+
+#: src/openmeteo.cc:95
+msgid "Depositing rime fog"
+msgstr "Zúzmaraköd lerakódása"
+
+#: src/openmeteo.cc:97
+msgid "Light drizzle"
+msgstr "Enyhe szitálás"
+
+#: src/openmeteo.cc:99
+msgid "Moderate drizzle"
+msgstr "Mérsékelt szitálás"
+
+#: src/openmeteo.cc:101
+msgid "Dense drizzle"
+msgstr "Sűrű szitálás"
+
+#: src/openmeteo.cc:103
+msgid "Light freezing drizzle"
+msgstr "Enyhe ónos szitálás"
+
+#: src/openmeteo.cc:105
+msgid "Dense freezing drizzle"
+msgstr "Sűrű, fagyos szitálás"
+
+#: src/openmeteo.cc:107
+msgid "Slight rain"
+msgstr "Enyhe eső"
+
+#: src/openmeteo.cc:109
+msgid "Moderate rain"
+msgstr "Mérsékelt eső"
+
+#: src/openmeteo.cc:111
+msgid "Heavy rain"
+msgstr "Heves eső"
+
+#: src/openmeteo.cc:113
+msgid "Light freezing rain"
+msgstr "Könnyű, ónos eső"
+
+#: src/openmeteo.cc:115
+msgid "Heavy freezing rain"
+msgstr "Heves, ónos eső"
+
+#: src/openmeteo.cc:117
+msgid "Slight snow fall"
+msgstr "Enyhe havazás"
+
+#: src/openmeteo.cc:119
+msgid "Moderate snow fall"
+msgstr "Mérsékelt havazás"
+
+#: src/openmeteo.cc:121
+msgid "Heavy snow fall"
+msgstr "Erős havazás"
+
+#: src/openmeteo.cc:123
+msgid "Snow grains"
+msgstr "Hódara"
+
+#: src/openmeteo.cc:125
+msgid "Slight rain showers"
+msgstr "Enyhe zápor"
+
+#: src/openmeteo.cc:127
+msgid "Moderate rain showers"
+msgstr "Mérsékelt zápor"
+
+#: src/openmeteo.cc:129
+msgid "Violent rain showers"
+msgstr "Heves zápor"
+
+#: src/openmeteo.cc:131
+msgid "Slight snow showers"
+msgstr "Enyhe hózápor"
+
+#: src/openmeteo.cc:133
+msgid "Heavy snow showers"
+msgstr "Erős hózápor"
+
+#: src/openmeteo.cc:135
+msgid "Slight thunderstorm"
+msgstr "Enyhe zivatar"
+
+#: src/openmeteo.cc:137
+msgid "Moderate thunderstorm"
+msgstr "Mérsékelt zivatar"
+
+#: src/openmeteo.cc:139
+msgid "Thunderstorm with slight and heavy hail"
+msgstr "Zivatar gyenge és erős jégesővel"
+
+#: src/statusbar.cc:60
+msgid "Ongoing update…"
+msgstr "Frissítés folyamatban…"
+
+#: src/statusbar.cc:62 src/statusbar.cc:74
+msgid "Last update:"
+msgstr "Utolsó frissítés:"
+
+#: src/statusbar.cc:87
+msgid "Weather data from"
+msgstr "Időjárási adatok innen"
+
+#: src/util.cc:235
+msgid "Today"
+msgstr "Ma"
+
+#: src/util.cc:240
+msgid "Yesterday"
+msgstr "Tegnap"
+
+#: src/util.cc:245
+msgid "Tomorrow"
+msgstr "Holnap"
+
+#: src/util.cc:344 src/util.cc:360
+msgid "New moon"
+msgstr "Újhold"
+
+#: src/util.cc:346
+msgid "Waxing crescent"
+msgstr "Növekvő félhold"
+
+#: src/util.cc:348
+msgid "First quarter moon"
+msgstr "Első negyed"
+
+#: src/util.cc:350
+msgid "Waxing gibbous"
+msgstr "Növekvő hold"
+
+#: src/util.cc:352
+msgid "Full moon"
+msgstr "Telihold"
+
+#: src/util.cc:354
+msgid "Waning gibbous"
+msgstr "Fogyó hold"
+
+#: src/util.cc:356
+msgid "Last quarter moon"
+msgstr "Utolsó negyed"
+
+#: src/util.cc:358
+msgid "Waning crescent"
+msgstr "Fogyó félhold"
+
+#: src/version.cc:87 src/errors.h:43
+msgid ""
+"Sorry, an unexpected error was encountered. Report this to the application "
+"author."
+msgstr ""
+"Sajnáljuk, váratlan hiba történt. Jelentse ezt az alkalmazás készítőjének."
+
+#: src/version.cc:97
+msgid "The service hosting releases isn't working as expected. Retry later."
+msgstr ""
+"A kiadásokat üzemeltető szolgáltatás nem a várt módon működik. Próbáld újra "
+"később."
+
+#: src/version.cc:123
+msgid "Latest release already installed"
+msgstr "A legújabb kiadás már telepítve van"
+
+#: src/version.cc:135
+msgid "Browse"
+msgstr "Tallózás"
+
+#: src/version.cc:289
+msgid "A new version is available:"
+msgstr "Új verzió érhető el:"
+
+#: src/errors.h:37
+msgid "Location unknown to the service providing weather data. Check spelling."
+msgstr ""
+"A helyszín ismeretlen az időjárási szolgáltatás számára. Ellenőrizze a "
+"helyesírást."
+
+#: src/errors.h:54
+msgid ""
+"An API key is required to consume weather data. Contact the application "
+"maintainer."
+msgstr ""
+"Az időjárási adatok felhasználásához API-kulcs szükséges. Lépjen kapcsolatba "
+"az alkalmazás karbantartójával."
+
+#: src/errors.h:60
+msgid "Weather data can't be accessed with the provided API key."
+msgstr "Az időjárási adatok nem érhetők el a megadott API-kulccsal."
+
+#: src/errors.h:71
+msgid ""
+"The service providing weather data isn't working as expected. Retry later."
+msgstr ""
+"Az időjárási szolgáltatás nem a várt módon működik. Próbáld újra később."
