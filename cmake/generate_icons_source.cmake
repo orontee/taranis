@@ -10,6 +10,7 @@ set(ICONS
   ${CMAKE_SOURCE_DIR}/icons/icon_11n_2x.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_13n_2x.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_50n_2x.bmp
+  ${CMAKE_SOURCE_DIR}/icons/icon_bug.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_close.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_direction.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_display_settings.bmp

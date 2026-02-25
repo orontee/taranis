@@ -12,9 +12,9 @@
 #include "util.h"
 
 namespace taranis {
-App::App()
+  App::App(std::shared_ptr<Config> config)
     : client{std::make_shared<HttpClient>()}, model{std::make_shared<Model>()},
-      config{std::make_shared<Config>()}, l10n{std::make_unique<L10n>()},
+      config{config}, l10n{std::make_unique<L10n>()},
       version_checker{std::make_unique<VersionChecker>(
           this->config, this->client, this->model)},
       history{std::make_unique<LocationHistoryProxy>(this->model)},

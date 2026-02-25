@@ -66,6 +66,10 @@ static iconfigedit software_config_template[] = {
     {CFG_ACTIONS, &icon_software_version_check,
      const_cast<char *>(GetLangText("Check newer version")), nullptr,
      const_cast<char *>("check_software_version"), nullptr, nullptr, nullptr},
+    {CFG_INDEX, &icon_bug,
+     const_cast<char *>(GetLangText("Enable debug logs (requires restart)")), nullptr,
+     const_cast<char *>("debug_logs"), const_cast<char *>("0"),
+     no_yes_values, nullptr},
     {0}};
 
 static iconfigedit main_config_template[] = {

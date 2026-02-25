@@ -13,6 +13,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Add Dutch and Hungarian translations
   [#115](https://github.com/orontee/taranis/issues/116)
 
+- New configuration to enable debug logs
+  [#119](https://github.com/orontee/taranis/issues/119)
+
 ### Changed
 
 ### Removed

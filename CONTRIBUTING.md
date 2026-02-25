@@ -151,10 +151,10 @@ convert /media/matthias/Vivlio/screens/scr0002.bmp \
 
 ### Log file
 
-The application can be started with the `--verbose` command line
-argument to generate a detailed log file. The file path is of the form
-`/mnt/ext1/system/state/taranis.log` but may vary depending on the use
-of profiles.
+A configuration entry allows to enable debug logs. Such logs can be
+enabled using the `--verbose` command line argument.
+
+The path of the log file is `/mnt/ext1/system/state/taranis.log`.
 
 To specify command line arguments rather use a terminal like
 [pbterm](https://github.com/Alastor27/pbterm) or use [Desktop

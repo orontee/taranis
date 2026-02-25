@@ -33,7 +33,7 @@ std::string get_about_content();
 
 class App {
 public:
-  App();
+  App(std::shared_ptr<Config> config);
 
   int process_event(int event_type, int param_one, int param_two);
 
