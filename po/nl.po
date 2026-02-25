@@ -7,493 +7,506 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-03 17:46+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-02-25 18:47+0000\n"
+"Last-Translator: Hans Hasert <hans.hasert@gmail.com>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/taranis/taranis/"
+"nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: src/alerts.cc:159
 msgid "Alert"
-msgstr ""
+msgstr "Alarm"
 
 #: src/alerts.cc:174
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #: src/alerts.cc:176
 msgid "Duration"
-msgstr ""
+msgstr "Duur"
 
 #: src/alerts.cc:181
 msgid "Source"
-msgstr ""
+msgstr "Bron"
 
 #: src/app.cc:278 src/app.cc:290 src/app.cc:324 src/app.cc:499
 #: src/version.cc:135
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: src/app.cc:320
 msgid "Invalid input"
-msgstr ""
+msgstr "Ongeldige invoer"
 
 #: src/app.cc:322
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr ""
+"Zorg ervoor dat u de plaats en het land invoert, gescheiden door een komma."
 
 #: src/app.cc:440 src/app.cc:449 src/app.cc:524 src/app.cc:532
 msgid "Network error"
-msgstr ""
+msgstr "Netwerk fout"
 
 #: src/app.cc:441 src/app.cc:450 src/app.cc:525 src/app.cc:533
 msgid "Failure while fetching weather data. Check your network connection."
-msgstr ""
+msgstr "Fout bij het ophalen van weergegevens. Controleer uw netwerkverbinding."
 
 #: src/app.cc:457 src/app.cc:539
 msgid "Service unavailable"
-msgstr ""
+msgstr "Service niet beschikbaar"
 
 #: src/app.cc:498 src/config.cc:62 src/version.cc:100 src/version.cc:107
 #: src/version.cc:114 src/version.cc:122 src/version.cc:134
 msgid "Software version"
-msgstr ""
+msgstr "Software versie"
 
 #: src/app.cc:566
 msgid "Unsupported software version"
-msgstr ""
+msgstr "Niet ondersteunde software versie"
 
 #: src/app.cc:567
 msgid ""
 "The application isn't compatible with the software version of this reader."
 msgstr ""
+"De applicatie is niet compatibel met de software versie van deze e-reader."
 
 #. const_cast<char *>(GetLangText("Standard")),
 #: src/config.cc:21
 msgid "Metric"
-msgstr ""
+msgstr "Metrisch"
 
 #: src/config.cc:22
 msgid "Imperial"
-msgstr ""
+msgstr "Imperiaal"
 
 #: src/config.cc:27
 msgid "Hourly forecast"
-msgstr ""
+msgstr "Voorspelling per uur"
 
 #: src/config.cc:28
 msgid "Daily forecast"
-msgstr ""
+msgstr "Voorspelling per dag"
 
 #: src/config.cc:31
 msgid "At startup"
-msgstr ""
+msgstr "Bij het opstarten"
 
 #: src/config.cc:32
 msgid "When obsolete"
-msgstr ""
+msgstr "Wanneer verouderd"
 
 #: src/config.cc:33
 msgid "Manually"
-msgstr ""
+msgstr "Handmatig"
 
 #: src/config.cc:65
 msgid "Check newer version"
-msgstr ""
+msgstr "Controleer op nieuwere versie"
 
 #: src/config.cc:70
 msgid "Units"
-msgstr ""
+msgstr "Eenheden"
 
 #: src/config.cc:74
 msgid "Start screen"
-msgstr ""
+msgstr "Start scherm"
 
 #: src/config.cc:78
 msgid "Data update strategy"
-msgstr ""
+msgstr "Data-update strategie"
 
 #: src/config.cc:81
 msgid "Data provider"
-msgstr ""
+msgstr "Gegevensleverancier"
 
 #: src/config.cc:84
 msgid "Custom API key"
-msgstr ""
+msgstr "Aangepaste API-sleutel"
 
 #: src/config.cc:88
 msgid "Generate shutdown logo"
-msgstr ""
+msgstr "Genereer een afsluitlogo"
 
 #: src/config.cc:92
 msgid "Software"
-msgstr ""
+msgstr "Software"
 
 #: src/config.cc:166
 msgid "Parameters"
-msgstr ""
+msgstr "Parameters"
 
 #: src/currentconditionbox.cc:86 src/dailyforecastviewer.cc:367
 #: src/dailyforecastviewer.cc:381
 msgid "Felt"
-msgstr ""
+msgstr "Gevoel"
 
 #: src/dailyforecastviewer.cc:318 src/dailyforecastviewer.cc:335
 msgid "Sun"
-msgstr ""
+msgstr "Zon"
 
 #: src/dailyforecastviewer.cc:318
 msgid "Moon"
-msgstr ""
+msgstr "Maan"
 
 #: src/dailyforecastviewer.cc:321 src/dailyforecastviewer.cc:338
 msgid "Rise"
-msgstr ""
+msgstr "Opgang"
 
 #: src/dailyforecastviewer.cc:326 src/dailyforecastviewer.cc:341
 msgid "Set"
-msgstr ""
+msgstr "Ondergang"
 
 #: src/dailyforecastviewer.cc:331
 msgid "Moon phase"
-msgstr ""
+msgstr "Maanfase"
 
 #: src/dailyforecastviewer.cc:354 src/dailyforecastviewer.cc:375
 msgid "Temperatures"
-msgstr ""
+msgstr "Temperaturen"
 
 #: src/dailyforecastviewer.cc:355
 msgid "Morning"
-msgstr ""
+msgstr "Ochtend"
 
 #: src/dailyforecastviewer.cc:355
 msgid "Day"
-msgstr ""
+msgstr "Dag"
 
 #: src/dailyforecastviewer.cc:356
 msgid "Evening"
-msgstr ""
+msgstr "Avond"
 
 #: src/dailyforecastviewer.cc:356
 msgid "Night"
-msgstr ""
+msgstr "Nacht"
 
 #: src/dailyforecastviewer.cc:378
 msgid "Mean"
-msgstr ""
+msgstr "Gemiddelde"
 
 #: src/dailyforecastviewer.cc:385
 msgid "Min/Max"
-msgstr ""
+msgstr "Min/Max"
 
 #: src/dailyforecastviewer.cc:395
 msgid "Wind"
-msgstr ""
+msgstr "Wind"
 
 #: src/dailyforecastviewer.cc:400
 msgid "Speed"
-msgstr ""
+msgstr "Snelheid"
 
 #: src/dailyforecastviewer.cc:408
 msgid "Gust"
-msgstr ""
+msgstr "Windvlaag"
 
 #: src/dailyforecastviewer.cc:423
 msgid "Direction"
-msgstr ""
+msgstr "Richting"
 
 #: src/dailyforecastviewer.cc:433
 msgid "Precipitation"
-msgstr ""
+msgstr "Neerslag"
 
 #: src/dailyforecastviewer.cc:437
 msgid "Rain"
-msgstr ""
+msgstr "Regen"
 
 #: src/dailyforecastviewer.cc:443
 msgid "Snow"
-msgstr ""
+msgstr "Sneeuw"
 
 #: src/dailyforecastviewer.cc:448
 msgid "Probability"
-msgstr ""
+msgstr "Kans"
 
 #: src/dailyforecastviewer.cc:457
 msgid "Other metrics"
-msgstr ""
+msgstr "Andere meetgegevens"
 
 #: src/dailyforecastviewer.cc:460
 msgid "Pressure"
-msgstr ""
+msgstr "Luchtdruk"
 
 #: src/dailyforecastviewer.cc:464
 msgid "Humidity"
-msgstr ""
+msgstr "Luchtvochtigheid"
 
 #: src/dailyforecastviewer.cc:469
 msgid "Dew point"
-msgstr ""
+msgstr "Dauwpunt"
 
 #: src/dailyforecastviewer.cc:475
 msgid "UV index"
-msgstr ""
+msgstr "UV index"
 
 #: src/dailyforecastviewer.cc:481
 msgid "Cloudiness"
-msgstr ""
+msgstr "Bewolking"
 
 #: src/locationbox.cc:45
 msgid "Enter location"
-msgstr ""
+msgstr "Voer locatie in"
 
 #: src/locationselector.cc:46 src/menu.cc:74
 msgid "Locations"
-msgstr ""
+msgstr "Locaties"
 
 #: src/locationselector.cc:57
 msgid "Longitude"
-msgstr ""
+msgstr "Lengtegraad"
 
 #: src/locationselector.cc:58
 msgid "Latitude"
-msgstr ""
+msgstr "Breedtegraad"
 
 #: src/menu.cc:72
 msgid "Refresh"
-msgstr ""
+msgstr "Ververs"
 
 #: src/menu.cc:76
 msgid "Parameters…"
-msgstr ""
+msgstr "Parameters…"
 
 #: src/menu.cc:78
 msgid "Quit"
-msgstr ""
+msgstr "Stop"
 
 #: src/menu.cc:92
 msgid "Empty"
-msgstr ""
+msgstr "Leeg"
 
 #: src/menu.cc:105 src/menu.cc:133
 msgid "Add to favorites"
-msgstr ""
+msgstr "Toevoegen aan favorieten"
 
 #: src/menu.cc:114 src/menu.cc:159
 msgid "Edit location"
-msgstr ""
+msgstr "Locatie bewerken"
 
 #: src/menu.cc:132
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Verwijderen uit favorieten"
 
 #: src/openmeteo.cc:85
 msgid "Clear sky"
-msgstr ""
+msgstr "Heldere hemel"
 
 #: src/openmeteo.cc:87
 msgid "Mainly clear sky"
-msgstr ""
+msgstr "Overwegend heldere hemel"
 
 #: src/openmeteo.cc:89
 msgid "Partly cloudy sky"
-msgstr ""
+msgstr "Gedeeltelijk bewolkte lucht"
 
 #: src/openmeteo.cc:91
 msgid "Overcast sky"
-msgstr ""
+msgstr "Bewolkte lucht"
 
 #: src/openmeteo.cc:93
 msgid "Fog"
-msgstr ""
+msgstr "Mist"
 
 #: src/openmeteo.cc:95
 msgid "Depositing rime fog"
-msgstr ""
+msgstr "Afzetting van rijpmist"
 
 #: src/openmeteo.cc:97
 msgid "Light drizzle"
-msgstr ""
+msgstr "Lichte motregen"
 
 #: src/openmeteo.cc:99
 msgid "Moderate drizzle"
-msgstr ""
+msgstr "Matige motregen"
 
 #: src/openmeteo.cc:101
 msgid "Dense drizzle"
-msgstr ""
+msgstr "Zware motregen"
 
 #: src/openmeteo.cc:103
 msgid "Light freezing drizzle"
-msgstr ""
+msgstr "lichte vriezende motregen"
 
 #: src/openmeteo.cc:105
 msgid "Dense freezing drizzle"
-msgstr ""
+msgstr "Zware vriezende motregen"
 
 #: src/openmeteo.cc:107
 msgid "Slight rain"
-msgstr ""
+msgstr "Lichte regen"
 
 #: src/openmeteo.cc:109
 msgid "Moderate rain"
-msgstr ""
+msgstr "Matige regen"
 
 #: src/openmeteo.cc:111
 msgid "Heavy rain"
-msgstr ""
+msgstr "Hevige regen"
 
 #: src/openmeteo.cc:113
 msgid "Light freezing rain"
-msgstr ""
+msgstr "Lichte ijzel"
 
 #: src/openmeteo.cc:115
 msgid "Heavy freezing rain"
-msgstr ""
+msgstr "Zware ijzel"
 
 #: src/openmeteo.cc:117
 msgid "Slight snow fall"
-msgstr ""
+msgstr "Lichte sneeuwval"
 
 #: src/openmeteo.cc:119
 msgid "Moderate snow fall"
-msgstr ""
+msgstr "Matige sneeuwval"
 
 #: src/openmeteo.cc:121
 msgid "Heavy snow fall"
-msgstr ""
+msgstr "Zware sneeuwval"
 
 #: src/openmeteo.cc:123
 msgid "Snow grains"
-msgstr ""
+msgstr "Sneeuwvlokken"
 
 #: src/openmeteo.cc:125
 msgid "Slight rain showers"
-msgstr ""
+msgstr "Lichte regenbuien"
 
 #: src/openmeteo.cc:127
 msgid "Moderate rain showers"
-msgstr ""
+msgstr "Matige regenbuien"
 
 #: src/openmeteo.cc:129
 msgid "Violent rain showers"
-msgstr ""
+msgstr "Heftige regenbuien"
 
 #: src/openmeteo.cc:131
 msgid "Slight snow showers"
-msgstr ""
+msgstr "Lichte sneeuwbuien"
 
 #: src/openmeteo.cc:133
 msgid "Heavy snow showers"
-msgstr ""
+msgstr "Zware sneeuwbuien"
 
 #: src/openmeteo.cc:135
 msgid "Slight thunderstorm"
-msgstr ""
+msgstr "Lichte onweersbui"
 
 #: src/openmeteo.cc:137
 msgid "Moderate thunderstorm"
-msgstr ""
+msgstr "Matige onweersbui"
 
 #: src/openmeteo.cc:139
 msgid "Thunderstorm with slight and heavy hail"
-msgstr ""
+msgstr "Onweersbui met lichte tot zware hagel"
 
 #: src/statusbar.cc:60
 msgid "Ongoing update…"
-msgstr ""
+msgstr "Lopende update…"
 
 #: src/statusbar.cc:62 src/statusbar.cc:74
 msgid "Last update:"
-msgstr ""
+msgstr "Laatste update:"
 
 #: src/statusbar.cc:87
 msgid "Weather data from"
-msgstr ""
+msgstr "Weergegevens van"
 
 #: src/util.cc:235
 msgid "Today"
-msgstr ""
+msgstr "Vandaag"
 
 #: src/util.cc:240
 msgid "Yesterday"
-msgstr ""
+msgstr "Gisteren"
 
 #: src/util.cc:245
 msgid "Tomorrow"
-msgstr ""
+msgstr "Morgen"
 
 #: src/util.cc:344 src/util.cc:360
 msgid "New moon"
-msgstr ""
+msgstr "Nieuwe maan"
 
 #: src/util.cc:346
 msgid "Waxing crescent"
-msgstr ""
+msgstr "Wassende maan"
 
 #: src/util.cc:348
 msgid "First quarter moon"
-msgstr ""
+msgstr "Eerste kwartier maan"
 
 #: src/util.cc:350
 msgid "Waxing gibbous"
-msgstr ""
+msgstr "Toenemende maan"
 
 #: src/util.cc:352
 msgid "Full moon"
-msgstr ""
+msgstr "Volle maan"
 
 #: src/util.cc:354
 msgid "Waning gibbous"
-msgstr ""
+msgstr "Afnemende maan"
 
 #: src/util.cc:356
 msgid "Last quarter moon"
-msgstr ""
+msgstr "Laatste kwartier maan"
 
 #: src/util.cc:358
 msgid "Waning crescent"
-msgstr ""
+msgstr "Afnemende sikkel maan"
 
 #: src/version.cc:87 src/errors.h:43
 msgid ""
 "Sorry, an unexpected error was encountered. Report this to the application "
 "author."
 msgstr ""
+"Sorry, er is een onverwachte fout opgetreden. Meld dit aan de ontwikkelaar "
+"van de applicatie."
 
 #: src/version.cc:97
 msgid "The service hosting releases isn't working as expected. Retry later."
 msgstr ""
+"De service voor het hosten van releases werkt niet zoals verwacht. Probeer "
+"het later opnieuw."
 
 #: src/version.cc:123
 msgid "Latest release already installed"
-msgstr ""
+msgstr "De nieuwste versie is al geïnstalleerd"
 
 #: src/version.cc:135
 msgid "Browse"
-msgstr ""
+msgstr "Bladeren"
 
 #: src/version.cc:289
 msgid "A new version is available:"
-msgstr ""
+msgstr "Er is een nieuwe versie beschikbaar:"
 
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
 msgstr ""
+"De locatie is onbekend bij de dienst die de weergegevens levert. Controleer "
+"de spelling."
 
 #: src/errors.h:54
 msgid ""
 "An API key is required to consume weather data. Contact the application "
 "maintainer."
 msgstr ""
+"Voor het opvragen van weergegevens is een API-sleutel vereist. Neem contact "
+"op met de beheerder van de applicatie."
 
 #: src/errors.h:60
 msgid "Weather data can't be accessed with the provided API key."
-msgstr ""
+msgstr "Weergegevens zijn niet toegankelijk met de opgegeven API-sleutel."
 
 #: src/errors.h:71
 msgid ""
 "The service providing weather data isn't working as expected. Retry later."
 msgstr ""
+"De weergegevensservice werkt niet naar behoren. Probeer het later opnieuw."
