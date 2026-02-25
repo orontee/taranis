@@ -70,11 +70,11 @@ integration](./docs/desktop_integration.md#application-icon).
 
 The application configuration can be modified from the application
 itself, using the "Parameters…"  menu entry. Instructions follow
-regarding some settings; Other settings should be self-explanatory;
+regarding some parameters; Others should be self-explanatory.
 
 ### Shutdown logo
 
-Another parameter allows to enable/disable generation of a shutdown
+One parameter allows to enable/disable generation of a shutdown
 logo. Instructions are given in [Desktop
 integration](./docs/desktop_integration.md#shutdown-logo) on how to
 setup the device to effectively display this logo on power off.
@@ -87,7 +87,7 @@ An API key is distributed with the application; But users can use
 their own API key (See [OpenWeather](https://openweathermap.org) for
 instructions on how to register and generate API keys).
 
-There's no need for an API key to consume
+Note that there's no need for an API key to consume
 [Open-Meteo](https://open-meteo.com) since Taranis uses their free
 non-commercial API service.
 
