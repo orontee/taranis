@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-03 17:46+0100\n"
 "PO-Revision-Date: 2026-02-25 08:22+0000\n"
-"Last-Translator: Tokes Krisztian <tokesk@gmail.com>\n"
+"Last-Translator: Xeon The Protogen <xeon@maws.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/taranis/"
 "taranis/hu/>\n"
 "Language: hu\n"
@@ -45,7 +45,7 @@ msgstr "Érvénytelen bevitel"
 
 #: src/app.cc:322
 msgid "Make sure you enter a town then a country separated by a comma."
-msgstr "Először a várost, majd az országot kell megadni, vesszővel elválasztva."
+msgstr "Előbb egy várost, majd egy országot adj meg vesszővel elválasztva."
 
 #: src/app.cc:440 src/app.cc:449 src/app.cc:524 src/app.cc:532
 msgid "Network error"
@@ -102,11 +102,11 @@ msgstr "Amikor elavult"
 
 #: src/config.cc:33
 msgid "Manually"
-msgstr "Kézzel"
+msgstr "Manuálisan"
 
 #: src/config.cc:65
 msgid "Check newer version"
-msgstr "Újabb verzió ellenőrzése"
+msgstr "Ellenőrizd, van-e újabb verzió"
 
 #: src/config.cc:70
 msgid "Units"
@@ -243,7 +243,7 @@ msgstr "Harmatpont"
 
 #: src/dailyforecastviewer.cc:475
 msgid "UV index"
-msgstr "UV index"
+msgstr "UV-index"
 
 #: src/dailyforecastviewer.cc:481
 msgid "Cloudiness"
@@ -403,7 +403,7 @@ msgstr "Mérsékelt zivatar"
 
 #: src/openmeteo.cc:139
 msgid "Thunderstorm with slight and heavy hail"
-msgstr "Zivatar gyenge és erős jégesővel"
+msgstr "Zivatar enyhe és erős jégesővel"
 
 #: src/statusbar.cc:60
 msgid "Ongoing update…"
@@ -466,12 +466,12 @@ msgid ""
 "Sorry, an unexpected error was encountered. Report this to the application "
 "author."
 msgstr ""
-"Sajnáljuk, váratlan hiba történt. Jelentse ezt az alkalmazás készítőjének."
+"Sajnáljuk, váratlan hiba történt. Jelentse ezt az alkalmazás fejlesztőjének."
 
 #: src/version.cc:97
 msgid "The service hosting releases isn't working as expected. Retry later."
 msgstr ""
-"A kiadásokat üzemeltető szolgáltatás nem a várt módon működik. Próbáld újra "
+"A kiadásokat kiszolgáló szolgáltatás nem működik megfelelően. Próbálja újra "
 "később."
 
 #: src/version.cc:123
@@ -489,23 +489,21 @@ msgstr "Új verzió érhető el:"
 #: src/errors.h:37
 msgid "Location unknown to the service providing weather data. Check spelling."
 msgstr ""
-"A helyszín ismeretlen az időjárási szolgáltatás számára. Ellenőrizze a "
-"helyesírást."
+"Ismeretlen hely az időjárási szolgáltatás számára. Ellenőrizze a helyesírást."
 
 #: src/errors.h:54
 msgid ""
 "An API key is required to consume weather data. Contact the application "
 "maintainer."
 msgstr ""
-"Az időjárási adatok felhasználásához API-kulcs szükséges. Lépjen kapcsolatba "
-"az alkalmazás karbantartójával."
+"Az időjárási adatok felhasználásához API-kulcs szükséges. Vedd fel a "
+"kapcsolatot az alkalmazás üzemeltetőjével."
 
 #: src/errors.h:60
 msgid "Weather data can't be accessed with the provided API key."
-msgstr "Az időjárási adatok nem érhetők el a megadott API-kulccsal."
+msgstr "Az időjárás-adatok nem érhetők el a megadott API-kulccsal."
 
 #: src/errors.h:71
 msgid ""
 "The service providing weather data isn't working as expected. Retry later."
-msgstr ""
-"Az időjárási szolgáltatás nem a várt módon működik. Próbáld újra később."
+msgstr "Az időjárás-szolgáltatás nem működik megfelelően. Próbáld újra később."
