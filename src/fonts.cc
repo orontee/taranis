@@ -1,4 +1,5 @@
 #include "fonts.h"
+#include "inkview.h"
 
 #include <boost/log/trivial.hpp>
 
@@ -14,6 +15,9 @@ Fonts::Fonts() {
   const auto font_scale_factor{get_screen_dpi() / Fonts::reference_dpi};
 
   BOOST_LOG_TRIVIAL(debug) << "Font scale factor: " << font_scale_factor;
+
+  BOOST_LOG_TRIVIAL(debug) << "Screen dimension: "
+                           << ScreenWidth() << "x" << ScreenHeight();
 
   const auto normal_font_size{default_theme_font->size * font_scale_factor};
   const auto big_font_size = Fonts::get_big_font_size_from(normal_font_size);
