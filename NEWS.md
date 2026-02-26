@@ -12,6 +12,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Font size take screen height into consideration
+  [#117](https://github.com/orontee/taranis/issues/117)
+
 ### Removed
 
 ## [1.17.0 - 2026-03-06]
@@ -19,7 +22,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 - Add Dutch and Hungarian translations
-  [#115](https://github.com/orontee/taranis/issues/116)
+  [#116](https://github.com/orontee/taranis/issues/116)
 
 - New configuration to enable debug logs
   [#119](https://github.com/orontee/taranis/issues/119)
