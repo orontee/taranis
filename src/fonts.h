@@ -29,6 +29,7 @@ public:
 
 private:
   constexpr static int reference_dpi{75};
+  constexpr static int reference_screen_height{1448};
 
   std::shared_ptr<ifont> normal;
   std::shared_ptr<ifont> bold;
