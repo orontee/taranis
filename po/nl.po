@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-03 17:46+0100\n"
-"PO-Revision-Date: 2026-02-25 18:47+0000\n"
+"PO-Revision-Date: 2026-02-27 21:09+0000\n"
 "Last-Translator: Hans Hasert <hans.hasert@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/taranis/taranis/"
 "nl/>\n"
@@ -155,7 +155,7 @@ msgstr "Maan"
 
 #: src/dailyforecastviewer.cc:321 src/dailyforecastviewer.cc:338
 msgid "Rise"
-msgstr "Opgang"
+msgstr "Opkomst"
 
 #: src/dailyforecastviewer.cc:326 src/dailyforecastviewer.cc:341
 msgid "Set"
@@ -435,7 +435,7 @@ msgstr "Nieuwe maan"
 
 #: src/util.cc:346
 msgid "Waxing crescent"
-msgstr "Wassende maan"
+msgstr "Wassende sikkel maan"
 
 #: src/util.cc:348
 msgid "First quarter moon"
@@ -443,7 +443,7 @@ msgstr "Eerste kwartier maan"
 
 #: src/util.cc:350
 msgid "Waxing gibbous"
-msgstr "Toenemende maan"
+msgstr "Wassende maan"
 
 #: src/util.cc:352
 msgid "Full moon"
