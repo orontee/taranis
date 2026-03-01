@@ -12,19 +12,20 @@ Fonts::Fonts() {
   if (default_theme_font == nullptr) {
     throw std::runtime_error{"Theme doesn't define a default font!"};
   }
-  const auto font_scale_factor{get_screen_dpi() / Fonts::reference_dpi};
+  const int font_scale_factor{get_screen_dpi() / Fonts::reference_dpi};
 
   BOOST_LOG_TRIVIAL(debug) << "Font scale factor: " << font_scale_factor;
 
   BOOST_LOG_TRIVIAL(debug) << "Screen dimension: "
                            << ScreenWidth() << "x" << ScreenHeight();
 
-  const auto screen_height_correction{ScreenHeight() / Fonts::reference_screen_height};
+  const auto screen_height_correction
+    = static_cast<float>(ScreenHeight()) / Fonts::reference_screen_height;
   BOOST_LOG_TRIVIAL(debug) << "Screen height correction: " << screen_height_correction;
 
-  const auto normal_font_size{
-    default_theme_font->size * font_scale_factor * screen_height_correction
-  };
+  const auto normal_font_size
+    = static_cast<int>(default_theme_font->size
+    * font_scale_factor * screen_height_correction);
   const auto big_font_size = Fonts::get_big_font_size_from(normal_font_size);
   const auto small_font_size =
       Fonts::get_small_font_size_from(normal_font_size);
