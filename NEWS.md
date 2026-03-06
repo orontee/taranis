@@ -6,16 +6,15 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### Added
+## [1.18.0 - 2026-03-06]
 
 ### Changed
 
 - Font size take screen height into consideration
   [#117](https://github.com/orontee/taranis/issues/117)
 
-### Removed
+- Wrong translation table used for Dutch language
+  [#116](https://github.com/orontee/taranis/issues/116)
 
 ## [1.17.0 - 2026-03-06]
 
