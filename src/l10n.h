@@ -75,7 +75,7 @@ private:
     } else if (std::strcmp(language, "fr") == 0) {
       return &(l10n::fr_translations);
     } else if (std::strcmp(language, "hu") == 0) {
-      return &(l10n::de_translations);
+      return &(l10n::hu_translations);
     } else if (std::strcmp(language, "it") == 0) {
       return &(l10n::it_translations);
     } else if (std::strcmp(language, "nl") == 0) {
