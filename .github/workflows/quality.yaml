@@ -26,5 +26,3 @@ jobs:
       - name: Run format check
         run: |
           clang-format --dry-run src/*.cc src/*.h
-          git diff-files --stat
-          git diff-files --quiet

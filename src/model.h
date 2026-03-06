@@ -15,12 +15,12 @@
 
 #ifdef WITH_SDK_6_8
 namespace std {
-    using experimental::optional;
-    using experimental::nullopt;
-    using experimental::nullopt_t;
-    using experimental::bad_optional_access;
-    using experimental::make_optional;
-}
+using experimental::bad_optional_access;
+using experimental::make_optional;
+using experimental::nullopt;
+using experimental::nullopt_t;
+using experimental::optional;
+} // namespace std
 #endif
 using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
 

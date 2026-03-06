@@ -68,7 +68,7 @@ public:
       return const_cast<ibitmap *>(&icon_50n_2x);
     }
     if (name == "bug") {
-      return const_cast<ibitmap *>(&icon_bug );
+      return const_cast<ibitmap *>(&icon_bug);
     }
     if (name == "close") {
       return const_cast<ibitmap *>(&icon_close);
