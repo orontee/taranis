@@ -1,4 +1,4 @@
-name: Build application
+name: Build with SDK-6.10
 
 on:
   workflow_dispatch:

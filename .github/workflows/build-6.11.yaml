@@ -1,4 +1,4 @@
-name: Build with SDK-6.8
+name: Build with SDK-6.11
 
 on:
   workflow_dispatch:
@@ -7,21 +7,15 @@ on:
         description: 'Git ref of sources to build'
         required: true
         type: string
-      family:
-        description: 'Device family to build for'
-        required: true
-        type: choice
-        options:
-          - B288
-          - B300
 
 env:
-  SDK_VERSION: "6.8"
+  SDK_VERSION: "6.11"
+  DEVICE_FAMILY: "RK3566"
 
 jobs:
   build:
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -38,33 +32,34 @@ jobs:
                 7zip \
                 build-essential \
                 ca-certificates \
-                clang \
+                clang-15 \
                 cmake \
                 git \
-                libtinfo5 \
                 pkg-config \
-                python3-jinja2 \
                 wget \
                 zip
 
       - name: Install PocketBook SDK
         run: |
-          ./scripts/install_sdk.sh --family ${{ inputs.family }} \
+          ./scripts/install_sdk.sh --family ${DEVICE_FAMILY} \
                                    --sdk-version ${SDK_VERSION} \
                                    --path .
-          rm SDK-${{ inputs.family }}-${SDK_VERSION}.7z
+          rm SDK-${DEVICE_FAMILY}-${SDK_VERSION}.7z
 
       - name: Build application
         run: |
           source build_env.sh
+          python3 -m ensurepip
+          python3 -m pip install jinja2
 
           cmake -S . -B build \
                 -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
-          cmake --build build \
-                --target taranis.app archive installer checksum
+          wget --directory-prefix=build/gsl/src/ https://ftp.gnu.org/gnu/gsl/gsl-2.7.1.tar.gz
+          cd build
+          make taranis.app archive installer checksum
 
-          mkdir build/artifact
-          cp build/taranis.{app,pbi,sha256,zip} build/artifact
+          mkdir artifact
+          cp taranis.{app,pbi,sha256,zip} artifact
  
       - name: Upload archive
         uses: actions/upload-artifact@v4

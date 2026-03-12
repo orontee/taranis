@@ -60,6 +60,7 @@ ExternalProject_Add(
   LOG_CONFIGURE ON
   LOG_BUILD ON
   LOG_OUTPUT_ON_FAILURE ON
+  DOWNLOAD_EXTRACT_TIMESTAMP ON
 )
 
 include(cmake/generate_about_source.cmake)

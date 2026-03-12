@@ -5,10 +5,10 @@ set -e
 function show_help() {
     echo "Usage: $0 [options]"
     echo "Options:"
-    echo "  -f, --family (B288|B300)      Specify a device family"
-    echo "  -v, --sdk-version (6.8|6.10)  Specify a SDK version"
-    echo "  -p, --path PATH               Specify installation path"
-    echo "  -h, --help                    Show this help message"
+    echo "  -f, --family (B288|B300|RK3566)    Specify a device family"
+    echo "  -v, --sdk-version (6.8|6.10|6.11)  Specify a SDK version"
+    echo "  -p, --path PATH                    Specify installation path"
+    echo "  -h, --help                         Show this help message"
 }
 
 DEVICE_FAMILY=""
@@ -62,7 +62,7 @@ fi
 SDK_ARCHIVE=SDK-${DEVICE_FAMILY}-${SDK_VERSION}.7z
 
 if [ "${SDK_VERSION}" = "6.8" ]; then
-    SDK_DOWNLOAD_URL=https://github.com/pocketbook/SDK_6.3.0/releases/download/6.8/"${SDK_ARCHIVE}"
+    SDK_DOWNLOAD_URL="https://github.com/pocketbook/SDK_6.3.0/releases/download/${SDK_VERSION}/${SDK_ARCHIVE}"
     # 6.3.0 isn't a typo!
     if [ "${DEVICE_FAMILY}" = "B288" ]; then
 	SDK_NAME=SDK-B288
@@ -73,8 +73,13 @@ if [ "${SDK_VERSION}" = "6.8" ]; then
 	exit 1
     fi
 elif [ "${SDK_VERSION}" = "6.10" ]; then
-    SDK_DOWNLOAD_URL=https://github.com/Sean-on-Git/PocketBook-SDK/releases/download/6.10/"${SDK_ARCHIVE}"
+    SDK_DOWNLOAD_URL="https://github.com/Sean-on-Git/PocketBook-SDK/releases/download/${SDK_VERSION}/${SDK_ARCHIVE}"
     SDK_NAME=SDK-"${DEVICE_FAMILY}"-"${SDK_VERSION}"
+    ARCH_RELATIVE_PATH="usr/arm-obreey-linux-gnueabi"
+elif [ "${SDK_VERSION}" = "6.11" ]; then
+    SDK_DOWNLOAD_URL="https://github.com/Sean-on-Git/PocketBook-SDK/releases/download/${SDK_VERSION}/${SDK_ARCHIVE}"
+    SDK_NAME="arm-buildroot-linux-gnueabihf_sdk-buildroot"
+    ARCH_RELATIVE_PATH="arm-buildroot-linux-gnueabihf"
 else
     echo "Unexpected SDK version!"
     exit 1
@@ -103,14 +108,14 @@ function unpack() {
     ${_7Z} x \
 	-o${SDK_PARENT_PATH} \
 	-snld \
-	-xr\!${SDK_NAME}/usr/arm-obreey-linux-gnueabi/sysroot/etc/fonts/conf.d/ -- \
+	-xr\!${SDK_NAME}/${ARCH_RELATIVE_PATH}/sysroot/etc/fonts/conf.d/ -- \
 	"${SDK_ARCHIVE}" || true
 }
 
 function fix_links() {
     echo "Fixing links"
 
-    local sysroot_path=${SDK_ROOT_PATH}/usr/arm-obreey-linux-gnueabi/sysroot
+    local sysroot_path=${SDK_ROOT_PATH}/${ARCH_RELATIVE_PATH}/sysroot
     local symlink_rootpath=${sysroot_path}/etc/fonts/conf.d
     local symlink_target_rootpath=../../../usr/share/fontconfig/conf.avail
     local links
@@ -135,14 +140,18 @@ function generate_env_script() {
 DEVICE_FAMILY=${DEVICE_FAMILY}
 SDK_ROOT_PATH=${SDK_ROOT_PATH}
 SDK_VERSION=${SDK_VERSION}
-PKG_CONFIG_PATH="${SDK_ROOT_PATH}/usr/arm-obreey-linux-gnueabi/sysroot/libcurl-nspr/usr/lib/pkgconfig/"
-PKG_CONFIG_PATH+=":${SDK_ROOT_PATH}/usr/arm-obreey-linux-gnueabi/sysroot/usr/lib/pkgconfig"
-PKG_CONFIG_PATH+=":${SDK_ROOT_PATH}/usr/arm-obreey-linux-gnueabi/sysroot/lib/pkgconfig"
+PKG_CONFIG_PATH="${SDK_ROOT_PATH}/${ARCH_RELATIVE_PATH}/sysroot/libcurl-nspr/usr/lib/pkgconfig/"
+PKG_CONFIG_PATH+=":${SDK_ROOT_PATH}/${ARCH_RELATIVE_PATH}/sysroot/usr/lib/pkgconfig"
+PKG_CONFIG_PATH+=":${SDK_ROOT_PATH}/${ARCH_RELATIVE_PATH}/sysroot/lib/pkgconfig"
 
 export DEVICE_FAMILY
 export SDK_ROOT_PATH
 export SDK_VERSION
 export PKG_CONFIG_PATH
+
+if [ -f "${SDK_ROOT_PATH}/environment-setup" ]; then
+    source ${SDK_ROOT_PATH}/environment-setup
+fi
 
 echo "SDK ${SDK_VERSION} for ${DEVICE_FAMILY} devices is configured. Enjoy!"
 
@@ -153,6 +162,8 @@ EOF
 function relocate_sdk() {
     if [ "${SDK_VERSION}" = "6.8" ]; then
 	"${SDK_ROOT_PATH}/bin/update_path.sh"
+    elif [ "${SDK_VERSION}" = "6.10" ]; then
+	"${SDK_ROOT_PATH}/usr/relocate-sdk.sh"
     else
 	"${SDK_ROOT_PATH}/usr/relocate-sdk.sh"
     fi
