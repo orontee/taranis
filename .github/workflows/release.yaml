@@ -58,8 +58,11 @@ jobs:
 
 
   build-with-sdk-6-10:
-    runs-on: ubuntu-24.04
     needs: create-release
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        family: [B288, B300]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -83,10 +86,10 @@ jobs:
 
       - name: Install PocketBook SDK
         run: |
-          ./scripts/install_sdk.sh --family B288 \
+          ./scripts/install_sdk.sh --family ${{ matrix.family}} \
                                    --sdk-version 6.10 \
                                    --path .
-          rm SDK-B288-6.10.7z
+          rm SDK-${{ matrix.family }}-6.10.7z
 
       - name: Build application
         run: |
@@ -110,7 +113,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.pbi
-          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-B288.pbi
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-${{ matrix.family }}.pbi
           asset_content_type: application/zip
   
       - name: Upload zip artifact
@@ -120,7 +123,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.zip
-          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-B288.zip
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-${{ matrix.family }}.zip
           asset_content_type: application/zip
   
       - name: Upload SHA256 artifact
@@ -130,7 +133,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.sha256
-          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-B288.sha256
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-${{ matrix.family }}.sha256
           asset_content_type: text/plain
 
       - name: Upload archive artifact
@@ -140,12 +143,15 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/artifact.zip
-          asset_name: artifact-${{ needs.create-release.outputs.version }}_firmware-6.10-B288.zip
+          asset_name: artifact-${{ needs.create-release.outputs.version }}_firmware-6.10-${{ matrix.family }}.zip
           asset_content_type: application/zip
 
   build-with-sdk-6-8:
-    runs-on: ubuntu-22.04
     needs: create-release
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        family: [B288, B300]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -170,10 +176,10 @@ jobs:
   
       - name: Install PocketBook SDK
         run: |
-          ./scripts/install_sdk.sh --family B288 \
+          ./scripts/install_sdk.sh --family ${{ matrix.family }} \
                                    --sdk-version 6.8 \
                                    --path .
-          rm SDK-B288-6.8.7z
+          rm SDK-${{ matrix.family }}-6.8.7z
   
       - name: Build application
         run: |
@@ -197,7 +203,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.pbi
-          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.8-B288.pbi
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.8-${{ matrix.family }}.pbi
           asset_content_type: application/zip
   
       - name: Upload zip artifact
@@ -207,7 +213,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.zip
-          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.8-B288.zip
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.8-${{ matrix.family }}.zip
           asset_content_type: application/zip
   
       - name: Upload SHA256 artifact
@@ -217,7 +223,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.sha256
-          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.8-B288.sha256
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.8-${{ matrix.family }}.sha256
           asset_content_type: text/plain
 
       - name: Upload archive artifact
@@ -227,6 +233,6 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/artifact.zip
-          asset_name: artifact-${{ needs.create-release.outputs.version }}_firmware-6.8-B288.zip
+          asset_name: artifact-${{ needs.create-release.outputs.version }}_firmware-6.8-${{ matrix.family }}.zip
           asset_content_type: application/zip
   
