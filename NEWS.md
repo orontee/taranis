@@ -12,6 +12,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Obfuscate API key in application logs
+  [#126](https://github.com/orontee/taranis/issues/126 )
+
 ### Removed
 
 ## [1.18.0 - 2026-03-06]

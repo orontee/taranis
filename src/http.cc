@@ -1,7 +1,9 @@
 #include "http.h"
 
 #include <boost/log/trivial.hpp>
+#include <cmath>
 #include <memory>
+#include <regex>
 #include <sstream>
 
 #include "errors.h"
@@ -21,8 +23,26 @@ HttpClient::encode_query_parameter(const std::string &parameter) const {
   return value;
 }
 
+std::string obfuscate_url(std::string url) {
+  std::regex appid_regex{"appid=([^&]+)"};
+  std::smatch match;
+  if (std::regex_search(url, match, appid_regex)) {
+    const std::string& key = match[1];
+    const size_t key_length = key.size();
+    std::string hidden_key(key_length, 'x'); // Parentheses to
+                                             // distinguish from
+                                             // initializer list
+                                             // syntax
+    if (key_length > 3) {
+      hidden_key.replace(key_length - 3, 3, key.substr(key_length - 3));
+    }
+    return match.prefix().str() + std::string{"appid="} + hidden_key;
+  }
+  return url;
+}
+
 Json::Value HttpClient::get(const std::string &url) {
-  BOOST_LOG_TRIVIAL(debug) << "Sending GET request " << url;
+  BOOST_LOG_TRIVIAL(debug) << "Sending GET request " << obfuscate_url(url);
 
   this->ensure_network();
 
@@ -35,7 +55,8 @@ Json::Value HttpClient::get(const std::string &url) {
 
   const CURLcode code = curl_easy_perform(curl.get());
   if (code != CURLE_OK) {
-    BOOST_LOG_TRIVIAL(error) << "Error in GET request " << code << " " << url;
+    BOOST_LOG_TRIVIAL(error)
+        << "Error in GET request " << code << " " << obfuscate_url(url);
     throw RequestError{code};
   }
   long response_code;
@@ -43,7 +64,7 @@ Json::Value HttpClient::get(const std::string &url) {
 
   if (response_code != 200) {
     BOOST_LOG_TRIVIAL(error)
-        << "Unexpected response " << response_code << " " << url;
+        << "Unexpected response " << response_code << " " << obfuscate_url(url);
     throw HttpError{response_code};
   }
 
@@ -58,7 +79,7 @@ Json::Value HttpClient::get(const std::string &url) {
   try {
     if (not Json::parseFromStream(reader, input_stream, &root, &json_errors)) {
       BOOST_LOG_TRIVIAL(error)
-          << "JSON parser error " << json_errors << " " << url;
+          << "JSON parser error " << json_errors << " " << obfuscate_url(url);
     }
   } catch (const Json::Exception &error) {
     BOOST_LOG_TRIVIAL(error) << error.what();
