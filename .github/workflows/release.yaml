@@ -54,7 +54,7 @@ jobs:
 
            An alternative is to manually copy the files from the `taranis.zip` archive to the `applications` directory of the device.
 
-           💡 Make sure to install artifacts corresponding to the device firmware (6.8 or 6.10).
+           💡 Make sure to install artifacts corresponding to the device firmware (6.8 or 6.10) and family (B288 or B300, see [SDK by Device](./docs/sdk-mapping.md).
 
 
   build-with-sdk-6-10:
