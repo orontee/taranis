@@ -16,16 +16,16 @@ Fonts::Fonts() {
 
   BOOST_LOG_TRIVIAL(debug) << "Font scale factor: " << font_scale_factor;
 
-  BOOST_LOG_TRIVIAL(debug) << "Screen dimension: "
-                           << ScreenWidth() << "x" << ScreenHeight();
+  BOOST_LOG_TRIVIAL(debug) << "Screen dimension: " << ScreenWidth() << "x"
+                           << ScreenHeight();
 
-  const auto screen_height_correction
-    = static_cast<float>(ScreenHeight()) / Fonts::reference_screen_height;
-  BOOST_LOG_TRIVIAL(debug) << "Screen height correction: " << screen_height_correction;
+  const auto screen_height_correction =
+      static_cast<float>(ScreenHeight()) / Fonts::reference_screen_height;
+  BOOST_LOG_TRIVIAL(debug) << "Screen height correction: "
+                           << screen_height_correction;
 
-  const auto normal_font_size
-    = static_cast<int>(default_theme_font->size
-    * font_scale_factor * screen_height_correction);
+  const auto normal_font_size = static_cast<int>(
+      default_theme_font->size * font_scale_factor * screen_height_correction);
   const auto big_font_size = Fonts::get_big_font_size_from(normal_font_size);
   const auto small_font_size =
       Fonts::get_small_font_size_from(normal_font_size);

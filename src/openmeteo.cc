@@ -491,7 +491,8 @@ OpenMeteoService::request_weather_forecast_api(const std::string &language,
       << ("temperature_2m,precipitation,weather_code,apparent_temperature,wind_"
           "speed_10m,wind_direction_10m,wind_gusts_10m")
       << "&"
-      << "timeformat=unixtime" << "&"
+      << "timeformat=unixtime"
+      << "&"
       << "start_hour=" << now_as_iso8601_with_hour() << "&"
       << "end_hour="
       << now_as_iso8601_with_hour(this->get_max_hourly_forecasts()) << "&"
