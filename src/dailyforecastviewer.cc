@@ -99,7 +99,7 @@ void DailyForecastViewer::do_paint() {
         bold_font->height + DailyForecastViewer::vertical_padding;
 
     this->close_button =
-        std::make_shared<Button>(close_button_icon_size, "close", this->icons);
+        std::make_shared<Button>(close_button_icon_size, this->icons, "close");
     this->close_button->set_click_handler(
         std::bind(&DailyForecastViewer::hide, this));
     this->close_button->set_pos_x(this->get_width() - close_button_icon_size -
@@ -148,20 +148,18 @@ void DailyForecastViewer::do_paint() {
       const auto icon_size = std::max(
           4 * DailyForecastViewer::horizontal_padding, default_font->height);
 
-      const auto &icon_data = this->icons->rotate_icon(icon_name, icon_size, 0);
-      if (not icon_data.empty()) {
-
-        const auto icon = reinterpret_cast<const ibitmap *>(icon_data.data());
-
+      const auto stretched_icon =
+          this->icons->stretch_icon(icon_name, icon_size);
+      if (stretched_icon) {
         DrawBitmap(this->get_pos_x() + DailyForecastViewer::horizontal_padding,
-                   current_row_start_y, icon);
+                   current_row_start_y, stretched_icon);
       }
 
       const auto label_start_x = this->get_pos_x() +
                                  DailyForecastViewer::horizontal_padding +
-                                 (not icon_data.empty() ? icon_size : 0);
+                                 (stretched_icon ? icon_size : 0);
       const auto row_start_y =
-          current_row_start_y + (not icon_data.empty() ? icon_size / 4 : 0);
+          current_row_start_y + (stretched_icon ? icon_size / 4 : 0);
       const auto label_width = StringWidth(label_text.c_str());
       DrawTextRect(label_start_x, row_start_y, label_width, font.get()->height,
                    label_text.c_str(), ALIGN_LEFT);
@@ -250,20 +248,17 @@ void DailyForecastViewer::do_paint() {
         std::tie(icon_name, degree) =
             boost::get<std::pair<std::string, int>>(row_description.value);
 
-        const auto &rotated_icon_data =
+        const auto rotated_icon =
             this->icons->rotate_icon(icon_name, default_font->size, degree);
-        if (not rotated_icon_data.empty()) {
-
-          const auto icon =
-              reinterpret_cast<const ibitmap *>(rotated_icon_data.data());
-
+        if (rotated_icon) {
           DrawBitmap(this->get_pos_x() + this->get_width() -
-                         DailyForecastViewer::horizontal_padding - icon->width,
-                     current_row_start_y, icon);
+                         DailyForecastViewer::horizontal_padding -
+                         rotated_icon->width,
+                     current_row_start_y, rotated_icon);
         }
       }
       current_row_start_y +=
-          (not icon_data.empty() ? icon_size : default_font->height);
+          (stretched_icon ? icon_size : default_font->height);
     }
   }
   SetClip(0, 0, ScreenWidth(), ScreenHeight());

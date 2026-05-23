@@ -24,6 +24,8 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
   SetPanelType(PANEL_DISABLED);
   SetOrientation(0);
 
+  BOOST_LOG_TRIVIAL(debug) << "MenuButton instantiation";
+
   auto menu_button = std::make_shared<MenuButton>(
       Ui::menu_button_icon_size, this->model, this->icons, this->fonts);
   menu_button->set_pos_x(ScreenWidth() - menu_button->get_width() -
@@ -31,19 +33,27 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
   menu_button->set_pos_y(Ui::button_margin);
   menu_button->set_menu_handler(&handle_menu_item_selected);
 
+  BOOST_LOG_TRIVIAL(debug) << "AlertsButton instantiation";
+
   auto alerts_button = std::make_shared<AlertsButton>(
       Ui::alert_button_icon_size, model, this->icons);
   alerts_button->set_pos_x(menu_button->get_pos_x() -
                            alerts_button->get_width() - Ui::button_margin);
   alerts_button->set_pos_y(Ui::button_margin);
 
+  BOOST_LOG_TRIVIAL(debug) << "LocationBox instantiation";
+
   this->location_box = std::make_shared<LocationBox>(
       0, 0, alerts_button->get_pos_x() - Ui::button_margin, this->model,
       this->fonts);
 
+  BOOST_LOG_TRIVIAL(debug) << "CurrentConditonBox instantiation";
+
   auto current_condition_box = std::make_shared<CurrentConditionBox>(
       0, this->location_box->get_height(), ScreenWidth(), this->model,
       this->fonts);
+
+  BOOST_LOG_TRIVIAL(debug) << "AlertViewer instantiation";
 
   this->alert_viewer = std::make_shared<AlertViewer>(
       current_condition_box->get_pos_y() + current_condition_box->get_height(),
@@ -51,9 +61,13 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
   alerts_button->set_click_handler(
       std::bind(&AlertViewer::open, this->alert_viewer));
 
+  BOOST_LOG_TRIVIAL(debug) << "DailyForecastViewer instantiation";
+
   this->daily_forecast_viewer = std::make_shared<DailyForecastViewer>(
       current_condition_box->get_pos_y() + current_condition_box->get_height(),
       model, this->icons, this->fonts);
+
+  BOOST_LOG_TRIVIAL(debug) << "StatusBar instantiation";
 
   auto status_bar = std::make_shared<StatusBar>(this->model, this->fonts);
 
@@ -62,11 +76,15 @@ Ui::Ui(std::shared_ptr<Config> config, std::shared_ptr<Model> model)
                                  current_condition_box->get_height()) -
                                 1;
 
+  BOOST_LOG_TRIVIAL(debug) << "ForecastStack instantiation";
+
   this->forecast_stack = std::make_shared<ForecastStack>(
       0,
       current_condition_box->get_pos_y() + current_condition_box->get_height(),
       ScreenWidth(), remaining_height, this->model, this->icons, this->fonts,
       this->daily_forecast_viewer);
+
+  BOOST_LOG_TRIVIAL(debug) << "LocationSelector instantiation";
 
   this->location_selector = std::make_shared<LocationSelector>(
       this->location_selector_icon_size, this->fonts, this->icons);

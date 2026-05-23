@@ -23,7 +23,7 @@ namespace taranis {
 MenuButton::MenuButton(int icon_size, std::shared_ptr<Model> model,
                        std::shared_ptr<Icons> icons,
                        std::shared_ptr<Fonts> fonts)
-    : Button{icon_size, icons->get("menu")}, icons{icons},
+    : Button{icon_size, icons, "menu"}, icons{icons},
       items{imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_REFRESH, nullptr, nullptr,
                     nullptr, nullptr, nullptr},
             imenuex{ITEM_SUBMENU, taranis::MENU_ITEM_LOCATION_HISTORY, nullptr,
@@ -79,7 +79,7 @@ void MenuButton::initialize_favorite_location_icon() {
   this->favorite_location_icon.reset(BitmapStretchProportionally(
       this->icons->get("favorite"), menu_font_height, menu_font_height));
   if (!this->favorite_location_icon) {
-      BOOST_LOG_TRIVIAL(warning) << "Failed to stretch favorite location bitmap";
+    BOOST_LOG_TRIVIAL(warning) << "Failed to stretch favorite location bitmap";
   }
 }
 

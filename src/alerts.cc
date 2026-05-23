@@ -70,7 +70,7 @@ void AlertViewer::do_paint() {
         default_font->height + AlertViewer::vertical_padding;
 
     this->close_button =
-        std::make_shared<Button>(close_button_icon_size, "close", this->icons);
+        std::make_shared<Button>(close_button_icon_size, this->icons, "close");
     this->close_button->set_click_handler(std::bind(&AlertViewer::hide, this));
     this->close_button->set_pos_x(this->get_width() - close_button_icon_size -
                                   AlertViewer::horizontal_padding);
