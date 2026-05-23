@@ -12,8 +12,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Rework of icons handling and weather icons drawing in hourly
+  forecast to fix missing icons on some devices
+  [#124](https://github.com/orontee/taranis/issues/124)
+
 - Obfuscate API key in application logs
-  [#126](https://github.com/orontee/taranis/issues/126 )
+  [#126](https://github.com/orontee/taranis/issues/126)
 
 ### Removed
 
