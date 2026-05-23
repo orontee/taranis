@@ -36,7 +36,11 @@ App::App(std::shared_ptr<Config> config)
       task_icon{BitmapStretchCopy(
           &icon_taranis, (icon_taranis.width - task_icon_size) / 2,
           (icon_taranis.height - task_icon_size) / 2, task_icon_size,
-          task_icon_size, task_icon_size, task_icon_size)} {}
+          task_icon_size, task_icon_size, task_icon_size)} {
+    if (!this->task_icon) {
+      BOOST_LOG_TRIVIAL(warning) << "Failed to copy task bitmap";
+    }
+}
 
 int App::process_event(int event_type, int param_one, int param_two) {
   if (event_type != EVT_MTSYNC) {

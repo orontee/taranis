@@ -22,7 +22,15 @@ LocationSelector::LocationSelector(const int icon_size,
       radio_button_unchecked{BitmapStretchProportionally(
           icons->get("radio-button-unchecked"), icon_size, icon_size)},
       radio_button_checked{BitmapStretchProportionally(
-          icons->get("radio-button-checked"), icon_size, icon_size)} {}
+          icons->get("radio-button-checked"), icon_size, icon_size)} {
+  if (!this->radio_button_unchecked) {
+      BOOST_LOG_TRIVIAL(warning) << "Failed to stretch unchecked radio button bitmap";
+    }
+    if (!this->radio_button_checked) {
+      BOOST_LOG_TRIVIAL(warning) << "Failed to stretch checked radio button bitmap";
+    }
+
+}
 
 std::optional<Location> LocationSelector::get_location(size_t index) const {
   if (index < this->locations.size()) {

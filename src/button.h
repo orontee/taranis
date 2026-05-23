@@ -23,6 +23,13 @@ public:
                                      icon, icon_size, icon_size)},
         icon_disabled{
             BitmapStretchProportionally(icon_disabled, icon_size, icon_size)} {
+    if (!this->icon) {
+      BOOST_LOG_TRIVIAL(warning) << "Failed to stretch button bitmap";
+    }
+    if (!this->icon_disabled) {
+      BOOST_LOG_TRIVIAL(warning) << "Failed to stretch disabled button bitmap";
+    }
+
     this->set_width(icon_size * std::sqrt(2));
     this->set_height(icon_size * std::sqrt(2));
   }
