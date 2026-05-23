@@ -29,7 +29,10 @@ const std::vector<unsigned char> &Icons::rotate_icon(const std::string &name,
   }
   auto *const bitmap_to_rotate =
       BitmapStretchProportionally(original_bitmap, size, size);
-
+  if (!bitmap_to_rotate) {
+    BOOST_LOG_TRIVIAL(warning) << "Firmware failed to stretch bitmap " << name;
+    return empty_data;
+  }
   const auto header_size = offsetof(ibitmap, data);
   const auto data_size = bitmap_to_rotate->scanline * bitmap_to_rotate->height;
 
@@ -61,6 +64,7 @@ const std::vector<unsigned char> &Icons::rotate_icon(const std::string &name,
     std::memcpy(rotated_bitmap_data.data() + header_size, rotated_image.data,
                 data_size);
   }
+  free(bitmap_to_rotate);
 
   return rotated_bitmap_data;
 }
