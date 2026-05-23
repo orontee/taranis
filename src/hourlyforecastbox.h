@@ -74,7 +74,7 @@ private:
   std::tuple<std::string, int>
   get_date_label_properties(size_t bar_index) const;
 
-  void draw_and_update();
+  void pre_warm_rotated_icons_cache() const;
 
   void draw_labels() const;
 
@@ -86,7 +86,7 @@ private:
 
   void draw_sunrise_sunset_lines() const;
 
-  const ibitmap *rotate_direction_icon(int degree);
+  const ibitmap *rotate_direction_icon(int degree) const;
 };
 
 } // namespace taranis

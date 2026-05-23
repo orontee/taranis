@@ -50,6 +50,7 @@ HourlyForecastBox::HourlyForecastBox(int pos_x, int pos_y, int width,
 }
 
 void HourlyForecastBox::do_paint() {
+  this->pre_warm_rotated_icons_cache();
   this->draw_labels();
   this->draw_frame_and_values();
 
@@ -175,6 +176,14 @@ HourlyForecastBox::get_date_label_properties(size_t bar_index) const {
     }
   }
   return {"", 0};
+}
+
+void HourlyForecastBox::pre_warm_rotated_icons_cache() const {
+  for (size_t i = 0; i < HourlyForecastBox::visible_bars; ++i) {
+    const auto idx = this->forecast_offset + i;
+    if (idx < this->model->hourly_forecast.size())
+      this->rotate_direction_icon(this->model->hourly_forecast[idx].wind_degree);
+  }
 }
 
 void HourlyForecastBox::draw_labels() const {
@@ -459,7 +468,7 @@ void HourlyForecastBox::draw_sunrise_sunset_lines() const {
   }
 }
 
-const ibitmap *HourlyForecastBox::rotate_direction_icon(int degree) {
+const ibitmap *HourlyForecastBox::rotate_direction_icon(int degree) const {
   const auto arrow_angle = (180 - degree);
   // The parameter degree is an angle measure in degrees, interpreted
   // as the direction where the wind is blowing FROM (0 means North,
