@@ -249,9 +249,6 @@ void HourlyForecastBox::draw_frame_and_values() {
       DrawString(bar_center_x - StringWidth(time_text.c_str()) / 2.0,
                  this->time_y, time_text.c_str());
 
-      DrawBitmap(bar_center_x - this->icon_size / 2.0, this->weather_icon_y,
-                 this->icons->get(forecast.weather_icon_name));
-
       SetFont(small_bold_font.get(), BLACK);
 
       const auto temperature_text =
@@ -289,6 +286,22 @@ void HourlyForecastBox::draw_frame_and_values() {
       const auto separator_x = (bar_index + 1) * this->bar_width;
       DrawLine(separator_x, separator_start_y, separator_x, separator_stop_y,
                LGRAY);
+    }
+  }
+
+  for (size_t bar_index = 0; bar_index < HourlyForecastBox::visible_bars;
+                             ++bar_index) {
+    const auto bar_center_x = (bar_index + 1.0 / 2) * this->bar_width;
+    auto separator_start_y = this->time_y;
+
+    const auto forecast_index = this->forecast_offset + bar_index;
+    if (forecast_index < this->model->hourly_forecast.size()) {
+      const auto forecast = this->model->hourly_forecast[forecast_index];
+      const auto weather_icon = this->icons->get(forecast.weather_icon_name);
+      if (weather_icon) {
+        DrawBitmap(bar_center_x - this->icon_size / 2.0, this->weather_icon_y,
+                   weather_icon);
+      }
     }
   }
 }
