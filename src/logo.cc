@@ -92,6 +92,9 @@ void LogoGenerator::generate() const {
 
   const auto bitmap =
       BitmapFromCanvas(0, 0, ScreenWidth(), ScreenHeight(), 0, &canvas);
+  if (!bitmap) {
+    BOOST_LOG_TRIVIAL(warning) << "Failed to return bitmap form canvas";
+  }
   const auto filename = LogoGenerator::get_logo_path();
   SaveBitmap(filename.data(), bitmap);
 

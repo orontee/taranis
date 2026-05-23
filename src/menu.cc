@@ -78,6 +78,9 @@ void MenuButton::initialize_favorite_location_icon() {
                                     : this->font->height * 0.9;
   this->favorite_location_icon.reset(BitmapStretchProportionally(
       this->icons->get("favorite"), menu_font_height, menu_font_height));
+  if (!this->favorite_location_icon) {
+      BOOST_LOG_TRIVIAL(warning) << "Failed to stretch favorite location bitmap";
+  }
 }
 
 void MenuButton::update_item_texts() {
