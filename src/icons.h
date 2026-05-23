@@ -1,7 +1,9 @@
 #pragma once
 
 #include <boost/log/trivial.hpp>
+#include <map>
 #include <string>
+#include <tuple>
 #include <vector>
 
 #include <inkview.h>
@@ -116,5 +118,12 @@ public:
 
   const std::vector<unsigned char> &rotate_icon(const std::string &name,
                                                 int size, int degree);
+
+private:
+  typedef std::tuple<std::string, int, int> CacheKey;
+
+  const std::vector<unsigned char> empty_data = {};
+  std::map<CacheKey, std::vector<unsigned char>> bitmap_data_cache;
+
 };
 } // namespace taranis
