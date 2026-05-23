@@ -7,8 +7,9 @@ The following table is provided to help users to choose the right
 version of Taranis depending on the device. Note that one can check
 the firmware version from the "Parameters" application on the device.
 
-Data originally gathered by @patapon888. Contribution to maintain this
-table up-to-date welcome!
+Data originally gathered by
+[@patapon888](https://github.com/patapon888). Contribution to maintain
+this table up-to-date welcome!
 
 | Device          | SDK version |
 |-----------------|-------------|
