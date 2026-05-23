@@ -27,7 +27,7 @@ std::string obfuscate_url(std::string url) {
   std::regex appid_regex{"appid=([^&]+)"};
   std::smatch match;
   if (std::regex_search(url, match, appid_regex)) {
-    const std::string& key = match[1];
+    const std::string &key = match[1];
     const size_t key_length = key.size();
     std::string hidden_key(key_length, 'x'); // Parentheses to
                                              // distinguish from

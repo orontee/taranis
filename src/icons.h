@@ -116,8 +116,9 @@ public:
     return nullptr;
   }
 
-  const std::vector<unsigned char> &rotate_icon(const std::string &name,
-                                                int size, int degree);
+  const ibitmap *stretch_icon(const std::string &name, int size);
+
+  const ibitmap *rotate_icon(const std::string &name, int size, int degree);
 
 private:
   typedef std::tuple<std::string, int, int> CacheKey;
@@ -125,5 +126,10 @@ private:
   const std::vector<unsigned char> empty_data = {};
   std::map<CacheKey, std::vector<unsigned char>> bitmap_data_cache;
 
+  const std::vector<unsigned char> *do_stretch_icon(const std::string &name,
+                                                    int size);
+
+  const std::vector<unsigned char> *do_rotate_icon(const std::string &name,
+                                                   int size, int degree);
 };
 } // namespace taranis

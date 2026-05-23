@@ -18,7 +18,7 @@ class AlertsButton : public Button {
 public:
   AlertsButton(int icon_size, std::shared_ptr<Model> model,
                std::shared_ptr<Icons> icons)
-      : Button{icon_size, icons->get("warning")}, model{model} {}
+      : Button{icon_size, icons, "warning"}, model{model} {}
 
   bool is_enabled() const override { return not this->model->alerts.empty(); }
 

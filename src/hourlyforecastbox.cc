@@ -182,7 +182,8 @@ void HourlyForecastBox::pre_warm_rotated_icons_cache() const {
   for (size_t i = 0; i < HourlyForecastBox::visible_bars; ++i) {
     const auto idx = this->forecast_offset + i;
     if (idx < this->model->hourly_forecast.size())
-      this->rotate_direction_icon(this->model->hourly_forecast[idx].wind_degree);
+      this->rotate_direction_icon(
+          this->model->hourly_forecast[idx].wind_degree);
   }
 }
 
@@ -476,11 +477,7 @@ const ibitmap *HourlyForecastBox::rotate_direction_icon(int degree) const {
   // TO. Whats more OpenCV rotation is counter-clockwise for positive
   // angle values.
 
-  auto &rotated_icon_data = this->icons->rotate_icon(
+  return this->icons->rotate_icon(
       "direction", HourlyForecastBox::wind_direction_icon_size, arrow_angle);
-  if (not rotated_icon_data.empty()) {
-    return reinterpret_cast<const ibitmap *>(rotated_icon_data.data());
-  }
-  return nullptr;
 }
 } // namespace taranis

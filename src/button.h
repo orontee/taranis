@@ -13,23 +13,14 @@ namespace taranis {
 
 class Button : public Widget, Activatable {
 public:
-  Button(const int icon_size, const std::string &icon_name,
-         std::shared_ptr<Icons> icons)
-      : Button(icon_size, icons->get(icon_name)) {}
-
-  Button(const int icon_size, const ibitmap *const icon,
-         const ibitmap *const icon_disabled = nullptr)
-      : Widget{}, Activatable{}, icon{BitmapStretchProportionally(
-                                     icon, icon_size, icon_size)},
-        icon_disabled{
-            BitmapStretchProportionally(icon_disabled, icon_size, icon_size)} {
-    if (!this->icon) {
-      BOOST_LOG_TRIVIAL(warning) << "Failed to stretch button bitmap";
+  Button(const int icon_size, std::shared_ptr<Icons> icons,
+         const std::string &icon_name,
+         const std::string &icon_disabled_name = "")
+      : Widget{}, Activatable{}, icon{icons->stretch_icon(icon_name,
+                                                          icon_size)} {
+    if (!icon_disabled_name.empty()) {
+      this->icon_disabled = icons->stretch_icon(icon_disabled_name, icon_size);
     }
-    if (!this->icon_disabled) {
-      BOOST_LOG_TRIVIAL(warning) << "Failed to stretch disabled button bitmap";
-    }
-
     this->set_width(icon_size * std::sqrt(2));
     this->set_height(icon_size * std::sqrt(2));
   }
@@ -71,7 +62,7 @@ public:
   void do_paint() override {
     const auto [pos_x, pos_y] = this->get_icon_top_left_position();
     const auto *const icon_to_draw =
-        this->is_enabled() ? this->icon.get() : this->icon_disabled.get();
+        this->is_enabled() ? this->icon : this->icon_disabled;
     if (icon_to_draw) {
       DrawBitmap(pos_x, pos_y, icon_to_draw);
     }
@@ -92,8 +83,8 @@ protected:
   }
 
 private:
-  std::unique_ptr<ibitmap> icon;
-  std::unique_ptr<ibitmap> icon_disabled;
+  const ibitmap *icon;
+  const ibitmap *icon_disabled;
 
   ClickHandler click_handler;
 
