@@ -1,5 +1,6 @@
-/builddir
-/build
+/builddir/
+/build/
+/build-*/
 /crossfile_arm.ini
 /data*.json
 /SDK-B288-6.10.7z
