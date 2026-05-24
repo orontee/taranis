@@ -263,3 +263,4 @@ must be updated to the address of the e-reader.
 * https://github.com/SteffenBauer/PocketPuzzles
 * https://github.com/pmartin/pocketbook-demo
 * https://github.com/pocketbook-free/sdkrelease_1_1a
+* https://codeberg.org/datyoma/pbemu/
