@@ -57,6 +57,85 @@ jobs:
            💡 Make sure to install artifacts corresponding to the device firmware (6.8 or 6.10) and family (B288 or B300, see [SDK by Device](https://github.com/orontee/taranis/blob/main/docs/sdk-mapping.md).
 
 
+  build-with-sdk-6-11:
+    needs: create-release
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        family: [RK3566]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -
+          sudo apt-get install --no-install-recommends -y \
+                7zip \
+                build-essential \
+                ca-certificates \
+                clang-15 \
+                cmake \
+                git \
+                pkg-config \
+                python3-jinja2 \
+                wget \
+                zip
+
+      - name: Install PocketBook SDK
+        run: |
+          ./scripts/install_sdk.sh --family ${{ matrix.family}} \
+                                   --sdk-version 6.11 \
+                                   --path .
+          rm SDK-${{ matrix.family }}-6.11.7z
+
+      - name: Build application
+        run: |
+          source build_env.sh
+
+          cmake -S . -B build \
+                -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
+          cmake --build build \
+                --target taranis.app archive installer checksum
+
+          mkdir build/artifact
+          cp build/taranis.{app,pbi,sha256,zip} build/artifact
+
+          pushd build/artifact
+          zip artifact.zip taranis.{app,pbi,sha256,zip}
+
+      - name: Upload pbi artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: build/artifact/taranis.pbi
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-${{ matrix.family }}.pbi
+          asset_content_type: application/zip
+  
+      - name: Upload zip artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: build/artifact/taranis.zip
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-${{ matrix.family }}.zip
+          asset_content_type: application/zip
+  
+      - name: Upload SHA256 artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: build/artifact/taranis.sha256
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-${{ matrix.family }}.sha256
+          asset_content_type: text/plain
+
   build-with-sdk-6-10:
     needs: create-release
     runs-on: ubuntu-24.04
@@ -135,16 +214,6 @@ jobs:
           asset_path: build/artifact/taranis.sha256
           asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-${{ matrix.family }}.sha256
           asset_content_type: text/plain
-
-      - name: Upload archive artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: build/artifact/artifact.zip
-          asset_name: artifact-${{ needs.create-release.outputs.version }}_firmware-6.10-${{ matrix.family }}.zip
-          asset_content_type: application/zip
 
   build-with-sdk-6-8:
     needs: create-release
@@ -225,14 +294,4 @@ jobs:
           asset_path: build/artifact/taranis.sha256
           asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.8-${{ matrix.family }}.sha256
           asset_content_type: text/plain
-
-      - name: Upload archive artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: build/artifact/artifact.zip
-          asset_name: artifact-${{ needs.create-release.outputs.version }}_firmware-6.8-${{ matrix.family }}.zip
-          asset_content_type: application/zip
   

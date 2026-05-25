@@ -5,10 +5,10 @@ set -e
 function show_help() {
     echo "Usage: $0 [options]"
     echo "Options:"
-    echo "  -f, --family (B288|B300)      Specify a device family"
-    echo "  -v, --sdk-version (6.8|6.10)  Specify a SDK version"
-    echo "  -p, --path PATH               Specify installation path"
-    echo "  -h, --help                    Show this help message"
+    echo "  -f, --family (B288|B300)           Specify a device family"
+    echo "  -v, --sdk-version (6.8|6.10|6.11)  Specify a SDK version"
+    echo "  -p, --path PATH                    Specify installation path"
+    echo "  -h, --help                         Show this help message"
 }
 
 DEVICE_FAMILY=""
@@ -26,7 +26,7 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         -p|--path)
-            SDK_PARENT_PATH="$2"
+	    SDK_PARENT_PATH=$(realpath --canonicalize-missing "${2}")
             shift 2
             ;;
         -h|--help)
@@ -59,7 +59,7 @@ if [ ! -d "${SDK_PARENT_PATH}" ]; then
     exit 1
 fi
 
-SDK_ARCHIVE=SDK-${DEVICE_FAMILY}-${SDK_VERSION}.7z
+SDK_ARCHIVE="SDK-${DEVICE_FAMILY}-${SDK_VERSION}.7z"
 
 if [ "${SDK_VERSION}" = "6.8" ]; then
     SDK_DOWNLOAD_URL=https://github.com/pocketbook/SDK_6.3.0/releases/download/6.8/"${SDK_ARCHIVE}"
@@ -72,15 +72,30 @@ if [ "${SDK_VERSION}" = "6.8" ]; then
 	echo "Unexpected device family!"
 	exit 1
     fi
+    SDK_UNPACK_PATH="${SDK_PARENT_PATH}"
+    SDK_ROOT_PATH="${SDK_PARENT_PATH}/${SDK_NAME}"
+    SDK_RELOCATE_SCRIPT="${SDK_ROOT_PATH}/bin/update_path.sh"
 elif [ "${SDK_VERSION}" = "6.10" ]; then
-    SDK_DOWNLOAD_URL=https://github.com/Sean-on-Git/PocketBook-SDK/releases/download/6.10/"${SDK_ARCHIVE}"
-    SDK_NAME=SDK-"${DEVICE_FAMILY}"-"${SDK_VERSION}"
+    SDK_DOWNLOAD_URL="https://github.com/Sean-on-Git/PocketBook-SDK/releases/download/${SDK_VERSION}/${SDK_ARCHIVE}"
+    SDK_NAME="SDK-${DEVICE_FAMILY}-${SDK_VERSION}"
+    SDK_UNPACK_PATH="${SDK_PARENT_PATH}"
+    SDK_ROOT_PATH="${SDK_PARENT_PATH}/${SDK_NAME}"
+    SDK_RELOCATE_SCRIPT="${SDK_ROOT_PATH}/usr/relocate-sdk.sh"
+elif [ "${SDK_VERSION}" = "6.11" ]; then
+    if [ "${DEVICE_FAMILY}" = "RK3566" ]; then
+	SDK_DOWNLOAD_URL="https://github.com/Sean-on-Git/PocketBook-SDK/releases/download/${SDK_VERSION}/${SDK_ARCHIVE}"
+	SDK_NAME="SDK-${DEVICE_FAMILY}"
+	SDK_UNPACK_PATH="${SDK_PARENT_PATH}/${SDK_NAME}"
+	SDK_ROOT_PATH="${SDK_PARENT_PATH}/${SDK_NAME}/arm-buildroot-linux-gnueabihf_sdk-buildroot"
+	SDK_RELOCATE_SCRIPT="${SDK_ROOT_PATH}/usr/relocate-sdk.sh"
+    else
+	echo "Unexpected device family!"
+	exit 1
+    fi
 else
     echo "Unexpected SDK version!"
     exit 1
 fi
-
-SDK_ROOT_PATH=${SDK_PARENT_PATH}/${SDK_NAME}
 
 _7Z=$(which 7zz || which 7z)
 
@@ -93,7 +108,11 @@ function unpack() {
     echo "Checking archive integrity"
     sha256sum -c "${SDK_ARCHIVE}.sha256"
 
-    echo "Unpacking ${SDK_ARCHIVE}"
+    echo "Unpacking ${SDK_ARCHIVE} to ${SDK_UNPACK_PATH}"
+
+    if [[ ! -x "${SDK_UNPACK_PATH}" ]]; then
+	mkdir -p "${SDK_UNPACK_PATH}"
+    fi
 
     # The archive contains dangerous symlinks. Some have relative
     # target path and can be created using 7z options. Others are
@@ -101,7 +120,7 @@ function unpack() {
     # symlinks are created by hand, see fix_links.
 
     ${_7Z} x \
-	-o${SDK_PARENT_PATH} \
+	-o${SDK_UNPACK_PATH} \
 	-snld \
 	-xr\!${SDK_NAME}/usr/arm-obreey-linux-gnueabi/sysroot/etc/fonts/conf.d/ -- \
 	"${SDK_ARCHIVE}" || true
@@ -122,7 +141,10 @@ function fix_links() {
     links+=" 69-unifont.conf 80-delicious.conf 90-synthetic.conf"
     mkdir "${symlink_rootpath}"
     for link in ${links}; do
-	ln -s "${symlink_target_rootpath}/${link}" "${symlink_rootpath}/${link}"
+	echo "Does exists ${symlink_rootpath}/${link}?"
+	if [ -e "${symlink_rootpath}/${link}" ]; then
+	    ln -s "${symlink_target_rootpath}/${link}" "${symlink_rootpath}/${link}"
+	fi
     done
 }
 
@@ -151,11 +173,7 @@ EOF
 }
 
 function relocate_sdk() {
-    if [ "${SDK_VERSION}" = "6.8" ]; then
-	"${SDK_ROOT_PATH}/bin/update_path.sh"
-    else
-	"${SDK_ROOT_PATH}/usr/relocate-sdk.sh"
-    fi
+    ${SDK_RELOCATE_SCRIPT}
 }
 
 cd "${SDK_PARENT_PATH}"
@@ -165,7 +183,9 @@ if [ ! -d "${SDK_ROOT_PATH}" ]; then
 	download_archive
     fi
     unpack
-    fix_links
+    if [ "${SDK_VERSION}" != "6.11" ]; then
+	fix_links
+    fi
     relocate_sdk
     generate_env_script
 fi

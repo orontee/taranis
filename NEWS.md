@@ -12,6 +12,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Support for 6.11 firmware
+  [#125](https://github.com/orontee/taranis/issues/125)
+
 ### Removed
 
 ## [1.19.0 - 2026-05-31]
