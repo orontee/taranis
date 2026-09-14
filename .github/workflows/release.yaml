@@ -54,7 +54,7 @@ jobs:
 
            An alternative is to manually copy the files from the `taranis.zip` archive to the `applications` directory of the device.
 
-           💡 Make sure to install artifacts corresponding to the device firmware (6.8, 6.10, etc.) and family (B288, B300, etc. see [SDK by Device](https://github.com/orontee/taranis/blob/main/docs/sdk-mapping.md).
+           💡 Make sure to install artifacts corresponding to the device firmware (6.8, 6.10, etc.) and family (B288, B300, etc. see [SDK by Device](https://github.com/orontee/taranis/blob/main/docs/sdk-mapping.md)).
 
 
   build-with-sdk-6-11:
