@@ -2,30 +2,44 @@
 
 Sticky note for maintainers.
 
-1. Identify new version "number", say `1.9.0`, according to [Semantic
-   Versioning Specification](https://semver.org/) and
-   [NEWS.md](../NEWS.md) content.
+## Identify the new version "number"
 
-2. On `main` branch, commit "Prepare release of version 1.9.0" with:
+The project uses [Semantic Versioning
+Specification](https://semver.org/), thus the new version number
+should be easy to choose from the content of the [NEWS.md](../NEWS.md)
+file.
+
+Remember that pre-releases version must end with the `-rc[0-9]+`
+regular expression.
+
+## Commit new version number, tag and push
+
+Once the version is known, say `vX.Y.Z` (to simplify), one can:
+
+1. On a feature branch or a release branch, commit "Prepare release of
+   version X.Y.Z" with:
    - Update of version number in [CMakeLists.txt](../CMakeLists.txt)
    - Rename the "Unreleased" section in [NEWS.md](../NEWS.md).
 
-3. Tag previous commit with `v1.9.0` (or `v1.9.0-rc0`, `v1.9.0-rc1`,
-   etc. if release candidates are needed).
+3. Tag previous commit with `vX.Y.Z`.
 
 4. Push both commit and tag to GitHub.
 
-5. A Github action workflow is automatically created when new tags are
-   pushed. It creates a Github draft release (or pre-release depending
-   on the Git tag format).
-   
-6. Once the workflow is finished, download the generated artefact,
-   install and test.
+## Github release workflow
 
-7. If everything is ok, edit release to uncheck the "Set as draft" box
+A Github action workflow is automatically created when new tags are
+pushed. It creates a Github draft release (or pre-release depending on
+the Git tag format).
+
+## Post-build checks
+
+Once the workflow is finished, download the generated artefact,
+install and test.
+
+1. If everything is ok, edit release to uncheck the "Set as draft" box
    and, in case of a release, check the "Set as the latest release"
    box.
 
-10. For a release, post a message on [MobileRead forum dedicated to
+2. For a release, post a message on [MobileRead forum dedicated to
     PocketBook](https://www.mobileread.com/forums/forumdisplay.php?f=206)
     🎆
