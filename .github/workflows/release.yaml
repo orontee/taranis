@@ -54,7 +54,7 @@ jobs:
 
            An alternative is to manually copy the files from the `taranis.zip` archive to the `applications` directory of the device.
 
-           💡 Make sure to install artifacts corresponding to the device firmware (6.8 or 6.10) and family (B288 or B300, see [SDK by Device](https://github.com/orontee/taranis/blob/main/docs/sdk-mapping.md).
+           💡 Make sure to install artifacts corresponding to the device firmware (6.8, 6.10, etc.) and family (B288, B300, etc. see [SDK by Device](https://github.com/orontee/taranis/blob/main/docs/sdk-mapping.md).
 
 
   build-with-sdk-6-11:
@@ -113,7 +113,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.pbi
-          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-${{ matrix.family }}.pbi
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.11-${{ matrix.family }}.pbi
           asset_content_type: application/zip
   
       - name: Upload zip artifact
@@ -123,7 +123,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.zip
-          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-${{ matrix.family }}.zip
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.11-${{ matrix.family }}.zip
           asset_content_type: application/zip
   
       - name: Upload SHA256 artifact
@@ -133,7 +133,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.sha256
-          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.10-${{ matrix.family }}.sha256
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.11-${{ matrix.family }}.sha256
           asset_content_type: text/plain
 
   build-with-sdk-6-10:
