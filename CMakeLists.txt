@@ -8,6 +8,12 @@ set(CMAKE_CXX_FLAGS "-fPIC")
 set(BUILD_SHARED_LIBS OFF)
 set(SDK_VERSION $ENV{SDK_VERSION})
 
+if(SDK_VERSION STREQUAL "6.11")
+  message(STATUS "Linker will set PT_GNU_STACK with the executable bit at link time")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,execstack")
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,execstack")
+endif()
+
 include(ExternalProject)
 include(FeatureSummary)
 include(FindPkgConfig)

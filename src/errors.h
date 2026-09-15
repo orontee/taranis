@@ -62,6 +62,9 @@ struct ServiceError : std::runtime_error {
     case 404:
       return ServiceError::get_unknown_location_error();
       break;
+    case 429:
+      return {GetLangText("Too many requests sent. Retry later.")};
+      break;
     case 500: // internal server error
     case 501: // not implemented
     case 502: // bad gateway
