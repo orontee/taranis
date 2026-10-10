@@ -7,4 +7,4 @@ PBI_PASSWORD=">nD4Ar0CNc(#Gl/87A8q"
 
 cd "${BUILD_PATH}" || exit 1
 zip -e --password "${PBI_PASSWORD}" ${PBI_FILENAME} \
-    _scriptInstall sinstall/taranis.app sinstall/icons/*
+    _scriptInstall sinstall/taranis.app sinstall/taranis/*

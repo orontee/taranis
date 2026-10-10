@@ -8,12 +8,6 @@ set(CMAKE_CXX_FLAGS "-fPIC")
 set(BUILD_SHARED_LIBS OFF)
 set(SDK_VERSION $ENV{SDK_VERSION})
 
-if(SDK_VERSION STREQUAL "6.11")
-  message(STATUS "Linker will set PT_GNU_STACK with the executable bit at link time")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,execstack")
-  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,execstack")
-endif()
-
 include(ExternalProject)
 include(FeatureSummary)
 include(FindPkgConfig)
@@ -147,17 +141,36 @@ endif()
 
 configure_file(packaging/_scriptInstall.in _scriptInstall @ONLY)
 
+
+if(SDK_VERSION STREQUAL "6.11")
+  message(STATUS "Will package a launcher script setting glibc.rtld.execstack=2")
+  set(INSTALLER_TREE_BINARY_COMMANDS
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/sinstall/taranis"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_BINARY_DIR}/taranis.app"
+    "${CMAKE_BINARY_DIR}/sinstall/taranis/taranis.bin"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_SOURCE_DIR}/packaging/launcher.sh"
+    "${CMAKE_BINARY_DIR}/sinstall/taranis.app"
+  )
+else()
+  set(INSTALLER_TREE_BINARY_COMMANDS
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_BINARY_DIR}/taranis.app"
+    "${CMAKE_BINARY_DIR}/sinstall"
+  )
+endif()
+
 add_custom_target(populate_installer_tree
-  COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/sinstall/icons"
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different
-  "${CMAKE_BINARY_DIR}/taranis.app"
-  "${CMAKE_BINARY_DIR}/sinstall"
+  COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/sinstall/taranis/icons"
+  ${INSTALLER_TREE_BINARY_COMMANDS}
   COMMAND ${CMAKE_COMMAND} -E copy_if_different
   "${CMAKE_SOURCE_DIR}/icons/icon_taranis.bmp"
   "${CMAKE_SOURCE_DIR}/icons/icon_taranis_f.bmp"
-  "${CMAKE_BINARY_DIR}/sinstall/icons"
+  "${CMAKE_BINARY_DIR}/sinstall/taranis/icons"
   COMMENT "Populate installer tree"
 )
+
 add_dependencies(populate_installer_tree taranis.app)
 
 add_custom_target(installer
