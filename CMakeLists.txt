@@ -15,6 +15,12 @@ include(FindPkgConfig)
 set(Boost_USE_MULTITHREADED OFF)
 set(Boost_USE_STATIC_LIBS ON)
 
+if(SDK_VERSION STREQUAL "6.11")
+  message(STATUS "Linking against /lib/ld-linux.so.3 as dynamic linker")
+  set(CMAKE_EXE_LINKER_FLAGS
+      "${CMAKE_EXE_LINKER_FLAGS} -Wl,--dynamic-linker=/lib/ld-linux.so.3")
+endif()
+
 if(SDK_VERSION STREQUAL "6.8")
   message(STATUS "Will use Boost version packaged with SDK")
   find_package(Boost 1.55.0

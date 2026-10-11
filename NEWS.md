@@ -6,6 +6,13 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.20.0-rc4 - 2026-10-11
+
+### Changed
+
+* Force adequate dynamic linker for 6.11 firmware
+  [#125](https://github.com/orontee/taranis/issues/125)
+
 ## 1.20.0-rc3 - 2026-10-10
 
 ### Changed
