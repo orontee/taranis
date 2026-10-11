@@ -7,12 +7,14 @@
 #include "config.h"
 #include "logging.h"
 
-std::shared_ptr<taranis::Config> config{new taranis::Config};
-taranis::App app{config};
+namespace {
+std::shared_ptr<taranis::Config> config;
+std::unique_ptr<taranis::App> app;
+}
 
 int event_handler(int event_type, int param_one, int param_two) {
   try {
-    return app.process_event(event_type, param_one, param_two);
+    return app->process_event(event_type, param_one, param_two);
   } catch (const std::runtime_error &error) {
     BOOST_LOG_TRIVIAL(error) << "Unhandled runtime error " << error.what();
     throw;
@@ -26,6 +28,9 @@ int event_handler(int event_type, int param_one, int param_two) {
 }
 
 int main(int argc, char *argv[]) {
+  config = std::make_shared<taranis::Config>();
+  app = std::make_unique<taranis::App>(config);
+
   const bool verbose_log_requested =
       ((argc == 2 and std::strcmp(argv[1], "--verbose") == 0) or
        (config->read_bool("debug_logs", false)));
