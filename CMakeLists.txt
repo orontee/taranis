@@ -5,8 +5,21 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_FLAGS "-fPIC")
-set(BUILD_SHARED_LIBS OFF)
+set(TARANIS_ARCH_FLAGS "")
+
 set(SDK_VERSION $ENV{SDK_VERSION})
+set(TARANIS_TARGET $ENV{TARANIS_TARGET})
+
+set(BUILD_SHARED_LIBS OFF)
+if(SDK_VERSION STREQUAL "6.11" AND TARANIS_TARGET STREQUAL "b288-b300")
+  message(STATUS "Will build with softfp flags and /lib/ld-linux.so.3 as dynamic linker")
+  set(TARANIS_ARCH_FLAGS
+      "-mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=softfp -idirafter ${CMAKE_SOURCE_DIR}/packaging/compat")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TARANIS_ARCH_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS
+      "${CMAKE_EXE_LINKER_FLAGS} -Wl,--dynamic-linker=/lib/ld-linux.so.3 -Wl,--no-warn-mismatch")
+endif()
+
 
 include(ExternalProject)
 include(FeatureSummary)
@@ -14,12 +27,6 @@ include(FindPkgConfig)
 
 set(Boost_USE_MULTITHREADED OFF)
 set(Boost_USE_STATIC_LIBS ON)
-
-if(SDK_VERSION STREQUAL "6.11")
-  message(STATUS "Linking against /lib/ld-linux.so.3 as dynamic linker")
-  set(CMAKE_EXE_LINKER_FLAGS
-      "${CMAKE_EXE_LINKER_FLAGS} -Wl,--dynamic-linker=/lib/ld-linux.so.3")
-endif()
 
 if(SDK_VERSION STREQUAL "6.8")
   message(STATUS "Will use Boost version packaged with SDK")
@@ -60,7 +67,7 @@ ExternalProject_Add(
   DOWNLOAD_NO_PROGRESS ON
   PREFIX "${GSL_DIR}"
   BUILD_IN_SOURCE ON
-  CONFIGURE_COMMAND ${CMAKE_COMMAND} -E env CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} ./configure --prefix=${CMAKE_FIND_ROOT_PATH} --host=arm-obreey-linux-gnueabi --build=x86_64-pc-linux-gnu --target=arm-obreey-linux-gnueabi --enable-static --disable-shared
+  CONFIGURE_COMMAND ${CMAKE_COMMAND} -E env CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} "CFLAGS=${TARANIS_ARCH_FLAGS}" "LDFLAGS=-Wl,--no-warn-mismatch" ./configure --prefix=${CMAKE_FIND_ROOT_PATH} --host=arm-obreey-linux-gnueabi --build=x86_64-pc-linux-gnu --target=arm-obreey-linux-gnueabi --enable-static --disable-shared
   BUILD_COMMAND ${CMAKE_COMMAND} -E env make
   INSTALL_COMMAND ""
   LOG_CONFIGURE ON
@@ -168,12 +175,13 @@ else()
 endif()
 
 add_custom_target(populate_installer_tree
-  COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/sinstall/taranis/icons"
+  COMMAND ${CMAKE_COMMAND} -E make_directory
+  "${CMAKE_BINARY_DIR}/sinstall/taranis"
   ${INSTALLER_TREE_BINARY_COMMANDS}
   COMMAND ${CMAKE_COMMAND} -E copy_if_different
   "${CMAKE_SOURCE_DIR}/icons/icon_taranis.bmp"
   "${CMAKE_SOURCE_DIR}/icons/icon_taranis_f.bmp"
-  "${CMAKE_BINARY_DIR}/sinstall/taranis/icons"
+  "${CMAKE_BINARY_DIR}/sinstall/taranis/"
   COMMENT "Populate installer tree"
 )
 

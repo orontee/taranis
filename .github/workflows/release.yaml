@@ -94,6 +94,7 @@ jobs:
       - name: Build application
         run: |
           source build_env.sh
+          export TARANIS_TARGET="b288-b300"
 
           cmake -S . -B build \
                 -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
@@ -113,7 +114,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.pbi
-          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.11-${{ matrix.family }}.pbi
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.11-B288-B300.pbi
           asset_content_type: application/zip
   
       - name: Upload zip artifact
@@ -123,7 +124,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.zip
-          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.11-${{ matrix.family }}.zip
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.11-B288-B300.zip
           asset_content_type: application/zip
   
       - name: Upload SHA256 artifact
@@ -133,7 +134,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: build/artifact/taranis.sha256
-          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.11-${{ matrix.family }}.sha256
+          asset_name: taranis-${{ needs.create-release.outputs.version }}_firmware-6.11-B288-B300.sha256
           asset_content_type: text/plain
 
   build-with-sdk-6-10:

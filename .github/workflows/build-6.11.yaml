@@ -32,7 +32,7 @@ jobs:
 
       - name: Install build dependencies
         run: |
-          sudo apt-get update -
+          sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
                 7zip \
                 build-essential \
@@ -55,6 +55,7 @@ jobs:
       - name: Build application
         run: |
           source build_env.sh
+          export TARANIS_TARGET="b288-b300"
 
           cmake -S . -B build \
                 -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
