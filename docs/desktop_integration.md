@@ -5,7 +5,7 @@
 To customize the application icon and group:
 
 1. One must copy two icons in BMP format on the e-reader (eg under
-   `/mnt/ext1/applications/taranis/icons/`). One is used to represent the
+   `/mnt/ext1/applications/taranis/`). One is used to represent the
    application in the "desktop" view, the other is displayed
    temporarily when the application is launched.
    
@@ -28,8 +28,8 @@ To customize the application icon and group:
    +        "U_Taranis": {
    +            "path": "/mnt/ext1/applications/taranis.app",
    +            "title": "Taranis",
-   +            "icon": "/mnt/ext1/applications/taranis/icons/icon_taranis.bmp",
-   +            "focused_icon": "/mnt/ext1/applications/taranis/icons/icon_taranis_f.bmp"
+   +            "icon": "/mnt/ext1/applications/taranis/icon_taranis.bmp",
+   +            "focused_icon": "/mnt/ext1/applications/taranis/icon_taranis_f.bmp"
    +        }
         },
         "view": {
