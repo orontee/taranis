@@ -30,18 +30,18 @@ around this problem, a container image is provided.
 To build in a container:
 ```sh
 $ buildah build --build-arg DEVICE_FAMILY=B288 \
-                --tag pbsdk:6.8-B288 \
-				--file Containerfile-6.8
+                --tag pbsdk:6.11-RK3566 \
+                --file Containerfile-6.11
 $ podman run --rm -ti \
              --volume ${PWD}:/src \
-             --hostname pbsdk-B288 \
-             --name pbsdk-B288 \
-             localhost/pbsdk:6.8-B288 \
+             --hostname pbsdk \
+             --name pbsdk \
+             localhost/pbsdk:6.11-RK3566 \
              bash
-root@pbsdk-B288:/src$ source /opt/SDK-6.8/build_env.sh
-root@pbsdk-B288:/src$ cmake -S . -B build \
+root@pbsdk:/src$ source /opt/SDK-6.11/build_env.sh
+root@pbsdk:/src$ cmake -S . -B build \
                               -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
-root@pbsdk-B288:/src$ cmake --build build
+root@pbsdk:/src$ cmake --build build
 ```
 
 ℹ️ One may have to customize the environment variable `TMPDIR` since
@@ -126,20 +126,26 @@ embedded in the container image, use something like the following:
 ``` bash
 #!/usr/bin/bash
 
-PROJECT_PATH="/src/Projets/taranis"
-CONTAINER_NAME="pbsdk-B288"
-IMAGE_NAME="localhost/pbsdk:6.8-B288"
+VERSION="6.11-RK3566"
 
-CLANGD_COMMAND="source /opt/SDK-6.8/build_env.sh && clangd --log=verbose --compile-commands-dir=${PROJECT_PATH}/build --query-driver=/opt/SDK-6.8/SDK-B288/usr/bin/arm-obreey-linux-gnueabi-g++"
+PROJECT_PATH="/home/matthias/Projets/taranis"
+CONTAINER_NAME="pbsdk-${VERSION}"
+IMAGE_NAME="localhost/pbsdk:${VERSION}"
+
+SDK_ROOT_PATH="/opt/SDK-6.11/SDK-RK3566/"
+CLANGD_COMMAND="source /opt/SDK-6.11/build_env.sh && clangd --log=verbose --compile-commands-dir=${PROJECT_PATH}/build"
+
 
 podman run --rm --interactive \
        --volume=${PROJECT_PATH}:${PROJECT_PATH} \
        --hostname=${CONTAINER_NAME} \
        --replace \
+       --env=SDK_ROOT_PATH=${SDK_ROOT_PATH} \
        --name=${CONTAINER_NAME} \
        --workdir=${PROJECT_PATH} \
        ${IMAGE_NAME} \
        bash -c "${CLANGD_COMMAND}"
+
 ```
 
 ## Screenshots
