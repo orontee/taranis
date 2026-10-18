@@ -1,16 +1,9 @@
 #pragma once
 
-#include <array>
 #include <boost/log/trivial.hpp>
-#include <cctype>
-#include <cstring>
-#include <ctime>
 #include <inkview.h>
-#include <iterator>
 #include <memory>
 #include <string>
-#include <type_traits>
-#include <vector>
 
 #include "config.h"
 #include "events.h"
@@ -47,7 +40,7 @@ private:
   std::shared_ptr<Model> model;
   std::shared_ptr<Config> config;
   std::unique_ptr<L10n> l10n;
-  std::unique_ptr<Service> service;
+  std::unique_ptr<WeatherService> service;
   std::unique_ptr<VersionChecker> version_checker;
   std::unique_ptr<LocationHistoryProxy> history;
   std::unique_ptr<ApplicationState> application_state;

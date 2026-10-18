@@ -18,13 +18,13 @@ using namespace std::string_literals;
 
 namespace taranis {
 
-class OpenWeatherService : public Service {
+class OpenWeatherService : public WeatherService {
 public:
   OpenWeatherService(std::shared_ptr<HttpClient> client)
-      : Service{
+      : WeatherService{
             client,
             "4620ad6f20069b66bc36b1e88ceb4541" // API key associated to rate
-                                               // limited plan
+                                                       // limited plan
         } {}
 
   DataProvider get_data_provider() override {

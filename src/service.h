@@ -1,14 +1,9 @@
 #pragma once
 
-#include <algorithm>
-#include <cmath>
-#include <ctime>
 #include <json/json.h>
 #include <json/value.h>
 #include <memory>
-#include <sstream>
 #include <string>
-#include <utility>
 
 #include "errors.h"
 #include "http.h"
@@ -18,12 +13,12 @@ using namespace std::string_literals;
 
 namespace taranis {
 
-class Service {
+class WeatherService {
 public:
-  static std::unique_ptr<Service> by_name(DataProvider data_provider,
+  static std::unique_ptr<WeatherService> by_name(DataProvider data_provider,
                                           std::shared_ptr<HttpClient> client);
 
-  virtual ~Service() {}
+  virtual ~WeatherService() {}
 
   virtual DataProvider get_data_provider() = 0;
 
@@ -60,7 +55,7 @@ protected:
 
   Location location;
 
-  Service(std::shared_ptr<HttpClient> client, std::string api_key)
+  WeatherService(std::shared_ptr<HttpClient> client, std::string api_key)
       : client{client}, api_key{api_key} {}
 
   Json::Value send_get_request(const std::string &url) {

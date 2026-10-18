@@ -168,7 +168,7 @@ void App::load_config() {
        this->service->get_data_provider() != data_provider_from_config);
 
   if (not this->service or has_data_provider_changed) {
-    this->service = Service::by_name(data_provider_from_config, client);
+    this->service = WeatherService::by_name(data_provider_from_config, client);
   }
   assert(this->service);
 

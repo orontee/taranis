@@ -19,11 +19,11 @@ using namespace std::string_literals;
 
 namespace taranis {
 
-class OpenMeteoService : public Service {
+class OpenMeteoService : public WeatherService {
 public:
   OpenMeteoService(std::shared_ptr<HttpClient> client,
                    const DataProvider &data_provider)
-      : Service{client, ""}, data_provider{data_provider} {}
+      : WeatherService{client, ""}, data_provider{data_provider} {}
 
   DataProvider get_data_provider() override { return this->data_provider; };
 

@@ -9,7 +9,6 @@
 #endif
 
 #include "errors.h"
-#include "inkview.h"
 #include "model.h"
 #include "util.h"
 
