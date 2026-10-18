@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-03 17:46+0100\n"
+"POT-Creation-Date: 2026-10-18 21:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,57 +16,59 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/alerts.cc:159
+#: src/alerts.cc:157
 msgid "Alert"
 msgstr ""
 
-#: src/alerts.cc:174
+#: src/alerts.cc:172
 msgid "Start"
 msgstr ""
 
-#: src/alerts.cc:176
+#: src/alerts.cc:174
 msgid "Duration"
 msgstr ""
 
-#: src/alerts.cc:181
+#: src/alerts.cc:179
 msgid "Source"
 msgstr ""
 
-#: src/app.cc:278 src/app.cc:290 src/app.cc:324 src/app.cc:499
-#: src/version.cc:135
+#: src/app.cc:316 src/app.cc:328 src/app.cc:362 src/app.cc:542
+#: src/version.cc:140
 msgid "Ok"
 msgstr ""
 
-#: src/app.cc:320
+#: src/app.cc:358
 msgid "Invalid input"
 msgstr ""
 
-#: src/app.cc:322
+#: src/app.cc:360
 msgid "Make sure you enter a town then a country separated by a comma."
 msgstr ""
 
-#: src/app.cc:440 src/app.cc:449 src/app.cc:524 src/app.cc:532
+#: src/app.cc:483 src/app.cc:492 src/app.cc:567 src/app.cc:575 src/app.cc:617
+#: src/app.cc:625
 msgid "Network error"
 msgstr ""
 
-#: src/app.cc:441 src/app.cc:450 src/app.cc:525 src/app.cc:533
+#: src/app.cc:484 src/app.cc:493 src/app.cc:568 src/app.cc:576 src/app.cc:618
+#: src/app.cc:626
 msgid "Failure while fetching weather data. Check your network connection."
 msgstr ""
 
-#: src/app.cc:457 src/app.cc:539
+#: src/app.cc:500 src/app.cc:582
 msgid "Service unavailable"
 msgstr ""
 
-#: src/app.cc:498 src/config.cc:62 src/version.cc:100 src/version.cc:107
-#: src/version.cc:114 src/version.cc:122 src/version.cc:134
+#: src/app.cc:541 src/config.cc:69 src/version.cc:105 src/version.cc:112
+#: src/version.cc:119 src/version.cc:127 src/version.cc:139
 msgid "Software version"
 msgstr ""
 
-#: src/app.cc:566
+#: src/app.cc:656
 msgid "Unsupported software version"
 msgstr ""
 
-#: src/app.cc:567
+#: src/app.cc:657
 msgid ""
 "The application isn't compatible with the software version of this reader."
 msgstr ""
@@ -88,7 +90,7 @@ msgstr ""
 msgid "Daily forecast"
 msgstr ""
 
-#: src/config.cc:31
+#: src/config.cc:31 src/config.cc:37
 msgid "At startup"
 msgstr ""
 
@@ -96,386 +98,402 @@ msgstr ""
 msgid "When obsolete"
 msgstr ""
 
-#: src/config.cc:33
+#: src/config.cc:33 src/config.cc:36
 msgid "Manually"
 msgstr ""
 
-#: src/config.cc:65
+#: src/config.cc:35
+msgid "Disabled"
+msgstr ""
+
+#: src/config.cc:72
 msgid "Check newer version"
 msgstr ""
 
-#: src/config.cc:70
-msgid "Units"
-msgstr ""
-
-#: src/config.cc:74
-msgid "Start screen"
-msgstr ""
-
-#: src/config.cc:78
-msgid "Data update strategy"
+#: src/config.cc:75
+msgid "Enable debug logs (requires restart)"
 msgstr ""
 
 #: src/config.cc:81
-msgid "Data provider"
+msgid "Units"
 msgstr ""
 
-#: src/config.cc:84
-msgid "One Call API key"
+#: src/config.cc:85
+msgid "Data update strategy"
 msgstr ""
 
-#: src/config.cc:88
-msgid "Generate shutdown logo"
+#: src/config.cc:89
+msgid "IP based geolocation"
 msgstr ""
 
 #: src/config.cc:92
+msgid "Data provider"
+msgstr ""
+
+#: src/config.cc:95
+msgid "One Call API key"
+msgstr ""
+
+#: src/config.cc:99
+msgid "Start screen"
+msgstr ""
+
+#: src/config.cc:103
+msgid "Generate shutdown logo"
+msgstr ""
+
+#: src/config.cc:107
 msgid "Software"
 msgstr ""
 
-#: src/config.cc:166
+#: src/config.cc:181
 msgid "Parameters"
 msgstr ""
 
-#: src/currentconditionbox.cc:86 src/dailyforecastviewer.cc:367
-#: src/dailyforecastviewer.cc:381
+#: src/currentconditionbox.cc:85 src/dailyforecastviewer.cc:375
+#: src/dailyforecastviewer.cc:389
 msgid "Felt"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:318 src/dailyforecastviewer.cc:335
+#: src/dailyforecastviewer.cc:326 src/dailyforecastviewer.cc:343
 msgid "Sun"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:318
+#: src/dailyforecastviewer.cc:326
 msgid "Moon"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:321 src/dailyforecastviewer.cc:338
+#: src/dailyforecastviewer.cc:329 src/dailyforecastviewer.cc:346
 msgid "Rise"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:326 src/dailyforecastviewer.cc:341
+#: src/dailyforecastviewer.cc:334 src/dailyforecastviewer.cc:349
 msgid "Set"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:331
+#: src/dailyforecastviewer.cc:339
 msgid "Moon phase"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:354 src/dailyforecastviewer.cc:375
+#: src/dailyforecastviewer.cc:362 src/dailyforecastviewer.cc:383
 msgid "Temperatures"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:355
+#: src/dailyforecastviewer.cc:363
 msgid "Morning"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:355
+#: src/dailyforecastviewer.cc:363
 msgid "Day"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:356
+#: src/dailyforecastviewer.cc:364
 msgid "Evening"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:356
+#: src/dailyforecastviewer.cc:364
 msgid "Night"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:378
+#: src/dailyforecastviewer.cc:386
 msgid "Mean"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:385
+#: src/dailyforecastviewer.cc:393
 msgid "Min/Max"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:395
+#: src/dailyforecastviewer.cc:403
 msgid "Wind"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:400
+#: src/dailyforecastviewer.cc:408
 msgid "Speed"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:408
+#: src/dailyforecastviewer.cc:416
 msgid "Gust"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:423
+#: src/dailyforecastviewer.cc:431
 msgid "Direction"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:433
+#: src/dailyforecastviewer.cc:441
 msgid "Precipitation"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:437
+#: src/dailyforecastviewer.cc:445
 msgid "Rain"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:443
+#: src/dailyforecastviewer.cc:451
 msgid "Snow"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:448
+#: src/dailyforecastviewer.cc:456
 msgid "Probability"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:457
+#: src/dailyforecastviewer.cc:465
 msgid "Other metrics"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:460
+#: src/dailyforecastviewer.cc:468
 msgid "Pressure"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:464
+#: src/dailyforecastviewer.cc:472
 msgid "Humidity"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:469
+#: src/dailyforecastviewer.cc:477
 msgid "Dew point"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:475
+#: src/dailyforecastviewer.cc:483
 msgid "UV index"
 msgstr ""
 
-#: src/dailyforecastviewer.cc:481
+#: src/dailyforecastviewer.cc:489
 msgid "Cloudiness"
 msgstr ""
 
-#: src/locationbox.cc:45
+#: src/locationbox.cc:43
 msgid "Enter location"
 msgstr ""
 
-#: src/locationselector.cc:46 src/menu.cc:74
+#: src/locationselector.cc:55 src/menu.cc:92
 msgid "Locations"
 msgstr ""
 
-#: src/locationselector.cc:57
+#: src/locationselector.cc:66
 msgid "Longitude"
 msgstr ""
 
-#: src/locationselector.cc:58
+#: src/locationselector.cc:67
 msgid "Latitude"
 msgstr ""
 
-#: src/menu.cc:72
+#: src/menu.cc:90
 msgid "Refresh"
 msgstr ""
 
-#: src/menu.cc:76
+#: src/menu.cc:94
 msgid "Parameters…"
 msgstr ""
 
-#: src/menu.cc:78
+#: src/menu.cc:96
 msgid "Quit"
 msgstr ""
 
-#: src/menu.cc:92
+#: src/menu.cc:110
 msgid "Empty"
 msgstr ""
 
-#: src/menu.cc:105 src/menu.cc:133
+#: src/menu.cc:123 src/menu.cc:160
 msgid "Add to favorites"
 msgstr ""
 
-#: src/menu.cc:114 src/menu.cc:159
+#: src/menu.cc:132 src/menu.cc:186
 msgid "Edit location"
 msgstr ""
 
-#: src/menu.cc:132
+#: src/menu.cc:141 src/menu.cc:204
+msgid "Guess using IP address"
+msgstr ""
+
+#: src/menu.cc:159
 msgid "Remove from favorites"
 msgstr ""
 
-#: src/openmeteo.cc:85
+#: src/openmeteo.cc:97
 msgid "Clear sky"
 msgstr ""
 
-#: src/openmeteo.cc:87
+#: src/openmeteo.cc:99
 msgid "Mainly clear sky"
 msgstr ""
 
-#: src/openmeteo.cc:89
+#: src/openmeteo.cc:101
 msgid "Partly cloudy sky"
 msgstr ""
 
-#: src/openmeteo.cc:91
+#: src/openmeteo.cc:103
 msgid "Overcast sky"
 msgstr ""
 
-#: src/openmeteo.cc:93
+#: src/openmeteo.cc:105
 msgid "Fog"
 msgstr ""
 
-#: src/openmeteo.cc:95
+#: src/openmeteo.cc:107
 msgid "Depositing rime fog"
 msgstr ""
 
-#: src/openmeteo.cc:97
+#: src/openmeteo.cc:109
 msgid "Light drizzle"
 msgstr ""
 
-#: src/openmeteo.cc:99
+#: src/openmeteo.cc:111
 msgid "Moderate drizzle"
 msgstr ""
 
-#: src/openmeteo.cc:101
+#: src/openmeteo.cc:113
 msgid "Dense drizzle"
 msgstr ""
 
-#: src/openmeteo.cc:103
+#: src/openmeteo.cc:115
 msgid "Light freezing drizzle"
 msgstr ""
 
-#: src/openmeteo.cc:105
+#: src/openmeteo.cc:117
 msgid "Dense freezing drizzle"
 msgstr ""
 
-#: src/openmeteo.cc:107
+#: src/openmeteo.cc:119
 msgid "Slight rain"
 msgstr ""
 
-#: src/openmeteo.cc:109
+#: src/openmeteo.cc:121
 msgid "Moderate rain"
 msgstr ""
 
-#: src/openmeteo.cc:111
+#: src/openmeteo.cc:123
 msgid "Heavy rain"
 msgstr ""
 
-#: src/openmeteo.cc:113
+#: src/openmeteo.cc:125
 msgid "Light freezing rain"
 msgstr ""
 
-#: src/openmeteo.cc:115
+#: src/openmeteo.cc:127
 msgid "Heavy freezing rain"
 msgstr ""
 
-#: src/openmeteo.cc:117
+#: src/openmeteo.cc:129
 msgid "Slight snow fall"
 msgstr ""
 
-#: src/openmeteo.cc:119
+#: src/openmeteo.cc:131
 msgid "Moderate snow fall"
 msgstr ""
 
-#: src/openmeteo.cc:121
+#: src/openmeteo.cc:133
 msgid "Heavy snow fall"
 msgstr ""
 
-#: src/openmeteo.cc:123
+#: src/openmeteo.cc:135
 msgid "Snow grains"
 msgstr ""
 
-#: src/openmeteo.cc:125
+#: src/openmeteo.cc:137
 msgid "Slight rain showers"
 msgstr ""
 
-#: src/openmeteo.cc:127
+#: src/openmeteo.cc:139
 msgid "Moderate rain showers"
 msgstr ""
 
-#: src/openmeteo.cc:129
+#: src/openmeteo.cc:141
 msgid "Violent rain showers"
 msgstr ""
 
-#: src/openmeteo.cc:131
+#: src/openmeteo.cc:143
 msgid "Slight snow showers"
 msgstr ""
 
-#: src/openmeteo.cc:133
+#: src/openmeteo.cc:145
 msgid "Heavy snow showers"
 msgstr ""
 
-#: src/openmeteo.cc:135
+#: src/openmeteo.cc:147
 msgid "Slight thunderstorm"
 msgstr ""
 
-#: src/openmeteo.cc:137
+#: src/openmeteo.cc:149
 msgid "Moderate thunderstorm"
 msgstr ""
 
-#: src/openmeteo.cc:139
+#: src/openmeteo.cc:151
 msgid "Thunderstorm with slight and heavy hail"
 msgstr ""
 
-#: src/statusbar.cc:60
+#: src/statusbar.cc:76
 msgid "Ongoing update…"
 msgstr ""
 
-#: src/statusbar.cc:62 src/statusbar.cc:74
+#: src/statusbar.cc:78 src/statusbar.cc:90
 msgid "Last update:"
 msgstr ""
 
-#: src/statusbar.cc:87
+#: src/statusbar.cc:103
 msgid "Weather data from"
 msgstr ""
 
-#: src/util.cc:235
+#: src/util.cc:234
 msgid "Today"
 msgstr ""
 
-#: src/util.cc:240
+#: src/util.cc:239
 msgid "Yesterday"
 msgstr ""
 
-#: src/util.cc:245
+#: src/util.cc:244
 msgid "Tomorrow"
 msgstr ""
 
-#: src/util.cc:344 src/util.cc:360
+#: src/util.cc:343 src/util.cc:359
 msgid "New moon"
 msgstr ""
 
-#: src/util.cc:346
+#: src/util.cc:345
 msgid "Waxing crescent"
 msgstr ""
 
-#: src/util.cc:348
+#: src/util.cc:347
 msgid "First quarter moon"
 msgstr ""
 
-#: src/util.cc:350
+#: src/util.cc:349
 msgid "Waxing gibbous"
 msgstr ""
 
-#: src/util.cc:352
+#: src/util.cc:351
 msgid "Full moon"
 msgstr ""
 
-#: src/util.cc:354
+#: src/util.cc:353
 msgid "Waning gibbous"
 msgstr ""
 
-#: src/util.cc:356
+#: src/util.cc:355
 msgid "Last quarter moon"
 msgstr ""
 
-#: src/util.cc:358
+#: src/util.cc:357
 msgid "Waning crescent"
 msgstr ""
 
-#: src/version.cc:87 src/errors.h:43
+#: src/version.cc:92 src/errors.h:43
 msgid ""
 "Sorry, an unexpected error was encountered. Report this to the application "
 "author."
 msgstr ""
 
-#: src/version.cc:97
+#: src/version.cc:102
 msgid "The service hosting releases isn't working as expected. Retry later."
 msgstr ""
 
-#: src/version.cc:123
+#: src/version.cc:128
 msgid "Latest release already installed"
 msgstr ""
 
-#: src/version.cc:135
+#: src/version.cc:140
 msgid "Browse"
 msgstr ""
 
-#: src/version.cc:289
+#: src/version.cc:294
 msgid "A new version is available:"
 msgstr ""
 
@@ -493,7 +511,11 @@ msgstr ""
 msgid "Weather data can't be accessed with the provided API key."
 msgstr ""
 
-#: src/errors.h:71
+#: src/errors.h:66
+msgid "Too many requests sent. Retry later."
+msgstr ""
+
+#: src/errors.h:74
 msgid ""
 "The service providing weather data isn't working as expected. Retry later."
 msgstr ""
