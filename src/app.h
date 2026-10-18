@@ -7,6 +7,7 @@
 
 #include "config.h"
 #include "events.h"
+#include "geoip.h"
 #include "history.h"
 #include "http.h"
 #include "l10n.h"
@@ -40,6 +41,7 @@ private:
   std::shared_ptr<Model> model;
   std::shared_ptr<Config> config;
   std::unique_ptr<L10n> l10n;
+  std::unique_ptr<GeoIPService> geoip;
   std::unique_ptr<WeatherService> service;
   std::unique_ptr<VersionChecker> version_checker;
   std::unique_ptr<LocationHistoryProxy> history;
@@ -73,6 +75,8 @@ private:
   void open_about_dialog();
 
   void search_location(const std::string &location_description);
+
+  void search_location_by_ip();
 
   void set_model_location(const Location &location) const;
 

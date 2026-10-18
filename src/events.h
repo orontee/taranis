@@ -10,6 +10,7 @@ enum CustomEvent {
   check_application_version,
   search_location,
   edit_location,
+  fetch_location_with_geoip,
   open_about_dialog,
   open_alert_viewer,
   open_config_editor,

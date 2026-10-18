@@ -213,6 +213,9 @@ void Ui::handle_menu_item_selected(int item_index) {
   } else if (item_index == MENU_ITEM_TOGGLE_FAVORITE_LOCATION) {
     SendEvent(event_handler, EVT_CUSTOM,
               CustomEvent::toggle_current_location_favorite, 0);
+  } else if (item_index == MENU_ITEM_USE_GEOIP_SERVICE) {
+    SendEvent(event_handler, EVT_CUSTOM,
+              CustomEvent::fetch_location_with_geoip, 0);
   } else if (item_index == MENU_ITEM_CONFIGURE) {
     SendEvent(event_handler, EVT_CUSTOM, CustomEvent::open_config_editor, 0);
   } else if (MENU_ITEM_EMPTY_LOCATION_HISTORY < item_index and

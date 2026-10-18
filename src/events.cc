@@ -13,6 +13,9 @@ std::string taranis::format_custom_event_param(int param) {
   if (param == CustomEvent::edit_location) {
     return "edit_location";
   }
+  if (param == CustomEvent::fetch_location_with_geoip) {
+    return "fetch_location_with_geoip";
+  }
   if (param == CustomEvent::open_about_dialog) {
     return "open_about_dialog";
   }

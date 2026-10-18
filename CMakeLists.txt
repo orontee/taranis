@@ -90,6 +90,7 @@ add_executable(taranis.app
   src/events.cc
   src/fonts.cc
   src/forecast.cc
+  src/geoip.cc
   src/hourlyforecastbox.cc
   src/http.cc
   src/icons.cc

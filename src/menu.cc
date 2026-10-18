@@ -130,6 +130,15 @@ void MenuButton::update_location_history_items() {
     this->location_full_names.push_back(
         const_cast<char *>(GetLangText("Edit location")));
     ++index;
+
+    this->location_history_items[index] =
+        imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_USE_GEOIP_SERVICE,
+                nullptr,     nullptr,
+                nullptr,     nullptr,
+                nullptr};
+    this->location_full_names.push_back(
+        const_cast<char *>(GetLangText("Guess using IP address")));
+    ++index;
   } else {
     for (const auto &item : location_history) {
       this->location_full_names.push_back(format_location(item.location));
@@ -156,7 +165,7 @@ void MenuButton::update_location_history_items() {
         const short toggle_item_state =
             is_toggle_item_active ? ITEM_ACTIVE : ITEM_INACTIVE;
 
-        this->location_history_items.at(index) =
+        this->location_history_items[index] =
             imenuex{toggle_item_state,
                     taranis::MENU_ITEM_TOGGLE_FAVORITE_LOCATION,
                     nullptr,
@@ -174,6 +183,15 @@ void MenuButton::update_location_history_items() {
                     nullptr};
         this->location_full_names.push_back(
             const_cast<char *>(GetLangText("Edit location")));
+        ++index;
+
+        this->location_history_items[index] =
+          imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_USE_GEOIP_SERVICE,
+                  nullptr,     nullptr,
+                  nullptr,     nullptr,
+                  nullptr};
+        this->location_full_names.push_back(
+              const_cast<char *>(GetLangText("Guess using IP address")));
         ++index;
 
         break;

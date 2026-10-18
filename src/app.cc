@@ -1,4 +1,6 @@
 #include "app.h"
+#include "boost/log/trivial.hpp"
+#include "geoip.h"
 
 #ifdef WITH_SDK_6_8
 #include <experimental/optional>
@@ -29,6 +31,7 @@ namespace taranis {
 App::App(std::shared_ptr<Config> config)
     : client{std::make_shared<HttpClient>()}, model{std::make_shared<Model>()},
       config{config}, l10n{std::make_unique<L10n>()},
+      geoip{std::make_unique<GeoIPService>(this->client)},
       version_checker{std::make_unique<VersionChecker>(
           this->config, this->client, this->model)},
       history{std::make_unique<LocationHistoryProxy>(this->model)},
@@ -149,6 +152,7 @@ void App::exit() {
   this->history.reset();
   this->version_checker.reset();
   this->service.reset();
+  this->geoip.reset();
   this->model.reset();
   this->client.reset();
 }
@@ -276,6 +280,9 @@ int App::handle_custom_event(int param_one, int param_two) {
       this->ui->edit_location();
       return 1;
     }
+  } else if (param_one == CustomEvent::fetch_location_with_geoip) {
+    this->search_location_by_ip();
+    return 1;
   } else if (param_one == CustomEvent::open_alert_viewer) {
     if (this->ui) {
       this->ui->display_alert();
@@ -556,6 +563,37 @@ void App::search_location(const std::string &location_description) {
         << "Service error while searching locations " << error.what();
     Message(ICON_WARNING, GetLangText("Service unavailable"), error.what(),
             App::error_dialog_delay);
+  }
+}
+
+void App::search_location_by_ip() {
+  if (this->geoip) {
+    try {
+      auto location = this->geoip->search_location();
+      if (location != std::nullopt) {
+        this->set_model_location(*location);
+      } else {
+        BOOST_LOG_TRIVIAL(warning)
+          <<"Failed to identify location using geoip service";
+        return;
+      }
+  } catch (const ConnectionError &error) {
+    BOOST_LOG_TRIVIAL(debug)
+        << "Connection error while identifying location " << error.what();
+    Message(
+        ICON_WARNING, GetLangText("Network error"),
+        GetLangText("Failure while fetching weather data. Check your network "
+                    "connection."),
+        App::error_dialog_delay);
+  } catch (const RequestError &error) {
+    BOOST_LOG_TRIVIAL(debug)
+        << "Request error while identifying location " << error.what();
+    Message(
+        ICON_WARNING, GetLangText("Network error"),
+        GetLangText("Failure while fetching weather data. Check your network "
+                    "connection."),
+        App::error_dialog_delay);
+    }
   }
 }
 

@@ -1,11 +1,7 @@
 #pragma once
 
-#include <algorithm>
 #include <array>
-#include <cstring>
-#include <functional>
 #include <inkview.h>
-#include <map>
 #include <memory>
 #include <vector>
 
@@ -22,8 +18,9 @@ enum menu_item_index {
   MENU_ITEM_LOCATION_HISTORY = 200,
   MENU_ITEM_EDIT_LOCATION = 201,
   MENU_ITEM_TOGGLE_FAVORITE_LOCATION = 202,
-  MENU_ITEM_CONFIGURE = 203,
-  MENU_ITEM_QUIT = 300,
+  MENU_ITEM_USE_GEOIP_SERVICE = 203,
+  MENU_ITEM_CONFIGURE = 300,
+  MENU_ITEM_QUIT = 400,
   MENU_ITEM_EMPTY_LOCATION_HISTORY = 800,
 };
 
@@ -48,7 +45,7 @@ private:
 
   std::shared_ptr<Icons> icons;
 
-  std::array<imenuex, LocationHistoryProxy::max_size + 3>
+  std::array<imenuex, LocationHistoryProxy::max_size + 4>
       location_history_items;
   MenuItems items;
 
