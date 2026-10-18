@@ -40,12 +40,23 @@ Consult the [NEWS file](NEWS.md) for notable changes between versions.
 
 ## Privacy policy
 
-The two external services that can be called by Taranis are respectful
+The three external services that can be called by Taranis are respectful
 of privacy. Those policies can be checked on:
+
+* [ipapi.is](https://ipapi.is/privacy.html)
 
 * [OpenWeather privacy policy](https://openweather.co.uk/privacy-policy).
 
 * [Open-Meteo](https://open-meteo.com/en/terms#privacy)
+
+The Open-Meteo and ipapi.is services are used without any account, API
+key, etc. So Taranis developers have no visibility on the requests
+performed by the application.
+
+The OpenWeather service is used with an API key, but the corresponding
+account only gives a view on the number of requests a day; Whatever a
+configuration parameter is available in Taranis for users to bring
+their own API key.
 
 ## Install
 

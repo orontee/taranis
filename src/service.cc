@@ -5,8 +5,9 @@
 
 namespace taranis {
 
-std::unique_ptr<WeatherService> WeatherService::by_name(DataProvider data_provider,
-                                          std::shared_ptr<HttpClient> client) {
+std::unique_ptr<WeatherService>
+WeatherService::by_name(DataProvider data_provider,
+                        std::shared_ptr<HttpClient> client) {
   if (data_provider == DataProvider::openmeteo_best_match or
       data_provider == DataProvider::openmeteo_ecmwf_ifs_hres or
       data_provider == DataProvider::openmeteo_kma_seamless or

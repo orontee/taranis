@@ -24,15 +24,11 @@ namespace taranis {
 
 class GeoIPService {
 public:
-
-  GeoIPService(std::shared_ptr<HttpClient> client):
-    client{client}
-  {}
+  GeoIPService(std::shared_ptr<HttpClient> client) : client{client} {}
 
   std::optional<Location> search_location() const;
 
 private:
   std::shared_ptr<HttpClient> client;
-
 };
-}
+} // namespace taranis

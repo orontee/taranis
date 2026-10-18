@@ -78,9 +78,8 @@ Json::Value HttpClient::get(const std::string &url) {
   try {
     if (not Json::parseFromStream(reader, input_stream, &root, &json_errors)) {
       BOOST_LOG_TRIVIAL(error)
-        << "JSON parser error " << json_errors << " " << obfuscate_url(url);
-      BOOST_LOG_TRIVIAL(debug)
-        << this->response_data;
+          << "JSON parser error " << json_errors << " " << obfuscate_url(url);
+      BOOST_LOG_TRIVIAL(debug) << this->response_data;
     }
   } catch (const Json::Exception &error) {
     BOOST_LOG_TRIVIAL(error) << error.what();

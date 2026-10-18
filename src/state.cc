@@ -3,7 +3,6 @@
 #include <boost/log/trivial.hpp>
 #include <fstream>
 #include <inkview.h>
-#include <iomanip>
 #include <json/writer.h>
 
 #include "convert.h"
@@ -27,7 +26,7 @@ void ApplicationState::restore() {
   Json::Reader reader;
   if (not reader.parse(input, root)) {
     BOOST_LOG_TRIVIAL(error) << "Failed to read stored application state";
-    BOOST_LOG_TRIVIAL(error) << reader.getFormatedErrorMessages();
+    BOOST_LOG_TRIVIAL(error) << reader.getFormattedErrorMessages();
     return;
   }
   this->restore_model(root);

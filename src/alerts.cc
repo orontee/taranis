@@ -1,8 +1,6 @@
 #include "alerts.h"
 
-#include <cstdint>
 #include <inkview.h>
-#include <iomanip>
 #include <memory>
 #include <sstream>
 #include <string>

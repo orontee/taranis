@@ -214,35 +214,35 @@ std::string convert_units_to_query_units(const std::string &units) {
 
 std::string convert_data_provider_to_model(DataProvider provider) {
   switch (provider) {
-  case openmeteo_best_match:
+  case DataProvider::openmeteo_best_match:
     return "best_match";
-  case openmeteo_ecmwf_ifs_hres:
+  case DataProvider::openmeteo_ecmwf_ifs_hres:
     return "ecmwf_ifs";
-  case openmeteo_kma_seamless:
+  case DataProvider::openmeteo_kma_seamless:
     return "kma_seamless";
-  case openmeteo_meteofrance_seamless:
+  case DataProvider::openmeteo_meteofrance_seamless:
     return "meteofrance_seamless";
-  case openmeteo_knmi_seamless:
+  case DataProvider::openmeteo_knmi_seamless:
     return "knmi_seamless";
-  case openmeteo_dmi_seamless:
+  case DataProvider::openmeteo_dmi_seamless:
     return "dmi_seamless";
-  case openmeteo_ukmo_seamless:
+  case DataProvider::openmeteo_ukmo_seamless:
     return "ukmo_seamless";
-  case openmeteo_meteoswiss_icon_seamless:
+  case DataProvider::openmeteo_meteoswiss_icon_seamless:
     return "meteoswiss_icon_seamless";
-  case openmeteo_gem_seamless:
+  case DataProvider::openmeteo_gem_seamless:
     return "gem_seamless";
-  case openmeteo_metno_seamless:
+  case DataProvider::openmeteo_metno_seamless:
     return "metno_seamless";
-  case openmeteo_italia_meteo_arpae_icon_2i:
+  case DataProvider::openmeteo_italia_meteo_arpae_icon_2i:
     return "italia_meteo_arpae_icon_2i";
-  case openmeteo_gfs_seamless:
+  case DataProvider::openmeteo_gfs_seamless:
     return "gfs_seamless";
-  case openmeteo_jma_seamless:
+  case DataProvider::openmeteo_jma_seamless:
     return "jma_seamless";
-  case openmeteo_bom_access_global:
+  case DataProvider::openmeteo_bom_access_global:
     return "bom_access_global";
-  case openweather:
+  case DataProvider::openweather:
     break;
   }
   BOOST_LOG_TRIVIAL(error)

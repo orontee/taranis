@@ -1,7 +1,6 @@
 #include "convert.h"
 
 #include <boost/log/trivial.hpp>
-#include <exception>
 #ifdef WITH_SDK_6_8
 #include <experimental/optional>
 #else
@@ -67,7 +66,7 @@ Json::Value to_json(const Condition &condition) {
   value["wind_speed"] = condition.wind_speed;
   value["wind_degree"] = condition.wind_degree;
   value["wind_gust"] = condition.wind_gust;
-  value["weather"] = condition.weather;
+  value["weather"] = static_cast<int>(condition.weather);
   value["weather_description"] = condition.weather_description;
   value["weather_icon_name"] = condition.weather_icon_name;
   value["weather_secondary_description"] =
@@ -121,7 +120,7 @@ Json::Value to_json(const DailyCondition &condition) {
   value["uv_index"] = condition.uv_index;
   value["rain"] = condition.rain;
   value["snow"] = condition.snow;
-  value["weather"] = condition.weather;
+  value["weather"] = static_cast<int>(condition.weather);
   value["weather_description"] = condition.weather_description;
   value["weather_icon_name"] = condition.weather_icon_name;
   value["weather_secondary_description"] =
@@ -188,8 +187,9 @@ Json::Value to_json(const HistoryItem &item) {
 
 Json::Value to_json(const Model &model) {
   Json::Value value;
-  value["data_provider"] = model.data_provider;
-  value["unit_system"] = model.unit_system;
+  value["data_provider"] = static_cast<int>(model.data_provider);
+  value["unit_system"] = static_cast<int>(model.unit_system);
+  value["geoip_config"] = static_cast<int>(model.geoip_config);
   if (model.refresh_date == std::nullopt) {
     value["refresh_date"] = Json::Value::null;
   } else {
@@ -244,8 +244,8 @@ void update_from_json(Condition &condition, const Json::Value &value) {
   condition.wind_speed = deserialize_possible_null(value["wind_speed"]);
   condition.wind_degree = value.get("wind_degree", 0).asInt();
   condition.wind_gust = deserialize_possible_null(value["wind_gust"]);
-  condition.weather =
-      static_cast<Weather>(value.get("weather", CLEAR_SKY).asInt());
+  condition.weather = static_cast<Weather>(
+      value.get("weather", static_cast<int>(Weather::CLEAR_SKY)).asInt());
   condition.weather_description =
       value.get("weather_description", "").asString();
   condition.weather_icon_name = value.get("weather_icon_name", "").asString();
@@ -287,8 +287,8 @@ void update_from_json(DailyCondition &condition, const Json::Value &value) {
   condition.uv_index = deserialize_possible_null(value["uv_index"]);
   condition.rain = deserialize_possible_null(value["rain"]);
   condition.snow = deserialize_possible_null(value["snow"]);
-  condition.weather =
-      static_cast<Weather>(value.get("weather", CLEAR_SKY).asInt());
+  condition.weather = static_cast<Weather>(
+      value.get("weather", static_cast<int>(Weather::CLEAR_SKY)).asInt());
   condition.weather_description =
       value.get("weather_description", "").asString();
   condition.weather_icon_name = value.get("weather_icon_name", "").asString();
@@ -361,15 +361,19 @@ void update_from_json(HistoryItem &item, const Json::Value &value) {
 
 void update_from_json(Model &model, const Json::Value &value) {
   model.data_provider = static_cast<DataProvider>(
-      value.get("data_provider", openweather).asInt());
+      value.get("data_provider", static_cast<int>(DataProvider::openweather))
+          .asInt());
   model.unit_system = static_cast<UnitSystem>(
-      value.get("unit_system", UnitSystem::metric).asInt());
+      value.get("unit_system", static_cast<int>(UnitSystem::metric)).asInt());
   if (model.unit_system == UnitSystem::standard) {
     model.unit_system = UnitSystem::metric;
 
     BOOST_LOG_TRIVIAL(warning)
         << "Unit system forced to metric after standard was deprecated.";
   }
+  model.geoip_config = static_cast<GeoIPConfig>(
+      value.get("geoip_config", static_cast<int>(GeoIPConfig::startup))
+          .asInt());
   model.refresh_date = TimePoint{value.get("refresh_date", 0).asInt64() * 1s};
 
   auto &location = model.location;

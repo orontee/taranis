@@ -44,7 +44,7 @@ private:
   typedef std::vector<CellContent> ColumnContent;
   typedef std::vector<ColumnContent> TableContent;
 
-  enum ColumnType {
+  enum class ColumnType {
     WeekDayColumn,
     IconColumn,
     SunHoursColumn,

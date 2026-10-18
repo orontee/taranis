@@ -2,10 +2,8 @@
 
 #include <array>
 #include <boost/log/trivial.hpp>
-#include <cmath>
 #include <cstring>
 #include <inkview.h>
-#include <sstream>
 #include <string>
 
 #include "events.h"

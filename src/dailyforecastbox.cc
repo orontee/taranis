@@ -83,21 +83,25 @@ void DailyForecastBox::generate_table_content() {
       });
   if (has_day_periods_temperatures) {
     this->column_count = 9;
-    this->column_types = {WeekDayColumn,           IconColumn,
-                          SunHoursColumn,          MorningTemperatureColumn,
-                          DayTemperatureColumn,    EveningTemperatureColumn,
-                          MinMaxTemperatureColumn, WindColumn,
-                          PrecipitationColumn};
+    this->column_types = {ColumnType::WeekDayColumn,
+                          ColumnType::IconColumn,
+                          ColumnType::SunHoursColumn,
+                          ColumnType::MorningTemperatureColumn,
+                          ColumnType::DayTemperatureColumn,
+                          ColumnType::EveningTemperatureColumn,
+                          ColumnType::MinMaxTemperatureColumn,
+                          ColumnType::WindColumn,
+                          ColumnType::PrecipitationColumn};
   } else {
     this->column_count = 8;
-    this->column_types = {WeekDayColumn,
-                          IconColumn,
-                          SunHoursColumn,
-                          DayTemperatureColumn,
-                          DayFeltTemperatureColumn,
-                          MinMaxTemperatureColumn,
-                          WindColumn,
-                          PrecipitationColumn};
+    this->column_types = {ColumnType::WeekDayColumn,
+                          ColumnType::IconColumn,
+                          ColumnType::SunHoursColumn,
+                          ColumnType::DayTemperatureColumn,
+                          ColumnType::DayFeltTemperatureColumn,
+                          ColumnType::MinMaxTemperatureColumn,
+                          ColumnType::WindColumn,
+                          ColumnType::PrecipitationColumn};
   }
   this->table_content.clear();
   this->column_widths.clear();
@@ -120,36 +124,36 @@ void DailyForecastBox::generate_table_content() {
 
       const auto &forecast = this->model->daily_forecast[row_index];
 
-      if (column_type == DailyForecastBox::WeekDayColumn) {
+      if (column_type == ColumnType::WeekDayColumn) {
         column_content[row_index] = std::pair<std::string, std::string>{
             format_short_day(forecast.date), format_short_date(forecast.date)};
-      } else if (column_type == DailyForecastBox::IconColumn) {
+      } else if (column_type == ColumnType::IconColumn) {
         column_content[row_index] =
             this->icons->get(forecast.weather_icon_name);
-      } else if (column_type == DailyForecastBox::SunHoursColumn) {
+      } else if (column_type == ColumnType::SunHoursColumn) {
         column_content[row_index] = std::pair<std::string, std::string>{
             format_time(forecast.sunrise), format_time(forecast.sunset)};
-      } else if (column_type == DailyForecastBox::MorningTemperatureColumn) {
+      } else if (column_type == ColumnType::MorningTemperatureColumn) {
         if (forecast.temperature_morning != std::nullopt) {
           column_content[row_index] =
               units.format_temperature(*forecast.temperature_morning);
         }
-      } else if (column_type == DailyForecastBox::DayTemperatureColumn) {
+      } else if (column_type == ColumnType::DayTemperatureColumn) {
         column_content[row_index] =
             units.format_temperature(forecast.temperature_day);
-      } else if (column_type == DailyForecastBox::DayFeltTemperatureColumn) {
+      } else if (column_type == ColumnType::DayFeltTemperatureColumn) {
         column_content[row_index] =
             units.format_temperature(forecast.felt_temperature_day);
-      } else if (column_type == DailyForecastBox::EveningTemperatureColumn) {
+      } else if (column_type == ColumnType::EveningTemperatureColumn) {
         if (forecast.temperature_evening != std::nullopt) {
           column_content[row_index] =
               units.format_temperature(*forecast.temperature_evening);
         }
-      } else if (column_type == DailyForecastBox::MinMaxTemperatureColumn) {
+      } else if (column_type == ColumnType::MinMaxTemperatureColumn) {
         column_content[row_index] = std::pair<std::string, std::string>{
             units.format_temperature(forecast.temperature_max),
             units.format_temperature(forecast.temperature_min)};
-      } else if (column_type == DailyForecastBox::WindColumn) {
+      } else if (column_type == ColumnType::WindColumn) {
         if (static_cast<int>(forecast.wind_speed) == 0 and
             static_cast<int>(forecast.wind_gust) == 0) {
           column_content[row_index] =
@@ -169,7 +173,7 @@ void DailyForecastBox::generate_table_content() {
                 std::pair<std::string, std::string>{wind_speed_text, ""};
           }
         }
-      } else if (column_type == DailyForecastBox::PrecipitationColumn) {
+      } else if (column_type == ColumnType::PrecipitationColumn) {
         column_content[row_index] =
             this->generate_precipitation_column_content(forecast);
       }
@@ -181,23 +185,23 @@ std::shared_ptr<ifont> DailyForecastBox::get_font(size_t column_index,
                                                   int line_number) const {
   assert(0 <= column_index and column_index < this->column_types.size());
   const auto column_type = this->column_types.at(column_index);
-  if (column_type == WeekDayColumn) {
+  if (column_type == ColumnType::WeekDayColumn) {
     if (line_number == 2) {
       return this->fonts->get_tiny_font();
     } else {
       return this->fonts->get_small_font();
     }
-  } else if (column_type == SunHoursColumn or
-             column_type == MinMaxTemperatureColumn or
-             column_type == PrecipitationColumn) {
+  } else if (column_type == ColumnType::SunHoursColumn or
+             column_type == ColumnType::MinMaxTemperatureColumn or
+             column_type == ColumnType::PrecipitationColumn) {
     return this->fonts->get_tiny_font();
-  } else if (column_type == MorningTemperatureColumn or
-             column_type == DayTemperatureColumn or
-             column_type == EveningTemperatureColumn) {
+  } else if (column_type == ColumnType::MorningTemperatureColumn or
+             column_type == ColumnType::DayTemperatureColumn or
+             column_type == ColumnType::EveningTemperatureColumn) {
     return this->fonts->get_small_bold_font();
-  } else if (column_type == DayFeltTemperatureColumn) {
+  } else if (column_type == ColumnType::DayFeltTemperatureColumn) {
     return this->fonts->get_small_font();
-  } else if (column_type == WindColumn) {
+  } else if (column_type == ColumnType::WindColumn) {
     if (line_number == 2) {
       return this->fonts->get_tiny_italic_font();
     } else {
@@ -212,7 +216,7 @@ int DailyForecastBox::estimate_max_content_width(size_t column_index) const {
     return 0;
   }
   const auto column_type = this->column_types.at(column_index);
-  if (column_type == DailyForecastBox::IconColumn) {
+  if (column_type == ColumnType::IconColumn) {
     return 70;
   }
   const auto first_line_font = this->get_font(column_index, 1);
@@ -313,7 +317,7 @@ void DailyForecastBox::draw_values() {
     const auto &column_start_x = this->column_starts[column_index];
     const auto column_type = this->column_types[column_index];
 
-    if (column_type == DailyForecastBox::IconColumn) {
+    if (column_type == ColumnType::IconColumn) {
       for (size_t row_index = 0; row_index < row_count; ++row_index) {
         const auto icon = boost::get<ibitmap *>(column_content[row_index]);
         if (icon) {
@@ -382,18 +386,18 @@ void DailyForecastBox::on_clicked_at(int pointer_pos_x, int pointer_pos_y) {
 
 int DailyForecastBox::column_text_flags(ColumnType type) {
   switch (type) {
-  case WeekDayColumn:
+  case ColumnType::WeekDayColumn:
     return ALIGN_LEFT;
-  case IconColumn:
+  case ColumnType::IconColumn:
     return ALIGN_CENTER;
-  case SunHoursColumn:
-  case MorningTemperatureColumn:
-  case DayTemperatureColumn:
-  case DayFeltTemperatureColumn:
-  case EveningTemperatureColumn:
-  case MinMaxTemperatureColumn:
-  case WindColumn:
-  case PrecipitationColumn:
+  case ColumnType::SunHoursColumn:
+  case ColumnType::MorningTemperatureColumn:
+  case ColumnType::DayTemperatureColumn:
+  case ColumnType::DayFeltTemperatureColumn:
+  case ColumnType::EveningTemperatureColumn:
+  case ColumnType::MinMaxTemperatureColumn:
+  case ColumnType::WindColumn:
+  case ColumnType::PrecipitationColumn:
     return ALIGN_RIGHT;
   }
   return -1;

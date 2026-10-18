@@ -23,6 +23,7 @@ extern const ibitmap icon_direction;
 extern const ibitmap icon_display_settings;
 extern const ibitmap icon_favorite;
 extern const ibitmap icon_key;
+extern const ibitmap icon_location;
 extern const ibitmap icon_measuring_tape;
 extern const ibitmap icon_menu;
 extern const ibitmap icon_radio_button_checked;
@@ -80,6 +81,9 @@ public:
     }
     if (name == "favorite") {
       return const_cast<ibitmap *>(&icon_favorite);
+    }
+    if (name == "location") {
+      return const_cast<ibitmap *>(&icon_location);
     }
     if (name == "menu") {
       return const_cast<ibitmap *>(&icon_menu);

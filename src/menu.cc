@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "model.h"
 
 #ifdef WITH_SDK_6_8
 #include <experimental/optional>
@@ -158,15 +159,15 @@ void MenuButton::update_location_history_items() {
                                    ? GetLangText("Remove from favorites")
                                    : GetLangText("Add to favorites"));
 
-        const bool is_toggle_item_active =
+        const bool is_toggle_favorite_item_active =
             history->is_current_location_favorite() or
             history->can_add_favorite();
 
-        const short toggle_item_state =
-            is_toggle_item_active ? ITEM_ACTIVE : ITEM_INACTIVE;
+        const short toggle_favorite_item_state =
+            is_toggle_favorite_item_active ? ITEM_ACTIVE : ITEM_INACTIVE;
 
         this->location_history_items[index] =
-            imenuex{toggle_item_state,
+            imenuex{toggle_favorite_item_state,
                     taranis::MENU_ITEM_TOGGLE_FAVORITE_LOCATION,
                     nullptr,
                     nullptr,
@@ -185,13 +186,22 @@ void MenuButton::update_location_history_items() {
             const_cast<char *>(GetLangText("Edit location")));
         ++index;
 
+        const bool is_geoip_service_active =
+            this->model->geoip_config != GeoIPConfig::disabled;
+
+        const short toggle_use_geoip_item_state =
+            is_geoip_service_active ? ITEM_ACTIVE : ITEM_INACTIVE;
+
         this->location_history_items[index] =
-          imenuex{ITEM_ACTIVE, taranis::MENU_ITEM_USE_GEOIP_SERVICE,
-                  nullptr,     nullptr,
-                  nullptr,     nullptr,
-                  nullptr};
+            imenuex{toggle_use_geoip_item_state,
+                    taranis::MENU_ITEM_USE_GEOIP_SERVICE,
+                    nullptr,
+                    nullptr,
+                    nullptr,
+                    nullptr,
+                    nullptr};
         this->location_full_names.push_back(
-              const_cast<char *>(GetLangText("Guess using IP address")));
+            const_cast<char *>(GetLangText("Guess using IP address")));
         ++index;
 
         break;

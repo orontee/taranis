@@ -2,7 +2,6 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "config.h"
 #include "dailyforecastbox.h"
 #include "inkview.h"
 #include "statusbar.h"

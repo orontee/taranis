@@ -3,7 +3,6 @@
 #include <json/value.h>
 #include <memory>
 #include <string>
-#include <tuple>
 #include <vector>
 
 #include "config.h"
@@ -43,9 +42,9 @@ public:
 
   void check(CallContext context);
 
-private:
-  enum Action { browse = 1, skip = 2 };
+  enum class Action { browse = 1, skip = 2 };
 
+private:
   static constexpr int message_delay{5000};
 
   const std::string current_version_extended;
@@ -70,5 +69,7 @@ private:
 
   static Version parse_possible_version_string(const std::string &target);
 };
+
+std::ostream &operator<<(std::ostream &os, VersionChecker::Action a);
 
 } // namespace taranis

@@ -1,7 +1,6 @@
 #include "currentconditionbox.h"
 
 #include <inkview.h>
-#include <iomanip>
 #include <sstream>
 
 #include "units.h"

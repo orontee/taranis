@@ -7,7 +7,6 @@
 #else
 #include <optional>
 #endif
-#include <fstream>
 #include <inkview.h>
 #include <memory>
 

@@ -10,7 +10,7 @@
 namespace {
 std::shared_ptr<taranis::Config> config;
 std::unique_ptr<taranis::App> app;
-}
+} // namespace
 
 int event_handler(int event_type, int param_one, int param_two) {
   try {

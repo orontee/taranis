@@ -1,15 +1,12 @@
 #pragma once
 
-#include <algorithm>
 #include <chrono>
-#include <ctime>
 #ifdef WITH_SDK_6_8
 #include <experimental/optional>
 #else
 #include <optional>
 #endif
 #include <inkview.h>
-#include <string>
 
 #ifdef WITH_SDK_6_8
 namespace std {
@@ -23,7 +20,7 @@ using experimental::optional;
 
 namespace taranis {
 
-enum SwipeType {
+enum class SwipeType {
   no_swipe = 0,
   left_swipe = -1,
   right_swipe = 1,
@@ -51,9 +48,9 @@ public:
   SwipeType guess_event_swipe_type(int event_type, int pointer_pos_x,
                                    int pointer_pos_y) {
     if (not(ISPOINTEREVENT(event_type))) {
-      return no_swipe;
+      return SwipeType::no_swipe;
     }
-    auto value = no_swipe;
+    auto value = SwipeType::no_swipe;
     if (event_type == EVT_POINTERDOWN) {
       if (this->is_false_positive_track_start(pointer_pos_x, pointer_pos_y)) {
         this->cancel_tracking();
@@ -68,7 +65,8 @@ public:
       if (not is_false_positive_track_end(pointer_pos_x, pointer_pos_y)) {
         const auto delta_x = pointer_pos_x - this->track->start_pos_x;
         if (std::abs(delta_x) > SwipeDetector::horizontal_threshold) {
-          value = (delta_x > 0) ? right_swipe : left_swipe;
+          value =
+              (delta_x > 0) ? SwipeType::right_swipe : SwipeType::left_swipe;
         }
       }
       this->cancel_tracking();

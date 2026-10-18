@@ -2,18 +2,22 @@
 
 #include <algorithm>
 #include <boost/log/trivial.hpp>
-#include <functional>
 #include <inkview.h>
 #include <regex>
 #include <sstream>
 #include <stdexcept>
 
 #include "errors.h"
+#include "events.h"
 
 namespace taranis {
 
 extern const std::string version;
 // initialized in automatically generated file about.cc
+
+std::ostream &operator<<(std::ostream &os, VersionChecker::Action a) {
+  return os << std::to_string(static_cast<int>(a));
+}
 
 bool operator==(const Version &lhs, const Version &rhs) {
   return (lhs.major == rhs.major and lhs.minor == rhs.minor and
@@ -71,6 +75,7 @@ void VersionChecker::check(CallContext context) {
   case CallContext::triggered_by_application_startup:
   case CallContext::triggered_by_configuration_change:
   case CallContext::triggered_by_model_change:
+  case CallContext::triggered_by_data_refresh:
   case CallContext::triggered_by_timer:
     this->do_check(false);
     break;
@@ -135,7 +140,7 @@ void VersionChecker::notify_user(const ReleaseDescription &release) const {
       GetLangText("Browse"), GetLangText("Ok"), nullptr));
 
   switch (user_choice) {
-  case browse: {
+  case Action::browse: {
     BOOST_LOG_TRIVIAL(debug) << "Opening URL " << release.browser_url;
     const char *const url = release.news_url.c_str();
     const auto browser_status =
@@ -144,7 +149,7 @@ void VersionChecker::notify_user(const ReleaseDescription &release) const {
         << "Browser task status " << std::to_string(browser_status);
     break;
   }
-  case skip:
+  case Action::skip:
     BOOST_LOG_TRIVIAL(debug) << "Skipping software check";
     break;
   default:

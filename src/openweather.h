@@ -1,14 +1,9 @@
 #pragma once
 
-#include <algorithm>
-#include <cmath>
-#include <ctime>
 #include <json/json.h>
 #include <json/value.h>
 #include <memory>
-#include <sstream>
 #include <string>
-#include <utility>
 
 #include "http.h"
 #include "model.h"
@@ -24,7 +19,7 @@ public:
       : WeatherService{
             client,
             "4620ad6f20069b66bc36b1e88ceb4541" // API key associated to rate
-                                                       // limited plan
+                                               // limited plan
         } {}
 
   DataProvider get_data_provider() override {

@@ -1,50 +1,57 @@
 #include "events.h"
 
 std::string taranis::format_custom_event_param(int param) {
-  if (param == CustomEvent::change_daily_forecast_display) {
+  if (static_cast<CustomEvent>(param) ==
+      CustomEvent::change_daily_forecast_display) {
     return "change_daily_forecast_display";
   }
-  if (param == CustomEvent::check_application_version) {
+  if (static_cast<CustomEvent>(param) ==
+      CustomEvent::check_application_version) {
     return "check_application_version";
   }
-  if (param == CustomEvent::search_location) {
+  if (static_cast<CustomEvent>(param) == CustomEvent::search_location) {
     return "search_location";
   }
-  if (param == CustomEvent::edit_location) {
+  if (static_cast<CustomEvent>(param) == CustomEvent::edit_location) {
     return "edit_location";
   }
-  if (param == CustomEvent::fetch_location_with_geoip) {
+  if (static_cast<CustomEvent>(param) ==
+      CustomEvent::fetch_location_with_geoip) {
     return "fetch_location_with_geoip";
   }
-  if (param == CustomEvent::open_about_dialog) {
+  if (static_cast<CustomEvent>(param) == CustomEvent::open_about_dialog) {
     return "open_about_dialog";
   }
-  if (param == CustomEvent::open_alert_viewer) {
+  if (static_cast<CustomEvent>(param) == CustomEvent::open_alert_viewer) {
     return "open_alert_viewer";
   }
-  if (param == CustomEvent::open_config_editor) {
+  if (static_cast<CustomEvent>(param) == CustomEvent::open_config_editor) {
     return "open_config_editor";
   }
-  if (param == CustomEvent::refresh_data) {
+  if (static_cast<CustomEvent>(param) == CustomEvent::refresh_data) {
     return "refresh_data";
   }
-  if (param == CustomEvent::select_location_from_history) {
+  if (static_cast<CustomEvent>(param) ==
+      CustomEvent::select_location_from_history) {
     return "select_location_from_history";
   }
-  if (param == CustomEvent::select_location_from_list) {
+  if (static_cast<CustomEvent>(param) ==
+      CustomEvent::select_location_from_list) {
     return "select_location_from_list";
   }
 
-  if (param == CustomEvent::toggle_current_location_favorite) {
+  if (static_cast<CustomEvent>(param) ==
+      CustomEvent::toggle_current_location_favorite) {
     return "toggle_current_location_favorite";
   }
-  if (param == CustomEvent::model_daily_forecast_display_changed) {
+  if (static_cast<CustomEvent>(param) ==
+      CustomEvent::model_daily_forecast_display_changed) {
     return "model_daily_forecast_display_changed";
   }
-  if (param == CustomEvent::model_updated) {
+  if (static_cast<CustomEvent>(param) == CustomEvent::model_updated) {
     return "model_updated";
   }
-  if (param == CustomEvent::warning_emitted) {
+  if (static_cast<CustomEvent>(param) == CustomEvent::warning_emitted) {
     return "warning_emitted";
   }
   return "Unknow custom event";

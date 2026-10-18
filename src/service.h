@@ -15,8 +15,8 @@ namespace taranis {
 
 class WeatherService {
 public:
-  static std::unique_ptr<WeatherService> by_name(DataProvider data_provider,
-                                          std::shared_ptr<HttpClient> client);
+  static std::unique_ptr<WeatherService>
+  by_name(DataProvider data_provider, std::shared_ptr<HttpClient> client);
 
   virtual ~WeatherService() {}
 

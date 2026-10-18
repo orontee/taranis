@@ -6,9 +6,7 @@
 #include <cstring>
 #include <gsl/gsl_interp.h>
 #include <inkview.h>
-#include <map>
 #include <memory>
-#include <sstream>
 
 #include "units.h"
 #include "util.h"
@@ -290,7 +288,7 @@ void HourlyForecastBox::draw_frame_and_values() {
   }
 
   for (size_t bar_index = 0; bar_index < HourlyForecastBox::visible_bars;
-                             ++bar_index) {
+       ++bar_index) {
     const auto bar_center_x = (bar_index + 1.0 / 2) * this->bar_width;
     auto separator_start_y = this->time_y;
 

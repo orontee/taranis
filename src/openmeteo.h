@@ -1,16 +1,10 @@
 #pragma once
 
-#include <algorithm>
-#include <cmath>
-#include <ctime>
 #include <json/json.h>
 #include <json/value.h>
 #include <memory>
-#include <sstream>
 #include <string>
-#include <utility>
 
-#include "boost/log/trivial.hpp"
 #include "http.h"
 #include "model.h"
 #include "service.h"

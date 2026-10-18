@@ -13,7 +13,7 @@
 
 namespace taranis {
 
-enum menu_item_index {
+enum MenuItems {
   MENU_ITEM_REFRESH = 100,
   MENU_ITEM_LOCATION_HISTORY = 200,
   MENU_ITEM_EDIT_LOCATION = 201,

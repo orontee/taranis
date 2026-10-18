@@ -1,7 +1,6 @@
 #pragma once
 
 #include <inkview.h>
-#include <memory>
 #include <string>
 
 namespace taranis {

@@ -52,6 +52,8 @@ private:
   bool config_already_loaded{false};
   bool show_on_next_activate{false};
 
+  GeoIPConfig geoip_config{GeoIPConfig::startup};
+
   void setup();
 
   void show();
@@ -76,7 +78,7 @@ private:
 
   void search_location(const std::string &location_description);
 
-  void search_location_by_ip();
+  void set_model_location_using_geoip(CallContext context);
 
   void set_model_location(const Location &location) const;
 

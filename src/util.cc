@@ -5,7 +5,6 @@
 #include <cassert>
 #include <chrono>
 #include <cmath>
-#include <cstring>
 #include <ctime>
 #include <inkview.h>
 #include <iomanip>

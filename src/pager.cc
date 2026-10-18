@@ -1,6 +1,5 @@
 #include "pager.h"
 
-#include <cmath>
 #include <inkview.h>
 
 namespace taranis {

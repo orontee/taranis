@@ -16,6 +16,7 @@ set(ICONS
   ${CMAKE_SOURCE_DIR}/icons/icon_display_settings.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_favorite.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_key.bmp
+  ${CMAKE_SOURCE_DIR}/icons/icon_location.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_measuring_tape.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_menu.bmp
   ${CMAKE_SOURCE_DIR}/icons/icon_radio_button_checked.bmp

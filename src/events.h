@@ -4,6 +4,10 @@
 #include <string>
 
 namespace taranis {
+
+// enum classes aren't used since the int values must be exposed to
+// inkview functions
+
 enum CustomEvent {
   // Commands
   change_daily_forecast_display,
@@ -33,6 +37,7 @@ enum CallContext {
   triggered_by_application_startup,
   triggered_by_configuration_change,
   triggered_by_model_change,
+  triggered_by_data_refresh,
   triggered_by_timer,
   triggered_by_user,
 };

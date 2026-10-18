@@ -164,8 +164,19 @@ void App::load_config() {
     BOOST_LOG_TRIVIAL(debug) << "Rereading configuration";
   }
 
-  const auto data_provider_from_config = static_cast<DataProvider>(
-      this->config->read_int("data_provider", DataProvider::openweather));
+  const auto geoip_config_from_config =
+      static_cast<GeoIPConfig>(this->config->read_int(
+          "geoip_config", static_cast<int>(GeoIPConfig::startup)));
+  this->model->geoip_config = geoip_config_from_config;
+  const auto has_geoip_config_changed =
+      (this->geoip_config != geoip_config_from_config);
+  if (has_geoip_config_changed) {
+    this->geoip_config = geoip_config_from_config;
+  }
+
+  const auto data_provider_from_config =
+      static_cast<DataProvider>(this->config->read_int(
+          "data_provider", static_cast<int>(DataProvider::openweather)));
   this->model->data_provider = data_provider_from_config;
   const auto has_data_provider_changed =
       (this->service and
@@ -184,8 +195,9 @@ void App::load_config() {
     this->service->set_api_key(api_key_from_config);
   }
 
-  const auto unit_system_from_config = static_cast<UnitSystem>(
-      this->config->read_int("unit_system", UnitSystem::metric));
+  const auto unit_system_from_config =
+      static_cast<UnitSystem>(this->config->read_int(
+          "unit_system", static_cast<int>(UnitSystem::metric)));
   const bool is_unit_system_obsolete =
       (unit_system_from_config != this->model->unit_system);
   if (is_unit_system_obsolete) {
@@ -200,7 +212,8 @@ void App::load_config() {
 
   const auto data_update_strategy_from_config =
       static_cast<DataUpdateStrategy>(this->config->read_int(
-          "data_update_strategy"s, DataUpdateStrategy::hourly_from_startup));
+          "data_update_strategy"s,
+          static_cast<int>(DataUpdateStrategy::hourly_from_startup)));
   const bool is_data_update_strategy_obsolete =
       (data_update_strategy_from_config != this->model->data_update_strategy);
   if (is_data_update_strategy_obsolete) {
@@ -281,7 +294,7 @@ int App::handle_custom_event(int param_one, int param_two) {
       return 1;
     }
   } else if (param_one == CustomEvent::fetch_location_with_geoip) {
-    this->search_location_by_ip();
+    this->set_model_location_using_geoip(CallContext::triggered_by_user);
     return 1;
   } else if (param_one == CustomEvent::open_alert_viewer) {
     if (this->ui) {
@@ -447,8 +460,13 @@ void App::refresh_data(CallContext context) {
   std::vector<Condition> hourly_forecast;
   std::vector<DailyCondition> daily_forecast;
   std::vector<Alert> alerts;
-  this->service->set_location(this->model->location);
   try {
+    if (this->geoip_config == GeoIPConfig::startup and
+        context == CallContext::triggered_by_application_startup) {
+      this->set_model_location_using_geoip(
+          CallContext::triggered_by_data_refresh);
+    }
+    this->service->set_location(this->model->location);
     this->service->fetch_data(currentLang(), units);
 
     current_condition = this->service->get_current_condition();
@@ -566,35 +584,51 @@ void App::search_location(const std::string &location_description) {
   }
 }
 
-void App::search_location_by_ip() {
+void App::set_model_location_using_geoip(CallContext context) {
+  if (this->geoip_config == GeoIPConfig::disabled) {
+    return;
+  }
   if (this->geoip) {
     try {
       auto location = this->geoip->search_location();
       if (location != std::nullopt) {
-        this->set_model_location(*location);
+        if (location == this->model->location) {
+          BOOST_LOG_TRIVIAL(debug) << "No need to update model location";
+
+          return;
+        }
+        this->model->location = *location;
+
+        if (context != CallContext::triggered_by_data_refresh) {
+          // Protect from a refresh data loop
+          const auto event_handler = GetEventHandler();
+          SendEvent(event_handler, EVT_CUSTOM, CustomEvent::refresh_data,
+                    CallContext::triggered_by_model_change);
+        }
+        return;
       } else {
         BOOST_LOG_TRIVIAL(warning)
-          <<"Failed to identify location using geoip service";
-        return;
+            << "Failed to identify location using geoip service";
       }
-  } catch (const ConnectionError &error) {
-    BOOST_LOG_TRIVIAL(debug)
-        << "Connection error while identifying location " << error.what();
-    Message(
-        ICON_WARNING, GetLangText("Network error"),
-        GetLangText("Failure while fetching weather data. Check your network "
-                    "connection."),
-        App::error_dialog_delay);
-  } catch (const RequestError &error) {
-    BOOST_LOG_TRIVIAL(debug)
-        << "Request error while identifying location " << error.what();
-    Message(
-        ICON_WARNING, GetLangText("Network error"),
-        GetLangText("Failure while fetching weather data. Check your network "
-                    "connection."),
-        App::error_dialog_delay);
+    } catch (const ConnectionError &error) {
+      BOOST_LOG_TRIVIAL(debug)
+          << "Connection error while identifying location " << error.what();
+      Message(
+          ICON_WARNING, GetLangText("Network error"),
+          GetLangText("Failure while fetching weather data. Check your network "
+                      "connection."),
+          App::error_dialog_delay);
+    } catch (const RequestError &error) {
+      BOOST_LOG_TRIVIAL(debug)
+          << "Request error while identifying location " << error.what();
+      Message(
+          ICON_WARNING, GetLangText("Network error"),
+          GetLangText("Failure while fetching weather data. Check your network "
+                      "connection."),
+          App::error_dialog_delay);
     }
   }
+  return;
 }
 
 void App::set_model_location(const Location &location) const {

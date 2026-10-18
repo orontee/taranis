@@ -218,8 +218,8 @@ Condition OpenWeatherService::extract_condition(const Json::Value &value) {
   if (value.isMember("weather") and value["weather"].isArray() and
       value["weather"].isValidIndex(0)) {
     const auto weather_value = value["weather"][0];
-    condition.weather =
-        static_cast<Weather>(weather_value.get("id", CLEAR_SKY).asInt());
+    condition.weather = static_cast<Weather>(
+        weather_value.get("id", static_cast<int>(Weather::CLEAR_SKY)).asInt());
     condition.weather_description =
         weather_value.get("description", "").asString();
     condition.weather_icon_name = weather_value.get("icon", "").asString();
@@ -288,8 +288,8 @@ OpenWeatherService::extract_daily_condition(const Json::Value &value) {
       value["weather"].isValidIndex(0)) {
 
     const auto weather_value = value["weather"][0];
-    condition.weather =
-        static_cast<Weather>(weather_value.get("id", CLEAR_SKY).asInt());
+    condition.weather = static_cast<Weather>(
+        weather_value.get("id", static_cast<int>(Weather::CLEAR_SKY)).asInt());
     condition.weather_description =
         weather_value.get("description", "").asString();
     condition.weather_icon_name = weather_value.get("icon", "").asString();

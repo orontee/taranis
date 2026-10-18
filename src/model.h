@@ -1,9 +1,7 @@
 #pragma once
 
-#include <algorithm>
 #include <chrono>
 #include <cmath>
-#include <ctime>
 #ifdef WITH_SDK_6_8
 #include <experimental/optional>
 #else
@@ -26,7 +24,7 @@ using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
 
 namespace taranis {
 
-enum DataProvider {
+enum class DataProvider {
   openweather = 0,
   openmeteo_best_match = 1,
   openmeteo_ecmwf_ifs_hres = 2,
@@ -44,13 +42,23 @@ enum DataProvider {
   openmeteo_bom_access_global = 14,
 };
 
-enum UnitSystem { standard = 0, metric = 1, imperial = 2 };
+std::ostream &operator<<(std::ostream &os, taranis::DataProvider dp);
 
-enum DataUpdateStrategy {
+enum class UnitSystem { standard = 0, metric = 1, imperial = 2 };
+
+std::ostream &operator<<(std::ostream &os, taranis::UnitSystem u);
+
+enum class GeoIPConfig { disabled = 0, manual = 1, startup = 2 };
+
+std::ostream &operator<<(std::ostream &os, taranis::GeoIPConfig c);
+
+enum class DataUpdateStrategy {
   hourly_from_startup = 0,
   hourly_when_obsolete = 1,
   manual = 2
 };
+
+std::ostream &operator<<(std::ostream &os, taranis::DataUpdateStrategy s);
 
 struct Location {
 
@@ -77,7 +85,7 @@ struct Location {
   }
 };
 
-enum Weather {
+enum class Weather {
   // Group 2xx: Thunderstorm
   THUNDERSTORM_WITH_LIGHT_RAIN = 200,
   THUNDERSTORM_WITH_RAIN = 201,
@@ -148,6 +156,8 @@ enum Weather {
   OVERCAST_CLOUDS_85_100 = 804,
 };
 
+std::ostream &operator<<(std::ostream &os, taranis::Weather w);
+
 // Can contain current weather data or hourly forecast
 struct Condition {
   TimePoint date;
@@ -194,7 +204,7 @@ struct DailyCondition {
   double rain; // mm
   double snow; // mm
 
-  Weather weather{CLEAR_SKY};
+  Weather weather{Weather::CLEAR_SKY};
   std::string weather_description;
   std::string weather_icon_name;
   std::string weather_secondary_description;
@@ -224,8 +234,9 @@ struct HistoryItem {
 };
 
 struct Model {
-  DataProvider data_provider{openweather};
-  UnitSystem unit_system{standard};
+  DataProvider data_provider{DataProvider::openweather};
+  UnitSystem unit_system{UnitSystem::standard};
+  GeoIPConfig geoip_config{GeoIPConfig::startup};
   std::optional<TimePoint> refresh_date;
   Location location;
 
@@ -238,7 +249,8 @@ struct Model {
   std::list<HistoryItem> location_history;
 
   bool display_daily_forecast{false};
-  DataUpdateStrategy data_update_strategy{hourly_from_startup};
+  DataUpdateStrategy data_update_strategy{
+      DataUpdateStrategy::hourly_from_startup};
   std::optional<TimePoint> last_version_check;
 };
 } // namespace taranis

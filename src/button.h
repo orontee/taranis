@@ -16,8 +16,8 @@ public:
   Button(const int icon_size, std::shared_ptr<Icons> icons,
          const std::string &icon_name,
          const std::string &icon_disabled_name = "")
-      : Widget{}, Activatable{}, icon{icons->stretch_icon(icon_name,
-                                                          icon_size)} {
+      : Widget{}, Activatable{},
+        icon{icons->stretch_icon(icon_name, icon_size)} {
     if (!icon_disabled_name.empty()) {
       this->icon_disabled = icons->stretch_icon(icon_disabled_name, icon_size);
     }
