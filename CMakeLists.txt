@@ -14,10 +14,10 @@ set(BUILD_SHARED_LIBS OFF)
 if(SDK_VERSION STREQUAL "6.11" AND TARANIS_TARGET STREQUAL "b288-b300")
   message(STATUS "Will build with softfp flags and /lib/ld-linux.so.3 as dynamic linker")
   set(TARANIS_ARCH_FLAGS
-      "-mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=softfp -idirafter ${CMAKE_SOURCE_DIR}/packaging/compat")
+    "-mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=softfp -idirafter ${CMAKE_SOURCE_DIR}/packaging/compat")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TARANIS_ARCH_FLAGS}")
   set(CMAKE_EXE_LINKER_FLAGS
-      "${CMAKE_EXE_LINKER_FLAGS} -Wl,--dynamic-linker=/lib/ld-linux.so.3 -Wl,--no-warn-mismatch")
+    "${CMAKE_EXE_LINKER_FLAGS} -Wl,--dynamic-linker=/lib/ld-linux.so.3 -Wl,--no-warn-mismatch")
 endif()
 
 
@@ -150,6 +150,14 @@ target_link_libraries(taranis.app
 
 if(SDK_VERSION STREQUAL "6.8")
   target_compile_definitions(taranis.app PRIVATE WITH_SDK_6_8)
+endif()
+
+if(SDK_VERSION STREQUAL "6.11" AND TARANIS_TARGET STREQUAL "b288-b300")
+  add_custom_command(TARGET taranis.app POST_BUILD
+    COMMAND ${CMAKE_SOURCE_DIR}/scripts/check_float_abi.sh
+    $<TARGET_FILE:taranis.app>
+    ${GSL_DIR}/src/gsl/.libs/libgsl.a
+    ${GSL_DIR}/src/gsl/cblas/.libs/libgslcblas.a)
 endif()
 
 # Installer, archive and checksum targets

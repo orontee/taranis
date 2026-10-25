@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
+#include <gsl/gsl_errno.h>
 #include <gsl/gsl_interp.h>
 #include <inkview.h>
 #include <memory>
@@ -326,7 +327,8 @@ void HourlyForecastBox::draw_temperature_curve() const {
   const auto error =
       gsl_interp_init(state.get(), xa.data(), ya.data(), xa.size());
   if (error) {
-    // TODO log
+    BOOST_LOG_TRIVIAL(error)
+        << "Allocation for interpolation failed: " << gsl_strerror(error);
     return;
   }
 
@@ -341,7 +343,8 @@ void HourlyForecastBox::draw_temperature_curve() const {
     const auto error = gsl_interp_eval_e(state.get(), xa.data(), ya.data(), x,
                                          accelerator.get(), &y);
     if (error) {
-      // TODO log
+      BOOST_LOG_TRIVIAL(error)
+          << "Interpolation failed for " << x << ", " << gsl_strerror(error);
       break;
     }
 
