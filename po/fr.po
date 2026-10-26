@@ -8,8 +8,9 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-18 21:21+0200\n"
-"PO-Revision-Date: 2026-01-03 17:17+0000\n"
-"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
+"PO-Revision-Date: 2026-10-18 19:35+0000\n"
+"Last-Translator: Matthias Meulien <orontee@users.noreply.hosted.weblate.org>"
+"\n"
 "Language-Team: French <https://hosted.weblate.org/projects/taranis/taranis/"
 "fr/>\n"
 "Language: fr\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: src/alerts.cc:157
 msgid "Alert"
@@ -112,7 +113,7 @@ msgstr "Manuellement"
 
 #: src/config.cc:35
 msgid "Disabled"
-msgstr ""
+msgstr "Désactivé"
 
 #: src/config.cc:72
 msgid "Check newer version"
@@ -120,7 +121,7 @@ msgstr "Vérifier l'existence de nouvelle version"
 
 #: src/config.cc:75
 msgid "Enable debug logs (requires restart)"
-msgstr ""
+msgstr "Activer les journaux pour déboguer (nécessite un redémarrage)"
 
 #: src/config.cc:81
 msgid "Units"
@@ -131,9 +132,8 @@ msgid "Data update strategy"
 msgstr "Rafraîchissement des données"
 
 #: src/config.cc:89
-#, fuzzy
 msgid "IP based geolocation"
-msgstr "Editer le lieu"
+msgstr "Géolocalisation basée sur l'adresse IP"
 
 #: src/config.cc:92
 msgid "Data provider"
@@ -310,7 +310,7 @@ msgstr "Editer le lieu"
 
 #: src/menu.cc:141 src/menu.cc:204
 msgid "Guess using IP address"
-msgstr ""
+msgstr "À partir de l'adresse IP"
 
 #: src/menu.cc:159
 msgid "Remove from favorites"
@@ -530,7 +530,7 @@ msgstr "La clé d'API ne permet pas de consulter les données météorologiques.
 
 #: src/errors.h:66
 msgid "Too many requests sent. Retry later."
-msgstr ""
+msgstr "Trop de requêtes envoyées. Retenter plus tard."
 
 #: src/errors.h:74
 msgid ""
