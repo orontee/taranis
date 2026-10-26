@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-18 21:21+0200\n"
-"PO-Revision-Date: 2026-01-04 18:05+0000\n"
-"Last-Translator: Vitalii <stopchan@gmail.com>\n"
+"PO-Revision-Date: 2026-10-19 22:59+0000\n"
+"Last-Translator: Vitalii <stopchan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/taranis/"
 "taranis/uk/>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: src/alerts.cc:157
 msgid "Alert"
@@ -110,7 +110,7 @@ msgstr "Власноруч"
 
 #: src/config.cc:35
 msgid "Disabled"
-msgstr ""
+msgstr "Вимкнено"
 
 #: src/config.cc:72
 msgid "Check newer version"
@@ -118,7 +118,7 @@ msgstr "Перевірити нову версію"
 
 #: src/config.cc:75
 msgid "Enable debug logs (requires restart)"
-msgstr ""
+msgstr "Увімк. журнали відлагодження (потрібен перезапуск)"
 
 #: src/config.cc:81
 msgid "Units"
@@ -129,9 +129,8 @@ msgid "Data update strategy"
 msgstr "Оновлення даних"
 
 #: src/config.cc:89
-#, fuzzy
 msgid "IP based geolocation"
-msgstr "Змінити місцезнаходження"
+msgstr "Геолокація на основі IP"
 
 #: src/config.cc:92
 msgid "Data provider"
@@ -308,7 +307,7 @@ msgstr "Змінити місцезнаходження"
 
 #: src/menu.cc:141 src/menu.cc:204
 msgid "Guess using IP address"
-msgstr ""
+msgstr "Вгадати за допомогою IP-адреси"
 
 #: src/menu.cc:159
 msgid "Remove from favorites"
@@ -527,7 +526,7 @@ msgstr "При використанні цього ключа API відомос
 
 #: src/errors.h:66
 msgid "Too many requests sent. Retry later."
-msgstr ""
+msgstr "Надіслано забагато запитів. Спробуйте згодом."
 
 #: src/errors.h:74
 msgid ""
