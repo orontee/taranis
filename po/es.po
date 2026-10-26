@@ -7,8 +7,9 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-18 21:21+0200\n"
-"PO-Revision-Date: 2026-10-19 22:59+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
+"PO-Revision-Date: 2026-10-25 15:01+0000\n"
+"Last-Translator: Matthias Meulien <orontee@users.noreply.hosted.weblate.org>"
+"\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/taranis/taranis/"
 "es/>\n"
 "Language: es\n"
@@ -205,9 +206,8 @@ msgid "Mean"
 msgstr "Media"
 
 #: src/dailyforecastviewer.cc:393
-#, fuzzy
 msgid "Min/Max"
-msgstr "Mín./máx."
+msgstr "Mín/máx"
 
 #: src/dailyforecastviewer.cc:403
 msgid "Wind"

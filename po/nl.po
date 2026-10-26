@@ -7,8 +7,9 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-18 21:21+0200\n"
-"PO-Revision-Date: 2026-10-21 17:51+0000\n"
-"Last-Translator: Hans Hasert <hans.hasert@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-10-25 15:01+0000\n"
+"Last-Translator: Matthias Meulien <orontee@users.noreply.hosted.weblate.org>"
+"\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/taranis/taranis/"
 "nl/>\n"
 "Language: nl\n"
@@ -128,9 +129,8 @@ msgid "Data update strategy"
 msgstr "Data-update strategie"
 
 #: src/config.cc:89
-#, fuzzy
 msgid "IP based geolocation"
-msgstr "Locatie bewerken"
+msgstr "Op IP-adres gebaseerde geolocatie"
 
 #: src/config.cc:92
 msgid "Data provider"
