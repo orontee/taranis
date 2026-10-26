@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: taranis\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-18 21:21+0200\n"
-"PO-Revision-Date: 2026-01-12 13:01+0000\n"
-"Last-Translator: Tancrède <tancrede.meulien@gmail.com>\n"
+"PO-Revision-Date: 2026-10-26 15:51+0000\n"
+"Last-Translator: Tancrède <tank@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/taranis/taranis/"
 "ru/>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: src/alerts.cc:157
 msgid "Alert"
@@ -109,7 +109,7 @@ msgstr "Ручной"
 
 #: src/config.cc:35
 msgid "Disabled"
-msgstr ""
+msgstr "Oтключен"
 
 #: src/config.cc:72
 msgid "Check newer version"
@@ -117,7 +117,7 @@ msgstr "Проверка новой версии"
 
 #: src/config.cc:75
 msgid "Enable debug logs (requires restart)"
-msgstr ""
+msgstr "Включить журналы отладки (требует перезапуска)"
 
 #: src/config.cc:81
 msgid "Units"
@@ -128,9 +128,8 @@ msgid "Data update strategy"
 msgstr "Стратегия обновления данных"
 
 #: src/config.cc:89
-#, fuzzy
 msgid "IP based geolocation"
-msgstr "Изменить местоположение"
+msgstr "Геолокация на основе IP"
 
 #: src/config.cc:92
 msgid "Data provider"
@@ -303,11 +302,11 @@ msgstr "Добавить в фавориты"
 
 #: src/menu.cc:132 src/menu.cc:186
 msgid "Edit location"
-msgstr "Изменить местоположение"
+msgstr "Изменить расположение"
 
 #: src/menu.cc:141 src/menu.cc:204
 msgid "Guess using IP address"
-msgstr ""
+msgstr "Угадывание с использованием IP-адреса"
 
 #: src/menu.cc:159
 msgid "Remove from favorites"
@@ -525,7 +524,7 @@ msgstr "Данные погоды не могут быть доступны с �
 
 #: src/errors.h:66
 msgid "Too many requests sent. Retry later."
-msgstr ""
+msgstr "Слишком много запросов отправлено. Повторите попытку позже."
 
 #: src/errors.h:74
 msgid ""
