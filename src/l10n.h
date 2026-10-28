@@ -13,6 +13,7 @@ namespace taranis {
 namespace l10n {
 extern const Translations cs_translations;
 extern const Translations de_translations;
+extern const Translations es_translations;
 extern const Translations fr_translations;
 extern const Translations hu_translations;
 extern const Translations it_translations;
@@ -72,6 +73,8 @@ private:
       return &(l10n::cs_translations);
     } else if (std::strcmp(language, "de") == 0) {
       return &(l10n::de_translations);
+    } else if (std::strcmp(language, "es") == 0) {
+      return &(l10n::es_translations);
     } else if (std::strcmp(language, "fr") == 0) {
       return &(l10n::fr_translations);
     } else if (std::strcmp(language, "hu") == 0) {

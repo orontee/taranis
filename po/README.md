@@ -68,6 +68,10 @@ project.
 * Tancrède [Tank](https://hosted.weblate.org/user/Tank/)
 
 
+### Spanish
+
+* [Adolfo Jayme Barrientos](https://hosted.weblate.org/user/fito/)
+
 ### Serbian
 
 * [kakonema](https://hosted.weblate.org/user/kakonema/)

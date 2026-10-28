@@ -10,6 +10,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+* Add Spanish translations [#22](https://github.com/orontee/taranis/issues/22)
+
 * IP address based geolocation [#122](https://github.com/orontee/taranis/issues/122)
 
 ### Changed

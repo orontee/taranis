@@ -111,6 +111,7 @@ provided by Inkview SDK, but:
   `.po` file in the [po](./po) directory.
 * Support for the new language must be explicitly added to
   [src/l10n.h](./src/l10n.h)
+* Credits in [src/about.cc.in](./src/about.cc.in) may have to be updated
 * Finally, the application must be rebuild
 
 ## Tooling
