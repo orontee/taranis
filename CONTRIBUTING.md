@@ -1,5 +1,31 @@
 # Contributing to Taranis
 
+## Policy on AI generated contributions
+
+Taranis is a hobby project, started for technical interest and
+eventually became daily used… at least by its author and its
+children. Human contributions are highly welcome.
+
+On the other hand, I do not accept contributions (code, documentation,
+tests, translations) that were generated in whole or in part by AI
+tools or LLMs. This is for two reasons:
+
+- I am not willing to review machine-generated code; It's currently
+  part of my professional daily life and it's enough for me.
+
+- The copyright status of AI-generated output is unclear, and I want
+  to keep the licensing of this project unambiguous.
+
+Using AI tools for spell checking, translating your own text or to
+help understand and debug the code is fine. If in doubt, ask
+first. When opening a pull request you certify you wrote it; If it
+appears to be AI-generated, it may be closed without review.
+
+This policy is not a permanent position: I may revisit it if the legal
+situation becomes clearer or professional life changes. For now,
+please, fork if you don't agree with this policy and vibe your own
+path.
+
 ## Dependencies
 
 ### PocketBook SDK
