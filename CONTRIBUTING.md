@@ -55,7 +55,7 @@ around this problem, a container image is provided.
 
 To build in a container:
 ```sh
-$ buildah build --build-arg DEVICE_FAMILY=B288 \
+$ buildah build --build-arg DEVICE_FAMILY=RK3566 \
                 --tag pbsdk:6.11-RK3566 \
                 --file Containerfile-6.11
 $ podman run --rm -ti \
@@ -66,12 +66,23 @@ $ podman run --rm -ti \
              bash
 root@pbsdk:/src$ source /opt/SDK-6.11/build_env.sh
 root@pbsdk:/src$ cmake -S . -B build \
-                              -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
+                       -DCMAKE_TOOLCHAIN_FILE=${SDK_ROOT_PATH}/share/cmake/arm_conf.cmake
 root@pbsdk:/src$ cmake --build build
 ```
 
 ℹ️ One may have to customize the environment variable `TMPDIR` since
    image blobs have large size.
+
+SDK version 6.8, 6.10 and 6.11 are supported. `DEVICE_FAMILY` must be
+equal to B288, B300 or RK3566 depending on the SDK version. Default
+values have been set so one need to specify `DEVICE_FAMILY` only to
+target `B300` devices with SDK versions 6.8 and 6.10.
+
+☠️ When building Taranis with SDK 6.11 (which requires `DEVICE_FAMILY`
+equal to RK3566), one can build for B288 and B300 devices by exporting
+the environment variable `TARANIS_TARGET="b288-b300"`. The artefacts
+generated without this variable are dedicated to RK3566 devices but
+were never tested; Hardware donations welcome!
 
 Custom targets `installer`, `archive` and `checksum` are provided to
 automate the application packaging.

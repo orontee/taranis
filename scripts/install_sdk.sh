@@ -26,12 +26,12 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         -p|--path)
-	    SDK_PARENT_PATH=$(realpath --canonicalize-missing "${2}")
+            SDK_PARENT_PATH=$(realpath --canonicalize-missing "${2}")
             shift 2
             ;;
         -h|--help)
             show_help
-	    exit 0
+            exit 0
             ;;
         *)
             echo "Unknown option: $1"
@@ -65,32 +65,39 @@ if [ "${SDK_VERSION}" = "6.8" ]; then
     SDK_DOWNLOAD_URL=https://github.com/pocketbook/SDK_6.3.0/releases/download/6.8/"${SDK_ARCHIVE}"
     # 6.3.0 isn't a typo!
     if [ "${DEVICE_FAMILY}" = "B288" ]; then
-	SDK_NAME=SDK-B288
+        SDK_NAME=SDK-B288
     elif [ "${DEVICE_FAMILY}" = "B300" ]; then
-	SDK_NAME=SDK-B300-6.8
+        SDK_NAME=SDK-B300-6.8
     else
-	echo "Unexpected device family!"
-	exit 1
+        echo "Unexpected device family!"
+        exit 1
     fi
     SDK_UNPACK_PATH="${SDK_PARENT_PATH}"
     SDK_ROOT_PATH="${SDK_PARENT_PATH}/${SDK_NAME}"
+    SYSROOT=${SDK_ROOT_PATH}/usr/arm-obreey-linux-gnueabi/sysroot
     SDK_RELOCATE_SCRIPT="${SDK_ROOT_PATH}/bin/update_path.sh"
 elif [ "${SDK_VERSION}" = "6.10" ]; then
     SDK_DOWNLOAD_URL="https://github.com/Sean-on-Git/PocketBook-SDK/releases/download/${SDK_VERSION}/${SDK_ARCHIVE}"
+    if [[ "${DEVICE_FAMILY}" != "B288" && "${DEVICE_FAMILY}" != "B300" ]]; then
+        echo "Unexpected device family!"
+        exit 1
+    fi
     SDK_NAME="SDK-${DEVICE_FAMILY}-${SDK_VERSION}"
     SDK_UNPACK_PATH="${SDK_PARENT_PATH}"
     SDK_ROOT_PATH="${SDK_PARENT_PATH}/${SDK_NAME}"
+    SYSROOT=${SDK_ROOT_PATH}/usr/arm-obreey-linux-gnueabi/sysroot
     SDK_RELOCATE_SCRIPT="${SDK_ROOT_PATH}/usr/relocate-sdk.sh"
 elif [ "${SDK_VERSION}" = "6.11" ]; then
     if [ "${DEVICE_FAMILY}" = "RK3566" ]; then
-	SDK_DOWNLOAD_URL="https://github.com/Sean-on-Git/PocketBook-SDK/releases/download/${SDK_VERSION}/${SDK_ARCHIVE}"
-	SDK_NAME="SDK-${DEVICE_FAMILY}"
-	SDK_UNPACK_PATH="${SDK_PARENT_PATH}/${SDK_NAME}"
-	SDK_ROOT_PATH="${SDK_PARENT_PATH}/${SDK_NAME}/arm-buildroot-linux-gnueabihf_sdk-buildroot"
-	SDK_RELOCATE_SCRIPT="${SDK_ROOT_PATH}/usr/relocate-sdk.sh"
+        SDK_DOWNLOAD_URL="https://github.com/Sean-on-Git/PocketBook-SDK/releases/download/${SDK_VERSION}/${SDK_ARCHIVE}"
+        SDK_NAME="SDK-${DEVICE_FAMILY}"
+        SDK_UNPACK_PATH="${SDK_PARENT_PATH}/${SDK_NAME}"
+        SDK_ROOT_PATH="${SDK_PARENT_PATH}/${SDK_NAME}/arm-buildroot-linux-gnueabihf_sdk-buildroot"
+        SYSROOT="${SDK_ROOT_PATH}/arm-buildroot-linux-gnueabihf/sysroot"
+        SDK_RELOCATE_SCRIPT="${SDK_ROOT_PATH}/usr/relocate-sdk.sh"
     else
-	echo "Unexpected device family!"
-	exit 1
+        echo "Unexpected device family!"
+        exit 1
     fi
 else
     echo "Unexpected SDK version!"
@@ -111,7 +118,7 @@ function unpack() {
     echo "Unpacking ${SDK_ARCHIVE} to ${SDK_UNPACK_PATH}"
 
     if [[ ! -x "${SDK_UNPACK_PATH}" ]]; then
-	mkdir -p "${SDK_UNPACK_PATH}"
+        mkdir -p "${SDK_UNPACK_PATH}"
     fi
 
     # The archive contains dangerous symlinks. Some have relative
@@ -120,17 +127,16 @@ function unpack() {
     # symlinks are created by hand, see fix_links.
 
     ${_7Z} x \
-	-o${SDK_UNPACK_PATH} \
-	-snld \
-	-xr\!${SDK_NAME}/usr/arm-obreey-linux-gnueabi/sysroot/etc/fonts/conf.d/ -- \
-	"${SDK_ARCHIVE}" || true
+        -o"${SDK_UNPACK_PATH}" \
+        -snld \
+        -xr\!"${SDK_NAME}/usr/arm-obreey-linux-gnueabi/sysroot/etc/fonts/conf.d/" -- \
+        "${SDK_ARCHIVE}" || true
 }
 
 function fix_links() {
     echo "Fixing links"
 
-    local sysroot_path=${SDK_ROOT_PATH}/usr/arm-obreey-linux-gnueabi/sysroot
-    local symlink_rootpath=${sysroot_path}/etc/fonts/conf.d
+    local symlink_rootpath=${SYSROOT}/etc/fonts/conf.d
     local symlink_target_rootpath=../../../usr/share/fontconfig/conf.avail
     local links
     links="10-hinting-slight.conf 10-scale-bitmap-fonts.conf"
@@ -139,12 +145,18 @@ function fix_links() {
     links+=" 49-sansserif.conf 50-user.conf 51-local.conf"
     links+=" 60-latin.conf 65-fonts-persian.conf 65-nonlatin.conf"
     links+=" 69-unifont.conf 80-delicious.conf 90-synthetic.conf"
-    mkdir "${symlink_rootpath}"
+    mkdir --parents "${symlink_rootpath}"
     for link in ${links}; do
-	echo "Does exists ${symlink_rootpath}/${link}?"
-	if [ -e "${symlink_rootpath}/${link}" ]; then
-	    ln -s "${symlink_target_rootpath}/${link}" "${symlink_rootpath}/${link}"
-	fi
+        if [ -e "${symlink_rootpath}/${symlink_target_rootpath}/${link}" ]; then
+            if [ -e "${symlink_rootpath}/${link}" ]; then
+                echo "Target already exists"
+            else
+                echo "Creating link to ${symlink_target_rootpath}/${link} in ${symlink_rootpath}"
+                ln -s "${symlink_target_rootpath}/${link}" "${symlink_rootpath}/${link}"
+            fi
+        else
+            echo "Path doesn't exists ${symlink_target_rootpath}/${link}"
+        fi
     done
 }
 
@@ -154,17 +166,19 @@ function generate_env_script() {
     local env_script_path=${SDK_PARENT_PATH}/build_env.sh
 
     cat > "${env_script_path}" << EOF
-DEVICE_FAMILY=${DEVICE_FAMILY}
-SDK_ROOT_PATH=${SDK_ROOT_PATH}
-SDK_VERSION=${SDK_VERSION}
-PKG_CONFIG_PATH="${SDK_ROOT_PATH}/usr/arm-obreey-linux-gnueabi/sysroot/libcurl-nspr/usr/lib/pkgconfig/"
-PKG_CONFIG_PATH+=":${SDK_ROOT_PATH}/usr/arm-obreey-linux-gnueabi/sysroot/usr/lib/pkgconfig"
-PKG_CONFIG_PATH+=":${SDK_ROOT_PATH}/usr/arm-obreey-linux-gnueabi/sysroot/lib/pkgconfig"
+export DEVICE_FAMILY=${DEVICE_FAMILY}
+export SDK_ROOT_PATH=${SDK_ROOT_PATH}
+export SDK_SYSROOT_PATH=${SYSROOT}
+export SDK_VERSION=${SDK_VERSION}
+export PKG_CONFIG_SYSROOT_DIR="$SYSROOT"
+PKG_CONFIG_LIBDIR=
+if [ -e "${SYSROOT}/libcurl-nspr/usr/lib/pkgconfig" ]; then
+   PKG_CONFIG_LIBDIR="${SYSROOT}/libcurl-nspr/usr/lib/pkgconfig"
+fi
 
-export DEVICE_FAMILY
-export SDK_ROOT_PATH
-export SDK_VERSION
-export PKG_CONFIG_PATH
+PKG_CONFIG_LIBDIR="${PKG_CONFIG_LIBDIR:+$PKG_CONFIG_LIBDIR:}${SYSROOT}/usr/lib/pkgconfig:${SYSROOT}/usr/share/pkgconfig"
+export PKG_CONFIG_LIBDIR
+unset PKG_CONFIG_PATH
 
 echo "SDK ${SDK_VERSION} for ${DEVICE_FAMILY} devices is configured. Enjoy!"
 
@@ -180,11 +194,11 @@ cd "${SDK_PARENT_PATH}"
 
 if [ ! -d "${SDK_ROOT_PATH}" ]; then
     if [ ! -e "${SDK_ARCHIVE}" ]; then
-	download_archive
+        download_archive
     fi
     unpack
     if [ "${SDK_VERSION}" != "6.11" ]; then
-	fix_links
+        fix_links
     fi
     relocate_sdk
     generate_env_script
