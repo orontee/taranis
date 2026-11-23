@@ -6,17 +6,13 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 1.21.0 - 2026-11-24
 
 ### Added
 
 * Add Spanish translations [#22](https://github.com/orontee/taranis/issues/22)
 
 * IP address based geolocation [#122](https://github.com/orontee/taranis/issues/122)
-
-### Changed
-
-### Removed
 
 ## 1.20.0 - 2026-10-17 
 
