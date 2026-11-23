@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(taranis VERSION 1.21.0 LANGUAGES CXX)
+project(taranis VERSION 1.21.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -155,9 +155,11 @@ endif()
 if(SDK_VERSION STREQUAL "6.11" AND TARANIS_TARGET STREQUAL "b288-b300")
   add_custom_command(TARGET taranis.app POST_BUILD
     COMMAND ${CMAKE_SOURCE_DIR}/scripts/check_float_abi.sh
-    $<TARGET_FILE:taranis.app>
     ${GSL_DIR}/src/gsl/.libs/libgsl.a
     ${GSL_DIR}/src/gsl/cblas/.libs/libgslcblas.a)
+  # don't check the final executable $<TARGET_FILE:taranis.app> since
+  # it reports the sysroot ABI, not the one resulting from the objects
+  # merge
 endif()
 
 # Installer, archive and checksum targets
